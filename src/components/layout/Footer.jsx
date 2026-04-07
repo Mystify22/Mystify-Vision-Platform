@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, MessageSquare, Video, Code, ArrowRight } from 'lucide-react';
+import LegalModal from './LegalModal'; // Import the new modal
+import ContactModal from './ContactModal'; // Import the contact modal
 
 const Footer = () => {
+  const [legalModalState, setLegalModalState] = useState({ isOpen: false, type: 'privacy' });
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const openLegal = (type, e) => {
+    e.preventDefault();
+    setLegalModalState({ isOpen: true, type });
+  };
+
+  const openContact = (e) => {
+    e.preventDefault();
+    setIsContactOpen(true);
+  };
+
   return (
     <footer className="w-full relative bg-white border-t border-gray-100 pt-24 pb-12 overflow-hidden z-20">
       <div className="container mx-auto px-6 relative z-10">
@@ -52,23 +67,25 @@ const Footer = () => {
             <div className="text-center md:text-left">
                 <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-wider text-sm">Platform</h4>
                 <ul className="space-y-4 text-gray-500 font-medium">
-                    <li><a href="#" className="hover:text-indigo-600 transition-colors">Features</a></li>
-                    <li><a href="#" className="hover:text-indigo-600 transition-colors">Creators</a></li>
-                    <li><a href="#" className="hover:text-indigo-600 transition-colors">Pricing</a></li>
+                    <li><a href="#features" className="hover:text-indigo-600 transition-colors">Features</a></li>
+                    <li><a href="#testimonials" className="hover:text-indigo-600 transition-colors">Creators</a></li>
                 </ul>
             </div>
             <div className="text-center md:text-left">
                 <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-wider text-sm">Legal</h4>
                 <ul className="space-y-4 text-gray-500 font-medium">
-                    <li><a href="#" className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
-                    <li><a href="#contact" className="hover:text-indigo-600 transition-colors">Contact</a></li>
+                    <li><button onClick={(e) => openLegal('privacy', e)} className="hover:text-indigo-600 transition-colors bg-transparent outline-none">Privacy Policy</button></li>
+                    <li><button onClick={(e) => openLegal('terms', e)} className="hover:text-indigo-600 transition-colors bg-transparent outline-none">Terms of Service</button></li>
+                    <li><button onClick={openContact} className="hover:text-indigo-600 transition-colors bg-transparent outline-none">Contact</button></li>
                 </ul>
             </div>
         </div>
 
         <div className="flex flex-col-reverse md:flex-row items-center justify-between pt-8 border-t border-gray-100 gap-6">
-            <p className="text-gray-400 font-medium text-sm">© 2026 Mystify Platform. All rights reserved.</p>
+            <div className="text-center md:text-left">
+                <p className="text-gray-400 font-medium text-sm">© 2026 Mystify Platform. All rights reserved.</p>
+                <p className="text-indigo-400/80 font-semibold text-xs mt-1">Founded by Rajeev & Arun</p>
+            </div>
             <div className="flex gap-4">
                 {[MessageSquare, Video, Code].map((Icon, i) => (
                     <motion.a 
@@ -83,6 +100,17 @@ const Footer = () => {
             </div>
         </div>
       </div>
+      
+      {/* Hidden Modals */}
+      <LegalModal 
+        isOpen={legalModalState.isOpen} 
+        onClose={() => setLegalModalState({ ...legalModalState, isOpen: false })} 
+        type={legalModalState.type} 
+      />
+      <ContactModal 
+        isOpen={isContactOpen} 
+        onClose={() => setIsContactOpen(false)} 
+      />
     </footer>
   );
 };
