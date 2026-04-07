@@ -7,6 +7,8 @@ import CreateWidget from './components/sections/CreateWidget';
 import ReelSimulator from './components/sections/ReelSimulator';
 import GamificationHub from './components/sections/GamificationHub';
 import Testimonials from './components/sections/Testimonials';
+import FAQ from './components/sections/FAQ';
+import ContactForm from './components/sections/ContactForm';
 
 function App() {
   return (
@@ -20,7 +22,7 @@ function App() {
 
       <Navbar />
       
-      <main className="relative z-10 flex flex-col pt-12 pb-32">
+      <main className="relative z-10 flex flex-col pt-12 pb-16">
         <Hero />
         
         <Testimonials />
@@ -31,6 +33,8 @@ function App() {
         
         <ReelSimulator />
         <GamificationHub />
+        <FAQ />
+        <ContactForm />
       </main>
       
       <Footer />
