@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Heart, MessageCircle, Share2, Star, User, Sparkles } from 'lucide-react';
 
@@ -119,7 +119,13 @@ const ReelSimulator = () => {
 
                         {/* Floating Action Buttons */}
                         <div className="absolute right-4 bottom-32 flex flex-col gap-6 items-center z-20">
-                            <ActionButton icon={<Heart size={26} fill="currentColor" />} label={reel.likes} color="text-white hover:text-rose-500" />
+                            <ActionButton 
+                                icon={<Heart size={26} className="drop-shadow-sm" />}
+                                activeIcon={<Heart size={26} fill="currentColor" className="text-rose-500 drop-shadow-[0_0_12px_rgba(244,63,94,0.8)]" />} 
+                                label={reel.likes} 
+                                color="text-white hover:text-rose-400" 
+                                activeColor="text-rose-500"
+                            />
                             <ActionButton icon={<MessageCircle size={26} fill="currentColor" />} label={reel.comments} />
                             <ActionButton icon={<Share2 size={26} fill="currentColor" />} label={reel.shares} />
                             <ActionButton icon={<Star size={26} fill="#FFD700" />} color="text-yellow-400 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
@@ -132,17 +138,33 @@ const ReelSimulator = () => {
   );
 };
 
-const ActionButton = ({ icon, label, color = "text-white" }) => (
-    <motion.button 
-        whileHover={{ scale: 1.15, y: -2 }}
-        whileTap={{ scale: 0.85 }}
-        className={`flex flex-col items-center gap-1.5 transition-colors ${color}`}
-    >
-        <div className="drop-shadow-lg p-3 bg-black/20 backdrop-blur-sm rounded-full">
-            {icon}
-        </div>
-        {label && <span className="text-white text-[11px] font-bold drop-shadow-md text-shadow-sm">{label}</span>}
-    </motion.button>
-);
+const ActionButton = ({ icon, activeIcon, label, color = "text-white", activeColor }) => {
+    const [isActive, setIsActive] = useState(false);
+    
+    return (
+        <motion.button 
+            whileHover={{ scale: 1.15, y: -2 }}
+            whileTap={{ scale: 0.85 }}
+            onClick={() => setIsActive(!isActive)}
+            className={`flex flex-col items-center gap-1.5 transition-colors ${isActive && activeColor ? activeColor : color}`}
+        >
+            <div className={`drop-shadow-lg p-3 backdrop-blur-sm rounded-full transition-all duration-300 ${isActive && activeColor ? 'bg-rose-500/10' : 'bg-black/20'}`}>
+                <motion.div
+                    initial={false}
+                    animate={{ scale: isActive ? [1, 1.2, 1] : 1 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                    {isActive && activeIcon ? activeIcon : icon}
+                </motion.div>
+            </div>
+            {label && (
+                <span className="text-white text-[11px] font-bold drop-shadow-md text-shadow-sm">
+                    {isActive && label.includes('K') ? (parseFloat(label) + 0.1).toFixed(1) + 'K' : 
+                     isActive && !isNaN(label) ? parseInt(label) + 1 : label}
+                </span>
+            )}
+        </motion.button>
+    );
+};
 
 export default ReelSimulator;
