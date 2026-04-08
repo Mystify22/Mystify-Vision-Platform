@@ -7,6 +7,12 @@ const Hero = () => {
   const [joined, setJoined] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [showMutePopup, setShowMutePopup] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleHeart = (e) => {
+    e.stopPropagation();
+    setIsLiked(!isLiked);
+  };
 
   const toggleMute = (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
@@ -213,11 +219,17 @@ const Hero = () => {
 
             {/* Actions */}
             <div className="absolute right-4 bottom-1/4 space-y-6 z-20">
-              <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
-                <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
-                  <Heart size={24} className="text-white fill-white" />
+              <button onClick={toggleHeart} className="flex flex-col items-center gap-1 group relative z-50">
+                <div className={`w-12 h-12 rounded-full backdrop-blur-md flex items-center justify-center border shadow-lg transition-all duration-300 ${isLiked ? 'bg-rose-500/20 border-rose-500/30' : 'bg-black/40 border-white/20 group-hover:scale-110'}`}>
+                  <motion.div
+                    initial={false}
+                    animate={{ scale: isLiked ? [1, 1.3, 1] : 1 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    <Heart size={24} className={`transition-colors duration-300 ${isLiked ? 'text-rose-500 fill-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)]' : 'text-white'}`} strokeWidth={isLiked ? 0 : 2} />
+                  </motion.div>
                 </div>
-                <span className="text-white font-bold text-xs">12K</span>
+                <span className="text-white font-bold text-xs drop-shadow-md">{isLiked ? "12.1K" : "12K"}</span>
               </button>
               <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
                 <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
