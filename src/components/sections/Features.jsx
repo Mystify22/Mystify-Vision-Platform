@@ -19,6 +19,13 @@ const Features = () => {
       colSpan: "col-span-1"
     },
     {
+      title: "Anti-Bully AI Filter",
+      desc: "Harmful content is filtered instantly, keeping the platform fun.",
+      icon: <Shield size={24} className="text-green-600" />,
+      color: "bg-green-50",
+      colSpan: "col-span-1"
+    },
+    {
       title: "Seamless IG Integration",
       desc: "One-click export exactly formatted for Instagram Stories.",
       icon: <Share2 size={24} className="text-pink-600" />,
@@ -30,13 +37,6 @@ const Features = () => {
       desc: "Get pinged the second a juicy secret drops in your inbox.",
       icon: <Zap size={24} className="text-yellow-600" />,
       color: "bg-yellow-50",
-      colSpan: "col-span-1"
-    },
-    {
-      title: "Anti-Bully AI Filter",
-      desc: "Harmful content is filtered instantly, keeping the platform fun.",
-      icon: <Shield size={24} className="text-green-600" />,
-      color: "bg-green-50",
       colSpan: "col-span-1"
     }
   ];
