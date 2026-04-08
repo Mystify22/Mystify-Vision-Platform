@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2, VolumeX, Music } from 'lucide-react';
 
@@ -8,6 +8,17 @@ const Hero = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [showMutePopup, setShowMutePopup] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isMuted) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+      }
+    }
+  }, [isMuted]);
 
   const toggleHeart = (e) => {
     e.stopPropagation();
@@ -136,6 +147,12 @@ const Hero = () => {
             transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
             className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
             style={{ backgroundImage: `url('https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg')` }}
+          />
+
+          <audio 
+            ref={audioRef}
+            src="/sounds/music_for_video-forest-lullaby-110624.mp3"
+            loop
           />
 
           <div
