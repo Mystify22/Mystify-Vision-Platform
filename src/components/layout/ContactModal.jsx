@@ -9,7 +9,7 @@ const ContactModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
-    
+
     // Simulate network request
     setTimeout(() => setIsSubmitted(true), 600);
   };
@@ -20,31 +20,31 @@ const ContactModal = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
           />
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl relative z-10 max-h-[90vh] overflow-y-auto"
           >
             <div className="absolute top-4 right-4 z-20">
-               <button 
-                  onClick={onClose}
-                  className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors"
-                >
-                  <X size={20} />
-                </button>
+              <button
+                onClick={onClose}
+                className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors"
+              >
+                <X size={20} />
+              </button>
             </div>
 
             <div className="p-8 md:p-12 relative overflow-hidden">
-               {/* Decorative blur */}
+              {/* Decorative blur */}
               <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-300/30 blur-[80px] rounded-full pointer-events-none" />
               <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-300/30 blur-[80px] rounded-full pointer-events-none" />
 
@@ -62,12 +62,12 @@ const ContactModal = ({ isOpen, onClose }) => {
 
               <AnimatePresence mode="wait">
                 {!isSubmitted ? (
-                  <motion.form 
+                  <motion.form
                     key="form"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    onSubmit={handleSubmit} 
+                    onSubmit={handleSubmit}
                     className="space-y-6 relative z-10"
                   >
                     <div className="grid md:grid-cols-2 gap-6">
@@ -77,11 +77,11 @@ const ContactModal = ({ isOpen, onClose }) => {
                           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <User size={18} className="text-gray-400" />
                           </div>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={formData.name}
-                            onChange={e => setFormData({...formData, name: e.target.value})}
-                            placeholder="John Doe" 
+                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                            placeholder="Rajeev"
                             className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all"
                             required
                           />
@@ -93,11 +93,11 @@ const ContactModal = ({ isOpen, onClose }) => {
                           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <Mail size={18} className="text-gray-400" />
                           </div>
-                          <input 
-                            type="email" 
+                          <input
+                            type="email"
                             value={formData.email}
-                            onChange={e => setFormData({...formData, email: e.target.value})}
-                            placeholder="john@example.com" 
+                            onChange={e => setFormData({ ...formData, email: e.target.value })}
+                            placeholder="rajeev@example.com"
                             className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all"
                             required
                           />
@@ -111,10 +111,10 @@ const ContactModal = ({ isOpen, onClose }) => {
                         <div className="absolute top-4 left-0 pl-4 pointer-events-none">
                           <MessageSquare size={18} className="text-gray-400" />
                         </div>
-                        <textarea 
+                        <textarea
                           value={formData.message}
-                          onChange={e => setFormData({...formData, message: e.target.value})}
-                          placeholder="How can we help you?" 
+                          onChange={e => setFormData({ ...formData, message: e.target.value })}
+                          placeholder="How can we help you?"
                           rows={4}
                           className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all resize-none"
                           required
@@ -123,7 +123,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="pt-2">
-                      <button 
+                      <button
                         type="submit"
                         className="w-full py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl font-bold text-lg bouncy-hover shadow-xl shadow-gray-900/20 flex items-center justify-center gap-3"
                       >
@@ -132,7 +132,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                     </div>
                   </motion.form>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     key="success"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -145,7 +145,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                     <p className="text-gray-500 font-medium max-w-sm mx-auto mb-8">
                       Thanks for reaching out, {formData.name.split(' ')[0]}. We'll get back to you shortly.
                     </p>
-                    <button 
+                    <button
                       onClick={onClose}
                       className="px-8 py-3 bg-gray-100 text-gray-800 rounded-full font-bold bouncy-hover"
                     >
