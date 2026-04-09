@@ -37,6 +37,45 @@ const Hero = () => {
       shares: "890",
       bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
       audioSrc: "/sounds/desifreemusic-battle-rage-intense-fight-music-411019.mp3"
+    },
+    {
+      type: "Productivity Flex",
+      question: `"What's your most overpowered setup secret?"`,
+      replies: [
+        { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+        { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      ],
+      likes: "24.5",
+      comments: "3.1K",
+      shares: "1.2K",
+      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775753291/mh5cum4ms0gl69ybwgal.jpg",
+      audioSrc: "/sounds/monume-space-509492.mp3"
+    },
+    {
+      type: "Zen Focus",
+      question: `"What's your go-to sound for ultimate deep work?"`,
+      replies: [
+        { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+        { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      ],
+      likes: "18.2",
+      comments: "1.5K",
+      shares: "920",
+      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775755724/kzmvlx75tsy2mngul5qu.jpg",
+      audioSrc: "/sounds/desifreemusic-ocean-wave-loops-377890.mp3"
+    },
+    {
+      type: "Weekend Vibes",
+      question: `"What's your favorite way to unwind on a Saturday?"`,
+      replies: [
+        { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+        { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      ],
+      likes: "21.4",
+      comments: "2.8K",
+      shares: "1.1K",
+      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
+      audioSrc: "/sounds/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235.mp3"
     }
   ];
 
