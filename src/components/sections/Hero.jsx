@@ -9,16 +9,49 @@ const Hero = () => {
   const [showMutePopup, setShowMutePopup] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const audioRef = useRef(null);
+  const [activeHeroReel, setActiveHeroReel] = useState(0);
+
+  const heroReels = [
+    {
+      type: "Secret Confession",
+      question: `"What's one thing you're too afraid to tell anyone?"`,
+      replies: [
+        { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+        { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      ],
+      likes: "12",
+      comments: "4.2K",
+      shares: "Share",
+      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
+      audioSrc: "/sounds/music_for_video-forest-lullaby-110624.mp3"
+    },
+    {
+      type: "Anime Debate",
+      question: `"If you could live in any anime world, which one would it be?"`,
+      replies: [
+        { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+        { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      ],
+      likes: "15.8",
+      comments: "1.2K",
+      shares: "890",
+      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
+      audioSrc: "/sounds/desifreemusic-battle-rage-intense-fight-music-411019.mp3"
+    }
+  ];
 
   useEffect(() => {
     if (audioRef.current) {
-      if (isMuted) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(e => console.log('Audio play failed:', e));
-      }
+        if (heroReels[activeHeroReel]?.audioSrc) {
+            audioRef.current.src = heroReels[activeHeroReel].audioSrc;
+            if (!isMuted) {
+                audioRef.current.play().catch(e => console.log('Audio error:', e));
+            } else {
+                audioRef.current.pause();
+            }
+        }
     }
-  }, [isMuted]);
+  }, [activeHeroReel, isMuted]);
 
   const toggleHeart = (e) => {
     e.stopPropagation();
@@ -37,6 +70,14 @@ const Hero = () => {
     if (email) {
       setJoined(true);
       setEmail('');
+    }
+  };
+
+  const handleHeroScroll = (e) => {
+    const idx = Math.round(e.target.scrollTop / e.target.clientHeight);
+    if(idx !== activeHeroReel) {
+        setActiveHeroReel(idx);
+        setIsLiked(false); // Reset like per reel if desired
     }
   };
 
@@ -139,156 +180,148 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
           animate={{ opacity: 1, scale: 1, rotateY: 0 }}
           transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-          className="relative w-full aspect-[9/19] bg-black rounded-[3rem] border-[12px] border-gray-900 shadow-2xl overflow-hidden perspective-1000 ring-1 ring-white/10"
+          className="relative w-full aspect-[9/19] bg-black rounded-[3rem] border-[12px] border-gray-900 shadow-2xl relative ring-1 ring-white/10"
         >
-          {/* Animated Mock Mobile UI Theme */}
-          <motion.div
-            animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
-            transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-            className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg')` }}
-          />
-
-          <audio 
-            ref={audioRef}
-            src="/sounds/music_for_video-forest-lullaby-110624.mp3"
-            loop
-          />
-
-          <div
-            className="absolute inset-0 flex flex-col justify-end p-5 pb-8 z-10 cursor-pointer"
-            onClick={toggleMute}
-          >
-            {/* Center screen Mute/Unmute Popup */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={showMutePopup ? { scale: 1.2, opacity: 1 } : { scale: 1.5, opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="bg-black/50 backdrop-blur-md p-4 rounded-full text-white/90 shadow-2xl"
-              >
-                {isMuted ? <VolumeX size={32} strokeWidth={1.5} /> : <Volume2 size={32} strokeWidth={1.5} />}
-              </motion.div>
-            </div>
-
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 z-0 pointer-events-none" />
-
-            {/* Reel Header */}
-            <div className="absolute top-8 left-6 right-6 flex justify-between items-center text-white z-20">
-              <span className="font-bold text-lg text-shadow-sm">For You</span>
-              <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center">
-                <Sparkles size={16} />
-              </div>
-            </div>
-
-            {/* Content area */}
-            <div className="relative z-20 w-full flex flex-col pr-12 space-y-4">
-              {/* Question Sticker */}
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.5, type: 'spring', bounce: 0.4 }}
-                className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-4 sm:p-5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-[90%] relative overflow-hidden mb-2"
-              >
-                {/* Shine effect */}
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-
-                <div className="text-white/90 text-[9px] font-black uppercase tracking-widest mb-2 flex items-center gap-1.5 bg-black/20 pr-3 pl-1.5 py-1 rounded-full shadow-inner border border-white/10">
-                  <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
-                    <User size={8} className="text-white" strokeWidth={3} />
-                  </div>
-                  Secret Confession
-                </div>
-                <p className="text-white text-[15px] leading-snug font-black tracking-tight drop-shadow-md">"What's one thing you're too afraid to tell anyone?"</p>
-              </motion.div>
-
-              {/* Top Replies */}
-              <div className="space-y-4 w-full">
-                {/* Reply 1 */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.4 }}
-                  className="flex items-start gap-2.5 w-11/12"
-                >
-                  <div className="w-7 h-7 rounded-full border border-white/50 bg-gradient-to-tr from-yellow-400 to-pink-500 flex-shrink-0 shadow-md mt-1" />
-                  <div className="bg-black/40 backdrop-blur-md px-3.5 py-2.5 rounded-2xl rounded-tl-sm border border-white/10 shadow-lg">
-                    <p className="text-white/70 font-bold text-[9px] uppercase tracking-wide mb-0.5">@mystik_creator</p>
-                    <p className="text-white text-xs leading-snug drop-shadow-sm">Honestly, I just let my phone ring and then text them "what's up?" 🤷‍♂️😂</p>
-                  </div>
-                </motion.div>
-
-                {/* Reply 2 */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 1.0, duration: 0.4 }}
-                  className="flex items-start gap-2.5 w-10/12 ml-6"
-                >
-                  <div className="w-6 h-6 rounded-full border border-white/30 bg-gradient-to-tr from-cyan-400 to-emerald-400 flex-shrink-0 shadow-md mt-1" />
-                  <div className="bg-black/30 backdrop-blur-md px-3.5 py-2.5 rounded-xl rounded-tl-sm border border-white/10 shadow-sm">
-                    <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-0.5">@sarah_vibes</p>
-                    <p className="text-white text-[11px] leading-snug drop-shadow-sm">Same here! Thought I was the only one that did this. 👀</p>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="absolute right-4 bottom-1/4 space-y-6 z-20">
-              <button onClick={toggleHeart} className="flex flex-col items-center gap-1 group relative z-50">
-                <div className={`w-12 h-12 rounded-full backdrop-blur-md flex items-center justify-center border shadow-lg transition-all duration-300 ${isLiked ? 'bg-rose-500/20 border-rose-500/30' : 'bg-black/40 border-white/20 group-hover:scale-110'}`}>
-                  <motion.div
-                    initial={false}
-                    animate={{ scale: isLiked ? [1, 1.3, 1] : 1 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <Heart size={24} className={`transition-colors duration-300 ${isLiked ? 'text-rose-500 fill-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)]' : 'text-white'}`} strokeWidth={isLiked ? 0 : 2} />
-                  </motion.div>
-                </div>
-                <span className="text-white font-bold text-xs drop-shadow-md">{isLiked ? "12.1K" : "12K"}</span>
-              </button>
-              <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
-                <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
-                  <MessageCircle size={24} className="text-white" />
-                </div>
-                <span className="text-white font-bold text-xs">4.2K</span>
-              </button>
-              <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
-                <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
-                  <Share2 size={24} className="text-white" />
-                </div>
-                <span className="text-white font-bold text-xs">Share</span>
-              </button>
-
-
-
-              {/* Spinning IG-style Audio CD */}
-              <div className="relative pt-6 flex justify-center w-12 h-12 pointer-events-none mt-4">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-                  className="w-10 h-10 rounded-full border-[2px] border-white/20 bg-[#1a1a1a] flex items-center justify-center shadow-lg overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-                >
-                  <Music size={12} className="text-white z-10" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
-                </motion.div>
-                {/* floating music notes */}
-                <motion.div
-                  animate={{ y: [-5, -25], opacity: [0, 1, 0], scale: [0.8, 1.2], x: [0, -10] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
-                  className="absolute bottom-6 left-0 text-white/80"
-                >
-                  <Music size={10} />
-                </motion.div>
-              </div>
-            </div>
-          </div>
-
           {/* iPhone Notch */}
-          <div className="absolute top-0 inset-x-0 h-7 flex justify-center z-30">
+          <div className="absolute top-0 inset-x-0 h-7 flex justify-center z-50 pointer-events-none">
             <div className="w-1/3 h-full bg-gray-900 rounded-b-2xl"></div>
           </div>
+
+          {/* Audio Engine */}
+          <audio ref={audioRef} loop />
+
+          {/* Center screen Mute/Unmute Popup */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+             <motion.div
+               initial={{ scale: 0.8, opacity: 0 }}
+               animate={showMutePopup ? { scale: 1.2, opacity: 1 } : { scale: 1.5, opacity: 0 }}
+               transition={{ duration: 0.4, ease: "easeOut" }}
+               className="bg-black/50 backdrop-blur-md p-4 rounded-full text-white/90 shadow-2xl"
+             >
+               {isMuted ? <VolumeX size={32} strokeWidth={1.5} /> : <Volume2 size={32} strokeWidth={1.5} />}
+             </motion.div>
+          </div>
+
+          <div 
+             className="w-full h-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-y snap-mandatory rounded-[2.5rem] cursor-pointer relative"
+             onScroll={handleHeroScroll}
+             onClick={toggleMute}
+          >
+             {heroReels.map((reel, i) => (
+                <div key={i} className="w-full h-full snap-start relative flex flex-col justify-end p-5 pb-8 overflow-hidden z-10">
+                   
+                   {/* Animated Mock Mobile UI Theme */}
+                   <motion.div
+                     animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
+                     transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+                     className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
+                     style={{ backgroundImage: `url('${reel.bgImage}')` }}
+                   />
+
+                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 z-0 pointer-events-none" />
+
+                   {/* Reel Header */}
+                   <div className="absolute top-8 left-6 right-6 flex justify-between items-center text-white z-20 pointer-events-none">
+                     <span className="font-bold text-lg text-shadow-sm">For You</span>
+                     <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center">
+                       <Sparkles size={16} />
+                     </div>
+                   </div>
+
+                   {/* Content area */}
+                   <div className="relative z-20 w-full flex flex-col pr-12 space-y-4">
+                     {/* Question Sticker */}
+                     <motion.div
+                       initial={{ x: -20, opacity: 0 }}
+                       whileInView={{ x: 0, opacity: 1 }}
+                       transition={{ delay: 0.2, duration: 0.5, type: 'spring', bounce: 0.4 }}
+                       viewport={{ once: false }}
+                       className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-4 sm:p-5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-[90%] relative overflow-hidden mb-2 pointer-events-auto cursor-auto"
+                       onClick={(e) => e.stopPropagation()}
+                     >
+                       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                       <div className="text-white/90 text-[9px] font-black uppercase tracking-widest mb-2 flex items-center gap-1.5 bg-black/20 pr-3 pl-1.5 py-1 rounded-full shadow-inner border border-white/10">
+                         <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
+                           <User size={8} className="text-white" strokeWidth={3} />
+                         </div>
+                         {reel.type}
+                       </div>
+                       <p className="text-white text-[15px] leading-snug font-black tracking-tight drop-shadow-md">{reel.question}</p>
+                     </motion.div>
+
+                     {/* Top Replies */}
+                     <div className="space-y-4 w-full">
+                       {reel.replies.map((reply, idx) => (
+                           <motion.div
+                             key={idx}
+                             initial={{ y: 20, opacity: 0 }}
+                             whileInView={{ y: 0, opacity: 1 }}
+                             transition={{ delay: 0.4 + (idx * 0.2), duration: 0.4 }}
+                             viewport={{ once: false }}
+                             className={`flex items-start gap-2.5 ${reply.size} pointer-events-auto cursor-auto`}
+                             onClick={(e) => e.stopPropagation()}
+                           >
+                             <div className={`${reply.dot} rounded-full border border-white/50 bg-gradient-to-tr ${reply.from} ${reply.to} flex-shrink-0 shadow-md ${reply.margin}`} />
+                             <div className={`bg-black/40 backdrop-blur-md ${reply.padding} rounded-2xl rounded-tl-sm border border-white/10 shadow-lg`}>
+                               <p className="text-white/70 font-bold text-[9px] uppercase tracking-wide mb-0.5">@{reply.user}</p>
+                               <p className="text-white text-xs leading-snug drop-shadow-sm">{reply.text}</p>
+                             </div>
+                           </motion.div>
+                       ))}
+                     </div>
+                   </div>
+
+                   {/* Actions */}
+                   <div className="absolute right-4 bottom-1/4 space-y-6 z-20 pointer-events-auto">
+                     <button onClick={toggleHeart} className="flex flex-col items-center gap-1 group relative z-50">
+                       <div className={`w-12 h-12 rounded-full backdrop-blur-md flex items-center justify-center border shadow-lg transition-all duration-300 ${isLiked ? 'bg-rose-500/20 border-rose-500/30' : 'bg-black/40 border-white/20 group-hover:scale-110'}`}>
+                         <motion.div
+                           initial={false}
+                           animate={{ scale: isLiked ? [1, 1.3, 1] : 1 }}
+                           transition={{ duration: 0.3, ease: "easeInOut" }}
+                         >
+                           <Heart size={24} className={`transition-colors duration-300 ${isLiked ? 'text-rose-500 fill-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)]' : 'text-white'}`} strokeWidth={isLiked ? 0 : 2} />
+                         </motion.div>
+                       </div>
+                       <span className="text-white font-bold text-xs drop-shadow-md">{isLiked ? `${parseFloat(reel.likes)+0.1}K` : `${reel.likes}K`}</span>
+                     </button>
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
+                       <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
+                         <MessageCircle size={24} className="text-white" />
+                       </div>
+                       <span className="text-white font-bold text-xs">{reel.comments}</span>
+                     </button>
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
+                       <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
+                         <Share2 size={24} className="text-white" />
+                       </div>
+                       <span className="text-white font-bold text-xs">{reel.shares}</span>
+                     </button>
+
+                     {/* Spinning IG-style Audio CD */}
+                     <div className="relative pt-6 flex justify-center w-12 h-12 pointer-events-none mt-4">
+                       <motion.div
+                         animate={{ rotate: 360 }}
+                         transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                         className="w-10 h-10 rounded-full border-[2px] border-white/20 bg-[#1a1a1a] flex items-center justify-center shadow-lg overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                       >
+                         <Music size={12} className="text-white z-10" />
+                         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
+                       </motion.div>
+                       <motion.div
+                         animate={{ y: [-5, -25], opacity: [0, 1, 0], scale: [0.8, 1.2], x: [0, -10] }}
+                         transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
+                         className="absolute bottom-6 left-0 text-white/80"
+                       >
+                         <Music size={10} />
+                       </motion.div>
+                     </div>
+                   </div>
+
+                </div>
+             ))}
+          </div>
+
         </motion.div>
 
         {/* Floating elements for 3D feel */}
