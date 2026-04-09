@@ -81,7 +81,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                             type="text"
                             value={formData.name}
                             onChange={e => setFormData({ ...formData, name: e.target.value })}
-                            placeholder="Rajeev"
+                            placeholder="Rajeev..."
                             className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all"
                             required
                           />

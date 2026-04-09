@@ -9,7 +9,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
-    
+
     // Simulate network request
     setTimeout(() => setIsSubmitted(true), 600);
   };
@@ -29,7 +29,7 @@ const ContactForm = () => {
           </p>
         </div>
 
-        <motion.div 
+        <motion.div
           layout
           className="glass-panel p-8 md:p-12 relative overflow-hidden shadow-xl shadow-indigo-100/40"
         >
@@ -39,12 +39,12 @@ const ContactForm = () => {
 
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
-              <motion.form 
+              <motion.form
                 key="form"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                onSubmit={handleSubmit} 
+                onSubmit={handleSubmit}
                 className="space-y-6 relative z-10"
               >
                 <div className="grid md:grid-cols-2 gap-6">
@@ -54,11 +54,11 @@ const ContactForm = () => {
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <User size={18} className="text-gray-400" />
                       </div>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         value={formData.name}
-                        onChange={e => setFormData({...formData, name: e.target.value})}
-                        placeholder="John Doe" 
+                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Rajeev..."
                         className="w-full pl-11 pr-4 py-4 bg-white/80 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-400 transition-all shadow-sm"
                         required
                       />
@@ -70,11 +70,11 @@ const ContactForm = () => {
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <Mail size={18} className="text-gray-400" />
                       </div>
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         value={formData.email}
-                        onChange={e => setFormData({...formData, email: e.target.value})}
-                        placeholder="john@example.com" 
+                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="rajeev@example.com"
                         className="w-full pl-11 pr-4 py-4 bg-white/80 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-400 transition-all shadow-sm"
                         required
                       />
@@ -88,10 +88,10 @@ const ContactForm = () => {
                     <div className="absolute top-4 left-0 pl-4 pointer-events-none">
                       <MessageSquare size={18} className="text-gray-400" />
                     </div>
-                    <textarea 
+                    <textarea
                       value={formData.message}
-                      onChange={e => setFormData({...formData, message: e.target.value})}
-                      placeholder="How can we help you?" 
+                      onChange={e => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="How can we help you?"
                       rows={5}
                       className="w-full pl-11 pr-4 py-4 bg-white/80 border border-gray-200 rounded-3xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-400 transition-all shadow-sm resize-none"
                       required
@@ -100,7 +100,7 @@ const ContactForm = () => {
                 </div>
 
                 <div className="pt-2">
-                  <button 
+                  <button
                     type="submit"
                     className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-full font-bold text-lg bouncy-hover bouncy-tap shadow-xl shadow-gray-900/20 flex items-center justify-center gap-3 ml-auto"
                   >
@@ -109,7 +109,7 @@ const ContactForm = () => {
                 </div>
               </motion.form>
             ) : (
-              <motion.div 
+              <motion.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -122,7 +122,7 @@ const ContactForm = () => {
                 <p className="text-gray-500 font-medium max-w-md mx-auto mb-8">
                   Thanks for reaching out, {formData.name.split(' ')[0]}. We've received your message and will get back to you shortly.
                 </p>
-                <button 
+                <button
                   onClick={() => {
                     setIsSubmitted(false);
                     setFormData({ name: '', email: '', message: '' });
