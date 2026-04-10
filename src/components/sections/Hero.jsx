@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2, VolumeX, Music } from 'lucide-react';
+import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2, VolumeX, Music, Phone } from 'lucide-react';
 
 const Hero = () => {
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [joined, setJoined] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [showMutePopup, setShowMutePopup] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -104,11 +105,33 @@ const Hero = () => {
     setTimeout(() => setShowMutePopup(false), 900);
   };
 
-  const handleJoin = (e) => {
+  const handleJoin = async (e) => {
     e.preventDefault();
-    if (email) {
-      setJoined(true);
-      setEmail('');
+    if (phone) {
+      setIsSubmitting(true);
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: "68f49b36-f340-4538-b290-414f89c64ac1",
+            subject: "New Waitlist Signup - Mystify",
+            phone: phone,
+          }),
+        });
+        const result = await response.json();
+        if (result.success) {
+          setJoined(true);
+          setPhone('');
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -195,18 +218,22 @@ const Hero = () => {
                 <Sparkles size={14} className="text-indigo-500" />
                 <p className="text-xs font-bold text-gray-900 leading-tight">Join Waitlist for rewards!</p>
               </div>
-              <p className="text-[11px] text-gray-500 font-medium mb-3 leading-snug">Add your name to receive extra PTS and exclusive Themes.</p>
+              <p className="text-[11px] text-gray-500 font-medium mb-3 leading-snug">Add your number to receive extra PTS and exclusive Themes.</p>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  type="tel"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
                   required
-                  placeholder="Enter email address"
+                  placeholder="Enter mobile number"
                   className="flex-1 px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-inner text-sm font-medium bg-white"
                 />
-                <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-xl transition-colors shadow-md shadow-indigo-600/20 text-xs whitespace-nowrap">
-                  Join Waitlist
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-xl transition-colors shadow-md shadow-indigo-600/20 text-xs whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Joining...' : 'Join Waitlist'}
                 </button>
               </div>
             </form>

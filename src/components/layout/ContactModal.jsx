@@ -1,17 +1,41 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Send, CheckCircle2, User, MessageSquare, X } from 'lucide-react';
+import { Mail, Phone, Send, CheckCircle2, User, MessageSquare, X } from 'lucide-react';
 
 const ContactModal = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-
-    // Simulate network request
-    setTimeout(() => setIsSubmitted(true), 600);
+    if (!formData.name || !formData.phone || !formData.message) return;
+    
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "20ad6350-f86d-4938-879d-d3bf63db7a8a",
+          subject: "New Contact Modal Submission - Mystify",
+          name: formData.name,
+          phone: formData.phone,
+          message: formData.message,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -88,16 +112,16 @@ const ContactModal = ({ isOpen, onClose }) => {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-bold text-gray-700 ml-1">Email</label>
+                        <label className="text-sm font-bold text-gray-700 ml-1">Phone Number</label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <Mail size={18} className="text-gray-400" />
+                            <Phone size={18} className="text-gray-400" />
                           </div>
                           <input
-                            type="email"
-                            value={formData.email}
-                            onChange={e => setFormData({ ...formData, email: e.target.value })}
-                            placeholder="rajeev@example.com"
+                            type="tel"
+                            value={formData.phone}
+                            onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                            placeholder="+1 (555) 000-0000"
                             className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all"
                             required
                           />
@@ -125,9 +149,10 @@ const ContactModal = ({ isOpen, onClose }) => {
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="w-full py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl font-bold text-lg bouncy-hover shadow-xl shadow-gray-900/20 flex items-center justify-center gap-3"
+                        disabled={isSubmitting}
+                        className="w-full py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl font-bold text-lg bouncy-hover shadow-xl shadow-gray-900/20 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
                       >
-                        Send Message <Send size={20} />
+                        {isSubmitting ? 'Sending...' : <>Send Message <Send size={20} /></>}
                       </button>
                     </div>
                   </motion.form>
