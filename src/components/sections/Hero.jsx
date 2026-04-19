@@ -327,7 +327,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-            className="relative w-[340px] h-[680px] sm:w-[360px] sm:h-[720px] bg-black rounded-[3.5rem] border-[14px] border-gray-900 shadow-2xl ring-1 ring-white/10 shrink-0"
+            className="relative w-[340px] h-[680px] sm:w-[360px] sm:h-[720px] bg-black rounded-[3.5rem] border-[14px] border-gray-900 shadow-2xl ring-1 ring-white/10 shrink-0 overflow-hidden"
           >
           {/* iPhone Notch */}
           <div className="absolute top-0 inset-x-0 h-6 sm:h-7 flex justify-center z-50 pointer-events-none">
@@ -387,7 +387,7 @@ const Hero = () => {
                    </div>
 
                    {/* Content area */}
-                   <div className="relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4">
+                   <div className={`relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4 transition-all duration-300 origin-bottom-left ${showComments ? 'scale-[0.80] sm:scale-[0.85] translate-y-2' : 'scale-100'}`}>
                      {/* Question Sticker */}
                      <motion.div
                        initial={{ x: -20, opacity: 0 }}
@@ -596,7 +596,7 @@ const Hero = () => {
                    
                    <div className="flex justify-around items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-1 pb-4">
                      {/* Copy Link */}
-                     <button onClick={() => { navigator.clipboard.writeText(window.location.href); setShowSharePopup(false); alert("Link copied!"); }} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                         <div className="w-[52px] h-[52px] rounded-full bg-gray-700/80 flex items-center justify-center text-white shadow-lg border border-white/10">
                            <Link size={22} className="group-hover:scale-110 transition-transform"/>
                         </div>
@@ -604,7 +604,7 @@ const Hero = () => {
                      </button>
 
                      {/* WhatsApp */}
-                     <button onClick={() => window.open(`https://wa.me/?text=Check this out ${window.location.href}`)} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                         <div className="w-[52px] h-[52px] rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg border border-white/10">
                            <MessageCircle size={22} className="group-hover:scale-110 transition-transform fill-white" />
                         </div>
@@ -612,7 +612,7 @@ const Hero = () => {
                      </button>
 
                      {/* Instagram */}
-                     <button onClick={() => { alert("Instagram sharing requires the mobile app to post a direct story link."); setShowSharePopup(false); }} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                         <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] via-[#dc2743] via-[#cc2366] to-[#bc1888] flex items-center justify-center text-white shadow-lg border border-white/10">
                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform text-white">
                               <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
@@ -624,7 +624,7 @@ const Hero = () => {
                      </button>
 
                      {/* X / Twitter */}
-                     <button onClick={() => window.open(`https://twitter.com/intent/tweet?text=Check this out&url=${window.location.href}`)} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                         <div className="w-[52px] h-[52px] rounded-full bg-black border border-white/20 flex items-center justify-center text-white shadow-lg">
                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="group-hover:scale-110 transition-transform text-white">
                               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
