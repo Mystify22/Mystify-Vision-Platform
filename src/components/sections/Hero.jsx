@@ -1,6 +1,100 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2, VolumeX, Music, Phone } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2, VolumeX, Music, Phone, X, Send, Link } from 'lucide-react';
+
+const initialHeroReels = [
+  {
+    type: "Secret Confession",
+    question: `"What's one thing you're too afraid to tell anyone?"`,
+    replies: [
+      { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 11, user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", likes: 842, time: "2h", avatarFrom: "from-yellow-400", avatarTo: "to-pink-500" },
+      { id: 12, user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", likes: 256, time: "1h", avatarFrom: "from-cyan-400", avatarTo: "to-emerald-400" },
+      { id: 13, user: "introvert_king", text: "Relatable levels are off the charts right now", likes: 89, time: "45m", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" },
+      { id: 14, user: "anon_user_99", text: "I put my phone on DND 24/7 lol", likes: 12, time: "10m", avatarFrom: "from-gray-400", avatarTo: "to-gray-600" }
+    ],
+    likes: "12",
+    comments: "4.2K",
+    shares: "Share",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
+    audioSrc: "/sounds/music_for_video-forest-lullaby-110624.mp3"
+  },
+  {
+    type: "Anime Debate",
+    question: `"If you could live in any anime world, which one would it be?"`,
+    replies: [
+      { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 21, user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", likes: 532, time: "5h", avatarFrom: "from-red-500", avatarTo: "to-orange-500" },
+      { id: 22, user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", likes: 410, time: "3h", avatarFrom: "from-blue-400", avatarTo: "to-indigo-500" },
+      { id: 23, user: "ghoul_boy", text: "Tokyo Ghoul... but as a human just trying to survive coffee shops ☕", likes: 120, time: "2h", avatarFrom: "from-stone-700", avatarTo: "to-zinc-900" }
+    ],
+    likes: "15.8",
+    comments: "1.2K",
+    shares: "890",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
+    audioSrc: "/sounds/desifreemusic-battle-rage-intense-fight-music-411019.mp3"
+  },
+  {
+    type: "Productivity Flex",
+    question: `"What's your most overpowered setup secret?"`,
+    replies: [
+      { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 31, user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", likes: 1024, time: "1h", avatarFrom: "from-purple-500", avatarTo: "to-indigo-600" },
+      { id: 32, user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", likes: 890, time: "45m", avatarFrom: "from-green-400", avatarTo: "to-emerald-500" },
+      { id: 33, user: "vim_user", text: "Vim. I still don't know how to exit, but my productivity is amazing.", likes: 450, time: "20m", avatarFrom: "from-emerald-400", avatarTo: "to-teal-600" }
+    ],
+    likes: "24.5",
+    comments: "3.1K",
+    shares: "1.2K",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775753291/mh5cum4ms0gl69ybwgal.jpg",
+    audioSrc: "/sounds/monume-space-509492.mp3"
+  },
+  {
+    type: "Zen Focus",
+    question: `"What's your go-to sound for ultimate deep work?"`,
+    replies: [
+      { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 41, user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", likes: 620, time: "3h", avatarFrom: "from-blue-500", avatarTo: "to-cyan-500" },
+      { id: 42, user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", likes: 590, time: "2h", avatarFrom: "from-amber-400", avatarTo: "to-orange-500" },
+      { id: 43, user: "noise_fan", text: "Brown noise is highly underrated 🤎", likes: 210, time: "1h", avatarFrom: "from-yellow-700", avatarTo: "to-amber-900" }
+    ],
+    likes: "18.2",
+    comments: "1.5K",
+    shares: "920",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775755724/kzmvlx75tsy2mngul5qu.jpg",
+    audioSrc: "/sounds/desifreemusic-ocean-wave-loops-377890.mp3"
+  },
+  {
+    type: "Weekend Vibes",
+    question: `"What's your favorite way to unwind on a Saturday?"`,
+    replies: [
+      { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+       { id: 51, user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", likes: 780, time: "6h", avatarFrom: "from-pink-500", avatarTo: "to-rose-500" },
+       { id: 52, user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", likes: 640, time: "5h", avatarFrom: "from-fuchsia-400", avatarTo: "to-purple-500" },
+       { id: 53, user: "couch_potato", text: "Binge watching 3 seasons of a show without moving", likes: 1100, time: "4h", avatarFrom: "from-orange-300", avatarTo: "to-rose-400" }
+    ],
+    likes: "21.4",
+    comments: "2.8K",
+    shares: "1.1K",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
+    audioSrc: "/sounds/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235.mp3"
+  }
+];
 
 const Hero = () => {
   const [phone, setPhone] = useState('');
@@ -12,78 +106,17 @@ const Hero = () => {
   const audioRef = useRef(null);
   const [activeHeroReel, setActiveHeroReel] = useState(0);
 
-  const heroReels = [
-    {
-      type: "Secret Confession",
-      question: `"What's one thing you're too afraid to tell anyone?"`,
-      replies: [
-        { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
-        { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
-      ],
-      likes: "12",
-      comments: "4.2K",
-      shares: "Share",
-      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
-      audioSrc: "/sounds/music_for_video-forest-lullaby-110624.mp3"
-    },
-    {
-      type: "Anime Debate",
-      question: `"If you could live in any anime world, which one would it be?"`,
-      replies: [
-        { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
-        { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
-      ],
-      likes: "15.8",
-      comments: "1.2K",
-      shares: "890",
-      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
-      audioSrc: "/sounds/desifreemusic-battle-rage-intense-fight-music-411019.mp3"
-    },
-    {
-      type: "Productivity Flex",
-      question: `"What's your most overpowered setup secret?"`,
-      replies: [
-        { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
-        { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
-      ],
-      likes: "24.5",
-      comments: "3.1K",
-      shares: "1.2K",
-      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775753291/mh5cum4ms0gl69ybwgal.jpg",
-      audioSrc: "/sounds/monume-space-509492.mp3"
-    },
-    {
-      type: "Zen Focus",
-      question: `"What's your go-to sound for ultimate deep work?"`,
-      replies: [
-        { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
-        { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
-      ],
-      likes: "18.2",
-      comments: "1.5K",
-      shares: "920",
-      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775755724/kzmvlx75tsy2mngul5qu.jpg",
-      audioSrc: "/sounds/desifreemusic-ocean-wave-loops-377890.mp3"
-    },
-    {
-      type: "Weekend Vibes",
-      question: `"What's your favorite way to unwind on a Saturday?"`,
-      replies: [
-        { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
-        { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
-      ],
-      likes: "21.4",
-      comments: "2.8K",
-      shares: "1.1K",
-      bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
-      audioSrc: "/sounds/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235.mp3"
-    }
-  ];
+  const [reelsData, setReelsData] = useState(initialHeroReels);
+  const [showComments, setShowComments] = useState(false);
+  const [showSharePopup, setShowSharePopup] = useState(false);
+  const [commentLikes, setCommentLikes] = useState({});
+  const [replyTo, setReplyTo] = useState(null);
+  const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
     if (audioRef.current) {
-        if (heroReels[activeHeroReel]?.audioSrc) {
-            audioRef.current.src = heroReels[activeHeroReel].audioSrc;
+        if (reelsData[activeHeroReel]?.audioSrc) {
+            audioRef.current.src = reelsData[activeHeroReel].audioSrc;
             if (!isMuted) {
                 audioRef.current.play().catch(e => console.log('Audio error:', e));
             } else {
@@ -91,7 +124,48 @@ const Hero = () => {
             }
         }
     }
-  }, [activeHeroReel, isMuted]);
+  }, [activeHeroReel, isMuted, reelsData]);
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+
+    const newComment = {
+      id: Date.now(),
+      user: "mystik_user",
+      text: replyTo ? `@${replyTo.user} ${commentText}` : commentText,
+      likes: 0,
+      time: "Just now",
+      avatarFrom: "from-indigo-500",
+      avatarTo: "to-purple-500",
+      replies: []
+    };
+
+    const updatedReels = [...reelsData];
+    
+    if (replyTo) {
+       const commentIndex = updatedReels[activeHeroReel].commentsList.findIndex(c => c.id === replyTo.id);
+       if (commentIndex !== -1) {
+          if (!updatedReels[activeHeroReel].commentsList[commentIndex].replies) {
+              updatedReels[activeHeroReel].commentsList[commentIndex].replies = [];
+          }
+          updatedReels[activeHeroReel].commentsList[commentIndex].replies.push(newComment);
+       }
+    } else {
+       updatedReels[activeHeroReel].commentsList.unshift(newComment);
+    }
+
+    setReelsData(updatedReels);
+    setCommentText("");
+    setReplyTo(null);
+  };
+
+  const toggleCommentLike = (commentId) => {
+    setCommentLikes(prev => ({
+       ...prev,
+       [commentId]: !prev[commentId]
+    }));
+  };
 
   const toggleHeart = (e) => {
     e.stopPropagation();
@@ -103,6 +177,11 @@ const Hero = () => {
     setIsMuted(!isMuted);
     setShowMutePopup(true);
     setTimeout(() => setShowMutePopup(false), 900);
+  };
+
+  const handleShare = async (e, reel) => {
+    e.stopPropagation();
+    setShowSharePopup(true);
   };
 
   const handleJoin = async (e) => {
@@ -248,7 +327,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-            className="relative w-[340px] h-[680px] sm:w-[360px] sm:h-[720px] bg-black rounded-[3.5rem] border-[14px] border-gray-900 shadow-2xl ring-1 ring-white/10 shrink-0"
+            className="relative w-[340px] h-[680px] sm:w-[360px] sm:h-[720px] bg-black rounded-[3.5rem] border-[14px] border-gray-900 shadow-2xl ring-1 ring-white/10 shrink-0 overflow-hidden"
           >
           {/* iPhone Notch */}
           <div className="absolute top-0 inset-x-0 h-6 sm:h-7 flex justify-center z-50 pointer-events-none">
@@ -270,12 +349,23 @@ const Hero = () => {
              </motion.div>
           </div>
 
-          <div 
-             className="w-full h-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-y snap-mandatory rounded-[2.2rem] sm:rounded-[2.4rem] cursor-pointer relative"
+          <motion.div 
+             animate={{ height: showComments ? '45%' : '100%' }}
+             style={{ borderBottomLeftRadius: showComments ? 0 : '2.4rem', borderBottomRightRadius: showComments ? 0 : '2.4rem', borderTopLeftRadius: '2.4rem', borderTopRightRadius: '2.4rem' }}
+             transition={{ type: "spring", damping: 25, stiffness: 200 }}
+             className="w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-y snap-mandatory cursor-pointer relative z-10"
              onScroll={handleHeroScroll}
-             onClick={toggleMute}
+             onClick={(e) => {
+               if (showComments || showSharePopup) {
+                 setShowComments(false);
+                 setShowSharePopup(false);
+                 setReplyTo(null);
+               } else {
+                 toggleMute(e);
+               }
+             }}
           >
-             {heroReels.map((reel, i) => (
+             {reelsData.map((reel, i) => (
                 <div key={i} className="w-full h-full snap-start relative flex flex-col justify-end p-4 sm:p-5 pb-6 sm:pb-8 overflow-hidden z-10">
                    
                    {/* Animated Mock Mobile UI Theme */}
@@ -297,7 +387,7 @@ const Hero = () => {
                    </div>
 
                    {/* Content area */}
-                   <div className="relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4">
+                   <div className={`relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4 transition-all duration-300 origin-bottom-left ${showComments ? 'scale-[0.80] sm:scale-[0.85] translate-y-2' : 'scale-100'}`}>
                      {/* Question Sticker */}
                      <motion.div
                        initial={{ x: -20, opacity: 0 }}
@@ -340,7 +430,7 @@ const Hero = () => {
                    </div>
 
                    {/* Actions */}
-                   <div className="absolute right-3 sm:right-4 bottom-1/4 space-y-4 sm:space-y-5 z-20 pointer-events-auto flex flex-col items-center">
+                   <div className={`absolute right-3 sm:right-4 bottom-1/4 space-y-4 sm:space-y-5 flex flex-col items-center z-20 transition-opacity duration-300 ${(showComments || showSharePopup) ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
                      <button onClick={toggleHeart} className="flex flex-col items-center gap-1 group relative z-50">
                        <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full backdrop-blur-md flex items-center justify-center border shadow-lg transition-all duration-300 ${isLiked ? 'bg-rose-500/20 border-rose-500/30' : 'bg-black/40 border-white/20 group-hover:scale-110'}`}>
                          <motion.div
@@ -353,13 +443,13 @@ const Hero = () => {
                        </div>
                        <span className="text-white font-bold text-[9px] sm:text-[10px] drop-shadow-md">{isLiked ? `${parseFloat(reel.likes)+0.1}K` : `${reel.likes}K`}</span>
                      </button>
-                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
+                     <button onClick={(e) => { e.stopPropagation(); setShowComments(true); }} className="flex flex-col items-center gap-1 group relative z-50">
                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
                          <MessageCircle size={20} className="text-white" />
                        </div>
                        <span className="text-white font-bold text-[9px] sm:text-[10px]">{reel.comments}</span>
                      </button>
-                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-1 group relative z-50">
+                     <button onClick={(e) => handleShare(e, reel)} className="flex flex-col items-center gap-1 group relative z-50">
                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
                          <Share2 size={20} className="text-white" />
                        </div>
@@ -388,7 +478,164 @@ const Hero = () => {
 
                 </div>
              ))}
-          </div>
+          </motion.div>
+
+           {/* Comments Bottom Sheet */}
+           <AnimatePresence>
+             {showComments && (
+               <motion.div
+                 initial={{ y: "100%" }}
+                 animate={{ y: 0 }}
+                 exit={{ y: "100%" }}
+                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                 className="absolute inset-x-0 bottom-0 h-[55%] bg-[#1c1c1e] rounded-t-3xl rounded-b-[2.4rem] z-[100] flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto"
+                 onClick={(e) => e.stopPropagation()}
+               >
+                 {/* Drag Handle & Header */}
+                 <div className="flex flex-col items-center px-4 py-3 border-b border-white/10 shrink-0">
+                   <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
+                   <div className="w-full flex items-center justify-between">
+                     <div className="w-8" />
+                     <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel].commentsList.length})</span></span>
+                     <div className="w-8" />
+                   </div>
+                 </div>
+                 
+                 {/* Comments List */}
+                 <div className="flex-1 overflow-y-auto p-4 space-y-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    {reelsData[activeHeroReel].commentsList.map(comment => (
+                       <div key={comment.id} className="flex flex-col gap-3">
+                         <div className="flex gap-3">
+                            <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
+                            <div className="flex-1 min-w-0">
+                               <div className="flex items-center gap-2 mb-0.5">
+                                  <span className="text-white/70 font-bold text-xs">@{comment.user}</span>
+                                  <span className="text-white/40 text-[10px]">{comment.time}</span>
+                               </div>
+                               <p className="text-white/90 text-sm leading-snug mb-1.5">{comment.text}</p>
+                               <div className="flex items-center gap-4 text-white/50 text-xs font-medium">
+                                  <button onClick={() => setReplyTo({id: comment.id, user: comment.user})} className="hover:text-white transition-colors">Reply</button>
+                               </div>
+                            </div>
+                            <div className="flex flex-col items-center gap-1 shrink-0 pt-2">
+                               <button onClick={() => toggleCommentLike(comment.id)} className="transition-transform active:scale-90">
+                                  <Heart size={14} className={commentLikes[comment.id] ? "text-rose-500 fill-rose-500" : "text-white/50"} />
+                               </button>
+                               <span className="text-white/50 text-[10px]">{comment.likes + (commentLikes[comment.id] ? 1 : 0)}</span>
+                            </div>
+                         </div>
+                         
+                         {/* Replies */}
+                         {comment.replies && comment.replies.map(reply => (
+                            <div key={reply.id} className="flex gap-3 ml-11">
+                               <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
+                               <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-0.5">
+                                     <span className="text-white/70 font-bold text-[11px]">@{reply.user}</span>
+                                     <span className="text-white/40 text-[9px]">{reply.time}</span>
+                                  </div>
+                                  <p className="text-white/80 text-xs leading-snug mb-1.5">{reply.text}</p>
+                                  <div className="flex items-center gap-4 text-white/50 text-[10px] font-medium">
+                                     <button onClick={() => setReplyTo({id: comment.id, user: reply.user})} className="hover:text-white transition-colors">Reply</button>
+                                  </div>
+                               </div>
+                               <div className="flex flex-col items-center gap-1 shrink-0 pt-1">
+                                  <button onClick={() => toggleCommentLike(reply.id)} className="transition-transform active:scale-90">
+                                     <Heart size={12} className={commentLikes[reply.id] ? "text-rose-500 fill-rose-500" : "text-white/50"} />
+                                  </button>
+                                  <span className="text-white/50 text-[9px]">{reply.likes + (commentLikes[reply.id] ? 1 : 0)}</span>
+                               </div>
+                            </div>
+                         ))}
+                       </div>
+                    ))}
+                 </div>
+
+                 {/* Input Area */}
+                 <div className="p-3 bg-[#1c1c1e] border-t border-white/10 shrink-0">
+                    {replyTo && (
+                       <div className="flex justify-between items-center text-xs text-white/50 mb-2 px-1">
+                          <span>Replying to <span className="text-white/80 font-bold">@{replyTo.user}</span></span>
+                          <button onClick={() => setReplyTo(null)}><X size={12}/></button>
+                       </div>
+                    )}
+                    <form onSubmit={handleCommentSubmit} className="flex items-center gap-2">
+                       <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex-shrink-0" />
+                       <div className="flex-1 bg-white/10 rounded-full px-4 py-2 flex items-center border border-white/5 focus-within:border-indigo-500/50 transition-colors">
+                          <input 
+                             type="text"
+                             value={commentText}
+                             onChange={(e) => setCommentText(e.target.value)}
+                             placeholder={replyTo ? "Write a reply..." : "Add a comment..."}
+                             className="bg-transparent text-white text-sm w-full focus:outline-none placeholder:text-white/40"
+                          />
+                          <button type="submit" disabled={!commentText.trim()} className="text-indigo-400 disabled:opacity-50 ml-2">
+                              <Send size={16} className={commentText.trim() ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"} />
+                          </button>
+                       </div>
+                    </form>
+                 </div>
+               </motion.div>
+             )}
+           </AnimatePresence>
+
+           {/* Share Popup */}
+           <AnimatePresence>
+             {showSharePopup && (
+                <motion.div
+                   initial={{ y: "100%" }}
+                   animate={{ y: 0 }}
+                   exit={{ y: "100%" }}
+                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                   className="absolute inset-x-0 bottom-0 bg-[#1c1c1e] rounded-b-[2.4rem] rounded-t-3xl z-[150] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto pb-6 pt-4 px-4"
+                   onClick={(e) => e.stopPropagation()}
+                >
+                   <div className="flex items-center justify-center mb-4 px-2">
+                     <span className="text-white text-sm font-bold">Share to</span>
+                   </div>
+                   
+                   <div className="flex justify-around items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-1 pb-4">
+                     {/* Copy Link */}
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                        <div className="w-[52px] h-[52px] rounded-full bg-gray-700/80 flex items-center justify-center text-white shadow-lg border border-white/10">
+                           <Link size={22} className="group-hover:scale-110 transition-transform"/>
+                        </div>
+                        <span className="text-white/80 text-[10px] font-medium">Copy Link</span>
+                     </button>
+
+                     {/* WhatsApp */}
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                        <div className="w-[52px] h-[52px] rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg border border-white/10">
+                           <MessageCircle size={22} className="group-hover:scale-110 transition-transform fill-white" />
+                        </div>
+                        <span className="text-white/80 text-[10px] font-medium">WhatsApp</span>
+                     </button>
+
+                     {/* Instagram */}
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                        <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] via-[#dc2743] via-[#cc2366] to-[#bc1888] flex items-center justify-center text-white shadow-lg border border-white/10">
+                           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform text-white">
+                              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                           </svg>
+                        </div>
+                        <span className="text-white/80 text-[10px] font-medium">Instagram</span>
+                     </button>
+
+                     {/* X / Twitter */}
+                     <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                        <div className="w-[52px] h-[52px] rounded-full bg-black border border-white/20 flex items-center justify-center text-white shadow-lg">
+                           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="group-hover:scale-110 transition-transform text-white">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                           </svg>
+                        </div>
+                        <span className="text-white/80 text-[10px] font-medium">X.com</span>
+                     </button>
+                   </div>
+                </motion.div>
+             )}
+           </AnimatePresence>
 
           </motion.div>
 
