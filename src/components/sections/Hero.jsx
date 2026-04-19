@@ -20,7 +20,7 @@ const initialHeroReels = [
     comments: "4.2K",
     shares: "Share",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630685/bransboynd-fresh-457883_izdy0p.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/q_auto/f_auto/v1776640285/pihf9rnxy73p1n7betwi.mp3"
   },
   {
     type: "Anime Debate",
