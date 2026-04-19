@@ -20,7 +20,7 @@ const initialHeroReels = [
     comments: "4.2K",
     shares: "Share",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
-    audioSrc: "/sounds/music_for_video-forest-lullaby-110624.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630685/bransboynd-fresh-457883_izdy0p.mp3"
   },
   {
     type: "Anime Debate",
@@ -38,7 +38,7 @@ const initialHeroReels = [
     comments: "1.2K",
     shares: "890",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
-    audioSrc: "/sounds/desifreemusic-battle-rage-intense-fight-music-411019.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-battle-rage-intense-fight-music-411019_mpf7i8.mp3"
   },
   {
     type: "Productivity Flex",
@@ -56,7 +56,7 @@ const initialHeroReels = [
     comments: "3.1K",
     shares: "1.2K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775753291/mh5cum4ms0gl69ybwgal.jpg",
-    audioSrc: "/sounds/monume-space-509492.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/monume-space-509492_jwpg3u.mp3"
   },
   {
     type: "Zen Focus",
@@ -74,7 +74,7 @@ const initialHeroReels = [
     comments: "1.5K",
     shares: "920",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775755724/kzmvlx75tsy2mngul5qu.jpg",
-    audioSrc: "/sounds/desifreemusic-ocean-wave-loops-377890.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-ocean-wave-loops-377890_gbxv2x.mp3"
   },
   {
     type: "Weekend Vibes",
@@ -92,7 +92,7 @@ const initialHeroReels = [
     comments: "2.8K",
     shares: "1.1K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
-    audioSrc: "/sounds/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
   }
 ];
 
@@ -104,7 +104,9 @@ const Hero = () => {
   const [showMutePopup, setShowMutePopup] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const audioRef = useRef(null);
+  const heroRef = useRef(null);
   const [activeHeroReel, setActiveHeroReel] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   const [reelsData, setReelsData] = useState(initialHeroReels);
   const [showComments, setShowComments] = useState(false);
@@ -114,17 +116,36 @@ const Hero = () => {
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
-    if (audioRef.current) {
-        if (reelsData[activeHeroReel]?.audioSrc) {
-            audioRef.current.src = reelsData[activeHeroReel].audioSrc;
-            if (!isMuted) {
-                audioRef.current.play().catch(e => console.log('Audio error:', e));
-            } else {
-                audioRef.current.pause();
-            }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current && reelsData[activeHeroReel]?.audioSrc) {
+        const currentSrc = audioRef.current.src;
+        const targetSrc = reelsData[activeHeroReel].audioSrc;
+        
+        // Prevent strictly restarting audio if the track hasn't changed
+        if (!currentSrc || currentSrc !== targetSrc) {
+            audioRef.current.src = targetSrc;
+        }
+
+        if (!isMuted && isVisible) {
+            audioRef.current.play().catch(e => console.log('Audio error:', e));
+        } else {
+            audioRef.current.pause();
         }
     }
-  }, [activeHeroReel, isMuted, reelsData]);
+  }, [activeHeroReel, isMuted, isVisible, reelsData]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -223,7 +244,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="container mx-auto px-6 pt-32 pb-20 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 min-h-[90vh]">
+    <div ref={heroRef} className="container mx-auto px-6 pt-32 pb-20 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 min-h-[90vh]">
       <div className="flex-1 text-center lg:text-left space-y-6 lg:space-y-8 max-w-2xl mx-auto lg:mx-0 z-10 lg:pl-4">
 
         <motion.div
@@ -387,7 +408,7 @@ const Hero = () => {
                    </div>
 
                    {/* Content area */}
-                   <div className={`relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4 transition-all duration-300 origin-bottom-left ${showComments ? 'scale-[0.80] sm:scale-[0.85] translate-y-2' : 'scale-100'}`}>
+                   <div className={`relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4 transition-all duration-300 origin-bottom-left ${showComments ? 'scale-[0.80] sm:scale-[0.70] translate-y-2 sm:translate-y-4' : 'scale-100'}`}>
                      {/* Question Sticker */}
                      <motion.div
                        initial={{ x: -20, opacity: 0 }}
