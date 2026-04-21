@@ -4,6 +4,24 @@ import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2
 
 const initialHeroReels = [
   {
+    type: "Spooky Vibes",
+    question: `"What's the scariest thing that happened to you?"`,
+    replies: [
+      { user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", from: "from-red-600", to: "to-black", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", from: "from-yellow-400", to: "to-orange-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 1, user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", likes: 842, time: "2h", avatarFrom: "from-red-600", avatarTo: "to-black" },
+      { id: 2, user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", likes: 256, time: "1h", avatarFrom: "from-yellow-400", avatarTo: "to-orange-500" },
+      { id: 3, user: "vecna_stan", text: "This song is my alarm clock now.", likes: 89, time: "45m", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" }
+    ],
+    likes: "11.0",
+    comments: "2.1K",
+    shares: "450",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1776715534/stable-diffusion-xl-base-10_wide-angle-shot_3_m9y7vl.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776804416/vecna_s_theme_fbp8fh.mp3"
+  },
+  {
     type: "Secret Confession",
     question: `"What's one thing you're too afraid to tell anyone?"`,
     replies: [
