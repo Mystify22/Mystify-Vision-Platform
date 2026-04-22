@@ -19,7 +19,7 @@ const initialHeroReels = [
     comments: "2.1K",
     shares: "450",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1776715534/stable-diffusion-xl-base-10_wide-angle-shot_3_m9y7vl.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776804416/vecna_s_theme_fbp8fh.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
   },
   {
     type: "Secret Confession",
