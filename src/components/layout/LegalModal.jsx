@@ -1,11 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-//hey
 
 const LegalModal = ({ isOpen, onClose, type }) => {
   if (!isOpen) return null;
-  //hmmm
+
   const content = {
     privacy: {
       title: "Privacy Policy",
