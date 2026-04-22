@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 
 const LegalModal = ({ isOpen, onClose, type }) => {
   if (!isOpen) return null;
-
+  //hmmm
   const content = {
     privacy: {
       title: "Privacy Policy",
@@ -36,14 +36,14 @@ const LegalModal = ({ isOpen, onClose, type }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
           />
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -51,7 +51,7 @@ const LegalModal = ({ isOpen, onClose, type }) => {
           >
             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
               <h2 className="text-2xl font-black text-gray-900">{selectedContent.title}</h2>
-              <button 
+              <button
                 onClick={onClose}
                 className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors"
               >
