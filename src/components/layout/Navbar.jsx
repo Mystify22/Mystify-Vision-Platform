@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav className="fixed top-0 inset-x-0 z-50 px-6 py-4 transition-all glass-nav">
       <div className="container mx-auto flex items-center justify-between">
         <a href="#" className="flex items-center gap-3 cursor-pointer group">
-          <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center shadow-md group-hover:bg-indigo-600 transition-colors flex-shrink-0">
+          <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center shadow-md transition-colors flex-shrink-0">
             <span className="text-white font-bold text-xl leading-none">M</span>
           </div>
           <span className="text-2xl font-black text-gray-900 tracking-tight hidden sm:block">Mystify</span>
