@@ -7,75 +7,131 @@ const vibeData = [
     category: "Nature",
     id: "nature",
     items: [
-      { id: "nature-1", name: "Serene Mountain", bg: "#1e3a5f" },
-      { id: "nature-2", name: "Valley Dusk", bg: "#1a3a2a" },
-      { id: "nature-3", name: "Misty Forest", bg: "#2a2a1a" }
+      { id: "nature-1", name: "Serene Mountain", bg: "#1e3a5f", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
+      { id: "nature-2", name: "Valley Dusk",    bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
+      { id: "nature-3", name: "Misty Forest",   bg: "#2a2a1a", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "nature-4", name: "Deep Lake", bg: "#152238" },
-      { id: "nature-5", name: "Red Woods", bg: "#4a2e2b" },
-      { id: "nature-6", name: "Golden Hour", bg: "#8a5a44" }
+      { id: "nature-4", name: "Deep Lake",    bg: "#152238", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
+      { id: "nature-5", name: "Red Woods",    bg: "#4a2e2b", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" },
+      { id: "nature-6", name: "Golden Hour",  bg: "#8a5a44", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Dark & Moody",
     id: "dark-moody",
     items: [
-      { id: "dark-1", name: "Mystic Aura", bg: "#2d1b4e" },
-      { id: "dark-2", name: "Dark Matter", bg: "#1a1a3a" },
-      { id: "dark-3", name: "Night Pulse", bg: "#3a1a2a" }
+      { id: "dark-1", name: "Mystic Aura",  bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" },
+      { id: "dark-2", name: "Dark Matter",  bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
+      { id: "dark-3", name: "Night Pulse",  bg: "#3a1a2a", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "dark-4", name: "Obsidian", bg: "#0d0d12" },
-      { id: "dark-5", name: "Crimson Night", bg: "#300810" },
-      { id: "dark-6", name: "Void", bg: "#1a1b26" }
+      { id: "dark-4", name: "Obsidian",      bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
+      { id: "dark-5", name: "Crimson Night", bg: "#300810", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
+      { id: "dark-6", name: "Void",          bg: "#1a1b26", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
     ]
   },
   {
-    category: "Abstract",
-    id: "abstract",
+    category: "Avengers",
+    id: "avengers",
     items: [
-      { id: "abstract-1", name: "Liquid Chrome", bg: "#3a1a2a" },
-      { id: "abstract-2", name: "Warm Chaos", bg: "#3a2a1a" },
-      { id: "abstract-3", name: "Blue Gradient", bg: "#1a2a3a" }
+      { id: "av-1", name: "Iron Man",    bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
+      { id: "av-2", name: "Storm",       bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
+      { id: "av-3", name: "Infinity",   bg: "#4b0082", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "abstract-4", name: "Neon Flux", bg: "#2a0845" },
-      { id: "abstract-5", name: "Geometric", bg: "#112240" },
-      { id: "abstract-6", name: "Fluid Ash", bg: "#2d3436" }
+      { id: "av-4", name: "Shield",     bg: "#00008b", img: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=400&q=80&fit=crop" },
+      { id: "av-5", name: "Snap",       bg: "#2c2c54", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" },
+      { id: "av-6", name: "Assemble",   bg: "#1a0a00", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80&fit=crop" }
     ]
   },
   {
-    category: "Minimal",
-    id: "minimal",
+    category: "Harry Potter",
+    id: "harry-potter",
     items: [
-      { id: "minimal-1", name: "Pure White", bg: "#e8e4dc", isLight: true },
-      { id: "minimal-2", name: "Lamp Light", bg: "#3d2b1f" },
-      { id: "minimal-3", name: "Stone Cold", bg: "#1a1a3a" }
+      { id: "hp-1", name: "Hogwarts",          bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=400&q=80&fit=crop" },
+      { id: "hp-2", name: "Dark Arts",         bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
+      { id: "hp-3", name: "Magic Library",     bg: "#1c0a00", img: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "minimal-4", name: "Soft Clay", bg: "#d4c5b9", isLight: true },
-      { id: "minimal-5", name: "Graphite", bg: "#363636" },
-      { id: "minimal-6", name: "Cream", bg: "#f5f5dc", isLight: true }
+      { id: "hp-4", name: "Platform 9¾",       bg: "#1a2a3a", img: "https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=400&q=80&fit=crop" },
+      { id: "hp-5", name: "Patronus",          bg: "#0a1628", img: "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?w=400&q=80&fit=crop" },
+      { id: "hp-6", name: "Forbidden Forest",  bg: "#0d1f0d", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
     ]
   },
   {
-    category: "Urban",
-    id: "urban",
+    category: "Death Note",
+    id: "death-note",
     items: [
-      { id: "urban-1", name: "City Lights", bg: "#1a2a3a" },
-      { id: "urban-2", name: "Rooftop", bg: "#3d2b1f" },
-      { id: "urban-3", name: "Subway", bg: "#2a2a1a" }
+      { id: "dn-1", name: "The Notebook",   bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=400&q=80&fit=crop" },
+      { id: "dn-2", name: "Shinigami",      bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=400&q=80&fit=crop" },
+      { id: "dn-3", name: "L vs Kira",      bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "urban-4", name: "Neon Signs", bg: "#3b0918" },
-      { id: "urban-5", name: "Concrete", bg: "#4a4a4a" },
-      { id: "urban-6", name: "Midnight Drive", bg: "#0a192f" }
+      { id: "dn-4", name: "Near",         bg: "#1a1a1a", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
+      { id: "dn-5", name: "Kira",         bg: "#200000", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" },
+      { id: "dn-6", name: "Shadows",      bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" }
+    ]
+  },
+  {
+    category: "Demon Slayer",
+    id: "demon-slayer",
+    items: [
+      { id: "ds-1", name: "Flame Hashira",    bg: "#8b1a00", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
+      { id: "ds-2", name: "Cherry Blossom",   bg: "#3d1a2a", img: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=400&q=80&fit=crop" },
+      { id: "ds-3", name: "Wisteria Moon",    bg: "#1a0a2a", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80&fit=crop" }
+    ],
+    extraItems: [
+      { id: "ds-4", name: "Thunder Breath",   bg: "#0a0a3a", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
+      { id: "ds-5", name: "Sunrise",          bg: "#5a2a1a", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" },
+      { id: "ds-6", name: "Infinity Castle",  bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
+    ]
+  },
+  {
+    category: "Prince of Persia",
+    id: "prince-of-persia",
+    items: [
+      { id: "pop-1", name: "Sand Dunes",     bg: "#8b6914", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&q=80&fit=crop" },
+      { id: "pop-2", name: "Ancient Palace", bg: "#5a3a1a", img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=400&q=80&fit=crop" },
+      { id: "pop-3", name: "Desert Storm",   bg: "#6b4a1a", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" }
+    ],
+    extraItems: [
+      { id: "pop-4", name: "Oasis",          bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
+      { id: "pop-5", name: "Sands of Time",  bg: "#7a5a1a", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
+      { id: "pop-6", name: "Mirage",         bg: "#4a3a1a", img: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=400&q=80&fit=crop" }
+    ]
+  },
+  {
+    category: "Stranger Things",
+    id: "stranger-things",
+    items: [
+      { id: "st-1", name: "Upside Down",   bg: "#1a0a1a", img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&q=80&fit=crop" },
+      { id: "st-2", name: "Hawkins Lab",   bg: "#0a1a1a", img: "https://images.unsplash.com/photo-1553949285-1196ce81deda?w=400&q=80&fit=crop" },
+      { id: "st-3", name: "Neon 80s",      bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1545033131-485ea67fd7c3?w=400&q=80&fit=crop" }
+    ],
+    extraItems: [
+      { id: "st-4", name: "The Void",      bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&q=80&fit=crop" },
+      { id: "st-5", name: "Demogorgon",   bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
+      { id: "st-6", name: "Portal",        bg: "#1a1a00", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" }
+    ]
+  },
+  {
+    category: "Game of Thrones",
+    id: "game-of-thrones",
+    items: [
+      { id: "got-1", name: "Winterfell",    bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
+      { id: "got-2", name: "Dragon Fire",   bg: "#5a0000", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
+      { id: "got-3", name: "The Wall",      bg: "#1e2d3a", img: "https://images.unsplash.com/photo-1517525822813-9980d1813ce2?w=400&q=80&fit=crop" }
+    ],
+    extraItems: [
+      { id: "got-4", name: "Iron Throne",   bg: "#2a1a0a", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=80&fit=crop" },
+      { id: "got-5", name: "King's Landing",bg: "#3a2a1a", img: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&q=80&fit=crop" },
+      { id: "got-6", name: "Night King",    bg: "#0d1a2a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
     ]
   }
 ];
 
-const categories = ["All", "Nature", "Dark & Moody", "Abstract", "Minimal", "Urban"];
+const categories = ["All", "Nature", "Dark & Moody", "Urban", "Avengers", "Harry Potter", "Death Note", "Demon Slayer", "Prince of Persia", "Stranger Things", "Game of Thrones"];
 
 const VibeCard = ({ item, isSelected, onToggle, className }) => {
   return (
@@ -84,19 +140,29 @@ const VibeCard = ({ item, isSelected, onToggle, className }) => {
       className={`relative rounded-xl overflow-hidden cursor-pointer transition-transform active:scale-[0.98] ${className}`}
       style={{ backgroundColor: item.bg }}
     >
+      {/* Real image layer */}
+      {item.img && (
+        <img
+          src={item.img}
+          alt={item.name}
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      )}
+      {/* Gradient overlay for readability */}
       <div 
         className="absolute inset-0" 
         style={{ 
-          background: `linear-gradient(to top, rgba(0,0,0,${item.isLight ? '0.45' : '0.75'}) 0%, transparent 55%)` 
+          background: `linear-gradient(to top, rgba(0,0,0,${item.isLight ? '0.55' : '0.70'}) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)` 
         }} 
       />
-      <span className="absolute bottom-[9px] left-[10px] text-[11px] font-medium text-white">{item.name}</span>
+      <span className="absolute bottom-[9px] left-[10px] text-[11px] font-semibold text-white drop-shadow-sm">{item.name}</span>
       
       {isSelected && (
         <>
           <div className="absolute inset-0 rounded-xl border-2 border-white pointer-events-none" />
-          <div className={`absolute top-2 left-2 w-5 h-5 rounded-full flex items-center justify-center ${item.isLight ? 'bg-[#0c0c10]' : 'bg-white'}`}>
-             <Check size={12} strokeWidth={3} className={item.isLight ? 'text-white' : 'text-[#0c0c10]'} />
+          <div className="absolute top-2 left-2 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
+             <Check size={12} strokeWidth={3} className="text-[#0c0c10]" />
           </div>
         </>
       )}
@@ -258,63 +324,93 @@ const ReelSimulator = () => {
                   {section.category === 'Abstract' && (
                     <div className="flex gap-2">
                       <div className="flex flex-col gap-2 flex-1">
-                        <VibeCard 
-                          item={section.items[0]} 
-                          isSelected={selectedImage?.id === section.items[0].id} 
-                          onToggle={handleToggle}
-                          className="h-[116px]" 
-                        />
-                        <VibeCard 
-                          item={section.items[1]} 
-                          isSelected={selectedImage?.id === section.items[1].id} 
-                          onToggle={handleToggle}
-                          className="h-[116px]" 
-                        />
+                        <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
                       </div>
-                      <VibeCard 
-                        item={section.items[2]} 
-                        isSelected={selectedImage?.id === section.items[2].id} 
-                        onToggle={handleToggle}
-                        className="w-[130px] h-[240px] shrink-0" 
-                      />
+                      <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
                     </div>
                   )}
 
                   {section.category === 'Minimal' && (
                     <div className="grid grid-cols-3 gap-2">
                       {section.items.map(item => (
-                        <VibeCard 
-                          key={item.id}
-                          item={item} 
-                          isSelected={selectedImage?.id === item.id} 
-                          onToggle={handleToggle}
-                          className="h-[128px]" 
-                        />
+                        <VibeCard key={item.id} item={item} isSelected={selectedImage?.id === item.id} onToggle={handleToggle} className="h-[128px]" />
                       ))}
                     </div>
                   )}
 
                   {section.category === 'Urban' && (
                     <div className="flex gap-2">
-                      <VibeCard 
-                        item={section.items[0]} 
-                        isSelected={selectedImage?.id === section.items[0].id} 
-                        onToggle={handleToggle}
-                        className="w-[130px] h-[200px] shrink-0" 
-                      />
+                      <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="w-[130px] h-[200px] shrink-0" />
                       <div className="flex flex-col gap-2 flex-1">
-                        <VibeCard 
-                          item={section.items[1]} 
-                          isSelected={selectedImage?.id === section.items[1].id} 
-                          onToggle={handleToggle}
-                          className="h-[96px]" 
-                        />
-                        <VibeCard 
-                          item={section.items[2]} 
-                          isSelected={selectedImage?.id === section.items[2].id} 
-                          onToggle={handleToggle}
-                          className="h-[96px]" 
-                        />
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[96px]" />
+                        <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="h-[96px]" />
+                      </div>
+                    </div>
+                  )}
+
+                  {section.category === 'Avengers' && (
+                    <div className="flex gap-2">
+                      <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
+                      <div className="flex flex-col gap-2 flex-1">
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
+                        <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
+                      </div>
+                    </div>
+                  )}
+
+                  {section.category === 'Harry Potter' && (
+                    <div className="grid grid-cols-3 gap-2">
+                      {section.items.map(item => (
+                        <VibeCard key={item.id} item={item} isSelected={selectedImage?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
+                      ))}
+                    </div>
+                  )}
+
+                  {section.category === 'Death Note' && (
+                    <div className="grid grid-cols-3 gap-2">
+                      {section.items.map(item => (
+                        <VibeCard key={item.id} item={item} isSelected={selectedImage?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
+                      ))}
+                    </div>
+                  )}
+
+                  {section.category === 'Demon Slayer' && (
+                    <div className="flex gap-2">
+                      <div className="flex flex-col gap-2 flex-1">
+                        <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
+                      </div>
+                      <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
+                    </div>
+                  )}
+
+                  {section.category === 'Prince of Persia' && (
+                    <div className="flex gap-2">
+                      <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="w-[130px] h-[200px] shrink-0" />
+                      <div className="flex flex-col gap-2 flex-1">
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[96px]" />
+                        <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="h-[96px]" />
+                      </div>
+                    </div>
+                  )}
+
+                  {section.category === 'Stranger Things' && (
+                    <div className="flex gap-2">
+                      <div className="flex flex-col gap-2 flex-1">
+                        <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
+                      </div>
+                      <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
+                    </div>
+                  )}
+
+                  {section.category === 'Game of Thrones' && (
+                    <div className="flex gap-2">
+                      <VibeCard item={section.items[0]} isSelected={selectedImage?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
+                      <div className="flex flex-col gap-2 flex-1">
+                        <VibeCard item={section.items[1]} isSelected={selectedImage?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
+                        <VibeCard item={section.items[2]} isSelected={selectedImage?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
                       </div>
                     </div>
                   )}
