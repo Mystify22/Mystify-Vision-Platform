@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search } from 'lucide-react';
+import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash } from 'lucide-react';
 
 const vibeData = [
   {
@@ -197,6 +197,225 @@ const musicData = [
 ];
 
 const musicCategories = ["For you", "Explore", "Trending", "Saved"];
+
+const moods = ['Curious', 'Vulnerable', 'Frustrated', 'Hopeful', 'Nostalgic'];
+const moodStyles = {
+  Curious: { border: 'rgba(77,144,215,0.4)', color: 'rgba(77,144,215,0.9)' },
+  Vulnerable: { border: 'rgba(159,127,218,0.4)', color: 'rgba(159,127,218,0.9)' },
+  Frustrated: { border: 'rgba(218,127,127,0.4)', color: 'rgba(218,127,127,0.9)' },
+  Hopeful: { border: 'rgba(127,218,159,0.4)', color: 'rgba(127,218,159,0.9)' },
+  Nostalgic: { border: 'rgba(218,184,127,0.4)', color: 'rgba(218,184,127,0.9)' },
+};
+
+const audiences = ['Everyone', 'Followers', 'Close friends'];
+
+const ComposeStep = ({
+  thoughtText,
+  setThoughtText,
+  audienceIndex,
+  setAudienceIndex,
+  selectedMood,
+  setSelectedMood,
+  isAnonymous,
+  setIsAnonymous,
+  selectedVibe,
+  selectedMusic,
+  onAddVibe,
+  onNext,
+  onCancel
+}) => {
+  const charCount = thoughtText.length;
+  const circumference = 62.8; // 2 * pi * 10
+  const dashoffset = Math.max(0, circumference - (charCount / 280) * circumference);
+  const isRed = (280 - charCount) <= 10;
+  const showNumber = (280 - charCount) <= 40;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="absolute inset-0 flex flex-col font-sans bg-[#0c0c10] text-white"
+    >
+      {/* Top Nav */}
+      <div className="pt-12 pb-3 px-4 flex items-center justify-between shrink-0">
+        <button onClick={onCancel} className="text-[14px] text-white/45 bg-transparent border-none p-0 focus:outline-none hover:text-white/60 transition-colors cursor-pointer">Cancel</button>
+        <button 
+          onClick={() => charCount >= 3 && onNext()}
+          disabled={charCount < 3}
+          className={`px-[18px] py-[7px] rounded-[20px] text-[13px] font-semibold transition-opacity duration-200 ${charCount >= 3 ? 'opacity-100 bg-white text-[#0c0c10] cursor-pointer hover:bg-gray-200' : 'opacity-35 bg-white text-[#0c0c10] cursor-not-allowed'}`}
+        >
+          {selectedVibe && selectedMusic ? 'Post' : 'Next →'}
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto [scrollbar-width:none]">
+        {/* Avatar + Compose Area */}
+        <div className="px-4 flex gap-3 items-start mt-2">
+          {/* Avatar */}
+          <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-[#2d1b4e] to-[#1a2a3a] flex items-center justify-center shrink-0 border border-white/5">
+            <span className="text-[13px] font-medium text-white/70">A</span>
+          </div>
+
+          <div className="flex-1 flex flex-col">
+            {/* Audience Pill */}
+            <button 
+              onClick={() => setAudienceIndex((audienceIndex + 1) % 3)}
+              className="self-start rounded-[20px] px-[10px] py-[4px] pl-[8px] bg-white/5 border border-white/10 flex items-center gap-[5px] mb-[10px] hover:bg-white/10 transition-colors"
+            >
+              <div className="w-[7px] h-[7px] bg-white/80 rounded-full" />
+              <span className="text-[11px] font-medium text-white/70">{audiences[audienceIndex]}</span>
+              <ChevronDown size={10} className="text-white/40" />
+            </button>
+
+            {/* Text Input */}
+            <textarea
+              value={thoughtText}
+              onChange={e => setThoughtText(e.target.value)}
+              placeholder="What's on your mind?"
+              maxLength={280}
+              className="w-full bg-transparent border-none outline-none text-white text-[18px] font-normal leading-[1.55] resize-none min-h-[100px] placeholder:text-white/20 caret-white"
+            />
+            {charCount === 0 && (
+              <span className="text-[11px] text-white/20 mt-1 block">Ask something real. Keep it under 280.</span>
+            )}
+          </div>
+        </div>
+
+        {/* Thread Line */}
+        <div className="w-[2px] h-[24px] bg-white/10 rounded-[1px] my-[6px] ml-[35px]" />
+
+        {/* Add Context Row */}
+        <div className="px-4 flex gap-3 items-center mb-4">
+          <div className="w-[26px] h-[26px] rounded-full bg-white/5 shrink-0 ml-[6px]" />
+          <span className="text-[14px] text-white/20">Add context...</span>
+        </div>
+
+        {/* Mood Tags */}
+        <div className="px-4 pt-[10px] flex gap-[6px] overflow-x-auto [scrollbar-width:none]">
+          {moods.map(mood => {
+            const isSelected = selectedMood === mood;
+            const style = moodStyles[mood];
+            return (
+              <button
+                key={mood}
+                onClick={() => setSelectedMood(isSelected ? null : mood)}
+                className="px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium shrink-0 transition-all duration-200 cursor-pointer"
+                style={isSelected ? {
+                  backgroundColor: 'rgba(255,255,255,0.08)',
+                  color: '#ffffff',
+                  border: '1px solid rgba(255,255,255,0.2)'
+                } : {
+                  backgroundColor: 'transparent',
+                  color: style.color,
+                  border: `1px solid ${style.border}`
+                }}
+              >
+                {mood}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Vibe Preview Strip */}
+        <div className="mx-4 mt-3 p-[10px] px-[12px] rounded-[14px] border border-white/10 bg-[rgba(255,255,255,0.03)] flex gap-[10px] items-center">
+          {/* Thumb */}
+          <div 
+            className="w-[36px] h-[48px] rounded-[7px] shrink-0 overflow-hidden relative"
+            style={{ backgroundColor: selectedVibe ? selectedVibe.bg : '#1a2a3a' }}
+          >
+            {selectedVibe?.img && <img src={selectedVibe.img} alt="vibe" className="absolute inset-0 w-full h-full object-cover" />}
+          </div>
+
+          <div className="flex-1 flex flex-col justify-center gap-[3px]">
+            <div className="flex items-center gap-[6px]">
+              <div className="w-[5px] h-[5px] rounded-full bg-[#4a8fd4]" />
+              <span className="text-[11px] text-white/45 truncate">{selectedVibe ? selectedVibe.name : 'No image yet'}</span>
+            </div>
+            <div className="flex items-center gap-[6px] mt-[3px]">
+              <div className="w-[5px] h-[5px] rounded-full bg-[#9f7fda]" />
+              <span className="text-[11px] text-white/45 truncate">{selectedMusic ? selectedMusic.name : 'No sound yet'}</span>
+            </div>
+          </div>
+
+          <button 
+            onClick={onAddVibe}
+            className={`px-[10px] py-[4px] rounded-[20px] text-[11px] font-medium whitespace-nowrap transition-colors border cursor-pointer ${selectedVibe && selectedMusic ? 'bg-transparent border-white/5 text-white/30 hover:bg-white/5' : 'bg-[rgba(255,255,255,0.07)] border-white/10 text-white/55 hover:bg-[rgba(255,255,255,0.1)]'}`}
+          >
+            {selectedVibe && selectedMusic ? 'Vibe set ✓' : 'Add vibe →'}
+          </button>
+        </div>
+
+        <div className="h-[0.5px] bg-[rgba(255,255,255,0.07)] mt-[14px]" />
+
+        {/* Formatting Toolbar */}
+        <div className="px-4 flex gap-[4px] items-center mt-2">
+          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
+            <Bold size={18} className="text-white/45" strokeWidth={2} />
+          </button>
+          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
+            <Italic size={18} className="text-white/45" strokeWidth={2} />
+          </button>
+          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
+            <Link size={18} className="text-white/45" strokeWidth={2} />
+          </button>
+          <div className="w-[1px] h-[20px] bg-[rgba(255,255,255,0.08)] mx-[4px]" />
+          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
+            <AtSign size={18} className="text-white/45" strokeWidth={2} />
+          </button>
+          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
+            <Hash size={18} className="text-white/45" strokeWidth={2} />
+          </button>
+          
+          <div className="flex-1" />
+          
+          {/* Character Ring */}
+          <div className="w-[26px] h-[26px] relative flex items-center justify-center">
+            <svg width="26" height="26" viewBox="0 0 26 26" className="-rotate-90">
+              <circle cx="13" cy="13" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+              <circle 
+                cx="13" cy="13" r="10" 
+                stroke={isRed ? "rgba(218,80,80,0.8)" : "rgba(255,255,255,0.5)"} 
+                strokeWidth="2.5" 
+                fill="none" 
+                strokeDasharray={circumference} 
+                strokeDashoffset={dashoffset} 
+                strokeLinecap="round" 
+                style={{ transition: 'stroke-dashoffset 0.2s ease-out, stroke 0.2s ease-out' }}
+              />
+            </svg>
+            {showNumber && (
+              <span className={`absolute inset-0 flex items-center justify-center text-[9px] font-medium ${isRed ? 'text-[rgba(218,80,80,0.9)]' : 'text-[rgba(255,255,255,0.5)]'}`}>
+                {280 - charCount}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Area */}
+        <div className="border-t-[0.5px] border-[rgba(255,255,255,0.07)] px-4 pt-[10px] pb-[24px] mt-[12px] flex items-center justify-between">
+          <div className="flex items-center gap-[8px]">
+            <div 
+              onClick={() => setIsAnonymous(!isAnonymous)}
+              className={`w-[36px] h-[20px] rounded-[20px] relative cursor-pointer transition-colors duration-200 ${isAnonymous ? 'bg-[rgba(255,255,255,0.35)]' : 'bg-[rgba(255,255,255,0.1)]'}`}
+            >
+              <motion.div 
+                animate={{ left: isAnonymous ? 18 : 2 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-[2px] w-[16px] h-[16px] bg-white rounded-full"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[12px] text-white/40 leading-tight mb-[2px]">Post anonymously</span>
+              <span className="text-[11px] text-white/20 leading-tight">Others won't see your name</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const VibeCard = ({ item, isSelected, onToggle, className }) => {
   return (
@@ -751,6 +970,10 @@ const ReelSimulator = () => {
   const containerRef = useRef(null);
 
   const [step, setStep] = useState(1);
+  const [thoughtText, setThoughtText] = useState("");
+  const [audienceIndex, setAudienceIndex] = useState(0);
+  const [selectedMood, setSelectedMood] = useState(null);
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
 
@@ -806,31 +1029,59 @@ const ReelSimulator = () => {
         >
           <AnimatePresence mode="wait">
             {step === 1 && (
+              <ComposeStep
+                key="step-compose"
+                thoughtText={thoughtText}
+                setThoughtText={setThoughtText}
+                audienceIndex={audienceIndex}
+                setAudienceIndex={setAudienceIndex}
+                selectedMood={selectedMood}
+                setSelectedMood={setSelectedMood}
+                isAnonymous={isAnonymous}
+                setIsAnonymous={setIsAnonymous}
+                selectedVibe={selectedVibe}
+                selectedMusic={selectedMusic}
+                onAddVibe={() => setStep(2)}
+                onNext={() => {
+                   if (selectedVibe && selectedMusic) {
+                      console.log("Posting...", { thoughtText, audienceIndex, selectedMood, isAnonymous, selectedVibe, selectedMusic });
+                   } else {
+                      setStep(2);
+                   }
+                }}
+                onCancel={() => {
+                   setThoughtText("");
+                   setSelectedVibe(null);
+                   setSelectedMusic(null);
+                }}
+              />
+            )}
+            {step === 2 && (
               <SelectorStep
                 key="step-vibe"
-                stepId={1}
+                stepId={2}
                 title="Choose a vibe"
                 data={vibeData}
                 categories={vibeCategories}
                 selectedItem={selectedVibe}
                 onSelect={setSelectedVibe}
-                onNext={() => setStep(2)}
-                onBack={() => {}}
+                onNext={() => setStep(3)}
+                onBack={() => setStep(1)}
                 bottomLabel="Vibe"
               />
             )}
-            {step === 2 && (
+            {step === 3 && (
               <MusicStep
                 key="step-music"
-                stepId={2}
+                stepId={3}
                 selectedVibe={selectedVibe}
                 selectedVibeCategory={vibeData.find(s => s.items.some(i => i.id === selectedVibe?.id) || s.extraItems?.some(i => i.id === selectedVibe?.id))?.category}
                 data={musicData}
                 categories={musicCategories}
                 selectedMusic={selectedMusic}
                 onSelectMusic={setSelectedMusic}
-                onNext={() => console.log(`Ready to post!\nVibe: ${selectedVibe?.name}\nMusic: ${selectedMusic?.name}`)}
-                onBack={() => setStep(1)}
+                onNext={() => setStep(1)}
+                onBack={() => setStep(2)}
               />
             )}
           </AnimatePresence>
