@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Check } from 'lucide-react';
+import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 const vibeData = [
   {
@@ -10,6 +10,11 @@ const vibeData = [
       { id: "nature-1", name: "Serene Mountain", bg: "#1e3a5f" },
       { id: "nature-2", name: "Valley Dusk", bg: "#1a3a2a" },
       { id: "nature-3", name: "Misty Forest", bg: "#2a2a1a" }
+    ],
+    extraItems: [
+      { id: "nature-4", name: "Deep Lake", bg: "#152238" },
+      { id: "nature-5", name: "Red Woods", bg: "#4a2e2b" },
+      { id: "nature-6", name: "Golden Hour", bg: "#8a5a44" }
     ]
   },
   {
@@ -19,6 +24,11 @@ const vibeData = [
       { id: "dark-1", name: "Mystic Aura", bg: "#2d1b4e" },
       { id: "dark-2", name: "Dark Matter", bg: "#1a1a3a" },
       { id: "dark-3", name: "Night Pulse", bg: "#3a1a2a" }
+    ],
+    extraItems: [
+      { id: "dark-4", name: "Obsidian", bg: "#0d0d12" },
+      { id: "dark-5", name: "Crimson Night", bg: "#300810" },
+      { id: "dark-6", name: "Void", bg: "#1a1b26" }
     ]
   },
   {
@@ -28,6 +38,11 @@ const vibeData = [
       { id: "abstract-1", name: "Liquid Chrome", bg: "#3a1a2a" },
       { id: "abstract-2", name: "Warm Chaos", bg: "#3a2a1a" },
       { id: "abstract-3", name: "Blue Gradient", bg: "#1a2a3a" }
+    ],
+    extraItems: [
+      { id: "abstract-4", name: "Neon Flux", bg: "#2a0845" },
+      { id: "abstract-5", name: "Geometric", bg: "#112240" },
+      { id: "abstract-6", name: "Fluid Ash", bg: "#2d3436" }
     ]
   },
   {
@@ -37,6 +52,11 @@ const vibeData = [
       { id: "minimal-1", name: "Pure White", bg: "#e8e4dc", isLight: true },
       { id: "minimal-2", name: "Lamp Light", bg: "#3d2b1f" },
       { id: "minimal-3", name: "Stone Cold", bg: "#1a1a3a" }
+    ],
+    extraItems: [
+      { id: "minimal-4", name: "Soft Clay", bg: "#d4c5b9", isLight: true },
+      { id: "minimal-5", name: "Graphite", bg: "#363636" },
+      { id: "minimal-6", name: "Cream", bg: "#f5f5dc", isLight: true }
     ]
   },
   {
@@ -46,6 +66,11 @@ const vibeData = [
       { id: "urban-1", name: "City Lights", bg: "#1a2a3a" },
       { id: "urban-2", name: "Rooftop", bg: "#3d2b1f" },
       { id: "urban-3", name: "Subway", bg: "#2a2a1a" }
+    ],
+    extraItems: [
+      { id: "urban-4", name: "Neon Signs", bg: "#3b0918" },
+      { id: "urban-5", name: "Concrete", bg: "#4a4a4a" },
+      { id: "urban-6", name: "Midnight Drive", bg: "#0a192f" }
     ]
   }
 ];
@@ -84,6 +109,11 @@ const ReelSimulator = () => {
 
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState({});
+
+  const handleCategoryExpand = (catId) => {
+    setExpandedCategories(prev => ({ ...prev, [catId]: !prev[catId] }));
+  };
 
   const handleToggle = (item) => {
     if (selectedImage?.id === item.id) {
@@ -180,7 +210,7 @@ const ReelSimulator = () => {
           <div className="flex-1 overflow-y-auto [scrollbar-width:none] px-4 pb-4">
             <div className="flex flex-col gap-6">
               {visibleData.map(section => (
-                <div key={section.id} className="flex flex-col">
+                <div key={section.id} className="flex flex-col relative pb-6">
                   <h4 className="text-[10px] font-semibold tracking-[0.1em] uppercase text-white/30 mb-[10px]">
                     {section.category}
                   </h4>
@@ -288,6 +318,45 @@ const ReelSimulator = () => {
                       </div>
                     </div>
                   )}
+
+                  {/* Expanded Items */}
+                  <AnimatePresence>
+                    {expandedCategories[section.id] && section.extraItems && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden mt-2"
+                      >
+                        <div className="grid grid-cols-3 gap-2 pb-8">
+                          {section.extraItems.map(item => (
+                            <VibeCard 
+                              key={item.id}
+                              item={item} 
+                              isSelected={selectedImage?.id === item.id} 
+                              onToggle={handleToggle}
+                              className="h-[120px]" 
+                            />
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Dropdown Blur Overlay */}
+                  <div className={`absolute bottom-0 inset-x-0 flex items-end justify-center transition-all duration-300 pointer-events-none ${expandedCategories[section.id] ? 'h-10 bg-transparent pb-0' : 'h-24 bg-gradient-to-t from-[#0c0c10] via-[#0c0c10]/80 to-transparent pb-2 backdrop-blur-[1px]'}`}>
+                    <button 
+                      onClick={() => handleCategoryExpand(section.id)}
+                      className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 pointer-events-auto shadow-lg hover:bg-white/20 transition-colors"
+                    >
+                      {expandedCategories[section.id] ? (
+                         <ChevronUp size={16} className="text-white/80" />
+                      ) : (
+                         <ChevronDown size={16} className="text-white/80" />
+                      )}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
