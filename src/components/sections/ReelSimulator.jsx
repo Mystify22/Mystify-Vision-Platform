@@ -829,7 +829,7 @@ const ReelSimulator = () => {
                 categories={musicCategories}
                 selectedMusic={selectedMusic}
                 onSelectMusic={setSelectedMusic}
-                onNext={() => alert(`Ready to post!\nVibe: ${selectedVibe?.name}\nMusic: ${selectedMusic?.name}`)}
+                onNext={() => console.log(`Ready to post!\nVibe: ${selectedVibe?.name}\nMusic: ${selectedMusic?.name}`)}
                 onBack={() => setStep(1)}
               />
             )}
