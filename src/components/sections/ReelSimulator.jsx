@@ -8,125 +8,125 @@ const vibeData = [
     id: "nature",
     items: [
       { id: "nature-1", name: "Serene Mountain", bg: "#1e3a5f", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
-      { id: "nature-2", name: "Valley Dusk",    bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
-      { id: "nature-3", name: "Misty Forest",   bg: "#2a2a1a", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
+      { id: "nature-2", name: "Valley Dusk", bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
+      { id: "nature-3", name: "Misty Forest", bg: "#2a2a1a", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "nature-4", name: "Deep Lake",    bg: "#152238", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
-      { id: "nature-5", name: "Red Woods",    bg: "#4a2e2b", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" },
-      { id: "nature-6", name: "Golden Hour",  bg: "#8a5a44", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" }
+      { id: "nature-4", name: "Deep Lake", bg: "#152238", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
+      { id: "nature-5", name: "Red Woods", bg: "#4a2e2b", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" },
+      { id: "nature-6", name: "Golden Hour", bg: "#8a5a44", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Dark & Moody",
     id: "dark-moody",
     items: [
-      { id: "dark-1", name: "Mystic Aura",  bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" },
-      { id: "dark-2", name: "Dark Matter",  bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
-      { id: "dark-3", name: "Night Pulse",  bg: "#3a1a2a", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" }
+      { id: "dark-1", name: "Mystic Aura", bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" },
+      { id: "dark-2", name: "Dark Matter", bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
+      { id: "dark-3", name: "Night Pulse", bg: "#3a1a2a", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "dark-4", name: "Obsidian",      bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
+      { id: "dark-4", name: "Obsidian", bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
       { id: "dark-5", name: "Crimson Night", bg: "#300810", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
-      { id: "dark-6", name: "Void",          bg: "#1a1b26", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
+      { id: "dark-6", name: "Void", bg: "#1a1b26", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Avengers",
     id: "avengers",
     items: [
-      { id: "av-1", name: "Iron Man",    bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
-      { id: "av-2", name: "Storm",       bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
-      { id: "av-3", name: "Infinity",   bg: "#4b0082", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
+      { id: "av-1", name: "Iron Man", bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
+      { id: "av-2", name: "Storm", bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
+      { id: "av-3", name: "Infinity", bg: "#4b0082", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "av-4", name: "Shield",     bg: "#00008b", img: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=400&q=80&fit=crop" },
-      { id: "av-5", name: "Snap",       bg: "#2c2c54", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" },
-      { id: "av-6", name: "Assemble",   bg: "#1a0a00", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80&fit=crop" }
+      { id: "av-4", name: "Shield", bg: "#00008b", img: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=400&q=80&fit=crop" },
+      { id: "av-5", name: "Snap", bg: "#2c2c54", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" },
+      { id: "av-6", name: "Assemble", bg: "#1a0a00", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Harry Potter",
     id: "harry-potter",
     items: [
-      { id: "hp-1", name: "Hogwarts",          bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=400&q=80&fit=crop" },
-      { id: "hp-2", name: "Dark Arts",         bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
-      { id: "hp-3", name: "Magic Library",     bg: "#1c0a00", img: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&q=80&fit=crop" }
+      { id: "hp-1", name: "Hogwarts", bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=400&q=80&fit=crop" },
+      { id: "hp-2", name: "Dark Arts", bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
+      { id: "hp-3", name: "Magic Library", bg: "#1c0a00", img: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "hp-4", name: "Platform 9¾",       bg: "#1a2a3a", img: "https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=400&q=80&fit=crop" },
-      { id: "hp-5", name: "Patronus",          bg: "#0a1628", img: "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?w=400&q=80&fit=crop" },
-      { id: "hp-6", name: "Forbidden Forest",  bg: "#0d1f0d", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
+      { id: "hp-4", name: "Platform 9¾", bg: "#1a2a3a", img: "https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=400&q=80&fit=crop" },
+      { id: "hp-5", name: "Patronus", bg: "#0a1628", img: "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?w=400&q=80&fit=crop" },
+      { id: "hp-6", name: "Forbidden Forest", bg: "#0d1f0d", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Death Note",
     id: "death-note",
     items: [
-      { id: "dn-1", name: "The Notebook",   bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=400&q=80&fit=crop" },
-      { id: "dn-2", name: "Shinigami",      bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=400&q=80&fit=crop" },
-      { id: "dn-3", name: "L vs Kira",      bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
+      { id: "dn-1", name: "The Notebook", bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=400&q=80&fit=crop" },
+      { id: "dn-2", name: "Shinigami", bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=400&q=80&fit=crop" },
+      { id: "dn-3", name: "L vs Kira", bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "dn-4", name: "Near",         bg: "#1a1a1a", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
-      { id: "dn-5", name: "Kira",         bg: "#200000", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" },
-      { id: "dn-6", name: "Shadows",      bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" }
+      { id: "dn-4", name: "Near", bg: "#1a1a1a", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
+      { id: "dn-5", name: "Kira", bg: "#200000", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" },
+      { id: "dn-6", name: "Shadows", bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Demon Slayer",
     id: "demon-slayer",
     items: [
-      { id: "ds-1", name: "Flame Hashira",    bg: "#8b1a00", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
-      { id: "ds-2", name: "Cherry Blossom",   bg: "#3d1a2a", img: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=400&q=80&fit=crop" },
-      { id: "ds-3", name: "Wisteria Moon",    bg: "#1a0a2a", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80&fit=crop" }
+      { id: "ds-1", name: "Flame Hashira", bg: "#8b1a00", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
+      { id: "ds-2", name: "Cherry Blossom", bg: "#3d1a2a", img: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=400&q=80&fit=crop" },
+      { id: "ds-3", name: "Wisteria Moon", bg: "#1a0a2a", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "ds-4", name: "Thunder Breath",   bg: "#0a0a3a", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
-      { id: "ds-5", name: "Sunrise",          bg: "#5a2a1a", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" },
-      { id: "ds-6", name: "Infinity Castle",  bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
+      { id: "ds-4", name: "Thunder Breath", bg: "#0a0a3a", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
+      { id: "ds-5", name: "Sunrise", bg: "#5a2a1a", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" },
+      { id: "ds-6", name: "Infinity Castle", bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Prince of Persia",
     id: "prince-of-persia",
     items: [
-      { id: "pop-1", name: "Sand Dunes",     bg: "#8b6914", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&q=80&fit=crop" },
+      { id: "pop-1", name: "Sand Dunes", bg: "#8b6914", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&q=80&fit=crop" },
       { id: "pop-2", name: "Ancient Palace", bg: "#5a3a1a", img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=400&q=80&fit=crop" },
-      { id: "pop-3", name: "Desert Storm",   bg: "#6b4a1a", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" }
+      { id: "pop-3", name: "Desert Storm", bg: "#6b4a1a", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "pop-4", name: "Oasis",          bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
-      { id: "pop-5", name: "Sands of Time",  bg: "#7a5a1a", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
-      { id: "pop-6", name: "Mirage",         bg: "#4a3a1a", img: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=400&q=80&fit=crop" }
+      { id: "pop-4", name: "Oasis", bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
+      { id: "pop-5", name: "Sands of Time", bg: "#7a5a1a", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
+      { id: "pop-6", name: "Mirage", bg: "#4a3a1a", img: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Stranger Things",
     id: "stranger-things",
     items: [
-      { id: "st-1", name: "Upside Down",   bg: "#1a0a1a", img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&q=80&fit=crop" },
-      { id: "st-2", name: "Hawkins Lab",   bg: "#0a1a1a", img: "https://images.unsplash.com/photo-1553949285-1196ce81deda?w=400&q=80&fit=crop" },
-      { id: "st-3", name: "Neon 80s",      bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1545033131-485ea67fd7c3?w=400&q=80&fit=crop" }
+      { id: "st-1", name: "Upside Down", bg: "#1a0a1a", img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&q=80&fit=crop" },
+      { id: "st-2", name: "Hawkins Lab", bg: "#0a1a1a", img: "https://images.unsplash.com/photo-1553949285-1196ce81deda?w=400&q=80&fit=crop" },
+      { id: "st-3", name: "Neon 80s", bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1545033131-485ea67fd7c3?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "st-4", name: "The Void",      bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&q=80&fit=crop" },
-      { id: "st-5", name: "Demogorgon",   bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
-      { id: "st-6", name: "Portal",        bg: "#1a1a00", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" }
+      { id: "st-4", name: "The Void", bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&q=80&fit=crop" },
+      { id: "st-5", name: "Demogorgon", bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
+      { id: "st-6", name: "Portal", bg: "#1a1a00", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" }
     ]
   },
   {
     category: "Game of Thrones",
     id: "game-of-thrones",
     items: [
-      { id: "got-1", name: "Winterfell",    bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
-      { id: "got-2", name: "Dragon Fire",   bg: "#5a0000", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
-      { id: "got-3", name: "The Wall",      bg: "#1e2d3a", img: "https://images.unsplash.com/photo-1517525822813-9980d1813ce2?w=400&q=80&fit=crop" }
+      { id: "got-1", name: "Winterfell", bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
+      { id: "got-2", name: "Dragon Fire", bg: "#5a0000", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
+      { id: "got-3", name: "The Wall", bg: "#1e2d3a", img: "https://images.unsplash.com/photo-1517525822813-9980d1813ce2?w=400&q=80&fit=crop" }
     ],
     extraItems: [
-      { id: "got-4", name: "Iron Throne",   bg: "#2a1a0a", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=80&fit=crop" },
-      { id: "got-5", name: "King's Landing",bg: "#3a2a1a", img: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&q=80&fit=crop" },
-      { id: "got-6", name: "Night King",    bg: "#0d1a2a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
+      { id: "got-4", name: "Iron Throne", bg: "#2a1a0a", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=80&fit=crop" },
+      { id: "got-5", name: "King's Landing", bg: "#3a2a1a", img: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&q=80&fit=crop" },
+      { id: "got-6", name: "Night King", bg: "#0d1a2a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
     ]
   }
 ];
@@ -137,62 +137,62 @@ const musicData = [
   {
     category: "Nature",
     id: "nature-music",
-    items: [ { id: "nm-1", name: "Serene Mountain", duration: "2:34", bg: "#1e3a5f" }, { id: "nm-2", name: "Valley Dusk", duration: "3:12", bg: "#1a3a2a" } ],
-    extraItems: [ { id: "nm-3", name: "Misty Forest", duration: "3:45", bg: "#2a2a1a" }, { id: "nm-4", name: "River Flow", duration: "2:50", bg: "#3a2a3a" } ]
+    items: [{ id: "nm-1", name: "Serene Mountain", duration: "2:34", bg: "#1e3a5f" }, { id: "nm-2", name: "Valley Dusk", duration: "3:12", bg: "#1a3a2a" }],
+    extraItems: [{ id: "nm-3", name: "Misty Forest", duration: "3:45", bg: "#2a2a1a" }, { id: "nm-4", name: "River Flow", duration: "2:50", bg: "#3a2a3a" }]
   },
   {
     category: "Dark & Moody",
     id: "dark-moody-music",
-    items: [ { id: "dm-1", name: "Mystic Aura", duration: "4:05", bg: "#2d1b4e" }, { id: "dm-2", name: "Dark Matter", duration: "3:47", bg: "#1a1a3a" } ],
-    extraItems: [ { id: "dm-3", name: "Night Pulse", duration: "6:15", bg: "#3a1a2a" }, { id: "dm-4", name: "Shadow Walk", duration: "4:30", bg: "#1a1a2a" } ]
+    items: [{ id: "dm-1", name: "Mystic Aura", duration: "4:05", bg: "#2d1b4e" }, { id: "dm-2", name: "Dark Matter", duration: "3:47", bg: "#1a1a3a" }],
+    extraItems: [{ id: "dm-3", name: "Night Pulse", duration: "6:15", bg: "#3a1a2a" }, { id: "dm-4", name: "Shadow Walk", duration: "4:30", bg: "#1a1a2a" }]
   },
   {
     category: "Urban",
     id: "urban-music",
-    items: [ { id: "ur-1", name: "City Lights", duration: "2:58", bg: "#1a2a3a" }, { id: "ur-2", name: "Rooftop", duration: "3:22", bg: "#3d2b1f" } ],
-    extraItems: [ { id: "ur-3", name: "Subway", duration: "3:10", bg: "#2a2a1a" }, { id: "ur-4", name: "Street Beat", duration: "2:45", bg: "#1a1a1a" } ]
+    items: [{ id: "ur-1", name: "City Lights", duration: "2:58", bg: "#1a2a3a" }, { id: "ur-2", name: "Rooftop", duration: "3:22", bg: "#3d2b1f" }],
+    extraItems: [{ id: "ur-3", name: "Subway", duration: "3:10", bg: "#2a2a1a" }, { id: "ur-4", name: "Street Beat", duration: "2:45", bg: "#1a1a1a" }]
   },
   {
     category: "Avengers",
     id: "avengers-music",
-    items: [ { id: "av-1", name: "Hero's Theme", duration: "3:45", bg: "#8b0000" }, { id: "av-2", name: "Assemble", duration: "4:12", bg: "#1a1a2e" } ],
-    extraItems: [ { id: "av-3", name: "Endgame", duration: "5:30", bg: "#4b0082" }, { id: "av-4", name: "Infinity", duration: "2:55", bg: "#00008b" } ]
+    items: [{ id: "av-1", name: "Hero's Theme", duration: "3:45", bg: "#8b0000" }, { id: "av-2", name: "Assemble", duration: "4:12", bg: "#1a1a2e" }],
+    extraItems: [{ id: "av-3", name: "Endgame", duration: "5:30", bg: "#4b0082" }, { id: "av-4", name: "Infinity", duration: "2:55", bg: "#00008b" }]
   },
   {
     category: "Harry Potter",
     id: "hp-music",
-    items: [ { id: "hp-1", name: "Hedwig's Flight", duration: "3:10", bg: "#1a1a2e" }, { id: "hp-2", name: "Magic Wand", duration: "2:45", bg: "#2d1b4e" } ],
-    extraItems: [ { id: "hp-3", name: "Dark Arts", duration: "4:20", bg: "#1c0a00" }, { id: "hp-4", name: "Hogwarts", duration: "3:50", bg: "#1a2a3a" } ]
+    items: [{ id: "hp-1", name: "Hedwig's Flight", duration: "3:10", bg: "#1a1a2e" }, { id: "hp-2", name: "Magic Wand", duration: "2:45", bg: "#2d1b4e" }],
+    extraItems: [{ id: "hp-3", name: "Dark Arts", duration: "4:20", bg: "#1c0a00" }, { id: "hp-4", name: "Hogwarts", duration: "3:50", bg: "#1a2a3a" }]
   },
   {
     category: "Death Note",
     id: "dn-music",
-    items: [ { id: "dn-1", name: "Kira's Theme", duration: "3:15", bg: "#0d0d0d" }, { id: "dn-2", name: "L's Theme", duration: "2:50", bg: "#1a0a0a" } ],
-    extraItems: [ { id: "dn-3", name: "Shinigami", duration: "4:10", bg: "#0a0a1a" }, { id: "dn-4", name: "Justice", duration: "3:25", bg: "#1a1a1a" } ]
+    items: [{ id: "dn-1", name: "Kira's Theme", duration: "3:15", bg: "#0d0d0d" }, { id: "dn-2", name: "L's Theme", duration: "2:50", bg: "#1a0a0a" }],
+    extraItems: [{ id: "dn-3", name: "Shinigami", duration: "4:10", bg: "#0a0a1a" }, { id: "dn-4", name: "Justice", duration: "3:25", bg: "#1a1a1a" }]
   },
   {
     category: "Demon Slayer",
     id: "ds-music",
-    items: [ { id: "ds-1", name: "Water Breathing", duration: "3:30", bg: "#8b1a00" }, { id: "ds-2", name: "Hinokami", duration: "4:05", bg: "#3d1a2a" } ],
-    extraItems: [ { id: "ds-3", name: "Mugen Train", duration: "5:15", bg: "#1a0a2a" }, { id: "ds-4", name: "Hashira", duration: "2:40", bg: "#0a0a3a" } ]
+    items: [{ id: "ds-1", name: "Water Breathing", duration: "3:30", bg: "#8b1a00" }, { id: "ds-2", name: "Hinokami", duration: "4:05", bg: "#3d1a2a" }],
+    extraItems: [{ id: "ds-3", name: "Mugen Train", duration: "5:15", bg: "#1a0a2a" }, { id: "ds-4", name: "Hashira", duration: "2:40", bg: "#0a0a3a" }]
   },
   {
     category: "Prince of Persia",
     id: "pop-music",
-    items: [ { id: "pop-1", name: "Sands of Time", duration: "3:40", bg: "#8b6914" }, { id: "pop-2", name: "Warrior Within", duration: "4:20", bg: "#5a3a1a" } ],
-    extraItems: [ { id: "pop-3", name: "Two Thrones", duration: "3:55", bg: "#6b4a1a" }, { id: "pop-4", name: "Desert Winds", duration: "2:50", bg: "#1a3a2a" } ]
+    items: [{ id: "pop-1", name: "Sands of Time", duration: "3:40", bg: "#8b6914" }, { id: "pop-2", name: "Warrior Within", duration: "4:20", bg: "#5a3a1a" }],
+    extraItems: [{ id: "pop-3", name: "Two Thrones", duration: "3:55", bg: "#6b4a1a" }, { id: "pop-4", name: "Desert Winds", duration: "2:50", bg: "#1a3a2a" }]
   },
   {
     category: "Stranger Things",
     id: "st-music",
-    items: [ { id: "st-1", name: "Upside Down", duration: "3:25", bg: "#1a0a1a" }, { id: "st-2", name: "Synth Wave", duration: "2:55", bg: "#0a1a1a" } ],
-    extraItems: [ { id: "st-3", name: "Hawkins", duration: "4:10", bg: "#0a0a1a" }, { id: "st-4", name: "Demogorgon", duration: "3:40", bg: "#0d0d0d" } ]
+    items: [{ id: "st-1", name: "Upside Down", duration: "3:25", bg: "#1a0a1a" }, { id: "st-2", name: "Synth Wave", duration: "2:55", bg: "#0a1a1a" }],
+    extraItems: [{ id: "st-3", name: "Hawkins", duration: "4:10", bg: "#0a0a1a" }, { id: "st-4", name: "Demogorgon", duration: "3:40", bg: "#0d0d0d" }]
   },
   {
     category: "Game of Thrones",
     id: "got-music",
-    items: [ { id: "got-1", name: "Main Title", duration: "2:50", bg: "#1a1a2e" }, { id: "got-2", name: "Winter is Here", duration: "3:45", bg: "#5a0000" } ],
-    extraItems: [ { id: "got-3", name: "Rains of Castamere", duration: "4:20", bg: "#1e2d3a" }, { id: "got-4", name: "Dragonstone", duration: "3:15", bg: "#2a1a0a" } ]
+    items: [{ id: "got-1", name: "Main Title", duration: "2:50", bg: "#1a1a2e" }, { id: "got-2", name: "Winter is Here", duration: "3:45", bg: "#5a0000" }],
+    extraItems: [{ id: "got-3", name: "Rains of Castamere", duration: "4:20", bg: "#1e2d3a" }, { id: "got-4", name: "Dragonstone", duration: "3:15", bg: "#2a1a0a" }]
   }
 ];
 
@@ -275,7 +275,7 @@ const ComposeStep = ({
       {/* Top Nav */}
       <div className="pt-12 pb-3 px-4 flex items-center justify-between shrink-0">
         <button onClick={onCancel} className="text-[14px] text-white/45 bg-transparent border-none p-0 focus:outline-none hover:text-white/60 transition-colors cursor-pointer">Cancel</button>
-        <button 
+        <button
           onClick={() => charCount >= 3 && onNext()}
           disabled={charCount < 3}
           className={`px-[18px] py-[7px] rounded-[20px] text-[13px] font-semibold transition-opacity duration-200 ${charCount >= 3 ? 'opacity-100 bg-white text-[#0c0c10] cursor-pointer hover:bg-gray-200' : 'opacity-35 bg-white text-[#0c0c10] cursor-not-allowed'}`}
@@ -292,9 +292,9 @@ const ComposeStep = ({
             <span className="text-[13px] font-medium text-white/70">A</span>
           </div>
 
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col min-w-0">
             {/* Audience Pill */}
-            <button 
+            <button
               onClick={() => setAudienceIndex((audienceIndex + 1) % 3)}
               className="self-start rounded-[20px] px-[10px] py-[4px] pl-[8px] bg-white/5 border border-white/10 flex items-center gap-[5px] mb-[10px] hover:bg-white/10 transition-colors"
             >
@@ -303,10 +303,10 @@ const ComposeStep = ({
               <ChevronDown size={10} className="text-white/40" />
             </button>
 
-            {/* Text Input */}
-            <div className="relative w-full min-h-[100px] mb-2">
+            {/* Text Input Box */}
+            <div className="relative w-full h-[180px] bg-[rgba(255,255,255,0.03)] border border-white/5 rounded-2xl p-4 transition-colors focus-within:bg-[rgba(255,255,255,0.05)] focus-within:border-white/10 flex flex-col">
               {charCount === 0 && thoughtText === '' && (
-                <div className="absolute top-0 left-0 text-white/20 text-[18px] pointer-events-none">
+                <div className="absolute top-4 left-4 text-white/20 text-[18px] pointer-events-none">
                   What's on your mind?
                 </div>
               )}
@@ -319,22 +319,15 @@ const ComposeStep = ({
                 }}
                 onKeyUp={checkFormatState}
                 onMouseUp={checkFormatState}
-                className="w-full bg-transparent border-none outline-none text-white text-[18px] font-normal leading-[1.55] caret-white whitespace-pre-wrap focus:outline-none [&_a]:text-blue-400 [&_a]:underline"
+                className="w-full flex-1 bg-transparent border-none outline-none text-white text-[18px] font-normal leading-[1.55] caret-white whitespace-pre-wrap break-words focus:outline-none [&_a]:text-blue-400 [&_a]:underline overflow-y-auto [scrollbar-width:none]"
               />
+            </div>
+            <div className="h-4 mt-1 mb-2">
               {charCount === 0 && (
-                <span className="text-[11px] text-white/20 mt-1 block absolute -bottom-5 left-0">Ask something real. Keep it under 280.</span>
+                <span className="text-[11px] text-white/20 block">Ask something.</span>
               )}
             </div>
           </div>
-        </div>
-
-        {/* Thread Line */}
-        <div className="w-[2px] h-[24px] bg-white/10 rounded-[1px] my-[6px] ml-[35px]" />
-
-        {/* Add Context Row */}
-        <div className="px-4 flex gap-3 items-center mb-4">
-          <div className="w-[26px] h-[26px] rounded-full bg-white/5 shrink-0 ml-[6px]" />
-          <span className="text-[14px] text-white/20">Add context...</span>
         </div>
 
         {/* Mood Tags */}
@@ -366,7 +359,7 @@ const ComposeStep = ({
         {/* Vibe Preview Strip */}
         <div className="mx-4 mt-3 p-[10px] px-[12px] rounded-[14px] border border-white/10 bg-[rgba(255,255,255,0.03)] flex gap-[10px] items-center">
           {/* Thumb */}
-          <div 
+          <div
             onClick={() => {
               if (selectedVibe && selectedMusic) setShowPreview(true);
             }}
@@ -387,7 +380,7 @@ const ComposeStep = ({
             </div>
           </div>
 
-          <button 
+          <button
             onClick={onAddVibe}
             className={`px-[10px] py-[4px] rounded-[20px] text-[11px] font-medium whitespace-nowrap transition-colors border cursor-pointer ${selectedVibe && selectedMusic ? 'bg-transparent border-white/5 text-white/30 hover:bg-white/5' : 'bg-[rgba(255,255,255,0.07)] border-white/10 text-white/55 hover:bg-[rgba(255,255,255,0.1)]'}`}
           >
@@ -399,14 +392,14 @@ const ComposeStep = ({
 
         {/* Formatting Toolbar */}
         <div className="px-4 flex gap-[4px] items-center mt-2">
-          <button 
-            onClick={() => handleCommand('bold')} 
+          <button
+            onClick={() => handleCommand('bold')}
             className={`w-[36px] h-[36px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-none ${isBold ? 'bg-white/20 text-white' : 'bg-transparent text-white/45 hover:bg-white/10'}`}
           >
             <Bold size={18} strokeWidth={isBold ? 3 : 2} />
           </button>
-          <button 
-            onClick={() => handleCommand('italic')} 
+          <button
+            onClick={() => handleCommand('italic')}
             className={`w-[36px] h-[36px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-none ${isItalic ? 'bg-white/20 text-white' : 'bg-transparent text-white/45 hover:bg-white/10'}`}
           >
             <Italic size={18} strokeWidth={isItalic ? 3 : 2} />
@@ -421,21 +414,21 @@ const ComposeStep = ({
           <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
             <Hash size={18} className="text-white/45" strokeWidth={2} />
           </button>
-          
+
           <div className="flex-1" />
-          
+
           {/* Character Ring */}
           <div className="w-[26px] h-[26px] relative flex items-center justify-center">
             <svg width="26" height="26" viewBox="0 0 26 26" className="-rotate-90">
               <circle cx="13" cy="13" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <circle 
-                cx="13" cy="13" r="10" 
-                stroke={isRed ? "rgba(218,80,80,0.8)" : "rgba(255,255,255,0.5)"} 
-                strokeWidth="2.5" 
-                fill="none" 
-                strokeDasharray={circumference} 
-                strokeDashoffset={dashoffset} 
-                strokeLinecap="round" 
+              <circle
+                cx="13" cy="13" r="10"
+                stroke={isRed ? "rgba(218,80,80,0.8)" : "rgba(255,255,255,0.5)"}
+                strokeWidth="2.5"
+                fill="none"
+                strokeDasharray={circumference}
+                strokeDashoffset={dashoffset}
+                strokeLinecap="round"
                 style={{ transition: 'stroke-dashoffset 0.2s ease-out, stroke 0.2s ease-out' }}
               />
             </svg>
@@ -450,11 +443,11 @@ const ComposeStep = ({
         {/* Bottom Area */}
         <div className="border-t-[0.5px] border-[rgba(255,255,255,0.07)] px-4 pt-[10px] pb-[24px] mt-[12px] flex items-center justify-between">
           <div className="flex items-center gap-[8px]">
-            <div 
+            <div
               onClick={() => setIsAnonymous(!isAnonymous)}
               className={`w-[36px] h-[20px] rounded-[20px] relative cursor-pointer transition-colors duration-200 ${isAnonymous ? 'bg-[rgba(255,255,255,0.35)]' : 'bg-[rgba(255,255,255,0.1)]'}`}
             >
-              <motion.div 
+              <motion.div
                 animate={{ left: isAnonymous ? 18 : 2 }}
                 transition={{ duration: 0.2 }}
                 className="absolute top-[2px] w-[16px] h-[16px] bg-white rounded-full"
@@ -478,7 +471,7 @@ const ComposeStep = ({
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="absolute inset-0 z-50 bg-[#0c0c10] overflow-hidden"
           >
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: `url('${selectedVibe.img}')` }}
             />
@@ -487,8 +480,8 @@ const ComposeStep = ({
             {/* Header / Close button */}
             <div className="absolute top-12 left-5 right-5 flex justify-between items-center text-white z-50 pointer-events-auto">
               <span className="font-bold text-base shadow-sm">Preview</span>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowPreview(false); }} 
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowPreview(false); }}
                 className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 cursor-pointer hover:bg-black/60 transition-colors"
               >
                 <ChevronDown size={20} />
@@ -499,12 +492,6 @@ const ComposeStep = ({
             <div className="absolute inset-0 flex items-center justify-center z-20 px-6 pointer-events-none">
               <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-5 rounded-3xl border border-white/40 shadow-2xl inline-flex flex-col items-center text-center w-full max-w-xs relative overflow-hidden pointer-events-auto">
                 <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-                <div className="text-white/90 text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-full shadow-inner border border-white/10">
-                  <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center border border-white/30">
-                    <div className="w-[5px] h-[5px] bg-white rounded-full" />
-                  </div>
-                  {selectedMood || 'THOUGHT'}
-                </div>
                 <p className="text-white text-[18px] leading-relaxed font-medium tracking-tight drop-shadow-md">
                   {thoughtText ? (
                     <span dangerouslySetInnerHTML={{ __html: thoughtText }} className="[&_b]:font-black [&_i]:italic [&_a]:text-blue-300 [&_a]:underline" />
@@ -512,6 +499,14 @@ const ComposeStep = ({
                     "What's on your mind?"
                   )}
                 </p>
+                {selectedMood && (
+                  <div className="w-full mt-5 flex justify-start">
+                    <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white/50 bg-black/20 px-2.5 py-1.5 rounded-sm border border-white/5 shadow-inner">
+                      <div className="w-1 h-1 bg-white/30 rounded-full" />
+                      {selectedMood}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -536,7 +531,7 @@ const ComposeStep = ({
 
 const VibeCard = ({ item, isSelected, onToggle, className }) => {
   return (
-    <div 
+    <div
       onClick={() => onToggle(item)}
       className={`relative rounded-xl overflow-hidden cursor-pointer transition-transform active:scale-[0.98] ${className}`}
       style={{ backgroundColor: item.bg }}
@@ -551,19 +546,19 @@ const VibeCard = ({ item, isSelected, onToggle, className }) => {
         />
       )}
       {/* Gradient overlay for readability */}
-      <div 
-        className="absolute inset-0" 
-        style={{ 
-          background: `linear-gradient(to top, rgba(0,0,0,${item.isLight ? '0.55' : '0.70'}) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)` 
-        }} 
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(to top, rgba(0,0,0,${item.isLight ? '0.55' : '0.70'}) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)`
+        }}
       />
       <span className="absolute bottom-[9px] left-[10px] text-[11px] font-semibold text-white drop-shadow-sm">{item.name}</span>
-      
+
       {isSelected && (
         <>
           <div className="absolute inset-0 rounded-xl border-2 border-white pointer-events-none" />
           <div className={`absolute top-2 left-2 w-5 h-5 rounded-full ${item.isLight ? 'bg-[#0c0c10]' : 'bg-white'} flex items-center justify-center shadow-md`}>
-             <Check size={12} strokeWidth={3} className={item.isLight ? 'text-white' : 'text-[#0c0c10]'} />
+            <Check size={12} strokeWidth={3} className={item.isLight ? 'text-white' : 'text-[#0c0c10]'} />
           </div>
         </>
       )}
@@ -597,8 +592,8 @@ const SelectorStep = ({
     }
   };
 
-  const visibleData = activeCategory === 'All' 
-    ? data 
+  const visibleData = activeCategory === 'All'
+    ? data
     : data.filter(d => d.category === activeCategory);
 
   return (
@@ -618,14 +613,14 @@ const SelectorStep = ({
 
       {/* Top Navigation Bar */}
       <div className="pt-12 pb-3 px-4 flex items-center justify-between z-10 shrink-0">
-        <button 
+        <button
           onClick={onBack}
           className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
         >
           <ChevronLeft size={20} />
         </button>
         <h3 className="text-white font-medium text-[15px]">{title}</h3>
-        <button 
+        <button
           onClick={() => selectedItem && onNext()}
           className={`w-[38px] h-[38px] rounded-full flex items-center justify-center transition-all duration-300 ${selectedItem ? 'bg-white border-white cursor-pointer' : 'bg-transparent border-[1.5px] border-white/15 cursor-default'}`}
         >
@@ -640,11 +635,10 @@ const SelectorStep = ({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${
-                activeCategory === cat 
-                  ? 'bg-white text-[#0c0c10]' 
+              className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${activeCategory === cat
+                  ? 'bg-white text-[#0c0c10]'
                   : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -660,7 +654,7 @@ const SelectorStep = ({
               <h4 className="text-[10px] font-semibold tracking-[0.1em] uppercase text-white/30 mb-[10px]">
                 {section.category}
               </h4>
-              
+
               {/* Custom Layouts based on category */}
               {section.category === 'Nature' && (
                 <div className="flex gap-2">
@@ -768,12 +762,12 @@ const SelectorStep = ({
                   >
                     <div className="grid grid-cols-3 gap-2 pb-8">
                       {section.extraItems.map(item => (
-                        <VibeCard 
+                        <VibeCard
                           key={item.id}
-                          item={item} 
-                          isSelected={selectedItem?.id === item.id} 
+                          item={item}
+                          isSelected={selectedItem?.id === item.id}
                           onToggle={handleToggle}
-                          className="h-[120px]" 
+                          className="h-[120px]"
                         />
                       ))}
                     </div>
@@ -784,14 +778,14 @@ const SelectorStep = ({
               {/* Dropdown Blur Overlay */}
               {section.extraItems && (
                 <div className={`absolute bottom-0 inset-x-0 flex items-end justify-center transition-all duration-300 pointer-events-none ${expandedCategories[section.id] ? 'h-10 bg-transparent pb-0' : 'h-24 bg-gradient-to-t from-[#0c0c10] via-[#0c0c10]/80 to-transparent pb-2 backdrop-blur-[1px]'}`}>
-                  <button 
+                  <button
                     onClick={() => handleCategoryExpand(section.id)}
                     className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 pointer-events-auto shadow-lg hover:bg-white/20 transition-colors"
                   >
                     {expandedCategories[section.id] ? (
-                       <ChevronUp size={16} className="text-white/80" />
+                      <ChevronUp size={16} className="text-white/80" />
                     ) : (
-                       <ChevronDown size={16} className="text-white/80" />
+                      <ChevronDown size={16} className="text-white/80" />
                     )}
                   </button>
                 </div>
@@ -803,9 +797,9 @@ const SelectorStep = ({
 
       {/* Bottom Strip */}
       <div className="border-t-[0.5px] border-white/10 px-4 pt-[10px] pb-[22px] flex items-center gap-3 shrink-0 bg-[#0c0c10]">
-        <div 
+        <div
           className="w-[36px] h-[36px] rounded-lg border border-white/10 transition-all duration-300"
-          style={{ 
+          style={{
             backgroundColor: selectedItem ? selectedItem.bg : 'transparent',
             opacity: selectedItem ? 1 : 0.3
           }}
@@ -818,7 +812,7 @@ const SelectorStep = ({
             <span className="text-[12px] text-white/30 italic leading-tight mt-[2px]">None selected</span>
           )}
         </div>
-        <button 
+        <button
           onClick={() => selectedItem && onNext()}
           className={`w-[38px] h-[38px] rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${selectedItem ? 'bg-white border-white cursor-pointer' : 'bg-transparent border-[1.5px] border-white/15 cursor-default'}`}
         >
@@ -863,14 +857,13 @@ const MusicStep = ({
   const renderMusicItem = (item, sectionCategory) => {
     const isSelected = selectedMusic?.id === item.id;
     return (
-      <div 
+      <div
         key={item.id}
         onClick={() => onSelectMusic(isSelected ? null : item)}
-        className={`relative flex items-center p-2 rounded-xl cursor-pointer transition-colors ${
-          isSelected ? 'bg-white/5' : 'hover:bg-white/5'
-        }`}
+        className={`relative flex items-center p-2 rounded-xl cursor-pointer transition-colors ${isSelected ? 'bg-white/5' : 'hover:bg-white/5'
+          }`}
       >
-        <div 
+        <div
           className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 mr-3"
           style={{ backgroundColor: item.bg }}
         >
@@ -900,7 +893,7 @@ const MusicStep = ({
         {/* Active Progress Bar Simulator */}
         {isSelected && (
           <div className="absolute bottom-0 left-[68px] right-[40px] h-[2px] bg-white/10 rounded-full overflow-hidden">
-            <motion.div 
+            <motion.div
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ duration: 30, ease: "linear" }}
@@ -929,14 +922,14 @@ const MusicStep = ({
 
       {/* Top Navigation Bar */}
       <div className="pt-12 pb-3 px-4 flex items-center justify-between z-10 shrink-0">
-        <button 
+        <button
           onClick={onBack}
           className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
         >
           <ChevronLeft size={20} />
         </button>
         <h3 className="text-white font-medium text-[15px]">Add a sound</h3>
-        <button 
+        <button
           onClick={() => selectedMusic && onNext()}
           className={`w-[38px] h-[38px] rounded-full flex items-center justify-center transition-all duration-300 ${selectedMusic ? 'bg-white/10 border-transparent cursor-pointer' : 'bg-transparent border-[1.5px] border-white/15 cursor-default'}`}
         >
@@ -946,7 +939,7 @@ const MusicStep = ({
 
       {/* Selected Image Banner */}
       <div className="flex items-center gap-3 py-2 px-4 shrink-0">
-        <div 
+        <div
           className="w-12 h-16 rounded-md bg-white/10 overflow-hidden relative"
           style={{ backgroundColor: selectedVibe?.bg }}
         >
@@ -967,9 +960,9 @@ const MusicStep = ({
       <div className="px-4 mt-2 shrink-0">
         <div className="bg-white/10 rounded-xl h-9 flex items-center px-3 gap-2">
           <Search size={14} className="text-white/40" />
-          <input 
-            type="text" 
-            placeholder="Search" 
+          <input
+            type="text"
+            placeholder="Search"
             className="bg-transparent border-none outline-none text-white text-[13px] w-full placeholder:text-white/40"
           />
         </div>
@@ -982,11 +975,10 @@ const MusicStep = ({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${
-                activeCategory === cat 
-                  ? 'bg-white text-[#0c0c10]' 
+              className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${activeCategory === cat
+                  ? 'bg-white text-[#0c0c10]'
                   : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -1004,7 +996,7 @@ const MusicStep = ({
               </h4>
               <div className="flex flex-col gap-1 relative z-0">
                 {section.items.map(item => renderMusicItem(item, section.category))}
-                
+
                 {/* Expanded Items */}
                 <AnimatePresence>
                   {expandedCategories[section.id] && section.extraItems && (
@@ -1024,14 +1016,14 @@ const MusicStep = ({
               {/* Dropdown Blur Overlay */}
               {section.extraItems && (
                 <div className={`absolute bottom-0 inset-x-0 flex items-end justify-center transition-all duration-300 pointer-events-none ${expandedCategories[section.id] ? 'h-10 bg-transparent pb-0 relative mt-2 z-10' : 'h-24 bg-gradient-to-t from-[#0c0c10] via-[#0c0c10]/80 to-transparent pb-2 backdrop-blur-[1px] z-10'}`}>
-                  <button 
+                  <button
                     onClick={() => handleCategoryExpand(section.id)}
                     className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 pointer-events-auto shadow-lg hover:bg-white/20 transition-colors"
                   >
                     {expandedCategories[section.id] ? (
-                       <ChevronUp size={16} className="text-white/80" />
+                      <ChevronUp size={16} className="text-white/80" />
                     ) : (
-                       <ChevronDown size={16} className="text-white/80" />
+                      <ChevronDown size={16} className="text-white/80" />
                     )}
                   </button>
                 </div>
@@ -1054,13 +1046,13 @@ const MusicStep = ({
 
       {/* Bottom Strip */}
       <div className="border-t-[0.5px] border-white/10 px-4 pt-[10px] pb-[22px] flex items-center gap-3 shrink-0 bg-[#0c0c10]">
-        <div 
+        <div
           className="w-[36px] h-[36px] rounded-lg border border-white/10 transition-all duration-300 flex items-center justify-center overflow-hidden bg-white/5"
         >
           {selectedMusic ? (
             <div className="w-full h-full" style={{ backgroundColor: selectedMusic.bg }} />
           ) : (
-             <Music size={16} className="text-white/20" />
+            <Music size={16} className="text-white/20" />
           )}
         </div>
         <div className="flex flex-col flex-1 justify-center">
@@ -1071,7 +1063,7 @@ const MusicStep = ({
             <span className="text-[12px] text-white/30 italic leading-tight mt-[2px]">None selected</span>
           )}
         </div>
-        <button 
+        <button
           onClick={() => selectedMusic && onNext()}
           className={`w-[38px] h-[38px] rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${selectedMusic ? 'bg-white cursor-pointer' : 'bg-transparent border-[1.5px] border-white/15 cursor-default'}`}
         >
@@ -1110,7 +1102,7 @@ const ReelSimulator = () => {
           )}
         </h2>
         <p className="text-xl text-gray-500 font-medium h-[80px]">
-          {step === 1 
+          {step === 1
             ? "Set the perfect mood before posting your thoughts. Browse through curated aesthetics and pick a background that matches your energy."
             : "Layer a soundscape to complete the experience. From serene nature to dark electronic beats, choose the perfect track."
           }
@@ -1160,16 +1152,16 @@ const ReelSimulator = () => {
                 selectedMusic={selectedMusic}
                 onAddVibe={() => setStep(2)}
                 onNext={() => {
-                   if (selectedVibe && selectedMusic) {
-                      console.log("Posting...", { thoughtText, audienceIndex, selectedMood, isAnonymous, selectedVibe, selectedMusic });
-                   } else {
-                      setStep(2);
-                   }
+                  if (selectedVibe && selectedMusic) {
+                    console.log("Posting...", { thoughtText, audienceIndex, selectedMood, isAnonymous, selectedVibe, selectedMusic });
+                  } else {
+                    setStep(2);
+                  }
                 }}
                 onCancel={() => {
-                   setThoughtText("");
-                   setSelectedVibe(null);
-                   setSelectedMusic(null);
+                  setThoughtText("");
+                  setSelectedVibe(null);
+                  setSelectedMusic(null);
                 }}
               />
             )}
