@@ -224,7 +224,41 @@ const ComposeStep = ({
   onNext,
   onCancel
 }) => {
-  const charCount = thoughtText.length;
+  const [showPreview, setShowPreview] = React.useState(false);
+  const editorRef = React.useRef(null);
+  const [isBold, setIsBold] = React.useState(false);
+  const [isItalic, setIsItalic] = React.useState(false);
+
+  const stripHtml = (html) => {
+    if (typeof document === 'undefined') return '';
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return (tmp.textContent || tmp.innerText || "").trim().replace(/\n/g, "");
+  };
+
+  const plainText = stripHtml(thoughtText);
+  const charCount = plainText.length;
+
+  const handleCommand = (command) => {
+    if (editorRef.current) {
+      editorRef.current.focus();
+      document.execCommand(command, false, null);
+      checkFormatState();
+    }
+  };
+
+  const checkFormatState = () => {
+    if (typeof document !== 'undefined') {
+      setIsBold(document.queryCommandState('bold'));
+      setIsItalic(document.queryCommandState('italic'));
+    }
+  };
+
+  React.useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== thoughtText) {
+      editorRef.current.innerHTML = thoughtText;
+    }
+  }, []);
   const circumference = 62.8; // 2 * pi * 10
   const dashoffset = Math.max(0, circumference - (charCount / 280) * circumference);
   const isRed = (280 - charCount) <= 10;
@@ -270,16 +304,27 @@ const ComposeStep = ({
             </button>
 
             {/* Text Input */}
-            <textarea
-              value={thoughtText}
-              onChange={e => setThoughtText(e.target.value)}
-              placeholder="What's on your mind?"
-              maxLength={280}
-              className="w-full bg-transparent border-none outline-none text-white text-[18px] font-normal leading-[1.55] resize-none min-h-[100px] placeholder:text-white/20 caret-white"
-            />
-            {charCount === 0 && (
-              <span className="text-[11px] text-white/20 mt-1 block">Ask something real. Keep it under 280.</span>
-            )}
+            <div className="relative w-full min-h-[100px] mb-2">
+              {charCount === 0 && thoughtText === '' && (
+                <div className="absolute top-0 left-0 text-white/20 text-[18px] pointer-events-none">
+                  What's on your mind?
+                </div>
+              )}
+              <div
+                ref={editorRef}
+                contentEditable
+                onInput={(e) => {
+                  setThoughtText(e.currentTarget.innerHTML);
+                  checkFormatState();
+                }}
+                onKeyUp={checkFormatState}
+                onMouseUp={checkFormatState}
+                className="w-full bg-transparent border-none outline-none text-white text-[18px] font-normal leading-[1.55] caret-white whitespace-pre-wrap focus:outline-none [&_a]:text-blue-400 [&_a]:underline"
+              />
+              {charCount === 0 && (
+                <span className="text-[11px] text-white/20 mt-1 block absolute -bottom-5 left-0">Ask something real. Keep it under 280.</span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -322,7 +367,10 @@ const ComposeStep = ({
         <div className="mx-4 mt-3 p-[10px] px-[12px] rounded-[14px] border border-white/10 bg-[rgba(255,255,255,0.03)] flex gap-[10px] items-center">
           {/* Thumb */}
           <div 
-            className="w-[36px] h-[48px] rounded-[7px] shrink-0 overflow-hidden relative"
+            onClick={() => {
+              if (selectedVibe && selectedMusic) setShowPreview(true);
+            }}
+            className={`w-[36px] h-[48px] rounded-[7px] shrink-0 overflow-hidden relative ${selectedVibe && selectedMusic ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
             style={{ backgroundColor: selectedVibe ? selectedVibe.bg : '#1a2a3a' }}
           >
             {selectedVibe?.img && <img src={selectedVibe.img} alt="vibe" className="absolute inset-0 w-full h-full object-cover" />}
@@ -351,11 +399,17 @@ const ComposeStep = ({
 
         {/* Formatting Toolbar */}
         <div className="px-4 flex gap-[4px] items-center mt-2">
-          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
-            <Bold size={18} className="text-white/45" strokeWidth={2} />
+          <button 
+            onClick={() => handleCommand('bold')} 
+            className={`w-[36px] h-[36px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-none ${isBold ? 'bg-white/20 text-white' : 'bg-transparent text-white/45 hover:bg-white/10'}`}
+          >
+            <Bold size={18} strokeWidth={isBold ? 3 : 2} />
           </button>
-          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
-            <Italic size={18} className="text-white/45" strokeWidth={2} />
+          <button 
+            onClick={() => handleCommand('italic')} 
+            className={`w-[36px] h-[36px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-none ${isItalic ? 'bg-white/20 text-white' : 'bg-transparent text-white/45 hover:bg-white/10'}`}
+          >
+            <Italic size={18} strokeWidth={isItalic ? 3 : 2} />
           </button>
           <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
             <Link size={18} className="text-white/45" strokeWidth={2} />
@@ -413,6 +467,69 @@ const ComposeStep = ({
           </div>
         </div>
       </div>
+
+      {/* Reel Preview Overlay */}
+      <AnimatePresence>
+        {showPreview && selectedVibe && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="absolute inset-0 z-50 bg-[#0c0c10] overflow-hidden"
+          >
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('${selectedVibe.img}')` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+
+            {/* Header / Close button */}
+            <div className="absolute top-12 left-5 right-5 flex justify-between items-center text-white z-50 pointer-events-auto">
+              <span className="font-bold text-base shadow-sm">Preview</span>
+              <button 
+                onClick={(e) => { e.stopPropagation(); setShowPreview(false); }} 
+                className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 cursor-pointer hover:bg-black/60 transition-colors"
+              >
+                <ChevronDown size={20} />
+              </button>
+            </div>
+
+            {/* Question Sticker */}
+            <div className="absolute inset-0 flex items-center justify-center z-20 px-6 pointer-events-none">
+              <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-5 rounded-3xl border border-white/40 shadow-2xl inline-flex flex-col items-center text-center w-full max-w-xs relative overflow-hidden pointer-events-auto">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                <div className="text-white/90 text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-full shadow-inner border border-white/10">
+                  <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center border border-white/30">
+                    <div className="w-[5px] h-[5px] bg-white rounded-full" />
+                  </div>
+                  {selectedMood || 'THOUGHT'}
+                </div>
+                <p className="text-white text-[18px] leading-relaxed font-medium tracking-tight drop-shadow-md">
+                  {thoughtText ? (
+                    <span dangerouslySetInnerHTML={{ __html: thoughtText }} className="[&_b]:font-black [&_i]:italic [&_a]:text-blue-300 [&_a]:underline" />
+                  ) : (
+                    "What's on your mind?"
+                  )}
+                </p>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="absolute right-4 bottom-8 flex flex-col items-center z-20">
+              {/* Spinning CD */}
+              <div className="relative flex justify-center w-12 h-12 pointer-events-none">
+                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 4, ease: "linear" }} className="w-11 h-11 rounded-full border-[2px] border-white/20 bg-[#1a1a1a] flex items-center justify-center shadow-lg overflow-hidden relative">
+                  <Music size={14} className="text-white z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
+                </motion.div>
+              </div>
+            </div>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </motion.div>
   );
 };
