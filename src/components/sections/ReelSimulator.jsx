@@ -636,8 +636,8 @@ const SelectorStep = ({
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${activeCategory === cat
-                  ? 'bg-white text-[#0c0c10]'
-                  : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
+                ? 'bg-white text-[#0c0c10]'
+                : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
                 }`}
             >
               {cat}
@@ -976,8 +976,8 @@ const MusicStep = ({
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${activeCategory === cat
-                  ? 'bg-white text-[#0c0c10]'
-                  : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
+                ? 'bg-white text-[#0c0c10]'
+                : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
                 }`}
             >
               {cat}
@@ -1103,6 +1103,20 @@ const LoginStep = ({ onNext }) => {
         .otp-box.active {
           background: rgba(255,255,255,0.08);
           border-color: rgba(255,255,255,0.4);
+          position: relative;
+        }
+        @keyframes blinkCursor {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        .otp-box.active::after {
+          content: "";
+          position: absolute;
+          width: 2px;
+          height: 22px;
+          background-color: #fff;
+          animation: blinkCursor 1s step-end infinite;
+          border-radius: 2px;
         }
         .otp-box.filled {
           background: rgba(255,255,255,0.07);
@@ -1252,7 +1266,7 @@ const LoginStep = ({ onNext }) => {
             loginSetCatState('peeking');
             loginStartResendTimer();
             focusOtp();
-          }, 1400);
+          }, 300);
         };
 
         /* ── OTP INPUT ── */
@@ -1299,9 +1313,9 @@ const LoginStep = ({ onNext }) => {
               loginSetCatState('success');
               setTimeout(function() {
                 loginShowSubStep('C');
-                setTimeout(function() { if(lq('redirBar')) lq('redirBar').style.width = '100%'; }, 100);
-                setTimeout(function() { loginGoToApp(); }, 2200);
-              }, 800);
+                setTimeout(function() { if(lq('redirBar')) lq('redirBar').style.width = '100%'; }, 50);
+                setTimeout(function() { loginGoToApp(); }, 600);
+              }, 300);
             } else {
               loginAttempts++;
               for (var i=0;i<6;i++) { lq('ob'+i).className='otp-box err'; }
@@ -1317,7 +1331,7 @@ const LoginStep = ({ onNext }) => {
               btn.style.pointerEvents = loginOtp.length === 6 ? 'auto' : 'none';
               if (loginAttempts >= 3) { loginClearOtp(); loginAttempts = 0; }
             }
-          }, 1200);
+          }, 300);
         };
 
         function loginClearOtp() {
@@ -1499,7 +1513,7 @@ const LoginStep = ({ onNext }) => {
       `;
       document.body.appendChild(script);
     }
-    
+
     // Call init when component mounts
     if (window.loginInit) {
       window.loginInit();
@@ -1520,7 +1534,8 @@ const LoginStep = ({ onNext }) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="absolute inset-0 flex flex-col font-sans"
-      dangerouslySetInnerHTML={{ __html: `
+      dangerouslySetInnerHTML={{
+        __html: `
         <div id="screen-login" style="background:#0c0c10; height:100%; overflow-y:auto; padding:20px 16px 24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center;">
           <!-- CAT SVG -->
           <div id="catWrap" style="position:relative; margin-bottom:16px;">
@@ -1692,7 +1707,7 @@ const LoginStep = ({ onNext }) => {
             <div style="font-size:18px; font-weight:500; color:#fff; margin-bottom:6px; font-family:'DM Serif Display', Georgia, serif;">You're in 🎉</div>
             <div style="font-size:12px; color:rgba(255,255,255,0.35); margin-bottom:20px; line-height:1.5;">Welcome to Vibe. The cat approves.</div>
             <div style="width:100%; height:3px; background:rgba(255,255,255,0.07); border-radius:2px; overflow:hidden; margin-bottom:6px;">
-              <div id="redirBar" style="height:100%; width:0%; background:rgba(212,245,106,0.6); border-radius:2px; transition:width 2s linear;"></div>
+              <div id="redirBar" style="height:100%; width:0%; background:rgba(212,245,106,0.6); border-radius:2px; transition:width 0.6s linear;"></div>
             </div>
             <div style="font-size:10px; color:rgba(255,255,255,0.25);">Taking you to your first post...</div>
           </div>
