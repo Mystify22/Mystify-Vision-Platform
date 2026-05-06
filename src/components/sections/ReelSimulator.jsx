@@ -258,7 +258,7 @@ const ComposeStep = ({
     if (editorRef.current && editorRef.current.innerHTML !== thoughtText) {
       editorRef.current.innerHTML = thoughtText;
     }
-  }, []);
+  }, [thoughtText]);
   const circumference = 62.8; // 2 * pi * 10
   const dashoffset = Math.max(0, circumference - (charCount / 280) * circumference);
   const isRed = (280 - charCount) <= 10;
@@ -636,8 +636,8 @@ const SelectorStep = ({
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${activeCategory === cat
-                  ? 'bg-white text-[#0c0c10]'
-                  : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
+                ? 'bg-white text-[#0c0c10]'
+                : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
                 }`}
             >
               {cat}
@@ -655,100 +655,12 @@ const SelectorStep = ({
                 {section.category}
               </h4>
 
-              {/* Custom Layouts based on category */}
-              {section.category === 'Nature' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Dark & Moody' && (
-                <div className="grid grid-cols-3 gap-2">
-                  {section.items.map(item => (
-                    <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
-                  ))}
-                </div>
-              )}
-
-              {section.category === 'Urban' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[130px] h-[200px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[96px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[96px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Avengers' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Harry Potter' && (
-                <div className="grid grid-cols-3 gap-2">
-                  {section.items.map(item => (
-                    <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
-                  ))}
-                </div>
-              )}
-
-              {section.category === 'Death Note' && (
-                <div className="grid grid-cols-3 gap-2">
-                  {section.items.map(item => (
-                    <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
-                  ))}
-                </div>
-              )}
-
-              {section.category === 'Demon Slayer' && (
-                <div className="flex gap-2">
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
-                  </div>
-                  <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
-                </div>
-              )}
-
-              {section.category === 'Prince of Persia' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[130px] h-[200px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[96px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[96px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Stranger Things' && (
-                <div className="flex gap-2">
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
-                  </div>
-                  <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
-                </div>
-              )}
-
-              {section.category === 'Game of Thrones' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
-                  </div>
-                </div>
-              )}
+              {/* Standard 9:16 Layout for all categories */}
+              <div className="grid grid-cols-3 gap-2">
+                {section.items.map(item => (
+                  <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="aspect-[9/16]" />
+                ))}
+              </div>
 
               {/* Expanded Items */}
               <AnimatePresence>
@@ -767,7 +679,7 @@ const SelectorStep = ({
                           item={item}
                           isSelected={selectedItem?.id === item.id}
                           onToggle={handleToggle}
-                          className="h-[120px]"
+                          className="aspect-[9/16]"
                         />
                       ))}
                     </div>
@@ -976,8 +888,8 @@ const MusicStep = ({
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`whitespace-nowrap rounded-full px-[14px] py-[7px] text-[12px] font-medium transition-colors ${activeCategory === cat
-                  ? 'bg-white text-[#0c0c10]'
-                  : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
+                ? 'bg-white text-[#0c0c10]'
+                : 'bg-white/5 text-white/55 border border-white/10 hover:bg-white/10'
                 }`}
             >
               {cat}
@@ -1075,10 +987,656 @@ const MusicStep = ({
   );
 };
 
+const LoginStep = ({ onNext }) => {
+  React.useEffect(() => {
+    window.showScreen = (step) => {
+      if (step === 1 || step === 'compose') onNext();
+    };
+
+    if (!document.getElementById('login-styles')) {
+      const style = document.createElement('style');
+      style.id = 'login-styles';
+      style.innerHTML = `
+        .otp-box {
+          flex: 1;
+          height: 48px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          font-weight: 500;
+          color: #fff;
+          transition: border-color 0.15s, background 0.15s;
+          user-select: none;
+        }
+        .otp-box.active {
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(255,255,255,0.4);
+          position: relative;
+        }
+        @keyframes blinkCursor {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        .otp-box.active::after {
+          content: "";
+          position: absolute;
+          width: 2px;
+          height: 22px;
+          background-color: #fff;
+          animation: blinkCursor 1s step-end infinite;
+          border-radius: 2px;
+        }
+        .otp-box.filled {
+          background: rgba(255,255,255,0.07);
+          border-color: rgba(255,255,255,0.2);
+        }
+        .otp-box.err {
+          border-color: rgba(218,80,80,0.6);
+          background: rgba(218,80,80,0.06);
+          color: rgba(218,80,80,0.9);
+        }
+        .otp-box.ok {
+          border-color: rgba(78,175,107,0.4);
+        }
+
+        @keyframes conffall {
+          0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(80px) rotate(360deg); opacity: 0; }
+        }
+        @keyframes loginShake {
+          0%,100% { transform: translateX(0); }
+          20%     { transform: translateX(-5px); }
+          40%     { transform: translateX(5px); }
+          60%     { transform: translateX(-3px); }
+          80%     { transform: translateX(3px); }
+        }
+        .do-shake {
+          animation: loginShake 0.35s ease;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    if (!document.getElementById('login-script')) {
+      const script = document.createElement('script');
+      script.id = 'login-script';
+      script.innerHTML = `
+        (function() {
+
+        var loginPhone = '';
+        var loginOtp = '';
+        var loginAttempts = 0;
+        var loginResendSecs = 30;
+        var loginResendInterval = null;
+        var loginBlinkInterval = null;
+        var loginCatState = 'idle';
+        var loginTailInterval = null;
+        var countries = [
+          { flag:'🇮🇳', code:'+91' },
+          { flag:'🇺🇸', code:'+1'  },
+          { flag:'🇬🇧', code:'+44' },
+          { flag:'🇦🇪', code:'+971'}
+        ];
+        var countryIdx = 0;
+
+        function lq(id) { return document.getElementById(id); }
+
+        /* ── INIT ── */
+        window.loginInit = function() {
+          loginSetCatState('idle');
+          setTimeout(function(){ loginWagTail(1); }, 800);
+          loginStartBlink();
+        };
+
+        window.loginCleanup = function() {
+          if (loginResendInterval) clearInterval(loginResendInterval);
+          if (loginBlinkInterval) clearInterval(loginBlinkInterval);
+          if (loginTailInterval) clearInterval(loginTailInterval);
+        };
+
+        /* ── COUNTRY CYCLE ── */
+        window.cycleCountry = function() {
+          countryIdx = (countryIdx + 1) % countries.length;
+          if(lq('countryFlag')) lq('countryFlag').textContent = countries[countryIdx].flag;
+          if(lq('countryCode')) lq('countryCode').textContent  = countries[countryIdx].code;
+        };
+
+        /* ── PHONE INPUT ── */
+        window.onPhoneInput = function() {
+          var raw = lq('phoneInput').value.replace(/\\D/g,'');
+          loginPhone = raw;
+          lq('phoneErr').style.display = 'none';
+          loginSetPhoneBorder('focused');
+          var btn = lq('sendOtpBtn');
+          if (raw.length === 10) {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+          } else {
+            btn.style.opacity = '0.3';
+            btn.style.pointerEvents = 'none';
+          }
+          loginSetCatState('looking');
+        };
+
+        window.onPhoneFocus = function() {
+          loginSetPhoneBorder('focused');
+          loginSetCatState('looking');
+        };
+
+        window.onPhoneBlur = function() {
+          if (loginPhone.length > 0 && loginPhone.length !== 10) {
+            loginSetPhoneBorder('error');
+            lq('phoneErr').style.display = 'flex';
+            loginSetCatState('sad');
+          } else if (loginPhone.length === 10) {
+            loginSetPhoneBorder('success');
+          } else {
+            loginSetPhoneBorder('default');
+          }
+        };
+
+        function loginSetPhoneBorder(state) {
+          var row = lq('phoneRow');
+          var map = {
+            default: 'rgba(255,255,255,0.1)',
+            focused: 'rgba(255,255,255,0.3)',
+            error:   'rgba(218,80,80,0.6)',
+            success: 'rgba(78,175,107,0.5)'
+          };
+          var bgMap = {
+            error: 'rgba(218,80,80,0.05)'
+          };
+          row.style.borderColor = map[state] || map.default;
+          row.style.background  = bgMap[state] || 'rgba(255,255,255,0.05)';
+        }
+
+        /* ── SEND OTP ── */
+        window.sendOtp = function() {
+          if (loginPhone.length < 10) {
+            lq('phoneErr').style.display = 'flex';
+            loginSetPhoneBorder('error');
+            loginShakeEl('phoneRow');
+            loginSetCatState('sad');
+            return;
+          }
+          var btn = lq('sendOtpBtn');
+          btn.innerHTML = '<div style="width:14px;height:14px;border:2px solid rgba(0,0,0,0.15);border-top-color:#0c0c10;border-radius:50%;animation:spin 0.7s linear infinite;"></div> Sending...';
+          btn.style.opacity = '0.7';
+          btn.style.pointerEvents = 'none';
+          loginSetCatState('hiding');
+          setTimeout(function() {
+            loginShowSubStep('B');
+            var masked = loginPhone.slice(0,5) + ' •••••';
+            lq('maskedNum').textContent = 'Sent to ' + masked + ' via SMS';
+            loginSetCatState('peeking');
+            loginStartResendTimer();
+            focusOtp();
+          }, 300);
+        };
+
+        /* ── OTP INPUT ── */
+        window.focusOtp = function() { if(lq('otpHidden')) lq('otpHidden').focus(); };
+
+        window.onOtpFocus = function() {
+          var raw = lq('otpHidden').value.toString().replace(/\\D/g,'').slice(0,6);
+          for (var i = 0; i < 6; i++) {
+            var b = lq('ob' + i);
+            if (i === raw.length) { b.classList.add('active'); } else { b.classList.remove('active'); }
+          }
+        };
+
+        window.onOtpBlur = function() {
+          for (var i = 0; i < 6; i++) {
+            var b = lq('ob' + i);
+            if (b) b.classList.remove('active');
+          }
+        };
+
+        window.onOtpInput = function() {
+          var raw = lq('otpHidden').value.toString().replace(/\\D/g,'').slice(0,6);
+          lq('otpHidden').value = raw;
+          loginOtp = raw;
+          for (var i = 0; i < 6; i++) {
+            var b = lq('ob' + i);
+            b.className = 'otp-box';
+            b.textContent = '';
+            if (i < raw.length) { b.classList.add('filled'); b.textContent = '•'; }
+            if (i === raw.length && document.activeElement === lq('otpHidden')) { b.classList.add('active'); }
+          }
+          lq('otpErr').style.display = 'none';
+          var vBtn = lq('verifyBtn');
+          if (raw.length === 6) {
+            vBtn.style.opacity = '1';
+            vBtn.style.pointerEvents = 'auto';
+          } else {
+            vBtn.style.opacity = '0.3';
+            vBtn.style.pointerEvents = 'none';
+          }
+          loginSetCatState(raw.length > 0 ? 'covering' : 'peeking');
+        };
+
+        window.onOtpKey = function(e) {
+          if (e.key === 'Enter' && loginOtp.length === 6) verifyOtp();
+        };
+
+        /* ── VERIFY OTP ── */
+        window.verifyOtp = function() {
+          if (loginOtp.length < 6) return;
+          var btn = lq('verifyBtn');
+          btn.innerHTML = '<div style="width:14px;height:14px;border:2px solid rgba(0,0,0,0.15);border-top-color:#0c0c10;border-radius:50%;animation:spin 0.7s linear infinite;"></div> Verifying...';
+          btn.style.opacity = '0.7';
+          btn.style.pointerEvents = 'none';
+
+          setTimeout(function() {
+            if (loginOtp === '123456') {
+              for (var i=0;i<6;i++) { lq('ob'+i).className='otp-box ok'; }
+              loginSetCatState('success');
+              setTimeout(function() { loginGoToApp(); }, 300);
+            } else {
+              loginAttempts++;
+              for (var i=0;i<6;i++) { lq('ob'+i).className='otp-box err'; }
+              loginShakeEl('otpBoxRow');
+              var msg = loginAttempts >= 3
+                ? 'Too many attempts. Request a new code.'
+                : 'Incorrect code. ' + (3 - loginAttempts) + ' attempt' + (loginAttempts < 2 ? 's' : '') + ' remaining.';
+              lq('otpErrTxt').textContent = msg;
+              lq('otpErr').style.display = 'flex';
+              loginSetCatState('shocked');
+              btn.innerHTML = 'Verify';
+              btn.style.opacity = loginOtp.length === 6 ? '1' : '0.3';
+              btn.style.pointerEvents = loginOtp.length === 6 ? 'auto' : 'none';
+              if (loginAttempts >= 3) { loginClearOtp(); loginAttempts = 0; }
+            }
+          }, 300);
+        };
+
+        function loginClearOtp() {
+          lq('otpHidden').value = '';
+          loginOtp = '';
+          for (var i=0;i<6;i++) { var b=lq('ob'+i); b.className='otp-box'; b.textContent=''; }
+          lq('verifyBtn').style.opacity = '0.3';
+          lq('verifyBtn').style.pointerEvents = 'none';
+        }
+
+        /* ── RESEND ── */
+        window.resendOtp = function() {
+          loginClearOtp();
+          lq('otpErr').style.display = 'none';
+          loginAttempts = 0;
+          loginStartResendTimer();
+          loginSetCatState('peeking');
+          focusOtp();
+        };
+
+        function loginStartResendTimer() {
+          loginResendSecs = 30;
+          lq('resendBtn').style.color = 'rgba(255,255,255,0.25)';
+          lq('resendBtn').style.pointerEvents = 'none';
+          if (loginResendInterval) clearInterval(loginResendInterval);
+          loginResendInterval = setInterval(function() {
+            loginResendSecs--;
+            var m = Math.floor(loginResendSecs/60);
+            var s = loginResendSecs % 60;
+            if(lq('resendTimer')) lq('resendTimer').textContent = loginResendSecs > 0
+              ? 'Resend in ' + m + ':' + (s<10?'0':'') + s
+              : 'Code expired';
+            if (loginResendSecs <= 0) {
+              clearInterval(loginResendInterval);
+              if(lq('resendBtn')) {
+                lq('resendBtn').style.color = 'rgba(255,255,255,0.6)';
+                lq('resendBtn').style.pointerEvents = 'auto';
+              }
+            }
+          }, 1000);
+        }
+
+        /* ── BACK ── */
+        window.goBackToPhone = function() {
+          loginShowSubStep('A');
+          loginClearOtp();
+          lq('otpErr').style.display = 'none';
+          lq('sendOtpBtn').innerHTML = 'Send OTP';
+          lq('sendOtpBtn').style.opacity = loginPhone.length === 10 ? '1' : '0.3';
+          lq('sendOtpBtn').style.pointerEvents = loginPhone.length === 10 ? 'auto' : 'none';
+          if (loginResendInterval) clearInterval(loginResendInterval);
+          loginSetCatState('idle');
+        };
+
+        /* ── SUB-STEP VISIBILITY ── */
+        function loginShowSubStep(step) {
+          if(lq('loginStepA')) lq('loginStepA').style.display = step === 'A' ? 'block' : 'none';
+          if(lq('loginStepB')) lq('loginStepB').style.display = step === 'B' ? 'block' : 'none';
+          if(lq('loginStepC')) lq('loginStepC').style.display = step === 'C' ? 'flex'  : 'none';
+        }
+
+        /* ── GO TO APP (after login) ── */
+        function loginGoToApp() {
+          if (window.showScreen) {
+            window.showScreen(1); 
+          }
+        }
+
+        /* ── SHAKE UTILITY ── */
+        function loginShakeEl(id) {
+          var el = lq(id);
+          if(!el) return;
+          el.classList.remove('do-shake');
+          void el.offsetWidth;
+          el.classList.add('do-shake');
+          setTimeout(function(){ el.classList.remove('do-shake'); }, 400);
+        }
+
+        /* ── CAT STATE MACHINE ── */
+        function loginSetCatState(state) {
+          loginCatState = state;
+          var cl = lq('coverLeft');
+          var cr = lq('coverRight');
+          var cl_show = (state === 'hiding' || state === 'covering');
+          if(cl) cl.style.display = cl_show ? 'block' : 'none';
+          if(cr) cr.style.display = cl_show ? 'block' : 'none';
+          if (loginBlinkInterval) clearInterval(loginBlinkInterval);
+          if (state === 'idle' || state === 'peeking' || state === 'success') {
+            loginStartBlink();
+          }
+          if (state === 'peeking') { loginWagTail(1); }
+          if (state === 'success') {
+            loginWagTail(8);
+            loginShowHeart();
+            loginShowConfetti();
+            if(lq('catPaw')) lq('catPaw').style.display = 'block';
+            setTimeout(function(){ if(lq('catPaw')) lq('catPaw').style.display='none'; }, 2000);
+          }
+        }
+
+        /* ── BLINK ── */
+        function loginStartBlink() {
+          loginBlinkInterval = setInterval(loginBlinkOnce, 2800 + Math.random()*2000);
+        }
+        function loginBlinkOnce() {
+          if(lq('blinkLeft')) lq('blinkLeft').style.display  = 'block';
+          if(lq('blinkRight')) lq('blinkRight').style.display = 'block';
+          setTimeout(function(){
+            if(lq('blinkLeft')) lq('blinkLeft').style.display  = 'none';
+            if(lq('blinkRight')) lq('blinkRight').style.display = 'none';
+          }, 120);
+        }
+
+        /* ── WAG TAIL ── */
+        function loginWagTail(cycles) {
+          if (loginTailInterval) clearInterval(loginTailInterval);
+          var count = 0, max = cycles * 2;
+          loginTailInterval = setInterval(function() {
+            count++;
+            if(lq('catTail')) lq('catTail').style.transform = count % 2 === 0 ? 'rotate(15deg)' : 'rotate(-15deg)';
+            if (count >= max) {
+              clearInterval(loginTailInterval);
+              if(lq('catTail')) lq('catTail').style.transform = 'rotate(0deg)';
+            }
+          }, 140);
+        }
+
+        /* ── HEART FLOAT ── */
+        function loginShowHeart() {
+          var h = lq('catHeart');
+          if(!h) return;
+          h.style.display   = 'block';
+          h.style.opacity   = '1';
+          h.style.transform = 'translateY(0px)';
+          var start = null;
+          function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / 1200, 1);
+            h.style.opacity   = p < 0.5 ? (p*2).toFixed(2) : ((1-p)*2).toFixed(2);
+            h.style.transform = 'translateY(' + (-p*12) + 'px)';
+            if (p < 1) requestAnimationFrame(step);
+            else { h.style.display='none'; h.style.opacity='0'; }
+          }
+          requestAnimationFrame(step);
+        }
+
+        /* ── CAT PAT (tap the cat) ── */
+        window.catPat = function() {
+          loginShowHeart();
+          loginBlinkOnce();
+          loginWagTail(1);
+        };
+
+        /* ── CONFETTI ── */
+        function loginShowConfetti() {
+          var wrap = lq('confettiWrap');
+          if(!wrap) return;
+          wrap.innerHTML = '';
+          var colors = ['#d4f56a','#e8a0a8','#a0c8e8','#f0c070','#a8e8c0','#e8a0f0'];
+          for (var i = 0; i < 14; i++) {
+            var d = document.createElement('div');
+            var size = 5 + Math.random()*4;
+            d.style.cssText = [
+              'position:absolute',
+              'width:'+size+'px',
+              'height:'+size+'px',
+              'border-radius:50%',
+              'background:'+colors[i%colors.length],
+              'left:'+(10+Math.random()*160)+'px',
+              'top:0px',
+              'opacity:0',
+              'animation:conffall '+(0.8+Math.random()*0.6)+'s '+(Math.random()*0.4)+'s ease-out forwards'
+            ].join(';');
+            wrap.appendChild(d);
+          }
+        }
+
+        })();
+      `;
+      document.body.appendChild(script);
+    }
+
+    // Call init when component mounts
+    if (window.loginInit) {
+      window.loginInit();
+    }
+
+    return () => {
+      if (window.loginCleanup) {
+        window.loginCleanup();
+      }
+    };
+  }, [onNext]);
+
+  return (
+    <motion.div
+      key="step-login"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="absolute inset-0 flex flex-col font-sans"
+      dangerouslySetInnerHTML={{
+        __html: `
+        <div id="screen-login" style="background:#0c0c10; height:100%; overflow-y:auto; padding:60px 16px 24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+          <!-- CAT SVG -->
+          <div id="catWrap" style="position:relative; margin-bottom:16px;">
+            <svg id="catSvg" viewBox="0 0 120 120" width="100" height="100" style="cursor:pointer; display:block;" onclick="catPat()">
+
+              <!-- TAIL -->
+              <g id="catTail" style="transform-origin:30px 95px; transform:rotate(0deg);">
+                <path d="M30 95 Q10 85 15 70 Q20 55 35 60" fill="none" stroke="#c8a882" stroke-width="9" stroke-linecap="round"/>
+              </g>
+
+              <!-- BODY -->
+              <ellipse cx="60" cy="80" rx="32" ry="28" fill="#d4b896"/>
+              <ellipse cx="60" cy="80" rx="20" ry="18" fill="#f0dcc8"/>
+
+              <!-- EARS -->
+              <g id="catLeftEar" style="transform-origin:38px 52px;">
+                <path d="M38 52 L28 30 L52 44 Z" fill="#d4b896"/>
+                <path d="M38 52 L33 38 L48 47 Z" fill="#e8a0a8"/>
+              </g>
+              <g id="catRightEar" style="transform-origin:82px 52px;">
+                <path d="M82 52 L92 30 L68 44 Z" fill="#d4b896"/>
+                <path d="M82 52 L87 38 L72 47 Z" fill="#e8a0a8"/>
+              </g>
+
+              <!-- HEAD -->
+              <ellipse cx="60" cy="68" rx="28" ry="22" fill="#d4b896"/>
+              <ellipse cx="60" cy="68" rx="18" ry="14" fill="#f0dcc8"/>
+
+              <!-- LEFT EYE -->
+              <g id="catEyeLeft">
+                <ellipse cx="47" cy="63" rx="7" ry="7.5" fill="#2a1a0a"/>
+                <ellipse cx="47" cy="63" rx="5" ry="5.5" fill="#1a0a00"/>
+                <circle cx="50" cy="60" r="2" fill="white" opacity="0.9"/>
+                <ellipse id="blinkLeft" cx="47" cy="63" rx="7" ry="0.5" fill="#d4b896" style="display:none;"/>
+              </g>
+
+              <!-- RIGHT EYE -->
+              <g id="catEyeRight">
+                <ellipse cx="73" cy="63" rx="7" ry="7.5" fill="#2a1a0a"/>
+                <ellipse cx="73" cy="63" rx="5" ry="5.5" fill="#1a0a00"/>
+                <circle cx="76" cy="60" r="2" fill="white" opacity="0.9"/>
+                <ellipse id="blinkRight" cx="73" cy="63" rx="7" ry="0.5" fill="#d4b896" style="display:none;"/>
+              </g>
+
+              <!-- EYE COVERS (paws over eyes) -->
+              <path id="coverLeft" d="M34 54 Q47 48 60 54 Q47 70 34 54Z" fill="#b89070" style="display:none;"/>
+              <path id="coverRight" d="M60 54 Q73 48 86 54 Q73 70 60 54Z" fill="#b89070" style="display:none;"/>
+
+              <!-- NOSE -->
+              <ellipse cx="60" cy="74" rx="5" ry="3.5" fill="#e8a0a8"/>
+
+              <!-- MOUTH -->
+              <path d="M60 77.5 Q53 82 48 80" fill="none" stroke="#8a6050" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M60 77.5 Q67 82 72 80" fill="none" stroke="#8a6050" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M60 77.5 L60 80" fill="none" stroke="#8a6050" stroke-width="1.3" stroke-linecap="round"/>
+
+              <!-- WHISKERS -->
+              <line x1="45" y1="72" x2="22" y2="67" stroke="#8a6050" stroke-width="1" opacity="0.6"/>
+              <line x1="45" y1="74" x2="22" y2="74" stroke="#8a6050" stroke-width="1" opacity="0.6"/>
+              <line x1="45" y1="76" x2="22" y2="81" stroke="#8a6050" stroke-width="1" opacity="0.6"/>
+              <line x1="75" y1="72" x2="98" y2="67" stroke="#8a6050" stroke-width="1" opacity="0.6"/>
+              <line x1="75" y1="74" x2="98" y2="74" stroke="#8a6050" stroke-width="1" opacity="0.6"/>
+              <line x1="75" y1="76" x2="98" y2="81" stroke="#8a6050" stroke-width="1" opacity="0.6"/>
+
+              <!-- PAW (success state) -->
+              <g id="catPaw" style="display:none; transform-origin:28px 95px;">
+                <ellipse cx="28" cy="95" rx="10" ry="7" fill="#d4b896"/>
+                <ellipse cx="24" cy="97" rx="4" ry="3" fill="#f0dcc8"/>
+                <ellipse cx="32" cy="97" rx="4" ry="3" fill="#f0dcc8"/>
+              </g>
+
+              <!-- HEART (floating, pat/success) -->
+              <text id="catHeart" x="60" y="30" text-anchor="middle" font-size="16" fill="#e8a0a8" style="display:none; opacity:0;">♥</text>
+
+            </svg>
+
+            <!-- CONFETTI CONTAINER -->
+            <div id="confettiWrap" style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:180px; height:60px; pointer-events:none; overflow:visible;"></div>
+          </div>
+
+          <!-- SUB-STEP A: PHONE ENTRY -->
+          <div id="loginStepA" style="width:100%;">
+            <div style="font-size:9px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:6px;">Phone number</div>
+
+            <div id="phoneRow" style="display:flex; align-items:center; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; height:46px; transition:border-color 0.2s, background 0.2s;">
+              <input id="phoneInput" type="tel" placeholder="" maxlength="10"
+                style="flex:1; background:transparent; border:none; outline:none; font-size:14px; color:#fff; padding:0 12px; height:100%; font-family:inherit;"
+                oninput="onPhoneInput()"
+                onfocus="onPhoneFocus()"
+                onblur="onPhoneBlur()"
+              />
+            </div>
+
+            <div id="phoneErr" style="display:none; align-items:center; gap:5px; margin-top:6px;">
+              <div style="width:5px; height:5px; border-radius:50%; background:rgba(218,80,80,0.8); flex-shrink:0;"></div>
+              <span style="font-size:11px; color:rgba(218,80,80,0.85);">Enter a valid 10-digit mobile number</span>
+            </div>
+
+            <button id="sendOtpBtn" onclick="sendOtp()"
+              style="width:100%; height:46px; border-radius:12px; border:none; background:#fff; color:#0c0c10; font-size:14px; font-weight:500; cursor:pointer; margin-top:16px; opacity:0.3; pointer-events:none; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; transition:opacity 0.15s;">
+              Send OTP
+            </button>
+
+            <div style="margin-top:14px; text-align:center; font-size:11px; color:rgba(255,255,255,0.18); line-height:1.6;">
+              By continuing you agree to our
+              <span style="color:rgba(255,255,255,0.4); text-decoration:underline; cursor:pointer;">Terms</span> &
+              <span style="color:rgba(255,255,255,0.4); text-decoration:underline; cursor:pointer;">Privacy</span>
+            </div>
+          </div>
+
+          <!-- SUB-STEP B: OTP ENTRY -->
+          <div id="loginStepB" style="width:100%; display:none;">
+            <div style="display:flex; align-items:center; gap:5px; margin-bottom:16px; cursor:pointer;" onclick="goBackToPhone()">
+              <div style="width:9px; height:9px; border-left:1.5px solid rgba(255,255,255,0.4); border-bottom:1.5px solid rgba(255,255,255,0.4); transform:rotate(45deg); margin-left:3px;"></div>
+              <span style="font-size:12px; color:rgba(255,255,255,0.4);">Change number</span>
+            </div>
+
+            <div style="font-size:17px; font-weight:500; color:#fff; margin-bottom:4px; font-family:'DM Serif Display', Georgia, serif;">Enter the code</div>
+            <div id="maskedNum" style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:18px; line-height:1.5;"></div>
+
+            <input id="otpHidden" type="number" maxlength="6"
+              style="position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;"
+              oninput="onOtpInput()"
+              onfocus="onOtpFocus()"
+              onblur="onOtpBlur()"
+              onkeydown="onOtpKey(event)"
+            />
+
+            <div id="otpBoxRow" style="display:flex; gap:6px; margin-bottom:8px; cursor:pointer;" onclick="focusOtp()">
+              <div class="otp-box" id="ob0"></div>
+              <div class="otp-box" id="ob1"></div>
+              <div class="otp-box" id="ob2"></div>
+              <div class="otp-box" id="ob3"></div>
+              <div class="otp-box" id="ob4"></div>
+              <div class="otp-box" id="ob5"></div>
+            </div>
+
+            <div id="otpErr" style="display:none; align-items:center; gap:5px; margin-bottom:8px;">
+              <div style="width:5px; height:5px; border-radius:50%; background:rgba(218,80,80,0.8); flex-shrink:0;"></div>
+              <span id="otpErrTxt" style="font-size:11px; color:rgba(218,80,80,0.85);"></span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <span id="resendTimer" style="font-size:11px; color:rgba(255,255,255,0.25);">Resend in 0:30</span>
+              <span id="resendBtn" style="font-size:11px; color:rgba(255,255,255,0.25); text-decoration:underline; cursor:pointer; pointer-events:none;" onclick="resendOtp()">Resend OTP</span>
+            </div>
+
+            <button id="verifyBtn" onclick="verifyOtp()"
+              style="width:100%; height:46px; border-radius:12px; border:none; background:#fff; color:#0c0c10; font-size:14px; font-weight:500; cursor:pointer; opacity:0.3; pointer-events:none; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; transition:opacity 0.15s;">
+              Verify
+            </button>
+          </div>
+
+          <!-- SUB-STEP C: SUCCESS -->
+          <div id="loginStepC" style="width:100%; display:none; flex-direction:column; align-items:center; text-align:center; padding:8px 0;">
+            <div style="width:52px; height:52px; border-radius:50%; background:rgba(78,175,107,0.1); border:1.5px solid rgba(78,175,107,0.3); display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <polyline points="4,11 9,16 18,6" stroke="rgba(78,175,107,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div style="font-size:18px; font-weight:500; color:#fff; margin-bottom:6px; font-family:'DM Serif Display', Georgia, serif;">You're in 🎉</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.35); margin-bottom:20px; line-height:1.5;">Welcome to Vibe. The cat approves.</div>
+            <div style="width:100%; height:3px; background:rgba(255,255,255,0.07); border-radius:2px; overflow:hidden; margin-bottom:6px;">
+              <div id="redirBar" style="height:100%; width:0%; background:rgba(212,245,106,0.6); border-radius:2px; transition:width 0.6s linear;"></div>
+            </div>
+            <div style="font-size:10px; color:rgba(255,255,255,0.25);">Taking you to your first post...</div>
+          </div>
+
+        </div>
+      `}}
+    />
+  );
+};
+
 const ReelSimulator = () => {
   const containerRef = useRef(null);
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [thoughtText, setThoughtText] = useState("");
   const [audienceIndex, setAudienceIndex] = useState(0);
   const [selectedMood, setSelectedMood] = useState(null);
@@ -1137,6 +1695,12 @@ const ReelSimulator = () => {
           className="w-[340px] h-[720px] rounded-[3.5rem] border-[14px] border-black bg-[#0c0c10] overflow-hidden shadow-2xl relative ring-1 ring-gray-200 flex flex-col font-sans"
         >
           <AnimatePresence mode="wait">
+            {step === 0 && (
+              <LoginStep
+                key="step-login"
+                onNext={() => setStep(1)}
+              />
+            )}
             {step === 1 && (
               <ComposeStep
                 key="step-compose"
