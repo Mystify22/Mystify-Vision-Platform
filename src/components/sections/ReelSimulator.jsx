@@ -1115,7 +1115,7 @@ const LoginStep = ({ onNext }) => {
           lq('phoneErr').style.display = 'none';
           loginSetPhoneBorder('focused');
           var btn = lq('sendOtpBtn');
-          if (raw.length >= 10) {
+          if (raw.length === 10) {
             btn.style.opacity = '1';
             btn.style.pointerEvents = 'auto';
           } else {
@@ -1131,11 +1131,11 @@ const LoginStep = ({ onNext }) => {
         };
 
         window.onPhoneBlur = function() {
-          if (loginPhone.length > 0 && loginPhone.length < 10) {
+          if (loginPhone.length > 0 && loginPhone.length !== 10) {
             loginSetPhoneBorder('error');
             lq('phoneErr').style.display = 'flex';
             loginSetCatState('sad');
-          } else if (loginPhone.length >= 10) {
+          } else if (loginPhone.length === 10) {
             loginSetPhoneBorder('success');
           } else {
             loginSetPhoneBorder('default');
@@ -1173,7 +1173,7 @@ const LoginStep = ({ onNext }) => {
           loginSetCatState('hiding');
           setTimeout(function() {
             loginShowSubStep('B');
-            var masked = countries[countryIdx].code + ' ' + loginPhone.slice(0,5) + ' •••••';
+            var masked = loginPhone.slice(0,5) + ' •••••';
             lq('maskedNum').textContent = 'Sent to ' + masked + ' via SMS';
             loginSetCatState('peeking');
             loginStartResendTimer();
@@ -1184,6 +1184,21 @@ const LoginStep = ({ onNext }) => {
         /* ── OTP INPUT ── */
         window.focusOtp = function() { if(lq('otpHidden')) lq('otpHidden').focus(); };
 
+        window.onOtpFocus = function() {
+          var raw = lq('otpHidden').value.toString().replace(/\\D/g,'').slice(0,6);
+          for (var i = 0; i < 6; i++) {
+            var b = lq('ob' + i);
+            if (i === raw.length) { b.classList.add('active'); } else { b.classList.remove('active'); }
+          }
+        };
+
+        window.onOtpBlur = function() {
+          for (var i = 0; i < 6; i++) {
+            var b = lq('ob' + i);
+            if (b) b.classList.remove('active');
+          }
+        };
+
         window.onOtpInput = function() {
           var raw = lq('otpHidden').value.toString().replace(/\\D/g,'').slice(0,6);
           lq('otpHidden').value = raw;
@@ -1193,7 +1208,7 @@ const LoginStep = ({ onNext }) => {
             b.className = 'otp-box';
             b.textContent = '';
             if (i < raw.length) { b.classList.add('filled'); b.textContent = '•'; }
-            if (i === raw.length) { b.classList.add('active'); }
+            if (i === raw.length && document.activeElement === lq('otpHidden')) { b.classList.add('active'); }
           }
           lq('otpErr').style.display = 'none';
           var vBtn = lq('verifyBtn');
@@ -1220,14 +1235,10 @@ const LoginStep = ({ onNext }) => {
           btn.style.pointerEvents = 'none';
 
           setTimeout(function() {
-            if (loginOtp === '482901') {
+            if (loginOtp === '123456') {
               for (var i=0;i<6;i++) { lq('ob'+i).className='otp-box ok'; }
               loginSetCatState('success');
-              setTimeout(function() {
-                loginShowSubStep('C');
-                setTimeout(function() { if(lq('redirBar')) lq('redirBar').style.width = '100%'; }, 50);
-                setTimeout(function() { loginGoToApp(); }, 600);
-              }, 300);
+              setTimeout(function() { loginGoToApp(); }, 300);
             } else {
               loginAttempts++;
               for (var i=0;i<6;i++) { lq('ob'+i).className='otp-box err'; }
@@ -1292,8 +1303,8 @@ const LoginStep = ({ onNext }) => {
           loginClearOtp();
           lq('otpErr').style.display = 'none';
           lq('sendOtpBtn').innerHTML = 'Send OTP';
-          lq('sendOtpBtn').style.opacity = loginPhone.length >= 10 ? '1' : '0.3';
-          lq('sendOtpBtn').style.pointerEvents = loginPhone.length >= 10 ? 'auto' : 'none';
+          lq('sendOtpBtn').style.opacity = loginPhone.length === 10 ? '1' : '0.3';
+          lq('sendOtpBtn').style.pointerEvents = loginPhone.length === 10 ? 'auto' : 'none';
           if (loginResendInterval) clearInterval(loginResendInterval);
           loginSetCatState('idle');
         };
@@ -1448,7 +1459,7 @@ const LoginStep = ({ onNext }) => {
       className="absolute inset-0 flex flex-col font-sans"
       dangerouslySetInnerHTML={{
         __html: `
-        <div id="screen-login" style="background:#0c0c10; height:100%; overflow-y:auto; padding:20px 16px 24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <div id="screen-login" style="background:#0c0c10; height:100%; overflow-y:auto; padding:60px 16px 24px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
           <!-- CAT SVG -->
           <div id="catWrap" style="position:relative; margin-bottom:16px;">
             <svg id="catSvg" viewBox="0 0 120 120" width="100" height="100" style="cursor:pointer; display:block;" onclick="catPat()">
@@ -1530,18 +1541,10 @@ const LoginStep = ({ onNext }) => {
 
           <!-- SUB-STEP A: PHONE ENTRY -->
           <div id="loginStepA" style="width:100%;">
-            <div style="font-size:17px; font-weight:500; color:#fff; text-align:center; margin-bottom:4px; font-family:'DM Serif Display', Georgia, serif;">What's your number?</div>
-            <div style="font-size:12px; color:rgba(255,255,255,0.35); text-align:center; margin-bottom:18px; line-height:1.5;">No passwords, ever. The cat will verify you.</div>
-
             <div style="font-size:9px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:6px;">Phone number</div>
 
             <div id="phoneRow" style="display:flex; align-items:center; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; height:46px; transition:border-color 0.2s, background 0.2s;">
-              <div style="display:flex; align-items:center; gap:4px; padding:0 10px; height:100%; border-right:1px solid rgba(255,255,255,0.07); flex-shrink:0; cursor:pointer;" onclick="cycleCountry()">
-                <span id="countryFlag" style="font-size:14px;">🇮🇳</span>
-                <span id="countryCode" style="font-size:12px; color:rgba(255,255,255,0.55);">+91</span>
-                <span style="border-left:3px solid transparent; border-right:3px solid transparent; border-top:4px solid rgba(255,255,255,0.35); margin-left:2px;"></span>
-              </div>
-              <input id="phoneInput" type="tel" placeholder="98765 43210" maxlength="12"
+              <input id="phoneInput" type="tel" placeholder="" maxlength="10"
                 style="flex:1; background:transparent; border:none; outline:none; font-size:14px; color:#fff; padding:0 12px; height:100%; font-family:inherit;"
                 oninput="onPhoneInput()"
                 onfocus="onPhoneFocus()"
@@ -1579,6 +1582,8 @@ const LoginStep = ({ onNext }) => {
             <input id="otpHidden" type="number" maxlength="6"
               style="position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;"
               oninput="onOtpInput()"
+              onfocus="onOtpFocus()"
+              onblur="onOtpBlur()"
               onkeydown="onOtpKey(event)"
             />
 
@@ -1605,8 +1610,6 @@ const LoginStep = ({ onNext }) => {
               style="width:100%; height:46px; border-radius:12px; border:none; background:#fff; color:#0c0c10; font-size:14px; font-weight:500; cursor:pointer; opacity:0.3; pointer-events:none; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; transition:opacity 0.15s;">
               Verify
             </button>
-
-            <div style="margin-top:10px; text-align:center; font-size:10px; color:rgba(255,255,255,0.2);">Hint: the code is <span style="color:rgba(255,255,255,0.4);">482901</span></div>
           </div>
 
           <!-- SUB-STEP C: SUCCESS -->
