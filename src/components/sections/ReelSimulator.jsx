@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send } from 'lucide-react';
 import { initialHeroReels } from './Hero';
 import userAvatar from '../../assets/avatar.png';
+import coverImage from '../../assets/cover.png';
 
 const vibeData = [
   {
@@ -1678,13 +1679,8 @@ const ProfileStep = () => {
       `}} />
 
       {/* 1. COVER BANNER */}
-      <div className="relative h-[170px] bg-[#111] shrink-0 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.55]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
-        <div className="absolute inset-0 mix-blend-overlay opacity-30" style={{ background: 'repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 4px)' }}></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.7)_100%)]"></div>
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <span className="font-dmsans font-bold text-[40px] text-white/[0.03] tracking-[0.2em]">MYSTIFY</span>
-        </div>
+      <div className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden">
+        <img src={coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
       </div>
 
