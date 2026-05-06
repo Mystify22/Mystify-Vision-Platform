@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, Play, Heart, MessageCircle, Share2, User, Volume2, VolumeX, Music, Phone, X, Send, Link } from 'lucide-react';
 
-const initialHeroReels = [
+export const initialHeroReels = [
   {
     type: "Spooky Vibes",
     question: `"What's the scariest thing that happened to you?"`,
