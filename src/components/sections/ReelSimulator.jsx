@@ -655,100 +655,12 @@ const SelectorStep = ({
                 {section.category}
               </h4>
 
-              {/* Custom Layouts based on category */}
-              {section.category === 'Nature' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Dark & Moody' && (
-                <div className="grid grid-cols-3 gap-2">
-                  {section.items.map(item => (
-                    <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
-                  ))}
-                </div>
-              )}
-
-              {section.category === 'Urban' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[130px] h-[200px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[96px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[96px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Avengers' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Harry Potter' && (
-                <div className="grid grid-cols-3 gap-2">
-                  {section.items.map(item => (
-                    <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
-                  ))}
-                </div>
-              )}
-
-              {section.category === 'Death Note' && (
-                <div className="grid grid-cols-3 gap-2">
-                  {section.items.map(item => (
-                    <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="h-[168px]" />
-                  ))}
-                </div>
-              )}
-
-              {section.category === 'Demon Slayer' && (
-                <div className="flex gap-2">
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
-                  </div>
-                  <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
-                </div>
-              )}
-
-              {section.category === 'Prince of Persia' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[130px] h-[200px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[96px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[96px]" />
-                  </div>
-                </div>
-              )}
-
-              {section.category === 'Stranger Things' && (
-                <div className="flex gap-2">
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="h-[116px]" />
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[116px]" />
-                  </div>
-                  <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="w-[130px] h-[240px] shrink-0" />
-                </div>
-              )}
-
-              {section.category === 'Game of Thrones' && (
-                <div className="flex gap-2">
-                  <VibeCard item={section.items[0]} isSelected={selectedItem?.id === section.items[0].id} onToggle={handleToggle} className="w-[118px] h-[196px] shrink-0" />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <VibeCard item={section.items[1]} isSelected={selectedItem?.id === section.items[1].id} onToggle={handleToggle} className="h-[94px]" />
-                    <VibeCard item={section.items[2]} isSelected={selectedItem?.id === section.items[2].id} onToggle={handleToggle} className="h-[94px]" />
-                  </div>
-                </div>
-              )}
+              {/* Standard 9:16 Layout for all categories */}
+              <div className="grid grid-cols-3 gap-2">
+                {section.items.map(item => (
+                  <VibeCard key={item.id} item={item} isSelected={selectedItem?.id === item.id} onToggle={handleToggle} className="aspect-[9/16]" />
+                ))}
+              </div>
 
               {/* Expanded Items */}
               <AnimatePresence>
@@ -767,7 +679,7 @@ const SelectorStep = ({
                           item={item}
                           isSelected={selectedItem?.id === item.id}
                           onToggle={handleToggle}
-                          className="h-[120px]"
+                          className="aspect-[9/16]"
                         />
                       ))}
                     </div>
