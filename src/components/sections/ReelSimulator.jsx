@@ -1085,13 +1085,7 @@ const LoginStep = ({ onNext }) => {
         var loginBlinkInterval = null;
         var loginCatState = 'idle';
         var loginTailInterval = null;
-        var countries = [
-          { flag:'🇮🇳', code:'+91' },
-          { flag:'🇺🇸', code:'+1'  },
-          { flag:'🇬🇧', code:'+44' },
-          { flag:'🇦🇪', code:'+971'}
-        ];
-        var countryIdx = 0;
+        /* Removed unused country variables */
 
         function lq(id) { return document.getElementById(id); }
 
@@ -1108,12 +1102,7 @@ const LoginStep = ({ onNext }) => {
           if (loginTailInterval) clearInterval(loginTailInterval);
         };
 
-        /* ── COUNTRY CYCLE ── */
-        window.cycleCountry = function() {
-          countryIdx = (countryIdx + 1) % countries.length;
-          if(lq('countryFlag')) lq('countryFlag').textContent = countries[countryIdx].flag;
-          if(lq('countryCode')) lq('countryCode').textContent  = countries[countryIdx].code;
-        };
+        /* Removed unused country toggle function */
 
         /* ── PHONE INPUT ── */
         window.onPhoneInput = function() {
@@ -1557,7 +1546,7 @@ const LoginStep = ({ onNext }) => {
               <p style="font-size:13px; color:rgba(255,255,255,0.5); margin:0 0 28px 0; font-weight:500;">Enter your mobile number to continue</p>
 
               <div id="phoneRow" style="display:flex; align-items:center; background:rgba(255,255,255,0.04); border:1.5px solid rgba(255,255,255,0.12); border-radius:16px; overflow:hidden; height:54px; transition:all 0.3s cubic-bezier(0.4,0,0.2,1);">
-                <div style="padding:0 12px 0 16px; font-size:16px; color:rgba(255,255,255,0.9); font-weight:600; border-right:1px solid rgba(255,255,255,0.1);">+1</div>
+                <div style="padding:0 12px 0 16px; font-size:16px; color:rgba(255,255,255,0.9); font-weight:600; border-right:1px solid rgba(255,255,255,0.1);">+91</div>
                 <input id="phoneInput" type="tel" placeholder="Phone number" maxlength="10"
                   style="flex:1; background:transparent; border:none; outline:none; font-size:16px; font-weight:600; color:#fff; padding:0 16px; height:100%; font-family:inherit; letter-spacing:1px;"
                   oninput="onPhoneInput()" onfocus="onPhoneFocus()" onblur="onPhoneBlur()"
@@ -1699,10 +1688,6 @@ const ProfileStep = () => {
         <div className="relative">
           <div className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center">
             <img src={userAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
-          </div>
-          <div className="absolute bottom-0 -right-2 bg-[#1a1a1a] border-[1.5px] border-[#2a2a2a] rounded-[16px] px-2 py-[2px] flex items-center gap-1 shadow-md">
-            <span className="text-[10px]">🔥</span>
-            <span className="font-dmsans font-bold text-[#e8643a] text-[11px]">{streakDays}</span>
           </div>
         </div>
 
@@ -1993,9 +1978,6 @@ const HomeStep = () => {
 
             <div className="absolute top-8 left-5 right-5 flex justify-between items-center text-white z-20 pointer-events-none">
               <span className="font-bold text-base sm:text-lg text-shadow-sm">For You</span>
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center">
-                <Sparkles size={14} />
-              </div>
             </div>
 
             <div className={`relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4 transition-all duration-300 origin-bottom-left ${showComments ? 'scale-[0.80] sm:scale-[0.70] translate-y-2 sm:translate-y-4' : 'scale-100'}`}>
@@ -2276,18 +2258,18 @@ const exploreGridItems = [
 ];
 
 const initialMessages = [
-  { id: 'm1', unread: true, time: '2m ago', question: "What's your 3am thought lately?", preview: "Mine is always about that one conversation I never finished...", privateReply: true },
-  { id: 'm2', unread: true, time: '18m ago', question: "One thing people assume about you?", preview: "That I have everything figured out lol", privateReply: true },
-  { id: 'm3', unread: false, time: '1h ago', question: "Which city has your heart?", preview: "You: Istanbul, always. What about you?", privateReply: true },
-  { id: 'm4', unread: false, time: 'Yesterday', question: "Red flag you keep ignoring?", preview: "Haha I stopped replying after that one", privateReply: true }
+  { id: 'm1', handle: '@lunary_sky', unread: true, time: '2m ago', question: "What's your 3am thought lately?", preview: "Mine is always about that one conversation I never finished...", privateReply: true },
+  { id: 'm2', handle: '@void_walker', unread: true, time: '18m ago', question: "One thing people assume about you?", preview: "That I have everything figured out lol", privateReply: true },
+  { id: 'm3', handle: '@echo.chamber', unread: false, time: '1h ago', question: "Which city has your heart?", preview: "You: Istanbul, always. What about you?", privateReply: true },
+  { id: 'm4', handle: '@drifting_away', unread: false, time: 'Yesterday', question: "Red flag you keep ignoring?", preview: "Haha I stopped replying after that one", privateReply: true }
 ];
 
 const initialRequests = [
-  { id: 'r1', time: '3h ago', question: "What's something you never told anyone?", preview: "I actually relate so much to this. Can we talk?" },
-  { id: 'r2', time: '5h ago', question: "Your villain era aesthetic?", preview: "Same energy honestly, let's vibe" },
-  { id: 'r3', time: '8h ago', question: "If you could relive one memory…", preview: "This question hit different. Reply me?" },
-  { id: 'r4', time: 'Yesterday', question: "What's your 3am thought lately?", preview: "Literally cried reading the replies on this" },
-  { id: 'r5', time: '2d ago', question: "Red flag you keep ignoring?", preview: "I see myself in this so much, hi" }
+  { id: 'r1', handle: '@hidden_eye', time: '3h ago', question: "What's something you never told anyone?", preview: "I actually relate so much to this. Can we talk?" },
+  { id: 'r2', handle: '@kael.vibes', time: '5h ago', question: "Your villain era aesthetic?", preview: "Same energy honestly, let's vibe" },
+  { id: 'r3', handle: '@midnight_run', time: '8h ago', question: "If you could relive one memory…", preview: "This question hit different. Reply me?" },
+  { id: 'r4', handle: '@siren_song', time: 'Yesterday', question: "What's your 3am thought lately?", preview: "Literally cried reading the replies on this" },
+  { id: 'r5', handle: '@cipher.zero', time: '2d ago', question: "Red flag you keep ignoring?", preview: "I see myself in this so much, hi" }
 ];
 
 const ChatStep = () => {
@@ -2297,6 +2279,9 @@ const ChatStep = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [removingId, setRemovingId] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [chatDraft, setChatDraft] = useState('');
+  const [chatHistory, setChatHistory] = useState({});
 
   const filteredMessages = messages.filter(m =>
     m.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -2326,6 +2311,104 @@ const ChatStep = () => {
       setRemovingId(null);
     }, 350);
   };
+
+  const openChat = (chat) => {
+    setSelectedChat(chat);
+    if (chat.unread) {
+      setMessages(prev => prev.map(m => m.id === chat.id ? { ...m, unread: false } : m));
+    }
+  };
+
+  const handleSend = () => {
+    if (!chatDraft.trim()) return;
+    const newMsg = { id: Date.now(), text: chatDraft, sender: 'me' };
+    setChatHistory(prev => ({
+      ...prev,
+      [selectedChat.id]: [...(prev[selectedChat.id] || []), newMsg]
+    }));
+    setChatDraft('');
+  };
+
+  if (selectedChat) {
+    const history = chatHistory[selectedChat.id] || [];
+    return (
+      <motion.div
+        key="step-chat-thread"
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -300, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="absolute inset-0 flex flex-col bg-[#0d0d0d] text-[#e8e8e8] overflow-hidden pb-[70px] z-50"
+      >
+        {/* Status Bar */}
+        <div className="flex justify-between items-center pt-[12px] px-[20px] pb-[4px]">
+          <span className="text-[11px] text-[#444] font-medium">9:41</span>
+          <div className="flex items-center gap-[5px] text-[#444]">
+            <Wifi size={12} strokeWidth={2.5} />
+            <Battery size={14} strokeWidth={2.5} />
+          </div>
+        </div>
+
+        {/* Chat Header */}
+        <div className="pt-[14px] px-[18px] pb-[12px] flex items-center gap-3 border-b-[0.5px] border-[#1a1a1a]">
+          <button onClick={() => setSelectedChat(null)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
+            <ChevronLeft size={20} className="text-[#e8e8e8]" />
+          </button>
+          <div className="flex items-center gap-3">
+            <div className="w-[36px] h-[36px] rounded-[12px] bg-[#161616] border-[0.5px] border-[#222] flex items-center justify-center">
+              <Ghost size={18} className="text-[#333]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[14px] font-medium text-[#c8c8c8]">{selectedChat.handle || "@anonymous"}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Body */}
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 [scrollbar-width:none]">
+          <div className="flex justify-center">
+            <span className="text-[10px] text-[#444] bg-[#111] px-2 py-1 rounded-full border border-[#1a1a1a] max-w-[80%] text-center">
+              Reply to: "{selectedChat.question}"
+            </span>
+          </div>
+          
+          <div className="flex justify-start">
+            <div className="max-w-[80%] bg-[#161616] border border-[#222] text-[#e8e8e8] text-[13px] px-3 py-2 rounded-2xl rounded-tl-sm">
+              {selectedChat.preview.replace(/^You: /, '')}
+            </div>
+          </div>
+
+          {history.map(msg => (
+            <div key={msg.id} className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[80%] text-[13px] px-3 py-2 ${msg.sender === 'me' ? 'bg-[#d4f56a] text-[#0d0d0d] rounded-2xl rounded-tr-sm font-medium' : 'bg-[#161616] border border-[#222] text-[#e8e8e8] rounded-2xl rounded-tl-sm'}`}>
+                {msg.text}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Chat Input */}
+        <div className="p-4 border-t-[0.5px] border-[#1a1a1a] bg-[#0d0d0d]">
+          <div className="flex items-center gap-2 bg-[#161616] border-[0.5px] border-[#2a2a2a] rounded-full p-1 pl-4">
+            <input
+              type="text"
+              value={chatDraft}
+              onChange={(e) => setChatDraft(e.target.value)}
+              placeholder="Message..."
+              className="flex-1 bg-transparent text-[13px] text-white outline-none placeholder:text-[#666]"
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            />
+            <button
+              onClick={handleSend}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${chatDraft.trim() ? 'bg-[#d4f56a] text-[#0d0d0d]' : 'bg-[#222] text-[#666]'}`}
+            >
+              <Send size={14} className={chatDraft.trim() ? 'mr-[2px]' : ''} />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -2423,7 +2506,8 @@ const ChatStep = () => {
             {displayList.map(thread => (
               <div
                 key={thread.id}
-                className={`flex gap-[11px] p-[13px_18px] border-b-[0.5px] border-[#141414] ${thread.unread ? 'bg-[#111111]' : ''}`}
+                onClick={() => openChat(thread)}
+                className={`flex gap-[11px] p-[13px_18px] border-b-[0.5px] border-[#141414] cursor-pointer transition-colors hover:bg-[#111] active:bg-[#1a1a1a] ${thread.unread ? 'bg-[#111111]' : ''}`}
               >
                 <div className="relative shrink-0">
                   <div className="w-[40px] h-[40px] rounded-[13px] bg-[#161616] border-[0.5px] border-[#222] flex items-center justify-center">
@@ -2436,7 +2520,7 @@ const ChatStep = () => {
 
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
                   <div className="flex justify-between items-center mb-[2px]">
-                    <span className="text-[13px] font-medium text-[#c8c8c8]">Anonymous</span>
+                    <span className="text-[13px] font-medium text-[#c8c8c8]">{thread.handle}</span>
                     <span className="text-[10px] text-[#2e2e2e]">{thread.time}</span>
                   </div>
                   <div className="text-[11px] italic text-[#333] truncate mb-[2px]">
@@ -2474,7 +2558,7 @@ const ChatStep = () => {
 
                   <div className="flex-1 min-w-0 flex flex-col justify-center">
                     <div className="flex justify-between items-center mb-[2px]">
-                      <span className="text-[13px] font-medium text-[#c8c8c8]">Anonymous</span>
+                      <span className="text-[13px] font-medium text-[#c8c8c8]">{req.handle}</span>
                       <span className="text-[10px] text-[#2e2e2e]">{req.time}</span>
                     </div>
                     <div className="text-[11px] italic text-[#333] truncate mb-[2px]">
