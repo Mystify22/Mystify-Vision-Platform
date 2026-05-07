@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Trophy, Star, Crown, Zap } from 'lucide-react';
+import './GamificationHub.css';
 
 const GamificationHub = () => {
     const templates = [
@@ -31,9 +32,9 @@ const GamificationHub = () => {
                             <Trophy className="text-yellow-600" size={28} />
                         </div>
                         <h2 className="text-3xl lg:text-4xl font-black text-gray-900 tracking-tight">
-                            Mystify Legends
+                            Engagement Hooks
                         </h2>
-                        <p className="text-gray-500 font-medium mt-3 max-w-sm mx-auto lg:mx-0">The most viral anonymous creators reshaping the platform this week.</p>
+                        <p className="text-gray-500 font-medium mt-3 max-w-sm mx-auto lg:mx-0">Gamified leaderboards drive daily active usage and peer-to-peer competition.</p>
                     </div>
 
                     <div className="space-y-4 relative z-10">
@@ -76,9 +77,9 @@ const GamificationHub = () => {
                             <Star className="text-indigo-500" size={28} />
                         </div>
                         <h2 className="text-3xl lg:text-4xl font-black text-gray-900 tracking-tight">
-                            Theme Gallery
+                            Monetization Engine
                         </h2>
-                        <p className="text-gray-500 font-medium mt-3 max-w-sm mx-auto lg:mx-0">Personalize your anonymous requests. Build your streak to unlock all themes.</p>
+                        <p className="text-gray-500 font-medium mt-3 max-w-sm mx-auto lg:mx-0">Premium cosmetic themes unlock recurring revenue streams via subscription and microtransactions.</p>
                     </div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
@@ -97,7 +98,7 @@ const GamificationHub = () => {
                                 {!template.unlocked && (
                                     <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] flex flex-col items-center justify-center p-2 text-center group">
                                         <Lock size={24} className="text-gray-500 mb-2 group-hover:scale-110 transition-transform" />
-                                        <p className="text-[10px] text-gray-700 font-bold opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 px-2 py-1 rounded-md">Requires Streak</p>
+                                        <p className="text-[10px] text-gray-700 font-bold opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 px-2 py-1 rounded-md">Pro Feature</p>
                                     </div>
                                 )}
                             </motion.div>

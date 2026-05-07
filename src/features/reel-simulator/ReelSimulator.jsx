@@ -1,9 +1,120 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery } from 'lucide-react';
-import { initialHeroReels } from './Hero';
+const initialHeroReels = [
+  {
+    type: "Spooky Vibes",
+    question: `"What's the scariest thing that happened to you?"`,
+    replies: [
+      { user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", from: "from-red-600", to: "to-black", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", from: "from-yellow-400", to: "to-orange-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 1, user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", likes: 842, time: "2h", avatarFrom: "from-red-600", avatarTo: "to-black" },
+      { id: 2, user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", likes: 256, time: "1h", avatarFrom: "from-yellow-400", avatarTo: "to-orange-500" },
+      { id: 3, user: "vecna_stan", text: "This song is my alarm clock now.", likes: 89, time: "45m", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" }
+    ],
+    likes: "11.0",
+    comments: "2.1K",
+    shares: "450",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1776715534/stable-diffusion-xl-base-10_wide-angle-shot_3_m9y7vl.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
+  },
+  {
+    type: "Secret Confession",
+    question: `"What's one thing you're too afraid to tell anyone?"`,
+    replies: [
+      { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 11, user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", likes: 842, time: "2h", avatarFrom: "from-yellow-400", avatarTo: "to-pink-500" },
+      { id: 12, user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", likes: 256, time: "1h", avatarFrom: "from-cyan-400", avatarTo: "to-emerald-400" },
+      { id: 13, user: "introvert_king", text: "Relatable levels are off the charts right now", likes: 89, time: "45m", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" },
+      { id: 14, user: "anon_user_99", text: "I put my phone on DND 24/7 lol", likes: 12, time: "10m", avatarFrom: "from-gray-400", avatarTo: "to-gray-600" }
+    ],
+    likes: "12",
+    comments: "4.2K",
+    shares: "Share",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/q_auto/f_auto/v1776640285/pihf9rnxy73p1n7betwi.mp3"
+  },
+  {
+    type: "Anime Debate",
+    question: `"If you could live in any anime world, which one would it be?"`,
+    replies: [
+      { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 21, user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", likes: 532, time: "5h", avatarFrom: "from-red-500", avatarTo: "to-orange-500" },
+      { id: 22, user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", likes: 410, time: "3h", avatarFrom: "from-blue-400", avatarTo: "to-indigo-500" },
+      { id: 23, user: "ghoul_boy", text: "Tokyo Ghoul... but as a human just trying to survive coffee shops ☕", likes: 120, time: "2h", avatarFrom: "from-stone-700", avatarTo: "to-zinc-900" }
+    ],
+    likes: "15.8",
+    comments: "1.2K",
+    shares: "890",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-battle-rage-intense-fight-music-411019_mpf7i8.mp3"
+  },
+  {
+    type: "Productivity Flex",
+    question: `"What's your most overpowered setup secret?"`,
+    replies: [
+      { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 31, user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", likes: 1024, time: "1h", avatarFrom: "from-purple-500", avatarTo: "to-indigo-600" },
+      { id: 32, user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", likes: 890, time: "45m", avatarFrom: "from-green-400", avatarTo: "to-emerald-500" },
+      { id: 33, user: "vim_user", text: "Vim. I still don't know how to exit, but my productivity is amazing.", likes: 450, time: "20m", avatarFrom: "from-emerald-400", avatarTo: "to-teal-600" }
+    ],
+    likes: "24.5",
+    comments: "3.1K",
+    shares: "1.2K",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775753291/mh5cum4ms0gl69ybwgal.jpg",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/monume-space-509492_jwpg3u.mp3"
+  },
+  {
+    type: "Zen Focus",
+    question: `"What's your go-to sound for ultimate deep work?"`,
+    replies: [
+      { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 41, user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", likes: 620, time: "3h", avatarFrom: "from-blue-500", avatarTo: "to-cyan-500" },
+      { id: 42, user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", likes: 590, time: "2h", avatarFrom: "from-amber-400", avatarTo: "to-orange-500" },
+      { id: 43, user: "noise_fan", text: "Brown noise is highly underrated 🤎", likes: 210, time: "1h", avatarFrom: "from-yellow-700", avatarTo: "to-amber-900" }
+    ],
+    likes: "18.2",
+    comments: "1.5K",
+    shares: "920",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775755724/kzmvlx75tsy2mngul5qu.jpg",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-ocean-wave-loops-377890_gbxv2x.mp3"
+  },
+  {
+    type: "Weekend Vibes",
+    question: `"What's your favorite way to unwind on a Saturday?"`,
+    replies: [
+      { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 51, user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", likes: 780, time: "6h", avatarFrom: "from-pink-500", avatarTo: "to-rose-500" },
+      { id: 52, user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", likes: 640, time: "5h", avatarFrom: "from-fuchsia-400", avatarTo: "to-purple-500" },
+      { id: 53, user: "couch_potato", text: "Binge watching 3 seasons of a show without moving", likes: 1100, time: "4h", avatarFrom: "from-orange-300", avatarTo: "to-rose-400" }
+    ],
+    likes: "21.4",
+    comments: "2.8K",
+    shares: "1.1K",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
+  }
+];
 import userAvatar from '../../assets/avatar.png';
 import coverImage from '../../assets/cover.png';
+import './ReelSimulator.css';
 
 const vibeData = [
   {
@@ -2923,39 +3034,58 @@ const ReelSimulator = () => {
       {/* Right Side Content */}
       <div className="flex-1 text-center lg:text-left space-y-8 max-w-xl z-10">
         <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full text-sm font-bold border border-indigo-100">
-          <Sparkles size={16} /> Visual First
+          <Sparkles size={16} /> Interactive Demo
         </div>
         <h2 className="text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.1] h-[140px] md:h-auto">
           {step === 1 ? (
-            <>Choose a <br /><span className="text-gradient">Vibe</span></>
+            <>Next-Gen <br /><span className="text-gradient">Anonymity</span></>
           ) : (
-            <>Select your <br /><span className="text-gradient">Soundtrack</span></>
+            <>Immersive <br /><span className="text-gradient">Experience</span></>
           )}
         </h2>
         <p className="text-xl text-gray-500 font-medium h-[80px]">
           {step === 1
-            ? "Set the perfect mood before posting your thoughts. Browse through curated aesthetics and pick a background that matches your energy."
-            : "Layer a soundscape to complete the experience. From serene nature to dark electronic beats, choose the perfect track."
+            ? "Experience a completely new standard for social media. Use the live demo to see how Mystify transforms anonymous interactions into a modern, premium visual format."
+            : "Elevate your hidden thoughts with dynamic audio. Discover our advanced tools designed to turn basic Q&A into highly engaging, share-ready content."
           }
         </p>
 
-        <ul className="space-y-4 pt-6 text-left max-w-sm mx-auto lg:mx-0">
+        <div className="space-y-4 pt-8 text-left max-w-sm mx-auto lg:mx-0">
           {[
-            { title: "Immersive Selection", desc: "A dark, focused interface that lets the imagery speak for itself." },
-            { title: "Categorized Themes", desc: "Quickly filter by Nature, Dark & Moody, Minimal, and more." },
-            { title: "Seamless Creation", desc: "Select a vibe and you're ready to share your anonymous thoughts with the world." }
+            { 
+              icon: <Activity size={20} className="text-indigo-600" />,
+              title: "Real-Time Interaction", 
+              desc: "Tap and explore a fully functional build of the app's core loop.",
+              color: "bg-indigo-50 border-indigo-100"
+            },
+            { 
+              icon: <Sparkles size={20} className="text-pink-600" />,
+              title: "Cinematic Alchemy", 
+              desc: "Watch as your raw, hidden secrets magically transform into breathtaking visual masterpieces.",
+              color: "bg-pink-50 border-pink-100"
+            },
+            { 
+              icon: <Share2 size={20} className="text-amber-600" />,
+              title: "Built for Virality", 
+              desc: "Every creation is auto-formatted for maximum reach on TikTok and Reels.",
+              color: "bg-amber-50 border-amber-100"
+            }
           ].map((item, i) => (
-            <li key={i} className="flex gap-4 items-start">
-              <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center shrink-0 mt-1">
-                <div className="w-3 h-3 bg-indigo-500 rounded-full" />
+            <motion.div 
+              key={i} 
+              whileHover={{ x: 5, scale: 1.02 }}
+              className="flex gap-5 items-start p-5 rounded-2xl bg-white border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all cursor-default"
+            >
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${item.color} shadow-sm border`}>
+                {item.icon}
               </div>
-              <div>
-                <h4 className="font-bold text-gray-900">{item.title}</h4>
-                <p className="text-gray-500 text-sm mt-1">{item.desc}</p>
+              <div className="flex-1">
+                <h4 className="font-bold text-gray-900 mb-1">{item.title}</h4>
+                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
               </div>
-            </li>
+            </motion.div>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Left Side - Dedicated Theme Selector Phone */}

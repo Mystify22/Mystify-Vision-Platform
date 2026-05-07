@@ -1,14 +1,15 @@
 import React from 'react';
+import './App.css';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import Bubbles from './components/layout/Bubbles';
-import Hero from './components/sections/Hero';
-import CreateWidget from './components/sections/CreateWidget';
-import ReelSimulator from './components/sections/ReelSimulator';
-import GamificationHub from './components/sections/GamificationHub';
-import Testimonials from './components/sections/Testimonials';
-import FAQ from './components/sections/FAQ';
-import Features from './components/sections/Features';
+import Bubbles from './components/common/Bubbles';
+import ComingSoon from './features/coming-soon/ComingSoon';
+import Features from './features/features-section/Features';
+import ReelSimulator from './features/reel-simulator/ReelSimulator';
+import Testimonials from './features/testimonials/Testimonials';
+import Stats from './features/stats/Stats';
+import ContactForm from './features/contact/ContactForm';
+import FAQ from './features/faq/FAQ';
 
 function App() {
   return (
@@ -23,18 +24,12 @@ function App() {
       <Navbar />
       
       <main className="relative z-10 flex-1 flex flex-col pt-12 pb-16">
-        <Hero />
-        
-        <section id="create" className="relative scroll-mt-24 pt-20">
-          <CreateWidget />
-        </section>
-        
-        <ReelSimulator />
-        
+        <ComingSoon />
         <Features />
-        
-        <GamificationHub />
+        <ReelSimulator />
         <Testimonials />
+        <Stats />
+        <ContactForm />
         <FAQ />
       </main>
       

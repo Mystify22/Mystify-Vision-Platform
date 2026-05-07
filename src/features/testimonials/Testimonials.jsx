@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import './Testimonials.css';
 
 const testimonials = [
   { text: "u ppl standing out from market", author: "@tech_guru" },
@@ -19,9 +20,9 @@ const Testimonials = () => {
         <section className="py-24 bg-white/40 border-y border-white/60 backdrop-blur-sm relative z-10" id="testimonials">
             <div className="container mx-auto px-6 mb-12 text-center">
                 <h2 className="text-3xl lg:text-5xl font-black text-gray-900 tracking-tight">
-                    What creators say about us
+                    People Feedback
                 </h2>
-                <p className="text-gray-500 font-medium mt-4">Join thousands of users creating viral content daily.</p>
+                <p className="text-gray-500 font-medium mt-4">See what early beta testers are saying about Mystify.</p>
             </div>
 
             <div className="relative group w-full">

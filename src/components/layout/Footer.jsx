@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, MessageSquare, Video, Code, ArrowRight } from 'lucide-react';
-import LegalModal from './LegalModal'; // Import the new modal
-import ContactModal from './ContactModal'; // Import the contact modal
+import LegalModal from '../common/LegalModal'; // Import the new modal
+import ContactModal from '../common/ContactModal'; // Import the contact modal
+import './Footer.css';
 
 const Footer = () => {
   const [legalModalState, setLegalModalState] = useState({ isOpen: false, type: 'privacy' });
@@ -26,18 +27,18 @@ const Footer = () => {
           
           <div className="flex-1 space-y-6 text-center lg:text-left">
             <h3 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">Ready to <span className="text-gradient">Mystify?</span></h3>
-            <p className="text-xl text-gray-600 max-w-md mx-auto lg:mx-0 font-medium">Join over 10,000+ creators bridging the gap between anonymity and virality.</p>
+            <p className="text-xl text-gray-600 max-w-md mx-auto lg:mx-0 font-medium">Be the first to know when we launch. Join the private beta waitlist.</p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-6">
               <button className="bg-gray-900 border border-gray-700 text-white px-8 py-3 rounded-[1rem] bouncy-hover bouncy-tap flex items-center justify-center gap-3 shadow-xl shadow-gray-900/20 text-left min-w-[200px]">
-                 <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold leading-none mb-1">Download on the</span>
+                 <div className="flex flex-col text-center">
+                    <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold leading-none mb-1">Coming Soon on the</span>
                     <span className="text-lg font-black leading-none">App Store</span>
                  </div>
               </button>
               <button className="bg-white border border-gray-200 text-gray-900 px-8 py-3 rounded-[1rem] bouncy-hover bouncy-tap flex items-center justify-center gap-3 shadow-md text-left min-w-[200px]">
-                 <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold leading-none mb-1">Get it on</span>
+                 <div className="flex flex-col text-center">
+                    <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold leading-none mb-1">Coming Soon on</span>
                     <span className="text-lg font-black leading-none">Google Play</span>
                  </div>
               </button>

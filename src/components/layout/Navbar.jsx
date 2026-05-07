@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Flame, Trophy } from 'lucide-react';
+import './Navbar.css';
 
 const Navbar = () => {
   return (
@@ -15,21 +16,17 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2 sm:gap-4">
           <motion.div 
-            initial={{ scale: 0.9 }}
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-orange-50 to-red-50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full border border-orange-200/50 shadow-sm transition-transform cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-1 sm:gap-2 bg-indigo-50 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-indigo-100 shadow-sm transition-transform cursor-pointer"
           >
-            <Flame className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-neon-coral flex-shrink-0 animate-pulse" fill="currentColor" />
-            <span className="text-[10px] xs:text-xs sm:text-sm font-bold text-gray-800 whitespace-nowrap">
-              30-Day Streak
+            <span className="text-[10px] xs:text-xs sm:text-sm font-bold text-indigo-600 whitespace-nowrap">
+              Join Waitlist
             </span>
           </motion.div>
 
-          <div className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-yellow-50 to-amber-50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full border border-yellow-200/50 shadow-sm cursor-pointer">
-            <Trophy className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-yellow-500 flex-shrink-0" fill="currentColor" />
-            <span className="text-[10px] xs:text-xs sm:text-sm font-bold text-gray-800 whitespace-nowrap">
-              1,000 PTS
+          <div className="flex items-center gap-1 sm:gap-2 bg-gray-900 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-gray-900 shadow-sm cursor-pointer hover:bg-gray-800 transition-colors">
+            <span className="text-[10px] xs:text-xs sm:text-sm font-bold text-white whitespace-nowrap">
+              Get Notified
             </span>
           </div>
         </div>

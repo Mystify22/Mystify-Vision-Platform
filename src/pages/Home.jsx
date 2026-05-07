@@ -1,10 +1,11 @@
 import React from 'react';
-import Hero from '../components/sections/Hero';
-import CreateWidget from '../components/sections/CreateWidget';
-import ReelSimulator from '../components/sections/ReelSimulator';
-import GamificationHub from '../components/sections/GamificationHub';
-import Testimonials from '../components/sections/Testimonials';
-import FAQ from '../components/sections/FAQ';
+import Hero from '../features/hero/Hero';
+import CreateWidget from '../features/create-widget/CreateWidget';
+import ReelSimulator from '../features/reel-simulator/ReelSimulator';
+import GamificationHub from '../features/gamification/GamificationHub';
+import Testimonials from '../features/testimonials/Testimonials';
+import FAQ from '../features/faq/FAQ';
+import './Home.css';
 
 const Home = () => {
     return (

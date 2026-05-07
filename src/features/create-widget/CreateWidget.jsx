@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Share2, MessageCircle, Camera, Copy, Check, MessageSquare } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import './CreateWidget.css';
 
 const CreateWidget = () => {
   const [question, setQuestion] = useState('');
@@ -47,8 +48,8 @@ const CreateWidget = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-indigo-50">
                     <MessageSquare size={32} className="text-indigo-600" />
                 </div>
-                <h2 className="text-4xl font-black text-gray-900 tracking-tight">What's on your mind?</h2>
-                <p className="text-gray-500 font-medium">Create your anonymous prompt and watch the replies roll in.</p>
+                <h2 className="text-4xl font-black text-gray-900 tracking-tight">Viral Acquisition Engine</h2>
+                <p className="text-gray-500 font-medium">This widget generates personalized link prompts that drive top-of-funnel traffic from Instagram and Snapchat.</p>
               </div>
 
               <form onSubmit={handleGenerate} className="space-y-8">
@@ -56,7 +57,7 @@ const CreateWidget = () => {
                   <textarea 
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
-                    placeholder="Tell me a secret..."
+                    placeholder="Enter an engaging question to spark anonymous replies..."
                     className="w-full h-44 p-6 bg-white border border-gray-200 rounded-3xl text-xl placeholder:text-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-50 transition-all resize-none shadow-sm"
                   />
                   <div className="absolute bottom-4 right-6 text-sm font-semibold text-gray-300">
@@ -69,7 +70,7 @@ const CreateWidget = () => {
                   disabled={!question.trim()}
                   className="w-full py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-bold text-xl bouncy-hover bouncy-tap shadow-xl shadow-indigo-600/20 disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-3"
                 >
-                  Generate Mystic Link <Send size={24} />
+                  Test Growth Loop <Send size={24} />
                 </button>
               </form>
             </motion.div>

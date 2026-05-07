@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Send, CheckCircle2, User, MessageSquare } from 'lucide-react';
+import './ContactForm.css';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', message: '' });
@@ -82,7 +83,7 @@ const ContactForm = () => {
                         type="text"
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Rajeev..."
+                        placeholder="Your name"
                         className="w-full pl-11 pr-4 py-4 bg-white/80 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-400 transition-all shadow-sm"
                         required
                       />
@@ -98,7 +99,7 @@ const ContactForm = () => {
                         type="tel"
                         value={formData.phone}
                         onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="Phone number"
                         className="w-full pl-11 pr-4 py-4 bg-white/80 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-400 transition-all shadow-sm"
                         required
                       />

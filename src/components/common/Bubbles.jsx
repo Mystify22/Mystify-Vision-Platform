@@ -1,4 +1,5 @@
 import React from 'react';
+import './Bubbles.css';
 
 const Bubbles = () => {
     // Generate fewer, larger bubbles for a more subtle elegant look

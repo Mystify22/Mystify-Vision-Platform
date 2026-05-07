@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import './Pricing.css';
 
 const Pricing = () => {
   return (

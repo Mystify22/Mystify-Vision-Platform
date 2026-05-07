@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import './LegalModal.css';
 
 const LegalModal = ({ isOpen, onClose, type }) => {
   if (!isOpen) return null;
