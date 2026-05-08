@@ -1641,12 +1641,12 @@ const ProfileStep = () => {
   const profileTabs = ["Posts", "Replies", "Saved"];
 
   const samplePosts = [
-    { mood: "dark", text: "Do you ever feel most alone in a crowded room?", replies: 84, bg: "#111" },
-    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d" },
-    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f" },
-    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010" },
-    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111" },
-    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d" },
+    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
+    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
+    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" },
+    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
+    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" },
+    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
   ];
 
   const sampleReplies = [
@@ -1771,12 +1771,18 @@ const ProfileStep = () => {
           <div className="grid grid-cols-3 gap-[2px] p-[2px]">
             {samplePosts.map((post, idx) => (
               <div key={idx} className="aspect-[0.85] rounded-[3px] overflow-hidden relative cursor-pointer group" style={{ backgroundColor: post.bg }}>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70"></div>
-                <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px]">
-                  <span className="self-start text-[9.5px] uppercase bg-black/60 text-[#888] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{post.mood}</span>
-                  <p className="text-[11px] text-white/75 font-dmsans font-light leading-[1.38] line-clamp-3">{post.text}</p>
+                <motion.div
+                  animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
+                  transition={{ repeat: Infinity, duration: 25 + idx, ease: "linear" }}
+                  className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none opacity-60"
+                  style={{ backgroundImage: `url('${post.img}')` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
+                  <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{post.mood}</span>
+                  <p className="text-[11px] text-white/90 font-dmsans font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{post.text}</p>
                 </div>
-                <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/30 bg-black/50 px-[5px] py-[1px] rounded-[5px] flex items-center gap-1">
+                <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/70 bg-black/50 backdrop-blur-sm px-[5px] py-[1px] rounded-[5px] flex items-center gap-1 z-20">
                   <i className="ti ti-message-circle text-[10px]"></i>
                   {post.replies}
                 </div>
@@ -2240,21 +2246,21 @@ const mockResultsRiya = [
 ];
 
 const exploreGridItems = [
-  { id: 'g1', type: 'image', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g2', type: 'image', img: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g3', type: 'video', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2' },
-  { id: 'g4', type: 'image', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g5', type: 'image', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g6', type: 'video', img: 'https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2' },
-  { id: 'g7', type: 'image', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g8', type: 'image', img: 'https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g9', type: 'image', img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g10', type: 'image', img: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g11', type: 'image', img: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g12', type: 'image', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g13', type: 'video', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2' },
-  { id: 'g14', type: 'image', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
-  { id: 'g15', type: 'image', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1' },
+  { id: 'g1', type: 'image', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'late night', text: 'City lights hide the brightest stars.', replies: 120 },
+  { id: 'g2', type: 'image', img: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'wonder', text: 'Space is just an ocean of silence.', replies: 85 },
+  { id: 'g3', type: 'video', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2', mood: 'raw', text: 'The mask you wear becomes your face.', replies: 112 },
+  { id: 'g4', type: 'image', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'anon', text: 'Would you say it if your name was on it?', replies: 77 },
+  { id: 'g5', type: 'image', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'thought', text: 'What if your inner voice isn\'t even yours?', replies: 61 },
+  { id: 'g6', type: 'video', img: 'https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2', mood: 'chill', text: 'Lost in the rhythm of the rain.', replies: 240 },
+  { id: 'g7', type: 'image', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'quiet', text: 'Mountains whisper what cities scream.', replies: 45 },
+  { id: 'g8', type: 'image', img: 'https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'dream', text: 'Desert dunes shift like time.', replies: 99 },
+  { id: 'g9', type: 'image', img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'nature', text: 'Green is the color of healing.', replies: 156 },
+  { id: 'g10', type: 'image', img: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'quiet', text: 'Silence is just noise nobody taught you to hear.', replies: 39 },
+  { id: 'g11', type: 'image', img: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'wonder', text: 'Looking up puts everything in perspective.', replies: 21 },
+  { id: 'g12', type: 'image', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'thought', text: 'Stars are just holes in the sky.', replies: 67 },
+  { id: 'g13', type: 'video', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2', mood: 'late night', text: 'When the world sleeps, I wake up.', replies: 180 },
+  { id: 'g14', type: 'image', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'anon', text: 'Secrets are heavier than lies.', replies: 93 },
+  { id: 'g15', type: 'image', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'raw', text: 'Colors speak louder than words.', replies: 124 },
 ];
 
 const initialMessages = [
@@ -2371,7 +2377,7 @@ const ChatStep = () => {
               Reply to: "{selectedChat.question}"
             </span>
           </div>
-          
+
           <div className="flex justify-start">
             <div className="max-w-[80%] bg-[#161616] border border-[#222] text-[#e8e8e8] text-[13px] px-3 py-2 rounded-2xl rounded-tl-sm">
               {selectedChat.preview.replace(/^You: /, '')}
@@ -2717,31 +2723,29 @@ const ExploreStep = () => {
       <div className="flex-1 overflow-y-auto [scrollbar-width:none]">
 
         {screenState === 'default' && (
-          <div className="grid grid-cols-3 gap-[3px] auto-rows-[115px] grid-flow-dense pb-[10px] px-[6px] animate-fade-in pt-1">
+          <div className="grid grid-cols-3 gap-[3px] auto-rows-[123px] grid-flow-dense pb-[10px] px-[6px] animate-fade-in pt-1">
             {exploreGridItems.map(item => (
               <div
                 key={item.id}
-                className={`relative cursor-pointer group active:scale-[0.98] transition-all duration-300 rounded-[6px] overflow-hidden shadow-lg ${item.span}`}
+                className="relative cursor-pointer group active:scale-[0.98] transition-all duration-300 overflow-hidden shadow-lg"
                 style={{
                   backgroundImage: `url(${item.img})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 group-hover:bg-black/10 transition-colors duration-300" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[6px]" />
-                {item.type === 'video' && (
-                  <div className="absolute top-2 right-2 bg-black/30 backdrop-blur-md rounded-full p-[5px] ring-1 ring-white/20 shadow-xl">
-                    <Play size={10} className="text-white" fill="white" />
-                  </div>
-                )}
-                {item.type === 'image' && (
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="bg-black/30 backdrop-blur-md rounded-full p-1 ring-1 ring-white/20">
-                      <Search size={10} className="text-white" />
-                    </div>
-                  </div>
-                )}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none group-hover:bg-black/80 transition-colors duration-300" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 z-20 pointer-events-none" />
+
+                <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
+                  <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{item.mood}</span>
+                  <p className="text-[11px] text-white/90 font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{item.text}</p>
+                </div>
+
+                <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/70 bg-black/50 backdrop-blur-sm px-[5px] py-[1px] rounded-[5px] flex items-center gap-1 z-20">
+                  <MessageCircle size={10} />
+                  {item.replies}
+                </div>
               </div>
             ))}
           </div>
