@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery } from 'lucide-react';
+import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
 import { initialHeroReels } from './Hero';
 import userAvatar from '../../assets/avatar.png';
 import coverImage from '../../assets/cover.png';
@@ -2263,80 +2263,68 @@ const exploreGridItems = [
   { id: 'g15', type: 'image', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'raw', text: 'Colors speak louder than words.', replies: 124 },
 ];
 
-const initialMessages = [
-  { id: 'm1', handle: '@lunary_sky', unread: true, time: '2m ago', question: "What's your 3am thought lately?", preview: "Mine is always about that one conversation I never finished...", privateReply: true },
-  { id: 'm2', handle: '@void_walker', unread: true, time: '18m ago', question: "One thing people assume about you?", preview: "That I have everything figured out lol", privateReply: true },
-  { id: 'm3', handle: '@echo.chamber', unread: false, time: '1h ago', question: "Which city has your heart?", preview: "You: Istanbul, always. What about you?", privateReply: true },
-  { id: 'm4', handle: '@drifting_away', unread: false, time: 'Yesterday', question: "Red flag you keep ignoring?", preview: "Haha I stopped replying after that one", privateReply: true }
+const mockConversationsData = [
+  { id: 'c1', handle: '@riya_m', unread: true, unreadCount: 3, isOnline: true, preview: "Your question hit different today...", moodTag: 'Vulnerable', contextTag: null, time: '2m', avatarImage: '/dp-1.png', 
+    post: { text: "Is it brave or naive to trust a stranger?", mood: "Vulnerable", answers: 42, bg: "#2d1b4e" } 
+  },
+  { id: 'c2', handle: '@arjun_k', unread: true, unreadCount: null, isOnline: false, preview: "I answered your city post — wanted to say more", moodTag: null, contextTag: 're: City post', time: '18m', avatarImage: '/dp-2.png' },
+  { id: 'c3', handle: '@meera_t', unread: false, unreadCount: null, isOnline: false, preview: "haha ok but seriously though...", moodTag: 'Nostalgic', contextTag: null, time: '1hr', avatarImage: '/dp-3.png' },
+  { id: 'c4', handle: '@rohan_d', unread: false, unreadCount: null, isOnline: false, preview: "you: yeah exactly that feeling", moodTag: null, contextTag: null, time: '3hr', avatarImage: '/dp-4.png' },
+  { id: 'c5', handle: '@anon_42', unread: false, unreadCount: null, isOnline: false, preview: "thanks for asking that question", moodTag: null, contextTag: null, time: 'Yesterday', avatarImage: '/dp-5.png', faded: true },
+  { id: 'c6', handle: '@priya_s', unread: false, unreadCount: null, isOnline: false, preview: "makes so much sense now", moodTag: null, contextTag: null, time: '2d', avatarImage: '/dp-1.png', moreFaded: true }
 ];
 
-const initialRequests = [
-  { id: 'r1', handle: '@hidden_eye', time: '3h ago', question: "What's something you never told anyone?", preview: "I actually relate so much to this. Can we talk?" },
-  { id: 'r2', handle: '@kael.vibes', time: '5h ago', question: "Your villain era aesthetic?", preview: "Same energy honestly, let's vibe" },
-  { id: 'r3', handle: '@midnight_run', time: '8h ago', question: "If you could relive one memory…", preview: "This question hit different. Reply me?" },
-  { id: 'r4', handle: '@siren_song', time: 'Yesterday', question: "What's your 3am thought lately?", preview: "Literally cried reading the replies on this" },
-  { id: 'r5', handle: '@cipher.zero', time: '2d ago', question: "Red flag you keep ignoring?", preview: "I see myself in this so much, hi" }
-];
+const moodColors = {
+  'Curious': { border: 'rgba(77,144,215,0.4)', text: 'rgba(77,144,215,0.9)' },
+  'Vulnerable': { border: 'rgba(159,127,218,0.4)', text: 'rgba(159,127,218,0.9)' },
+  'Frustrated': { border: 'rgba(218,127,127,0.4)', text: 'rgba(218,127,127,0.9)' },
+  'Hopeful': { border: 'rgba(127,218,159,0.4)', text: 'rgba(127,218,159,0.9)' },
+  'Nostalgic': { border: 'rgba(218,184,127,0.4)', text: 'rgba(218,184,127,0.9)' },
+};
 
 const ChatStep = () => {
-  const [messages, setMessages] = useState(initialMessages);
-  const [requests, setRequests] = useState(initialRequests);
-  const [activeTab, setActiveTab] = useState('Messages');
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [removingId, setRemovingId] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [conversations, setConversations] = useState(mockConversationsData);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatDraft, setChatDraft] = useState('');
-  const [chatHistory, setChatHistory] = useState({});
+  const [isTyping, setIsTyping] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredMessages = messages.filter(m =>
-    m.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    m.preview.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const filteredRequests = requests.filter(r =>
-    r.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    r.preview.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const displayList = activeTab === 'Messages' ? filteredMessages : filteredRequests;
-
-  const handleAccept = (req) => {
-    setRemovingId(req.id);
-    setTimeout(() => {
-      setRequests(prev => prev.filter(r => r.id !== req.id));
-      setMessages(prev => [{ ...req, unread: true, privateReply: true }, ...prev]);
-      setRemovingId(null);
-    }, 350);
-  };
-
-  const handleDecline = (id) => {
-    setRemovingId(id);
-    setTimeout(() => {
-      setRequests(prev => prev.filter(r => r.id !== id));
-      setRemovingId(null);
-    }, 350);
-  };
-
+  const filteredConversations = (activeFilter === 'Unread' 
+    ? conversations.filter(c => c.unread) 
+    : conversations).filter(c => 
+      c.handle.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      c.preview.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (c.post && c.post.text.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+    
+  const unreadCount = conversations.filter(c => c.unread).length;
+  
   const openChat = (chat) => {
     setSelectedChat(chat);
     if (chat.unread) {
-      setMessages(prev => prev.map(m => m.id === chat.id ? { ...m, unread: false } : m));
+      setConversations(prev => prev.map(c => c.id === chat.id ? { ...c, unread: false, unreadCount: null } : c));
     }
   };
 
   const handleSend = () => {
     if (!chatDraft.trim()) return;
-    const newMsg = { id: Date.now(), text: chatDraft, sender: 'me' };
-    setChatHistory(prev => ({
-      ...prev,
-      [selectedChat.id]: [...(prev[selectedChat.id] || []), newMsg]
-    }));
     setChatDraft('');
   };
-
+  
+  const renderMoodTag = (tag) => {
+    if (!tag) return null;
+    const isTopic = tag.startsWith('re:');
+    const style = isTopic ? { border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.45)' } 
+                          : { border: moodColors[tag]?.border || '1px solid rgba(255,255,255,0.12)', color: moodColors[tag]?.text || 'rgba(255,255,255,0.9)' };
+    return (
+      <div style={style} className="text-[8px] px-[6px] py-[2px] rounded-[8px] bg-transparent whitespace-nowrap font-medium">
+        {tag}
+      </div>
+    );
+  };
+  
   if (selectedChat) {
-    const history = chatHistory[selectedChat.id] || [];
     return (
       <motion.div
         key="step-chat-thread"
@@ -2344,73 +2332,136 @@ const ChatStep = () => {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -300, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="absolute inset-0 flex flex-col bg-[#0d0d0d] text-[#e8e8e8] overflow-hidden pb-[70px] z-50"
+        className="absolute inset-0 flex flex-col bg-[#0c0c10] text-white overflow-hidden pb-[0px] z-[60] font-sans"
       >
-        {/* Status Bar */}
         <div className="flex justify-between items-center pt-[12px] px-[20px] pb-[4px]">
-          <span className="text-[11px] text-[#444] font-medium">9:41</span>
-          <div className="flex items-center gap-[5px] text-[#444]">
+          <span className="text-[11px] text-white font-medium">9:41</span>
+          <div className="flex items-center gap-[5px] text-white">
             <Wifi size={12} strokeWidth={2.5} />
             <Battery size={14} strokeWidth={2.5} />
           </div>
         </div>
 
-        {/* Chat Header */}
-        <div className="pt-[14px] px-[18px] pb-[12px] flex items-center gap-3 border-b-[0.5px] border-[#1a1a1a]">
-          <button onClick={() => setSelectedChat(null)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
-            <ChevronLeft size={20} className="text-[#e8e8e8]" />
-          </button>
+        <div className="pt-[14px] px-[12px] pb-[12px] flex items-center justify-between border-b-[0.5px] border-[rgba(255,255,255,0.07)] bg-[#0c0c10]">
           <div className="flex items-center gap-3">
-            <div className="w-[36px] h-[36px] rounded-[12px] bg-[#161616] border-[0.5px] border-[#222] flex items-center justify-center">
-              <Ghost size={18} className="text-[#333]" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[14px] font-medium text-[#c8c8c8]">{selectedChat.handle || "@anonymous"}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Chat Body */}
-        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 [scrollbar-width:none]">
-          <div className="flex justify-center">
-            <span className="text-[10px] text-[#444] bg-[#111] px-2 py-1 rounded-full border border-[#1a1a1a] max-w-[80%] text-center">
-              Reply to: "{selectedChat.question}"
-            </span>
-          </div>
-
-          <div className="flex justify-start">
-            <div className="max-w-[80%] bg-[#161616] border border-[#222] text-[#e8e8e8] text-[13px] px-3 py-2 rounded-2xl rounded-tl-sm">
-              {selectedChat.preview.replace(/^You: /, '')}
-            </div>
-          </div>
-
-          {history.map(msg => (
-            <div key={msg.id} className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[80%] text-[13px] px-3 py-2 ${msg.sender === 'me' ? 'bg-[#d4f56a] text-[#0d0d0d] rounded-2xl rounded-tr-sm font-medium' : 'bg-[#161616] border border-[#222] text-[#e8e8e8] rounded-2xl rounded-tl-sm'}`}>
-                {msg.text}
+            <button onClick={() => setSelectedChat(null)} className="w-[26px] h-[26px] rounded-full bg-[rgba(255,255,255,0.07)] flex items-center justify-center">
+              <ChevronLeft size={16} className="text-white" />
+            </button>
+            <div className="flex items-center gap-[10px]">
+              <div className="relative">
+                <img src={selectedChat.avatarImage} className="w-[32px] h-[32px] rounded-full object-cover" alt="" />
+                {selectedChat.isOnline && (
+                  <div className="absolute bottom-0 right-0 w-[9px] h-[9px] rounded-full bg-[#d4f56a] border-[1.5px] border-[#0c0c10]" />
+                )}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13px] font-medium text-white">{selectedChat.handle}</span>
+                <span className="text-[9px] text-[rgba(255,255,255,0.35)]">{selectedChat.isOnline ? 'Online now' : `Last seen ${selectedChat.time}`}</span>
               </div>
             </div>
-          ))}
+          </div>
+          <button className="w-[26px] h-[26px] rounded-full bg-[rgba(255,255,255,0.07)] flex items-center justify-center">
+            <MoreHorizontal size={14} className="text-white" />
+          </button>
         </div>
 
-        {/* Chat Input */}
-        <div className="p-4 border-t-[0.5px] border-[#1a1a1a] bg-[#0d0d0d]">
-          <div className="flex items-center gap-2 bg-[#161616] border-[0.5px] border-[#2a2a2a] rounded-full p-1 pl-4">
-            <input
-              type="text"
-              value={chatDraft}
-              onChange={(e) => setChatDraft(e.target.value)}
-              placeholder="Message..."
-              className="flex-1 bg-transparent text-[13px] text-white outline-none placeholder:text-[#666]"
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            />
-            <button
-              onClick={handleSend}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${chatDraft.trim() ? 'bg-[#d4f56a] text-[#0d0d0d]' : 'bg-[#222] text-[#666]'}`}
-            >
-              <Send size={14} className={chatDraft.trim() ? 'mr-[2px]' : ''} />
-            </button>
+        <div className="flex-1 overflow-y-auto px-[12px] py-[10px] [scrollbar-width:none]">
+          {selectedChat.post && (
+            <div className="border border-[rgba(255,255,255,0.08)] rounded-[10px] overflow-hidden mb-[16px] bg-[#0c0c10]">
+              <div className="relative h-[52px] w-full" style={{ backgroundColor: selectedChat.post.bg }}>
+                <div className="absolute inset-0 bg-black/50" />
+                <div className="absolute bottom-0 left-0 p-[6px_8px] text-[9px] font-medium text-white">{selectedChat.post.text}</div>
+              </div>
+              <div className="p-[6px_8px] flex items-center gap-[5px]">
+                {renderMoodTag(selectedChat.post.mood)}
+                <span className="text-[8px] text-[rgba(255,255,255,0.35)]">Your post · {selectedChat.post.answers} answers</span>
+              </div>
+            </div>
+          )}
+
+          <div className="flex justify-center my-[10px]">
+            <span className="text-[9px] text-[rgba(255,255,255,0.25)]">Today</span>
           </div>
+
+          <div className="flex flex-col gap-[8px]">
+            <div className="flex items-end gap-[7px]">
+              <img src={selectedChat.avatarImage} className="w-[22px] h-[22px] shrink-0 rounded-full object-cover" alt="" />
+              <div className="flex flex-col">
+                <div className="bg-[rgba(255,255,255,0.09)] border border-[rgba(255,255,255,0.07)] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_14px_4px] max-w-[220px]">
+                  Your question hit different today. I've been thinking about it all afternoon.
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-end gap-[7px]">
+              <div className="w-[22px] h-[22px] shrink-0" />
+              <div className="flex flex-col">
+                <div className="bg-[rgba(255,255,255,0.09)] border border-[rgba(255,255,255,0.07)] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_14px_4px] max-w-[220px]">
+                  Like genuinely — I almost messaged three people I haven't spoken to in years.
+                </div>
+                <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1">2:14 PM</span>
+              </div>
+            </div>
+
+            <div className="flex items-end gap-[7px] flex-row-reverse mt-2">
+              <div className="flex flex-col items-end">
+                <div className="bg-white text-[#0c0c10] p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
+                  that's exactly what I was hoping for when I posted it
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-end gap-[7px] flex-row-reverse">
+              <div className="flex flex-col items-end">
+                <div className="bg-white text-[#0c0c10] p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
+                  did you end up reaching out to them?
+                </div>
+                <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1 text-right w-full">2:16 PM</span>
+              </div>
+            </div>
+            
+            <div className="flex items-end gap-[7px] mt-2">
+              <img src={selectedChat.avatarImage} className="w-[22px] h-[22px] shrink-0 rounded-full object-cover" alt="" />
+              <div className="flex flex-col">
+                <div className="bg-[rgba(255,255,255,0.09)] border border-[rgba(255,255,255,0.07)] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_14px_4px] max-w-[220px]">
+                  still deciding. but honestly... maybe
+                </div>
+                <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1">Just now</span>
+              </div>
+            </div>
+
+            {isTyping && (
+              <div className="flex items-end gap-[7px] mt-1">
+                <img src={selectedChat.avatarImage} className="w-[22px] h-[22px] shrink-0 rounded-full object-cover" alt="" />
+                <div className="flex items-center gap-[4px] h-[24px]">
+                  <motion.div animate={{ height: [4, 10, 4] }} transition={{ repeat: Infinity, duration: 1 }} className="w-[2px] bg-[rgba(255,255,255,0.3)] rounded-[1px]" />
+                  <motion.div animate={{ height: [4, 10, 4] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-[2px] bg-[rgba(255,255,255,0.3)] rounded-[1px]" />
+                  <motion.div animate={{ height: [4, 10, 4] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-[2px] bg-[rgba(255,255,255,0.3)] rounded-[1px]" />
+                  <span className="text-[9px] text-[rgba(255,255,255,0.25)] ml-1">typing...</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="p-[8px_12px] pb-[16px] border-t-[0.5px] border-[rgba(255,255,255,0.07)] bg-[#0c0c10] flex items-end gap-[8px]">
+          <button className="w-[28px] h-[28px] rounded-full bg-[rgba(255,255,255,0.07)] flex items-center justify-center shrink-0 mb-[3px]">
+            <Link size={14} className="text-white" />
+          </button>
+          <textarea
+            value={chatDraft}
+            onChange={(e) => setChatDraft(e.target.value)}
+            placeholder="Reply..."
+            className="flex-1 bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] rounded-[20px] p-[8px_12px] text-[11px] text-white outline-none placeholder:text-[rgba(255,255,255,0.5)] resize-none min-h-[34px] max-h-[70px]"
+            rows={1}
+          />
+          <button
+            onClick={handleSend}
+            disabled={!chatDraft.trim()}
+            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 mb-[2px] transition-opacity ${chatDraft.trim() ? 'bg-white opacity-100' : 'bg-white opacity-40'}`}
+          >
+            <ArrowRight size={14} className="text-[#0c0c10]" />
+          </button>
         </div>
       </motion.div>
     );
@@ -2418,183 +2469,133 @@ const ChatStep = () => {
 
   return (
     <motion.div
-      key="step-chat"
+      key="step-chat-main"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      className="absolute inset-0 flex flex-col bg-[#0d0d0d] text-[#e8e8e8] overflow-hidden pb-[70px]"
-      style={{ fontFamily: 'system-ui, sans-serif' }}
-      onClick={() => { if (isSearchOpen) setIsSearchOpen(false); }}
+      className="absolute inset-0 flex flex-col bg-[#0c0c10] text-white overflow-hidden pb-[70px] font-sans"
     >
-      {/* Status Bar */}
       <div className="flex justify-between items-center pt-[12px] px-[20px] pb-[4px]">
-        <span className="text-[11px] text-[#444] font-medium">9:41</span>
-        <div className="flex items-center gap-[5px] text-[#444]">
+        <span className="text-[11px] text-white font-medium">9:41</span>
+        <div className="flex items-center gap-[5px] text-white">
           <Wifi size={12} strokeWidth={2.5} />
           <Battery size={14} strokeWidth={2.5} />
         </div>
       </div>
 
-      {/* Top Bar */}
-      <div className="pt-[14px] px-[18px] pb-[12px] flex items-center justify-between relative">
-        <h1 className="text-[20px] font-medium tracking-[-0.3px] text-[#e8e8e8]">Inbox</h1>
-
-        <div
-          onClick={(e) => { e.stopPropagation(); setIsSearchOpen(true); }}
-          className={`relative flex items-center justify-end h-[32px] bg-[#161616] border-[0.5px] border-[#2a2a2a] rounded-[10px] transition-all duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden cursor-pointer ${isSearchOpen ? 'w-[190px]' : 'w-[32px]'}`}
-        >
-          {isSearchOpen && (
-            <input
-              autoFocus
-              type="text"
-              placeholder="Search..."
-              className="absolute left-3 right-8 top-0 bottom-0 bg-transparent text-[12px] text-[#d0d0d0] outline-none placeholder:text-[#d0d0d0]/50"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
-          )}
-
-          {isSearchOpen && searchQuery.length > 0 && (
-            <button
-              onClick={(e) => { e.stopPropagation(); setSearchQuery(''); }}
-              className="absolute right-[32px] top-0 bottom-0 px-2 flex items-center justify-center text-[#d0d0d0] hover:text-white"
-            >
-              <X size={12} />
-            </button>
-          )}
-
-          <div
-            onClick={(e) => {
-              if (isSearchOpen) {
-                e.stopPropagation();
-                setIsSearchOpen(false);
-                setSearchQuery('');
-              }
-            }}
-            className="w-[32px] h-[32px] shrink-0 flex items-center justify-center text-[#e8e8e8] hover:bg-white/5 transition-colors"
-          >
-            <Search size={14} />
-          </div>
+      <div className="pt-[10px] px-[12px] pb-[8px] flex items-center justify-between">
+        <h1 className="text-[15px] font-medium tracking-[-0.01em] text-white">Messages</h1>
+        <div className="flex gap-[8px]">
+          <button className="w-[28px] h-[28px] rounded-full bg-[rgba(255,255,255,0.07)] flex items-center justify-center">
+            <Edit size={14} className="text-white" />
+          </button>
         </div>
       </div>
 
-      {/* Segment Tabs */}
-      <div className="flex border-b-[0.5px] border-[#1a1a1a] bg-[#0d0d0d]">
-        <button
-          onClick={() => { setActiveTab('Messages'); setSearchQuery(''); }}
-          className={`flex-1 flex items-center justify-center gap-2 py-[10px] text-[12px] font-medium border-b-[1.5px] transition-colors ${activeTab === 'Messages' ? 'text-[#d0d0d0] border-[#d0d0d0]' : 'text-[#3a3a3a] border-transparent'}`}
-        >
-          Messages
-          <span className={`text-[9px] px-[6px] py-[2px] rounded-[20px] ${activeTab === 'Messages' ? 'bg-[#2a2a2a] text-[#aaa]' : 'bg-[#252525] text-[#666]'}`}>
-            {messages.length}
-          </span>
-        </button>
-        <button
-          onClick={() => { setActiveTab('Requests'); setSearchQuery(''); }}
-          className={`flex-1 flex items-center justify-center gap-2 py-[10px] text-[12px] font-medium border-b-[1.5px] transition-colors ${activeTab === 'Requests' ? 'text-[#d0d0d0] border-[#d0d0d0]' : 'text-[#3a3a3a] border-transparent'}`}
-        >
-          Requests
-          <span className={`text-[9px] px-[6px] py-[2px] rounded-[20px] ${activeTab === 'Requests' ? 'bg-[#2a2a2a] text-[#aaa]' : 'bg-[#252525] text-[#666]'}`}>
-            {requests.length}
-          </span>
-        </button>
+      <div className="px-[12px] pb-[10px] flex gap-[6px] overflow-x-auto [scrollbar-width:none]">
+        {['All', 'Unread', 'Groups'].map(pill => (
+          <button
+            key={pill}
+            onClick={() => setActiveFilter(pill)}
+            className={`whitespace-nowrap px-[12px] py-[5px] rounded-[20px] text-[10px] font-medium transition-colors ${activeFilter === pill ? 'bg-white text-[#0c0c10]' : 'bg-transparent border border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.45)]'}`}
+          >
+            {pill}
+          </button>
+        ))}
       </div>
 
-      {/* Scrollable Content Area */}
+      {activeFilter === 'Unread' && (
+        <div className="px-[12px] pb-[8px] pt-[2px]">
+          <span className="text-[10px] text-[rgba(255,255,255,0.3)]">{unreadCount} unread conversations</span>
+        </div>
+      )}
+
+      <div className="px-[12px] pb-[8px] pt-[2px]">
+        <div className="bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.08)] rounded-[10px] flex items-center px-[10px] h-[34px]">
+          <Search size={14} className="text-[rgba(255,255,255,0.4)] mr-[8px]" />
+          <input
+            type="text"
+            placeholder="Search messages..."
+            className="flex-1 bg-transparent border-none outline-none text-[11px] text-white placeholder:text-[rgba(255,255,255,0.4)]"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="h-[0.5px] bg-[rgba(255,255,255,0.07)] mx-0 my-[4px]" />
+
       <div className="flex-1 overflow-y-auto [scrollbar-width:none]">
-        {searchQuery.length > 0 && displayList.length === 0 ? (
-          <div className="flex items-center justify-center pt-[50px] text-[#4a4a4a] text-[13px]">
-            No conversations found
+        {activeFilter === 'Groups' || filteredConversations.length === 0 ? (
+          <div className="flex flex-col items-center pt-[40px] px-[20px]">
+            <div className="w-[48px] h-[48px] rounded-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] flex items-center justify-center mb-[4px]">
+              <MessageCircle size={22} className="text-[rgba(255,255,255,0.2)]" />
+            </div>
+            <h3 className="text-[13px] font-medium text-white mb-[4px]">{activeFilter === 'Groups' ? 'Groups coming soon' : 'No messages yet'}</h3>
+            <p className="text-[11px] text-[rgba(255,255,255,0.3)] text-center leading-[1.5] max-w-[220px]">
+              When someone reaches out about your posts, their messages will appear here.
+            </p>
+            
+            <div className="mt-[16px] w-full bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] rounded-[12px] p-[10px_12px] flex items-center gap-[8px] cursor-pointer">
+              <Edit size={16} className="text-[rgba(255,255,255,0.4)]" />
+              <span className="flex-1 text-[12px] text-[rgba(255,255,255,0.5)]">Start a new conversation</span>
+              <ArrowRight size={14} className="text-[rgba(255,255,255,0.3)]" />
+            </div>
           </div>
-        ) : activeTab === 'Messages' ? (
-          <div className="flex flex-col">
-            {displayList.map(thread => (
+        ) : (
+          <div className="flex flex-col pb-[20px]">
+            {filteredConversations.map(conv => (
               <div
-                key={thread.id}
-                onClick={() => openChat(thread)}
-                className={`flex gap-[11px] p-[13px_18px] border-b-[0.5px] border-[#141414] cursor-pointer transition-colors hover:bg-[#111] active:bg-[#1a1a1a] ${thread.unread ? 'bg-[#111111]' : ''}`}
+                key={conv.id}
+                onClick={() => openChat(conv)}
+                className={`flex gap-[10px] p-[10px_12px] border-b-[0.5px] border-[rgba(255,255,255,0.05)] cursor-pointer ${conv.unread ? 'bg-[rgba(255,255,255,0.02)]' : 'bg-[#0c0c10]'}`}
               >
                 <div className="relative shrink-0">
-                  <div className="w-[40px] h-[40px] rounded-[13px] bg-[#161616] border-[0.5px] border-[#222] flex items-center justify-center">
-                    <Ghost size={20} className="text-[#333]" />
-                  </div>
-                  {thread.unread && (
-                    <div className="absolute -top-[2px] -right-[2px] w-[8px] h-[8px] rounded-full bg-[#e0e0e0] border-[1.5px] border-[#111]" />
+                  <img src={conv.avatarImage} className={`w-[40px] h-[40px] rounded-full object-cover ${conv.faded ? 'opacity-70' : ''} ${conv.moreFaded ? 'opacity-40' : ''}`} alt="" />
+                  {conv.isOnline && (
+                    <div className="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#d4f56a] border-[2px] border-[#0c0c10]" />
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <div className="flex justify-between items-center mb-[2px]">
-                    <span className="text-[13px] font-medium text-[#c8c8c8]">{thread.handle}</span>
-                    <span className="text-[10px] text-[#2e2e2e]">{thread.time}</span>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[12px] font-medium text-white">{conv.handle}</span>
+                    <span className="text-[9px] text-[rgba(255,255,255,0.25)] shrink-0">{conv.time}</span>
                   </div>
-                  <div className="text-[11px] italic text-[#333] truncate mb-[2px]">
-                    Re: {thread.question}
+                  <div className={`text-[11px] truncate whitespace-nowrap mt-[1px] ${conv.unread ? 'text-[rgba(255,255,255,0.7)] font-normal' : 'text-[rgba(255,255,255,0.4)]'}`}>
+                    {conv.preview}
                   </div>
-                  <div className={`text-[12px] truncate ${thread.unread ? 'text-[#888]' : 'text-[#4a4a4a]'}`}>
-                    {thread.preview}
-                  </div>
-                  {thread.privateReply && (
-                    <div className="flex items-center gap-[3px] mt-[5px] text-[#252525] text-[10px]">
-                      <Lock size={10} />
-                      <span>Private reply</span>
+                  {(conv.moodTag || conv.contextTag) && (
+                    <div className="flex gap-[4px] mt-[4px] items-center">
+                      {renderMoodTag(conv.moodTag)}
+                      {renderMoodTag(conv.contextTag)}
                     </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col items-end justify-center shrink-0 w-[18px]">
+                  {conv.unread && (
+                    <div className="w-[8px] h-[8px] bg-[#d4f56a] rounded-full mt-[4px]" />
                   )}
                 </div>
               </div>
             ))}
-          </div>
-        ) : (
-          <div className="flex flex-col relative min-h-[200px]">
-            {requests.length === 0 ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center pt-[50px]">
-                <Inbox size={40} className="text-[#222] mb-3" />
-                <p className="text-[13px] text-[#333]">No pending requests</p>
+            
+            {activeFilter === 'Unread' && filteredConversations.length > 0 && (
+              <div className="mt-[20px] text-center text-[11px] text-[rgba(255,255,255,0.2)]">
+                All other conversations are read
               </div>
-            ) : (
-              displayList.map(req => (
-                <div
-                  key={req.id}
-                  className={`flex gap-[11px] p-[13px_18px] border-b-[0.5px] border-[#141414] transition-opacity duration-[350ms] ${removingId === req.id ? 'opacity-40 pointer-events-none' : 'opacity-100'}`}
-                >
-                  <div className="shrink-0 w-[40px] h-[40px] rounded-[13px] bg-[#161616] border-[0.5px] border-[#222] flex items-center justify-center">
-                    <Ghost size={20} className="text-[#333]" />
-                  </div>
-
-                  <div className="flex-1 min-w-0 flex flex-col justify-center">
-                    <div className="flex justify-between items-center mb-[2px]">
-                      <span className="text-[13px] font-medium text-[#c8c8c8]">{req.handle}</span>
-                      <span className="text-[10px] text-[#2e2e2e]">{req.time}</span>
-                    </div>
-                    <div className="text-[11px] italic text-[#333] truncate mb-[2px]">
-                      Re: {req.question}
-                    </div>
-                    <div className="text-[12px] truncate text-[#4a4a4a]">
-                      {req.preview}
-                    </div>
-
-                    <div className="flex gap-[6px] mt-[9px]">
-                      <button
-                        onClick={() => handleAccept(req)}
-                        className="flex-1 text-center py-[7px] bg-[#1e1e1e] border-[0.5px] border-[#2e2e2e] rounded-[8px] text-[#c0c0c0] text-[11px] font-medium cursor-pointer hover:bg-[#252525] transition-colors"
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => handleDecline(req.id)}
-                        className="flex-1 text-center py-[7px] bg-[#161616] border-[0.5px] border-[#222] rounded-[8px] text-[#666] text-[11px] font-medium cursor-pointer hover:bg-[#1a1a1a] transition-colors"
-                      >
-                        Decline
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
             )}
           </div>
         )}
       </div>
+
+      {['All', 'Unread'].includes(activeFilter) && (
+        <button className="absolute bottom-[80px] right-[14px] w-[36px] h-[36px] rounded-full bg-white flex items-center justify-center shadow-lg z-40">
+          <Edit size={16} className="text-[#0c0c10]" />
+        </button>
+      )}
     </motion.div>
   );
 };
@@ -2926,36 +2927,29 @@ const ReelSimulator = () => {
 
       {/* Right Side Content */}
       <div className="flex-1 text-center lg:text-left space-y-8 max-w-xl z-10">
-        <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full text-sm font-bold border border-indigo-100">
-          <Sparkles size={16} /> Visual First
+        <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-4 py-2 rounded-full text-sm font-bold border border-gray-200">
+          <Sparkles size={16} /> Interactive Demo
         </div>
-        <h2 className="text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.1] h-[140px] md:h-auto">
-          {step === 1 ? (
-            <>Choose a <br /><span className="text-gradient">Vibe</span></>
-          ) : (
-            <>Select your <br /><span className="text-gradient">Soundtrack</span></>
-          )}
+        <h2 className="text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.1]">
+          Experience <br /><span className="text-gradient">Mystify</span>
         </h2>
-        <p className="text-xl text-gray-500 font-medium h-[80px]">
-          {step === 1
-            ? "Set the perfect mood before posting your thoughts. Browse through curated aesthetics and pick a background that matches your energy."
-            : "Layer a soundscape to complete the experience. From serene nature to dark electronic beats, choose the perfect track."
-          }
+        <p className="text-xl text-gray-500 font-medium">
+          Step into a premium, anonymous-first social experience. Combine deep thoughts with immersive visuals and soundscapes, and spark meaningful conversations without revealing who you are.
         </p>
 
         <ul className="space-y-4 pt-6 text-left max-w-sm mx-auto lg:mx-0">
           {[
-            { title: "Immersive Selection", desc: "A dark, focused interface that lets the imagery speak for itself." },
-            { title: "Categorized Themes", desc: "Quickly filter by Nature, Dark & Moody, Minimal, and more." },
-            { title: "Seamless Creation", desc: "Select a vibe and you're ready to share your anonymous thoughts with the world." }
+            { title: "Audio-Visual Posts", desc: "Pair your thoughts with curated visual vibes and ambient soundtracks." },
+            { title: "Anonymous Connections", desc: "No names, no followers. Connect through shared feelings and private DMs." },
+            { title: "Premium Dark Mode", desc: "A sleek, distraction-free deep black interface designed for late-night scrolling." }
           ].map((item, i) => (
             <li key={i} className="flex gap-4 items-start">
-              <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center shrink-0 mt-1">
-                <div className="w-3 h-3 bg-indigo-500 rounded-full" />
+              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 mt-1">
+                <div className="w-3 h-3 bg-gray-900 rounded-full" />
               </div>
               <div>
                 <h4 className="font-bold text-gray-900">{item.title}</h4>
-                <p className="text-gray-500 text-sm mt-1">{item.desc}</p>
+                <p className="text-sm text-gray-500 leading-relaxed mt-1">{item.desc}</p>
               </div>
             </li>
           ))}
@@ -3051,28 +3045,34 @@ const ReelSimulator = () => {
 
           {/* Bottom Navigation Bar */}
           {step > 0 && (
-            <div className="absolute bottom-0 inset-x-0 bg-[#0d0d0d] border-t-[0.5px] border-[#1a1a1a] flex items-center justify-around px-0 z-50 pt-[12px] pb-[20px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
-              <button onClick={() => setStep(4)} className={`flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors ${step === 4 ? 'text-[#bebebe]' : 'text-[#333] hover:text-[#bebebe]'}`}>
-                <Home size={20} strokeWidth={step === 4 ? 2.5 : 2} />
-                <span className="text-[9px] font-medium">Home</span>
+            <div className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t-[0.5px] border-[rgba(255,255,255,0.07)] flex items-center justify-around px-0 z-40 p-[8px_0_10px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
+              <button onClick={() => setStep(4)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+                <Home size={20} strokeWidth={step === 4 ? 2.5 : 2} className={step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
+                <span className={`text-[9px] font-medium ${step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Home</span>
+                {step === 4 && <div className="w-[4px] h-[4px] rounded-full bg-[#d4f56a] mt-[1px]" />}
               </button>
-              <button onClick={() => setStep(6)} className={`flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors ${step === 6 ? 'text-[#bebebe]' : 'text-[#333] hover:text-[#bebebe]'}`}>
-                <Search size={20} strokeWidth={step === 6 ? 2.5 : 2} />
-                <span className="text-[9px] font-medium">Explore</span>
+              <button onClick={() => setStep(6)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+                <Search size={20} strokeWidth={step === 6 ? 2.5 : 2} className={step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
+                <span className={`text-[9px] font-medium ${step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Search</span>
+                {step === 6 && <div className="w-[4px] h-[4px] rounded-full bg-[#d4f56a] mt-[1px]" />}
               </button>
               <button onClick={() => setStep(1)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer transition-transform active:scale-95">
-                <div className="w-[40px] h-[40px] bg-[#1e1e1e] border-[0.5px] border-[#2a2a2a] rounded-[12px] flex items-center justify-center mt-[-10px]">
-                  <Plus size={18} className="text-[#888]" strokeWidth={2.5} />
+                <div className="w-[34px] h-[34px] bg-white rounded-full flex items-center justify-center mt-[-4px]">
+                  <Plus size={20} className="text-[#0c0c10]" strokeWidth={2.5} />
                 </div>
               </button>
-              <button onClick={() => setStep(7)} className={`relative flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors ${step === 7 ? 'text-[#bebebe]' : 'text-[#333] hover:text-[#bebebe]'}`}>
-                <MessageCircle size={20} strokeWidth={step === 7 ? 2.5 : 2} />
-                <span className="text-[9px] font-medium">Inbox</span>
-                <div className="absolute top-[0px] right-[13px] w-[6px] h-[6px] rounded-full bg-[#d0d0d0] border-[1.5px] border-[#0d0d0d]" />
+              <button onClick={() => setStep(7)} className="relative flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+                <div className="relative">
+                  <Inbox size={20} strokeWidth={step === 7 ? 2.5 : 2} className={step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
+                  <div className="absolute -top-[2px] -right-[3px] w-[8px] h-[8px] rounded-full bg-[#d4f56a] border-[1.5px] border-[#0c0c10]" />
+                </div>
+                <span className={`text-[9px] font-medium ${step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Inbox</span>
+                {step === 7 && <div className="w-[4px] h-[4px] rounded-full bg-[#d4f56a] mt-[1px]" />}
               </button>
-              <button onClick={() => setStep(5)} className={`flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors ${step === 5 ? 'text-[#bebebe]' : 'text-[#333] hover:text-[#bebebe]'}`}>
-                <User size={20} strokeWidth={step === 5 ? 2.5 : 2} />
-                <span className="text-[9px] font-medium">Profile</span>
+              <button onClick={() => setStep(5)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+                <User size={20} strokeWidth={step === 5 ? 2.5 : 2} className={step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
+                <span className={`text-[9px] font-medium ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Profile</span>
+                {step === 5 && <div className="w-[4px] h-[4px] rounded-full bg-[#d4f56a] mt-[1px]" />}
               </button>
             </div>
           )}
