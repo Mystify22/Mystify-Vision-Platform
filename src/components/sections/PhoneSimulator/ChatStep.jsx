@@ -8,8 +8,8 @@ const ChatStep = () => {
   const [conversations, setConversations] = useState(mockConversationsData);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatDraft, setChatDraft] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [newMessages, setNewMessages] = useState([]);
 
   const filteredConversations = (activeFilter === 'Unread' 
     ? conversations.filter(c => c.unread) 
@@ -23,6 +23,7 @@ const ChatStep = () => {
   
   const openChat = (chat) => {
     setSelectedChat(chat);
+    setNewMessages([]);
     if (chat.unread) {
       setConversations(prev => prev.map(c => c.id === chat.id ? { ...c, unread: false, unreadCount: null } : c));
     }
@@ -30,6 +31,7 @@ const ChatStep = () => {
 
   const handleSend = () => {
     if (!chatDraft.trim()) return;
+    setNewMessages(prev => [...prev, { text: chatDraft.trim(), time: "Just now", isMine: true }]);
     setChatDraft('');
   };
   
@@ -126,7 +128,7 @@ const ChatStep = () => {
 
             <div className="flex items-end gap-[7px] flex-row-reverse mt-2">
               <div className="flex flex-col items-end">
-                <div className="bg-white text-[#0c0c10] p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
+                <div className="bg-[#FF4500] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
                   that's exactly what I was hoping for when I posted it
                 </div>
               </div>
@@ -134,7 +136,7 @@ const ChatStep = () => {
 
             <div className="flex items-end gap-[7px] flex-row-reverse">
               <div className="flex flex-col items-end">
-                <div className="bg-white text-[#0c0c10] p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
+                <div className="bg-[#FF4500] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
                   did you end up reaching out to them?
                 </div>
                 <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1 text-right w-full">2:16 PM</span>
@@ -147,21 +149,32 @@ const ChatStep = () => {
                 <div className="bg-[rgba(255,255,255,0.09)] border border-[rgba(255,255,255,0.07)] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_14px_4px] max-w-[220px]">
                   still deciding. but honestly... maybe
                 </div>
-                <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1">Just now</span>
+                <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1">2:18 PM</span>
               </div>
             </div>
 
-            {isTyping && (
-              <div className="flex items-end gap-[7px] mt-1">
-                <img src={selectedChat.avatarImage} className="w-[22px] h-[22px] shrink-0 rounded-full object-cover" alt="" />
-                <div className="flex items-center gap-[4px] h-[24px]">
-                  <motion.div animate={{ height: [4, 10, 4] }} transition={{ repeat: Infinity, duration: 1 }} className="w-[2px] bg-[rgba(255,255,255,0.3)] rounded-[1px]" />
-                  <motion.div animate={{ height: [4, 10, 4] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-[2px] bg-[rgba(255,255,255,0.3)] rounded-[1px]" />
-                  <motion.div animate={{ height: [4, 10, 4] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-[2px] bg-[rgba(255,255,255,0.3)] rounded-[1px]" />
-                  <span className="text-[9px] text-[rgba(255,255,255,0.25)] ml-1">typing...</span>
-                </div>
+            {newMessages.map((msg, idx) => (
+              <div key={idx} className={`flex items-end gap-[7px] ${msg.isMine ? 'flex-row-reverse mt-2' : 'mt-2'}`}>
+                {msg.isMine ? (
+                  <div className="flex flex-col items-end">
+                    <div className="bg-[#FF4500] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_4px_14px] max-w-[220px]">
+                      {msg.text}
+                    </div>
+                    <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1 text-right w-full">{msg.time}</span>
+                  </div>
+                ) : (
+                  <>
+                    <img src={selectedChat.avatarImage} className="w-[22px] h-[22px] shrink-0 rounded-full object-cover" alt="" />
+                    <div className="flex flex-col">
+                      <div className="bg-[rgba(255,255,255,0.09)] border border-[rgba(255,255,255,0.07)] text-white p-[8px_11px] text-[11px] leading-[1.5] rounded-[14px_14px_14px_4px] max-w-[220px]">
+                        {msg.text}
+                      </div>
+                      <span className="text-[8px] text-[rgba(255,255,255,0.2)] mt-1">{msg.time}</span>
+                    </div>
+                  </>
+                )}
               </div>
-            )}
+            ))}
           </div>
         </div>
 
@@ -179,9 +192,9 @@ const ChatStep = () => {
           <button
             onClick={handleSend}
             disabled={!chatDraft.trim()}
-            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 mb-[2px] transition-opacity ${chatDraft.trim() ? 'bg-white opacity-100' : 'bg-white opacity-40'}`}
+            className={`w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 mb-[2px] transition-opacity ${chatDraft.trim() ? 'bg-[#FF4500] opacity-100' : 'bg-[#FF4500] opacity-40'}`}
           >
-            <ArrowRight size={14} className="text-[#0c0c10]" />
+            <ArrowRight size={14} className="text-white" />
           </button>
         </div>
       </motion.div>
@@ -313,8 +326,8 @@ const ChatStep = () => {
       </div>
 
       {['All', 'Unread'].includes(activeFilter) && (
-        <button className="absolute bottom-[80px] right-[14px] w-[36px] h-[36px] rounded-full bg-white flex items-center justify-center shadow-lg z-40">
-          <Edit size={16} className="text-[#0c0c10]" />
+        <button className="absolute bottom-[80px] right-[14px] w-[36px] h-[36px] rounded-full bg-[#FF4500] flex items-center justify-center shadow-lg z-40">
+          <Edit size={16} className="text-white" />
         </button>
       )}
     </motion.div>
