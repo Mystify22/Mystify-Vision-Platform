@@ -1,14 +1,14 @@
 import React from 'react';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import Bubbles from './components/layout/Bubbles';
-import Hero from './components/sections/Hero';
-import CreateWidget from './components/sections/CreateWidget';
-import ReelSimulator from './components/sections/ReelSimulator';
-import GamificationHub from './components/sections/GamificationHub';
-import Testimonials from './components/sections/Testimonials';
-import FAQ from './components/sections/FAQ';
-import Features from './components/sections/Features';
+import Navbar from './components/layout/Navbar/Navbar';
+import Footer from './components/layout/Footer/Footer';
+import Bubbles from './components/layout/Bubbles/Bubbles';
+import Hero from './components/sections/Hero/Hero';
+import CreateWidget from './components/sections/CreateWidget/CreateWidget';
+import ReelSimulator from './components/sections/ReelSimulator/ReelSimulator';
+import GamificationHub from './components/sections/GamificationHub/GamificationHub';
+import Testimonials from './components/sections/Testimonials/Testimonials';
+import FAQ from './components/sections/FAQ/FAQ';
+import Features from './components/sections/Features/Features';
 
 function App() {
   return (

@@ -1,3 +1,4 @@
+import './GamificationHub.css';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Trophy, Star, Crown, Zap } from 'lucide-react';

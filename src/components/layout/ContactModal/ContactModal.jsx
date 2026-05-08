@@ -1,3 +1,4 @@
+import './ContactModal.css';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Send, CheckCircle2, User, MessageSquare, X } from 'lucide-react';

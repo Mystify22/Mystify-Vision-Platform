@@ -1,3 +1,4 @@
+import './Bubbles.css';
 import React from 'react';
 
 const Bubbles = () => {

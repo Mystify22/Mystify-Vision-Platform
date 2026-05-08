@@ -1,9 +1,10 @@
+import './ReelSimulator.css';
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { initialHeroReels } from './Hero';
-import userAvatar from '../../assets/avatar.png';
-import coverImage from '../../assets/cover.png';
+import { initialHeroReels } from '../Hero/Hero';
+import userAvatar from '../../../assets/avatar.png';
+import coverImage from '../../../assets/cover.png';
 
 const vibeData = [
   {
