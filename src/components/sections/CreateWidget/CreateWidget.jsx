@@ -1,3 +1,4 @@
+import './CreateWidget.css';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Share2, MessageCircle, Camera, Copy, Check, MessageSquare } from 'lucide-react';

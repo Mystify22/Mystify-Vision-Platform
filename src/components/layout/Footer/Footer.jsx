@@ -1,8 +1,9 @@
+import './Footer.css';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, MessageSquare, Video, Code, ArrowRight } from 'lucide-react';
-import LegalModal from './LegalModal'; // Import the new modal
-import ContactModal from './ContactModal'; // Import the contact modal
+import LegalModal from '../LegalModal/LegalModal'; // Import the new modal
+import ContactModal from '../ContactModal/ContactModal'; // Import the contact modal
 
 const Footer = () => {
   const [legalModalState, setLegalModalState] = useState({ isOpen: false, type: 'privacy' });

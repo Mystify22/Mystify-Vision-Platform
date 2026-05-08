@@ -1,3 +1,4 @@
+import './Features.css';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Zap, Sparkles, Smartphone, Share2, EyeOff } from 'lucide-react';
