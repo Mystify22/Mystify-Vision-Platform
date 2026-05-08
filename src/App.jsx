@@ -4,7 +4,7 @@ import Footer from './components/layout/Footer/Footer';
 import Bubbles from './components/layout/Bubbles/Bubbles';
 import Hero from './components/sections/Hero/Hero';
 import CreateWidget from './components/sections/CreateWidget/CreateWidget';
-import ReelSimulator from './components/sections/ReelSimulator/ReelSimulator';
+import PhoneSimulator from './components/sections/PhoneSimulator/PhoneSimulator';
 import GamificationHub from './components/sections/GamificationHub/GamificationHub';
 import Testimonials from './components/sections/Testimonials/Testimonials';
 import FAQ from './components/sections/FAQ/FAQ';
@@ -29,7 +29,7 @@ function App() {
           <CreateWidget />
         </section>
         
-        <ReelSimulator />
+        <PhoneSimulator />
         
         <Features />
         
