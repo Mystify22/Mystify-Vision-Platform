@@ -12,6 +12,7 @@ import ProfileScreen from './ProfileScreen';
 import SearchScreen from './SearchScreen';
 import MessageScreen from './MessageScreen';
 import LoginScreen from './LoginScreen';
+import EditProfileScreen from './EditProfileScreen';
 
 const PhoneSimulator = () => {
   const containerRef = useRef(null);
@@ -26,6 +27,13 @@ const PhoneSimulator = () => {
   const [selectedProfileUsername, setSelectedProfileUsername] = useState("ghost_mind");
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2']));
+
+  const [userProfileData, setUserProfileData] = useState({
+    username: 'ghost_mind',
+    bio: 'Anonymous thoughts. Questions nobody dares ask out loud.',
+    avatarValue: '✦',
+    coverColor: '#1a0a3e'
+  });
 
   const handleFollowToggle = (id) => {
     if (!id) return;
@@ -150,7 +158,9 @@ const PhoneSimulator = () => {
             {step === 5 && (
               <ProfileScreen 
                 key="step-profile" 
-                username={selectedProfileUsername} 
+                username={selectedProfileUsername}
+                userProfileData={userProfileData}
+                onEditProfile={() => setStep(8)}
                 onMessageUser={() => {
                   setChatTargetUsername(selectedProfileUsername);
                   setStep(7);
@@ -178,6 +188,18 @@ const PhoneSimulator = () => {
                   setChatTargetUsername(null);
                   setStep(5);
                 }}
+              />
+            )}
+            {step === 8 && (
+              <EditProfileScreen
+                key="step-edit-profile"
+                initialData={userProfileData}
+                onSave={(newData) => {
+                  setUserProfileData(newData);
+                  setSelectedProfileUsername(newData.username);
+                  setStep(5);
+                }}
+                onCancel={() => setStep(5)}
               />
             )}
           </AnimatePresence>
@@ -208,7 +230,7 @@ const PhoneSimulator = () => {
                 <span className={`text-[9px] font-medium ${step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Inbox</span>
 
               </button>
-              <button onClick={() => { setSelectedProfileUsername("ghost_mind"); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+              <button onClick={() => { setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <User size={20} strokeWidth={step === 5 ? 2.5 : 2} className={step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
                 <span className={`text-[9px] font-medium ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Profile</span>
 
