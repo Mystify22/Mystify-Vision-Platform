@@ -6,15 +6,17 @@ import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const streakDays = 30;
 
-  const profileTabs = username === "ghost_mind" ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];
+  const isOwnProfile = userProfileData && username === userProfileData.username;
+  const profileTabs = isOwnProfile ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];
 
   const userProfile = mockResultsRiya.find(u => u.handle === username || u.handle === `@${username}`);
-  const displayAvatar = userProfile?.avatarImage || userAvatar;
+  const displayAvatar = isOwnProfile ? null : (userProfile?.avatarImage || userAvatar);
   const isFollowing = followedUsers?.has(userProfile?.id);
+  const displayBio = isOwnProfile ? userProfileData.bio : "Anonymous thoughts. Questions nobody dares ask out loud.";
 
   const samplePosts = [
     { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
@@ -74,16 +76,23 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
 
       {/* 1. COVER BANNER */}
-      <div className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden">
-        <img src={userProfile?.coverImage || coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
+      <div 
+        className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden"
+        style={isOwnProfile ? { backgroundColor: userProfileData.coverColor } : {}}
+      >
+        {!isOwnProfile && <img src={userProfile?.coverImage || coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />}
         <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
       </div>
 
       {/* 2. AVATAR ROW */}
       <div className="relative z-10 px-5 flex justify-between items-end" style={{ marginTop: '-44px' }}>
         <div className="relative">
-          <div className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center">
-            <img src={displayAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
+          <div className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center overflow-hidden">
+            {isOwnProfile ? (
+              <span className="text-[34px] text-white">{userProfileData.avatarValue}</span>
+            ) : (
+              <img src={displayAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
+            )}
           </div>
         </div>
 
@@ -92,14 +101,14 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             <i className="ti ti-dots text-[#666] text-[16px]"></i>
           </button>
           
-          {username !== "ghost_mind" && (
+          {username !== (userProfileData?.username || "ghost_mind") && (
             <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
               <i className="ti ti-mail text-[#666] text-[16px]"></i>
             </button>
           )}
 
-          {username === "ghost_mind" ? (
-            <button className="h-[34px] rounded-[17px] bg-[#111] border border-[#333] px-[18px] text-white font-dmsans font-semibold text-[13px] hover:bg-[#1a1a1a] transition-colors">
+          {isOwnProfile ? (
+            <button onClick={onEditProfile} className="h-[34px] rounded-[17px] bg-[#111] border border-[#333] px-[18px] text-white font-dmsans font-semibold text-[13px] hover:bg-[#1a1a1a] transition-colors">
               Edit Profile
             </button>
           ) : (
@@ -120,7 +129,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       {/* 3. USER INFO */}
       <div className="px-5 mt-4 shrink-0">
         <h1 className="font-dmsans font-bold text-white text-[20px] mb-1 leading-normal pb-1">{username}</h1>
-        <p className="font-dmsans font-normal text-[#888] text-[13.5px] leading-[1.65] mb-4">Anonymous thoughts. Questions nobody dares ask out loud.</p>
+        <p className="font-dmsans font-normal text-[#888] text-[13.5px] leading-[1.65] mb-4 whitespace-pre-wrap">{displayBio}</p>
       </div>
 
       {/* 4. STATS ROW */}
