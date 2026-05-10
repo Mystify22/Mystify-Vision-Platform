@@ -1,3 +1,7 @@
+import user1aImg from '../../../assets/user_1a.png';
+import user2aImg from '../../../assets/user_2a.png';
+import user3aImg from '../../../assets/user_3a.png';
+
 export const vibeData = [
   {
     category: "Nature",
@@ -230,7 +234,10 @@ export const mockResultsCity = [
 export const mockResultsRiya = [
   { id: 'r1', name: 'Riya Mehta', handle: '@riya_m', followers: '2.4K', following: false },
   { id: 'r2', name: 'Riyansh Kumar', handle: '@riyansh_k', followers: '890', following: true },
-  { id: 'r3', name: 'Ananya Riya', handle: '@ananya_r', followers: '412', following: false }
+  { id: 'r3', name: 'Ananya Riya', handle: '@ananya_r', followers: '412', following: false },
+  { id: 'u1', name: 'User 1A', handle: 'user_1a', followers: '12.4K', following: false, avatarImage: user1aImg },
+  { id: 'u2', name: 'User 2A', handle: 'user_2a', followers: '12.4K', following: false, avatarImage: user2aImg },
+  { id: 'u3', name: 'User 3A', handle: 'user_3a', followers: '12.4K', following: false, avatarImage: user3aImg }
 ];
 
 export const exploreGridItems = [
@@ -252,8 +259,9 @@ export const exploreGridItems = [
 ];
 
 export const mockConversationsData = [
-  { id: 'c1', handle: '@riya_m', unread: true, unreadCount: 3, isOnline: true, preview: "Your question hit different today...", moodTag: 'Vulnerable', contextTag: null, time: '2m', avatarImage: '/dp-1.png', 
-    post: { text: "Is it brave or naive to trust a stranger?", mood: "Vulnerable", answers: 42, bg: "#2d1b4e" } 
+  {
+    id: 'c1', handle: '@riya_m', unread: true, unreadCount: 3, isOnline: true, preview: "Your question hit different today...", moodTag: 'Vulnerable', contextTag: null, time: '2m', avatarImage: '/dp-1.png',
+    post: { text: "Is it brave or naive to trust a stranger?", mood: "Vulnerable", answers: 42, bg: "#2d1b4e" }
   },
   { id: 'c2', handle: '@arjun_k', unread: true, unreadCount: null, isOnline: false, preview: "I answered your city post — wanted to say more", moodTag: null, contextTag: 're: City post', time: '18m', avatarImage: '/dp-2.png' },
   { id: 'c3', handle: '@meera_t', unread: false, unreadCount: null, isOnline: false, preview: "haha ok but seriously though...", moodTag: 'Nostalgic', contextTag: null, time: '1hr', avatarImage: '/dp-3.png' },

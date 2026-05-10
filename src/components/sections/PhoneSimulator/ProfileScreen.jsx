@@ -1,16 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './Data';
+import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
 
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
 
-const ProfileStep = () => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const streakDays = 30;
 
-  const profileTabs = ["Posts", "Replies", "Saved"];
+  const profileTabs = username === "ghost_mind" ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];
+
+  const userProfile = mockResultsRiya.find(u => u.handle === username || u.handle === `@${username}`);
+  const displayAvatar = userProfile?.avatarImage || userAvatar;
+  const isFollowing = followedUsers?.has(userProfile?.id);
 
   const samplePosts = [
     { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
@@ -27,10 +31,34 @@ const ProfileStep = () => {
   ];
 
   const sampleSaved = [
-    { icon: "ti-message-2", text: "Is loneliness different when surrounded by millions?", author: "@riya_m", replies: 189, tag: "urban" },
-    { icon: "ti-brain", text: "What do you do when you feel stuck but not unhappy?", author: "Anonymous", replies: 134, tag: "mind" },
-    { icon: "ti-eye-off", text: "Can you ever fully trust someone you met online?", author: "@rohan_d", replies: 76, tag: "anon" }
+    { mood: "urban", text: "Is loneliness different when surrounded by millions?", replies: 189, bg: "#1a2a3a", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
+    { mood: "mind", text: "What do you do when you feel stuck but not unhappy?", replies: 134, bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80&fit=crop" },
+    { mood: "anon", text: "Can you ever fully trust someone you met online?", replies: 76, bg: "#3a1a2a", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" }
   ];
+
+  const renderGrid = (posts) => (
+    <div className="grid grid-cols-3 gap-[2px] p-[2px]">
+      {posts.map((post, idx) => (
+        <div key={idx} className="aspect-[0.85] rounded-[3px] overflow-hidden relative cursor-pointer group" style={{ backgroundColor: post.bg }}>
+          <motion.div
+            animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
+            transition={{ repeat: Infinity, duration: 25 + idx, ease: "linear" }}
+            className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none opacity-60"
+            style={{ backgroundImage: `url('${post.img}')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
+            <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{post.mood}</span>
+            <p className="text-[11px] text-white/90 font-dmsans font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{post.text}</p>
+          </div>
+          <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/70 bg-black/50 backdrop-blur-sm px-[5px] py-[1px] rounded-[5px] flex items-center gap-1 z-20">
+            <i className="ti ti-message-circle text-[10px]"></i>
+            {post.replies}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <motion.div
@@ -43,7 +71,7 @@ const ProfileStep = () => {
     >
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-      
+
 
       {/* 1. COVER BANNER */}
       <div className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden">
@@ -55,7 +83,7 @@ const ProfileStep = () => {
       <div className="relative z-10 px-5 flex justify-between items-end" style={{ marginTop: '-44px' }}>
         <div className="relative">
           <div className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center">
-            <img src={userAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
+            <img src={displayAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
           </div>
         </div>
 
@@ -63,18 +91,35 @@ const ProfileStep = () => {
           <button className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
             <i className="ti ti-dots text-[#666] text-[16px]"></i>
           </button>
-          <button className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
-            <i className="ti ti-mail text-[#666] text-[16px]"></i>
-          </button>
-          <button className="h-[34px] rounded-[17px] bg-[#FF4500] px-[18px] text-white font-dmsans font-semibold text-[13px] hover:bg-[#ff5722] transition-colors">
-            Follow
-          </button>
+          
+          {username !== "ghost_mind" && (
+            <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
+              <i className="ti ti-mail text-[#666] text-[16px]"></i>
+            </button>
+          )}
+
+          {username === "ghost_mind" ? (
+            <button className="h-[34px] rounded-[17px] bg-[#111] border border-[#333] px-[18px] text-white font-dmsans font-semibold text-[13px] hover:bg-[#1a1a1a] transition-colors">
+              Edit Profile
+            </button>
+          ) : (
+            <button 
+              onClick={() => onFollowToggle && onFollowToggle(userProfile?.id)}
+              className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${
+                isFollowing 
+                  ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]' 
+                  : 'bg-[#FF4500] hover:bg-[#ff5722]'
+              }`}
+            >
+              {isFollowing ? 'Following' : 'Follow'}
+            </button>
+          )}
         </div>
       </div>
 
       {/* 3. USER INFO */}
       <div className="px-5 mt-4 shrink-0">
-        <h1 className="font-dmsans font-bold text-white text-[20px] mb-1 leading-normal pb-1">ghost_mind</h1>
+        <h1 className="font-dmsans font-bold text-white text-[20px] mb-1 leading-normal pb-1">{username}</h1>
         <p className="font-dmsans font-normal text-[#888] text-[13.5px] leading-[1.65] mb-4">Anonymous thoughts. Questions nobody dares ask out loud.</p>
       </div>
 
@@ -135,29 +180,7 @@ const ProfileStep = () => {
 
       {/* 7. TAB PANELS */}
       <div className="flex-1 bg-[#0a0a0a] pt-1">
-        {activeTab === "Posts" && (
-          <div className="grid grid-cols-3 gap-[2px] p-[2px]">
-            {samplePosts.map((post, idx) => (
-              <div key={idx} className="aspect-[0.85] rounded-[3px] overflow-hidden relative cursor-pointer group" style={{ backgroundColor: post.bg }}>
-                <motion.div
-                  animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
-                  transition={{ repeat: Infinity, duration: 25 + idx, ease: "linear" }}
-                  className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none opacity-60"
-                  style={{ backgroundImage: `url('${post.img}')` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
-                  <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{post.mood}</span>
-                  <p className="text-[11px] text-white/90 font-dmsans font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{post.text}</p>
-                </div>
-                <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/70 bg-black/50 backdrop-blur-sm px-[5px] py-[1px] rounded-[5px] flex items-center gap-1 z-20">
-                  <i className="ti ti-message-circle text-[10px]"></i>
-                  {post.replies}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {activeTab === "Posts" && renderGrid(samplePosts)}
 
         {activeTab === "Replies" && (
           <div className="flex flex-col">
@@ -192,26 +215,9 @@ const ProfileStep = () => {
           </div>
         )}
 
-        {activeTab === "Saved" && (
-          <div className="flex flex-col px-[20px]">
-            {sampleSaved.map((item, idx) => (
-              <div key={idx} className="flex gap-[13px] py-[15px] border-b border-[#0f0f0f] cursor-pointer hover:bg-white/[0.02]">
-                <div className="w-[56px] h-[56px] bg-[#111] border border-[#1a1a1a] rounded-[10px] flex items-center justify-center shrink-0">
-                  <i className={`ti ${item.icon} text-[#2a2a2a] text-[20px]`}></i>
-                </div>
-                <div className="flex-1 flex flex-col justify-center">
-                  <h4 className="font-dmsans font-normal text-[#aaa] text-[13.5px] leading-[1.45] mb-[5px] line-clamp-2">{item.text}</h4>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#2e2e2e] text-[11.5px]">{item.author} · {item.replies} replies</span>
-                    <span className="uppercase text-[#444] bg-[#141414] border border-[#1e1e1e] text-[10px] px-[8px] py-[2px] rounded-[6px] font-bold">{item.tag}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {activeTab === "Saved" && renderGrid(sampleSaved)}
       </div>
     </motion.div>
   );
 };
-export default ProfileStep;
+export default ProfileScreen;

@@ -1,12 +1,25 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './Data';
+import { mockConversationsData, moodStyles, mockResultsRiya } from './MockData';
+import userAvatar from '../../../assets/avatar.png';
 
-const ChatStep = () => {
+const MessageScreen = ({ targetUsername, onBack }) => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [conversations, setConversations] = useState(mockConversationsData);
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(() => {
+    if (targetUsername) {
+      const userProfile = mockResultsRiya.find(u => u.handle === targetUsername || u.handle === `@${targetUsername}`);
+      return {
+        id: 'custom', 
+        handle: `@${targetUsername}`, 
+        isOnline: true, 
+        time: 'now',
+        avatarImage: userProfile?.avatarImage || userAvatar
+      };
+    }
+    return null;
+  });
   const [chatDraft, setChatDraft] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [newMessages, setNewMessages] = useState([]);
@@ -39,7 +52,7 @@ const ChatStep = () => {
     if (!tag) return null;
     const isTopic = tag.startsWith('re:');
     const style = isTopic ? { border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.45)' } 
-                          : { border: moodColors[tag]?.border || '1px solid rgba(255,255,255,0.12)', color: moodColors[tag]?.text || 'rgba(255,255,255,0.9)' };
+                          : { border: moodStyles[tag]?.border || '1px solid rgba(255,255,255,0.12)', color: moodStyles[tag]?.text || 'rgba(255,255,255,0.9)' };
     return (
       <div style={style} className="text-[8px] px-[6px] py-[2px] rounded-[8px] bg-transparent whitespace-nowrap font-medium">
         {tag}
@@ -67,7 +80,13 @@ const ChatStep = () => {
 
         <div className="pt-[14px] px-[12px] pb-[12px] flex items-center justify-between border-b-[0.5px] border-[rgba(255,255,255,0.07)] bg-[#0c0c10]">
           <div className="flex items-center gap-3">
-            <button onClick={() => setSelectedChat(null)} className="w-[26px] h-[26px] rounded-full bg-[rgba(255,255,255,0.07)] flex items-center justify-center">
+            <button onClick={() => {
+              if (targetUsername && onBack) {
+                onBack();
+              } else {
+                setSelectedChat(null);
+              }
+            }} className="w-[26px] h-[26px] rounded-full bg-[rgba(255,255,255,0.07)] flex items-center justify-center">
               <ChevronLeft size={16} className="text-white" />
             </button>
             <div className="flex items-center gap-[10px]">
@@ -78,7 +97,7 @@ const ChatStep = () => {
                 )}
               </div>
               <div className="flex flex-col">
-                <span className="text-[13px] font-medium text-white">{selectedChat.handle}</span>
+                <span className="text-[13px] font-semibold text-white truncate max-w-[150px]">{targetUsername ? `@${targetUsername}` : selectedChat.handle}</span>
                 <span className="text-[9px] text-[rgba(255,255,255,0.35)]">{selectedChat.isOnline ? 'Online now' : `Last seen ${selectedChat.time}`}</span>
               </div>
             </div>
@@ -333,4 +352,4 @@ const ChatStep = () => {
     </motion.div>
   );
 };
-export default ChatStep;
+export default MessageScreen;
