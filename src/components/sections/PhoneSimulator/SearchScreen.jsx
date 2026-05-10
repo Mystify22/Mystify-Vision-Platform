@@ -186,9 +186,7 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
 
         {screenState === 'results' && activeResultTab === 'Questions' && (
           <div className="flex flex-col animate-fade-in">
-            <p className="text-[10px] text-white/25 px-3 pb-[6px] pt-1">
-              {mockResultsCity.length} results for "<span className="text-[#FF4500]">{searchQuery}</span>"
-            </p>
+
             <div className="flex flex-col">
               {mockResultsCity.map((item, idx) => (
                 <div key={item.id} className="flex gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)] cursor-pointer active:bg-white/5 transition-colors" style={{ opacity: 1 - (idx * 0.15) }}>
@@ -212,9 +210,7 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
 
         {screenState === 'results' && activeResultTab === 'People' && (
           <div className="flex flex-col animate-fade-in">
-            <p className="text-[10px] text-white/25 px-3 pb-[6px] pt-1">
-              {filteredPeople.length} results for "<span className="text-[#FF4500]">{searchQuery}</span>"
-            </p>
+
             <div className="flex flex-col">
               {filteredPeople.map(item => {
                 const isFollowing = followedUsers.has(item.id);
@@ -227,9 +223,9 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="text-[12px] font-medium text-white mb-[1px] truncate">
-                        {renderHighlightedText(item.name, searchQuery)}
+                        {renderHighlightedText(item.handle, searchQuery)}
                       </p>
-                      <p className="text-[10px] text-white/35 truncate">{item.handle} • {item.followers} followers</p>
+                      <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); onFollowToggle && onFollowToggle(item.id); }}
@@ -252,8 +248,8 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
                 <div key={item.id} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)]">
                   <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-blue-500/30 to-green-500/30 border border-white/5" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.name}</p>
-                    <p className="text-[10px] text-white/35 truncate">{item.handle} • {item.followers} followers</p>
+                    <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.handle}</p>
+                    <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
                   </div>
                   <button className="px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 bg-[#FF4500] text-white border border-[#FF4500]">
                     Follow

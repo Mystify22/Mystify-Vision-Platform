@@ -75,7 +75,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
       {/* 1. COVER BANNER */}
       <div className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden">
-        <img src={coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={userProfile?.coverImage || coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
       </div>
 
