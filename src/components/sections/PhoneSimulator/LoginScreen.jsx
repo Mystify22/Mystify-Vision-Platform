@@ -4,7 +4,7 @@ import { Sparkles, ChevronLeft, Check, ChevronDown } from 'lucide-react';
 import logoImg from '../../../assets/avatar.png';
 import SpeederLoader from './SpeederLoader';
 
-const LoginStep = ({ onNext }) => {
+const LoginScreen = ({ onNext }) => {
   const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'success'
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
@@ -203,4 +203,4 @@ const LoginStep = ({ onNext }) => {
   );
 };
 
-export default LoginStep;
+export default LoginScreen;

@@ -1,16 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './Data';
+import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
 
-const ExploreStep = () => {
+const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [activeResultTab, setActiveResultTab] = useState('Questions'); // Questions, People, Moods, Vibes
   const [selectedMoodFilter, setSelectedMoodFilter] = useState(null);
   const [recentSearches, setRecentSearches] = useState(exploreRecentItems);
-  const [followedUsers, setFollowedUsers] = useState(new Set(['r2']));
-
   const inputRef = useRef(null);
 
   const vibeCardsList = [
@@ -31,17 +29,13 @@ const ExploreStep = () => {
     );
   };
 
-  const handleFollowToggle = (id) => {
-    setFollowedUsers(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
+
+
+  const isSearchMatch = (text, query) => text && query && text.toLowerCase().includes(query.toLowerCase());
+  const filteredPeople = mockResultsRiya.filter(item => isSearchMatch(item.handle, searchQuery) || isSearchMatch(item.name, searchQuery));
 
   const hasResults = (searchQuery.toLowerCase() === 'city' && activeResultTab === 'Questions') ||
-    (searchQuery.toLowerCase() === 'riya' && activeResultTab === 'People');
+    (activeResultTab === 'People' && filteredPeople.length > 0);
 
   const screenState = isFocused && searchQuery.length === 0 ? 'focused_empty'
     : searchQuery.length > 0 && hasResults ? 'results'
@@ -192,9 +186,7 @@ const ExploreStep = () => {
 
         {screenState === 'results' && activeResultTab === 'Questions' && (
           <div className="flex flex-col animate-fade-in">
-            <p className="text-[10px] text-white/25 px-3 pb-[6px] pt-1">
-              {mockResultsCity.length} results for "<span className="text-[#FF4500]">{searchQuery}</span>"
-            </p>
+
             <div className="flex flex-col">
               {mockResultsCity.map((item, idx) => (
                 <div key={item.id} className="flex gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)] cursor-pointer active:bg-white/5 transition-colors" style={{ opacity: 1 - (idx * 0.15) }}>
@@ -218,23 +210,25 @@ const ExploreStep = () => {
 
         {screenState === 'results' && activeResultTab === 'People' && (
           <div className="flex flex-col animate-fade-in">
-            <p className="text-[10px] text-white/25 px-3 pb-[6px] pt-1">
-              {mockResultsRiya.length} results for "<span className="text-[#FF4500]">{searchQuery}</span>"
-            </p>
+
             <div className="flex flex-col">
-              {mockResultsRiya.map(item => {
+              {filteredPeople.map(item => {
                 const isFollowing = followedUsers.has(item.id);
                 return (
-                  <div key={item.id} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)]">
-                    <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-indigo-500/30 to-purple-500/30 border border-white/5" />
+                  <div key={item.id} onClick={() => onUserSelect && onUserSelect(item.handle.replace('@', ''))} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)] cursor-pointer hover:bg-white/5 transition-colors">
+                    {item.avatarImage ? (
+                      <img src={item.avatarImage} alt={item.name} className="w-[36px] h-[36px] rounded-full shrink-0 object-cover border border-white/5" />
+                    ) : (
+                      <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-indigo-500/30 to-purple-500/30 border border-white/5" />
+                    )}
                     <div className="flex-1 min-w-0">
                       <p className="text-[12px] font-medium text-white mb-[1px] truncate">
-                        {renderHighlightedText(item.name, searchQuery)}
+                        {renderHighlightedText(item.handle, searchQuery)}
                       </p>
-                      <p className="text-[10px] text-white/35 truncate">{item.handle} • {item.followers} followers</p>
+                      <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
                     </div>
                     <button
-                      onClick={() => handleFollowToggle(item.id)}
+                      onClick={(e) => { e.stopPropagation(); onFollowToggle && onFollowToggle(item.id); }}
                       className={`px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 ${isFollowing ? 'bg-transparent text-white/50 border border-white/15' : 'bg-[#FF4500] text-white border border-[#FF4500]'}`}
                     >
                       {isFollowing ? 'Following' : 'Follow'}
@@ -254,8 +248,8 @@ const ExploreStep = () => {
                 <div key={item.id} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)]">
                   <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-blue-500/30 to-green-500/30 border border-white/5" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.name}</p>
-                    <p className="text-[10px] text-white/35 truncate">{item.handle} • {item.followers} followers</p>
+                    <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.handle}</p>
+                    <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
                   </div>
                   <button className="px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 bg-[#FF4500] text-white border border-[#FF4500]">
                     Follow
@@ -313,4 +307,4 @@ const ExploreStep = () => {
     </motion.div>
   );
 };
-export default ExploreStep;
+export default SearchScreen;
