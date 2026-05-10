@@ -2,8 +2,6 @@ import React from 'react';
 import Navbar from './components/layout/Navbar/Navbar';
 import Footer from './components/layout/Footer/Footer';
 import Bubbles from './components/layout/Bubbles/Bubbles';
-import Hero from './components/sections/Hero/Hero';
-import CreateWidget from './components/sections/CreateWidget/CreateWidget';
 import PhoneSimulator from './components/sections/PhoneSimulator/PhoneSimulator';
 import GamificationHub from './components/sections/GamificationHub/GamificationHub';
 import Testimonials from './components/sections/Testimonials/Testimonials';
@@ -23,12 +21,6 @@ function App() {
       <Navbar />
       
       <main className="relative z-10 flex-1 flex flex-col pt-12 pb-16">
-        <Hero />
-        
-        <section id="create" className="relative scroll-mt-24 pt-20">
-          <CreateWidget />
-        </section>
-        
         <PhoneSimulator />
         
         <Features />

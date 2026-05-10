@@ -1,17 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './Data';
+import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
 
 import './PhoneSimulator.css';
-import ComposeStep from './ComposeStep';
-import SelectorStep from './SelectorStep';
-import MusicStep from './MusicStep';
-import HomeStep from './HomeStep';
-import ProfileStep from './ProfileStep';
-import ExploreStep from './ExploreStep';
-import ChatStep from './ChatStep';
-import LoginStep from './LoginStep';
+import CreatePostScreen from './CreatePostScreen';
+import SelectVibeScreen from './SelectVibeScreen';
+import SelectMusicScreen from './SelectMusicScreen';
+import FeedScreen from './FeedScreen';
+import ProfileScreen from './ProfileScreen';
+import SearchScreen from './SearchScreen';
+import MessageScreen from './MessageScreen';
+import LoginScreen from './LoginScreen';
 
 const PhoneSimulator = () => {
   const containerRef = useRef(null);
@@ -23,6 +23,19 @@ const PhoneSimulator = () => {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
+  const [selectedProfileUsername, setSelectedProfileUsername] = useState("ghost_mind");
+  const [chatTargetUsername, setChatTargetUsername] = useState(null);
+  const [followedUsers, setFollowedUsers] = useState(new Set(['r2']));
+
+  const handleFollowToggle = (id) => {
+    if (!id) return;
+    setFollowedUsers(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   return (
     <section className="container mx-auto px-6 py-24 flex flex-col lg:flex-row-reverse items-center justify-center gap-16 lg:gap-24 overflow-hidden scroll-mt-10" id="feed" ref={containerRef}>
@@ -69,13 +82,13 @@ const PhoneSimulator = () => {
         >
           <AnimatePresence>
             {step === 0 && (
-              <LoginStep
+              <LoginScreen
                 key="step-login"
                 onNext={() => setStep(4)}
               />
             )}
             {step === 1 && (
-              <ComposeStep
+              <CreatePostScreen
                 key="step-compose"
                 thoughtText={thoughtText}
                 setThoughtText={setThoughtText}
@@ -104,7 +117,7 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 2 && (
-              <SelectorStep
+              <SelectVibeScreen
                 key="step-vibe"
                 stepId={2}
                 title="Choose a vibe"
@@ -118,7 +131,7 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 3 && (
-              <MusicStep
+              <SelectMusicScreen
                 key="step-music"
                 stepId={3}
                 selectedVibe={selectedVibe}
@@ -132,16 +145,40 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 4 && (
-              <HomeStep key="step-home" />
+              <FeedScreen key="step-home" />
             )}
             {step === 5 && (
-              <ProfileStep key="step-profile" />
+              <ProfileScreen 
+                key="step-profile" 
+                username={selectedProfileUsername} 
+                onMessageUser={() => {
+                  setChatTargetUsername(selectedProfileUsername);
+                  setStep(7);
+                }}
+                followedUsers={followedUsers}
+                onFollowToggle={handleFollowToggle}
+              />
             )}
             {step === 6 && (
-              <ExploreStep key="step-explore" />
+              <SearchScreen 
+                key="step-explore" 
+                onUserSelect={(username) => {
+                  setSelectedProfileUsername(username);
+                  setStep(5);
+                }}
+                followedUsers={followedUsers}
+                onFollowToggle={handleFollowToggle}
+              />
             )}
             {step === 7 && (
-              <ChatStep key="step-chat" />
+              <MessageScreen 
+                key="step-chat" 
+                targetUsername={chatTargetUsername} 
+                onBack={() => {
+                  setChatTargetUsername(null);
+                  setStep(5);
+                }}
+              />
             )}
           </AnimatePresence>
 
@@ -163,7 +200,7 @@ const PhoneSimulator = () => {
                   <Plus size={20} className="text-white" strokeWidth={2.5} />
                 </div>
               </button>
-              <button onClick={() => setStep(7)} className="relative flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+              <button onClick={() => { setChatTargetUsername(null); setStep(7); }} className="relative flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <div className="relative">
                   <Inbox size={20} strokeWidth={step === 7 ? 2.5 : 2} className={step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
                   <div className="absolute -top-[2px] -right-[3px] w-[8px] h-[8px] rounded-full bg-[#FF4500] border-[1.5px] border-[#0c0c10]" />
@@ -171,7 +208,7 @@ const PhoneSimulator = () => {
                 <span className={`text-[9px] font-medium ${step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Inbox</span>
 
               </button>
-              <button onClick={() => setStep(5)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+              <button onClick={() => { setSelectedProfileUsername("ghost_mind"); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <User size={20} strokeWidth={step === 5 ? 2.5 : 2} className={step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
                 <span className={`text-[9px] font-medium ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Profile</span>
 

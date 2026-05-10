@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './Data';
+import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
 
-import { initialHeroReels } from '../Hero/Hero';
+import { initialHeroReels } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 
-const HomeStep = () => {
+const FeedScreen = () => {
   const [reelsData, setReelsData] = useState(initialHeroReels);
   const [activeHeroReel, setActiveHeroReel] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
@@ -374,4 +374,4 @@ const HomeStep = () => {
     </motion.div>
   );
 };
-export default HomeStep;
+export default FeedScreen;

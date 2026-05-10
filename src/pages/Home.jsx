@@ -1,5 +1,4 @@
 import React from 'react';
-import Hero from '../components/sections/Hero/Hero';
 import CreateWidget from '../components/sections/CreateWidget/CreateWidget';
 import PhoneSimulator from '../components/sections/PhoneSimulator/PhoneSimulator';
 import GamificationHub from '../components/sections/GamificationHub/GamificationHub';
@@ -9,7 +8,6 @@ import FAQ from '../components/sections/FAQ/FAQ';
 const Home = () => {
     return (
         <div className="flex flex-col">
-            <Hero />
             <section id="create" className="relative scroll-mt-24 pt-10">
                 <CreateWidget />
             </section>
