@@ -36,12 +36,33 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
   
   const [customUsername, setCustomUsername] = useState('');
 
+  // temporary states for picker
+  const [tempUsername, setTempUsername] = useState(username);
+  const [tempAvatarValue, setTempAvatarValue] = useState(avatarValue);
+  const [tempCoverColor, setTempCoverColor] = useState(coverColor);
+
   const handleSave = () => {
     onSave({ username, bio, avatarValue, coverColor });
   };
 
   const handlePanelSwitch = (panel) => {
-    setActivePanel(activePanel === panel ? null : panel);
+    if (panel) {
+      setTempUsername(username);
+      setTempAvatarValue(avatarValue);
+      setTempCoverColor(coverColor);
+    }
+    setActivePanel(panel === activePanel ? null : panel);
+  };
+
+  const handlePickerOk = () => {
+    if (activePanel === 'username') setUsername(tempUsername);
+    if (activePanel === 'avatar') setAvatarValue(tempAvatarValue);
+    if (activePanel === 'cover') setCoverColor(tempCoverColor);
+    setActivePanel(null);
+  };
+
+  const handlePickerCancel = () => {
+    setActivePanel(null);
   };
 
   return (
@@ -146,142 +167,186 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
       <AnimatePresence>
         {activePanel && (
           <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t border-[rgba(255,255,255,0.08)] rounded-t-[16px] z-50 flex flex-col max-h-[60%]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex flex-col items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+            onClick={handlePickerCancel}
           >
-            {/* Header */}
-            <div className="px-4 py-[10px] flex justify-between items-center shrink-0">
-              <span className="text-[12px] font-medium text-white">
-                {activePanel === 'avatar' && 'Choose avatar'}
-                {activePanel === 'cover' && 'Choose cover'}
-                {activePanel === 'username' && 'Choose username'}
-              </span>
-              <button 
-                onClick={() => setActivePanel(null)}
-                className="w-[22px] h-[22px] rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center"
-              >
-                <X size={12} color="rgba(255,255,255,0.6)" />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-hidden flex flex-col">
-              {/* Avatar Mode */}
+            {/* Preview Above Modal */}
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="mb-8 flex justify-center w-full"
+            >
               {activePanel === 'avatar' && (
-                <>
-                  <div className="px-4 py-2 flex gap-[6px] overflow-x-auto [&::-webkit-scrollbar]:hidden shrink-0">
-                    {Object.keys(avatarData).map(cat => (
-                      <button
-                        key={cat}
-                        onClick={() => setSelectedAvatarCat(cat)}
-                        className={`px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium whitespace-nowrap border ${
-                          selectedAvatarCat === cat 
-                            ? 'bg-white text-[#111] border-white' 
-                            : 'bg-transparent text-[rgba(255,255,255,0.5)] border-[rgba(255,255,255,0.15)]'
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="p-[6px_16px_16px] grid grid-cols-5 gap-[8px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-                    {avatarData[selectedAvatarCat].map((symbol, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setAvatarValue(symbol)}
-                        className={`aspect-square rounded-full bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[24px] text-white border-[2px] transition-colors ${
-                          avatarValue === symbol ? 'border-[#ff5a1a]' : 'border-transparent'
-                        }`}
-                      >
-                        {symbol}
-                      </button>
-                    ))}
-                  </div>
-                </>
+                <div className="w-[100px] h-[100px] rounded-full border-[4px] border-[#111] bg-[#1a1a1a] flex items-center justify-center shadow-2xl">
+                  <span className="text-[44px] text-white">{tempAvatarValue}</span>
+                </div>
               )}
-
-              {/* Cover Mode */}
               {activePanel === 'cover' && (
-                <>
-                  <div className="px-4 py-2 flex gap-[6px] overflow-x-auto [&::-webkit-scrollbar]:hidden shrink-0">
-                    {Object.keys(coverData).map(cat => (
-                      <button
-                        key={cat}
-                        onClick={() => setSelectedCoverCat(cat)}
-                        className={`px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium whitespace-nowrap border ${
-                          selectedCoverCat === cat 
-                            ? 'bg-white text-[#111] border-white' 
-                            : 'bg-transparent text-[rgba(255,255,255,0.5)] border-[rgba(255,255,255,0.15)]'
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="p-[6px_16px_16px] grid grid-cols-3 gap-[6px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-                    {coverData[selectedCoverCat].map((color, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setCoverColor(color)}
-                        className={`w-full h-[52px] rounded-[8px] border-[2px] transition-colors ${
-                          coverColor === color ? 'border-[#ff5a1a]' : 'border-transparent'
-                        }`}
-                        style={{ backgroundColor: color }}
-                      />
-                    ))}
-                  </div>
-                </>
+                <div 
+                  className="w-[80%] max-w-[300px] h-[100px] rounded-[16px] border-[4px] border-[#111] shadow-2xl"
+                  style={{ backgroundColor: tempCoverColor }}
+                />
               )}
-
-              {/* Username Mode */}
               {activePanel === 'username' && (
-                <>
-                  <div className="px-4 pb-[10px] text-[10px] text-[rgba(255,255,255,0.25)] leading-[1.5] shrink-0">
-                    Pick from suggested names or type your own below
-                  </div>
-                  <div className="px-4 py-[6px] flex flex-wrap gap-[6px] overflow-y-auto [&::-webkit-scrollbar]:hidden shrink-0 max-h-[120px]">
-                    {suggestedUsernames.map(name => (
-                      <button
-                        key={name}
-                        onClick={() => {
-                          setUsername(name);
-                          setCustomUsername('');
-                        }}
-                        className={`px-[12px] py-[6px] rounded-[20px] text-[12px] font-medium border ${
-                          username === name && !customUsername
-                            ? 'bg-[#ff5a1a] text-white border-[#ff5a1a]' 
-                            : 'bg-transparent text-[rgba(255,255,255,0.7)] border-[rgba(255,255,255,0.15)]'
-                        }`}
-                      >
-                        {name}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="p-[10px_16px_16px] flex gap-[6px] items-center shrink-0">
-                    <input
-                      type="text"
-                      value={customUsername}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setCustomUsername(val);
-                        if(val) setUsername(val);
-                      }}
-                      placeholder="Type your own..."
-                      maxLength={24}
-                      className="flex-1 bg-[#1a1a22] border border-[rgba(255,255,255,0.12)] rounded-[8px] px-[12px] py-[8px] text-[13px] text-white outline-none"
-                    />
-                    {customUsername.length >= 3 && (
-                      <div className="flex items-center gap-[3px] shrink-0 ml-1">
-                        <Check size={13} color="rgba(78,175,107,0.9)" />
-                        <span className="text-[10px] text-[rgba(78,175,107,0.9)]">Available</span>
-                      </div>
-                    )}
-                  </div>
-                </>
+                <div className="bg-[#1a1a22] border border-[rgba(255,255,255,0.12)] rounded-[12px] px-[24px] py-[12px] shadow-2xl">
+                  <span className="text-[18px] font-bold text-white tracking-wide">{tempUsername}</span>
+                </div>
               )}
-            </div>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full bg-[#111] border border-[rgba(255,255,255,0.12)] rounded-[20px] flex flex-col max-h-[70%] shadow-2xl overflow-hidden"
+            >
+              {/* Header */}
+              <div className="px-4 py-[14px] flex justify-between items-center shrink-0 border-b border-[rgba(255,255,255,0.06)] bg-[#111]">
+                <button 
+                  onClick={handlePickerCancel}
+                  className="text-[13px] text-[rgba(255,255,255,0.45)] px-2 py-1"
+                >
+                  Cancel
+                </button>
+                <span className="text-[13px] font-medium text-white">
+                  {activePanel === 'avatar' && 'Choose Avatar'}
+                  {activePanel === 'cover' && 'Choose Cover'}
+                  {activePanel === 'username' && 'Choose Username'}
+                </span>
+                <button 
+                  onClick={handlePickerOk}
+                  className="text-[13px] font-medium text-[#ff5a1a] px-2 py-1"
+                >
+                  OK
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-hidden flex flex-col bg-[#0c0c10]">
+                {/* Avatar Mode */}
+                {activePanel === 'avatar' && (
+                  <>
+                    <div className="px-4 py-3 flex gap-[6px] overflow-x-auto [&::-webkit-scrollbar]:hidden shrink-0 border-b border-[rgba(255,255,255,0.04)]">
+                      {Object.keys(avatarData).map(cat => (
+                        <button
+                          key={cat}
+                          onClick={() => setSelectedAvatarCat(cat)}
+                          className={`px-[14px] py-[6px] rounded-[20px] text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                            selectedAvatarCat === cat 
+                              ? 'bg-white text-[#111] border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]' 
+                              : 'bg-transparent text-[rgba(255,255,255,0.5)] border-[rgba(255,255,255,0.15)] hover:border-[rgba(255,255,255,0.3)]'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="p-[12px_16px_20px] grid grid-cols-5 gap-[10px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                      {avatarData[selectedAvatarCat].map((symbol, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setTempAvatarValue(symbol);
+                          }}
+                          className={`aspect-square rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-[26px] text-white border-[2px] transition-all hover:bg-[rgba(255,255,255,0.08)] hover:scale-105 ${
+                            tempAvatarValue === symbol ? 'border-[#ff5a1a] bg-[rgba(255,90,26,0.1)]' : 'border-transparent'
+                          }`}
+                        >
+                          {symbol}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Cover Mode */}
+                {activePanel === 'cover' && (
+                  <>
+                    <div className="px-4 py-3 flex gap-[6px] overflow-x-auto [&::-webkit-scrollbar]:hidden shrink-0 border-b border-[rgba(255,255,255,0.04)]">
+                      {Object.keys(coverData).map(cat => (
+                        <button
+                          key={cat}
+                          onClick={() => setSelectedCoverCat(cat)}
+                          className={`px-[14px] py-[6px] rounded-[20px] text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                            selectedCoverCat === cat 
+                              ? 'bg-white text-[#111] border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]' 
+                              : 'bg-transparent text-[rgba(255,255,255,0.5)] border-[rgba(255,255,255,0.15)] hover:border-[rgba(255,255,255,0.3)]'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="p-[12px_16px_20px] grid grid-cols-3 gap-[8px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                      {coverData[selectedCoverCat].map((color, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setTempCoverColor(color);
+                          }}
+                          className={`w-full h-[60px] rounded-[10px] border-[2px] transition-transform hover:scale-[1.03] ${
+                            tempCoverColor === color ? 'border-[#ff5a1a] shadow-[0_0_12px_rgba(255,90,26,0.4)]' : 'border-transparent'
+                          }`}
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Username Mode */}
+                {activePanel === 'username' && (
+                  <>
+                    <div className="px-5 pt-[14px] pb-[8px] text-[11px] text-[rgba(255,255,255,0.4)] leading-[1.5] shrink-0 font-medium">
+                      Pick from suggested names or type your own below
+                    </div>
+                    <div className="px-5 py-[6px] flex flex-wrap gap-[8px] overflow-y-auto [&::-webkit-scrollbar]:hidden shrink-0 max-h-[140px]">
+                      {suggestedUsernames.map(name => (
+                        <button
+                          key={name}
+                          onClick={() => {
+                            setTempUsername(name);
+                            setCustomUsername('');
+                          }}
+                          className={`px-[14px] py-[8px] rounded-[20px] text-[12px] font-medium border transition-colors ${
+                            tempUsername === name && !customUsername
+                              ? 'bg-[#ff5a1a] text-white border-[#ff5a1a] shadow-[0_0_10px_rgba(255,90,26,0.3)]' 
+                              : 'bg-[rgba(255,255,255,0.03)] text-[rgba(255,255,255,0.7)] border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.08)]'
+                          }`}
+                        >
+                          {name}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="p-[16px_20px_20px] flex gap-[8px] items-center shrink-0 border-t border-[rgba(255,255,255,0.04)] mt-2">
+                      <input
+                        type="text"
+                        value={customUsername}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCustomUsername(val);
+                          if(val) setTempUsername(val);
+                        }}
+                        placeholder="Type your own..."
+                        maxLength={24}
+                        className="flex-1 bg-[#1a1a22] border border-[rgba(255,255,255,0.12)] focus:border-[rgba(255,255,255,0.3)] transition-colors rounded-[10px] px-[14px] py-[10px] text-[13px] text-white outline-none placeholder:text-[rgba(255,255,255,0.25)]"
+                      />
+                      {customUsername.length >= 3 && (
+                        <div className="flex items-center gap-[4px] shrink-0 ml-1 bg-[rgba(78,175,107,0.15)] px-[8px] py-[4px] rounded-full">
+                          <Check size={12} color="#4caf50" strokeWidth={3} />
+                          <span className="text-[10px] font-bold text-[#4caf50] uppercase tracking-wide">Avail</span>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
