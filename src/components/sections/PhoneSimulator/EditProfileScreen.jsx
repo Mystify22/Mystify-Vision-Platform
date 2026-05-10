@@ -103,7 +103,7 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
           {/* Avatar + Row */}
           <div className="relative px-4 flex justify-between items-end mt-[-28px] pointer-events-none">
             <div 
-              className="relative w-[58px] h-[58px] rounded-full border-[3px] border-[#111] bg-[rgba(255,255,255,0.05)] flex items-center justify-center cursor-pointer pointer-events-auto"
+              className="relative w-[58px] h-[58px] rounded-full border-[3px] border-[#111] bg-[#1c1c1c] flex items-center justify-center cursor-pointer pointer-events-auto"
               onClick={() => handlePanelSwitch('avatar')}
             >
               <span className="text-[24px] text-white">{avatarValue}</span>
