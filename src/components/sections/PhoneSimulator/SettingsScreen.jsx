@@ -109,8 +109,12 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout }) =>
       <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden">
         {/* Profile Mini Row */}
         <div className="flex items-center gap-[12px] p-[14px] bg-[#0c0c10]">
-          <div className="w-[44px] h-[44px] rounded-full bg-[#1a1a26] border border-white/10 flex items-center justify-center shrink-0">
-            <span className="text-[20px] text-white">{userProfileData?.avatarValue || '✦'}</span>
+          <div className="w-[44px] h-[44px] rounded-full bg-[#1a1a26] border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+            {userProfileData?.avatarValue?.startsWith('http') ? (
+              <img src={userProfileData.avatarValue} alt="avatar" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-[20px] text-white">{userProfileData?.avatarValue || '✦'}</span>
+            )}
           </div>
           <div className="flex-1 flex flex-col">
             <span className="text-[14px] font-medium text-white">{userProfileData?.username || 'ghost_mind'}</span>

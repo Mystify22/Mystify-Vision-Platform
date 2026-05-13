@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
 import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
@@ -29,12 +29,26 @@ const PhoneSimulator = () => {
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2']));
 
-  const [userProfileData, setUserProfileData] = useState({
-    username: 'ghost_mind',
-    bio: 'Anonymous thoughts. Questions nobody dares ask out loud.',
-    avatarValue: '✦',
-    coverColor: '#1a0a3e'
+  const [userProfileData, setUserProfileData] = useState(() => {
+    const saved = localStorage.getItem('mystify_user_profile');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Failed to parse user profile from local storage", e);
+      }
+    }
+    return {
+      username: 'ghost_mind',
+      bio: 'Anonymous thoughts. Questions nobody dares ask out loud.',
+      avatarValue: '✦',
+      coverColor: '#1a0a3e'
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('mystify_user_profile', JSON.stringify(userProfileData));
+  }, [userProfileData]);
 
   const handleFollowToggle = (id) => {
     if (!id) return;
