@@ -157,8 +157,8 @@ const PhoneSimulator = () => {
               <FeedScreen key="step-home" />
             )}
             {step === 5 && (
-              <ProfileScreen 
-                key="step-profile" 
+              <ProfileScreen
+                key="step-profile"
                 username={selectedProfileUsername}
                 userProfileData={userProfileData}
                 onEditProfile={() => setStep(8)}
@@ -172,8 +172,8 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 6 && (
-              <SearchScreen 
-                key="step-explore" 
+              <SearchScreen
+                key="step-explore"
                 onUserSelect={(username) => {
                   setSelectedProfileUsername(username);
                   setStep(5);
@@ -183,9 +183,9 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 7 && (
-              <MessageScreen 
-                key="step-chat" 
-                targetUsername={chatTargetUsername} 
+              <MessageScreen
+                key="step-chat"
+                targetUsername={chatTargetUsername}
                 onBack={() => {
                   setChatTargetUsername(null);
                   setStep(5);

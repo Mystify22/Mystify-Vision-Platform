@@ -77,7 +77,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
 
       {/* 1. COVER BANNER */}
-      <div 
+      <div
         className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden"
         style={isOwnProfile ? { backgroundColor: userProfileData.coverColor } : {}}
       >
@@ -101,7 +101,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           <button onClick={isOwnProfile ? onOpenSettings : () => setShowOtherUserActions(true)} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
             <i className="ti ti-dots text-[#666] text-[16px]"></i>
           </button>
-          
+
           {username !== (userProfileData?.username || "ghost_mind") && (
             <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
               <i className="ti ti-mail text-[#666] text-[16px]"></i>
@@ -113,13 +113,12 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
               Edit Profile
             </button>
           ) : (
-            <button 
+            <button
               onClick={() => onFollowToggle && onFollowToggle(userProfile?.id)}
-              className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${
-                isFollowing 
-                  ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]' 
+              className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${isFollowing
+                  ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]'
                   : 'bg-[#FF4500] hover:bg-[#ff5722]'
-              }`}
+                }`}
             >
               {isFollowing ? 'Following' : 'Follow'}
             </button>
@@ -230,72 +229,65 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
       <AnimatePresence>
         {showOtherUserActions && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowOtherUserActions(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm z-40"
-            />
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="absolute bottom-0 left-0 right-0 bg-[#0f0f0f] rounded-t-[24px] z-50 border-t border-[#1a1a1a] overflow-hidden flex flex-col max-h-[85vh]"
-            >
-              <div className="w-full flex justify-center pt-3 pb-2 shrink-0">
-                <div className="w-10 h-1 bg-[#333] rounded-full"></div>
-              </div>
-              <div className="px-5 pb-4 pt-2 shrink-0">
-                <h3 className="text-white font-syne font-bold text-[18px]">Profile Actions</h3>
-              </div>
-              <div className="flex-1 overflow-y-auto px-5 pb-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                <div className="flex flex-col gap-2">
-                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
-                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-[#FF4500]/20 transition-colors">
-                      <Ghost className="w-5 h-5 text-[#888] group-hover:text-[#FF4500] transition-colors" />
-                    </div>
-                    <div className="flex-1 text-left">
-                      <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Ghost User</span>
-                      <span className="block text-[#666] font-dmsans text-[12px]">Temporarily hide their content</span>
-                    </div>
-                  </button>
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="absolute inset-0 bg-[#0a0a0a] z-50 flex flex-col font-sans overflow-hidden"
+          >
+            {/* Header */}
+            <div className="flex items-center gap-4 px-5 pt-[60px] pb-4 bg-[#0a0a0a] sticky top-0 z-10 border-b border-[#141414]">
+              <button onClick={() => setShowOtherUserActions(false)} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
+                <ChevronLeft className="w-5 h-5 text-white" />
+              </button>
+              <h2 className="text-white font-syne font-bold text-[18px]">Profile Actions</h2>
+            </div>
 
-                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
-                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                      <VolumeX className="w-5 h-5 text-[#888] group-hover:text-white transition-colors" />
-                    </div>
-                    <div className="flex-1 text-left">
-                      <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Mute @{username}</span>
-                      <span className="block text-[#666] font-dmsans text-[12px]">Stop seeing their posts</span>
-                    </div>
-                  </button>
-                  
-                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
-                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                      <Share2 className="w-5 h-5 text-[#888] group-hover:text-white transition-colors" />
-                    </div>
-                    <div className="flex-1 text-left">
-                      <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Share Profile</span>
-                      <span className="block text-[#666] font-dmsans text-[12px]">Send this profile to someone</span>
-                    </div>
-                  </button>
+            <div className="flex-1 overflow-y-auto px-5 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="flex flex-col gap-2">
+                <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-[#FF4500]/20 transition-colors">
+                    <Ghost className="w-5 h-5 text-[#888] group-hover:text-[#FF4500] transition-colors" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Ghost User</span>
+                    <span className="block text-[#666] font-dmsans text-[12px]">Temporarily hide their content</span>
+                  </div>
+                </button>
 
-                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group mt-2">
-                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
-                      <X className="w-5 h-5 text-[#888] group-hover:text-red-500 transition-colors" />
-                    </div>
-                    <div className="flex-1 text-left">
-                      <span className="block text-red-500 font-dmsans font-semibold text-[15px] mb-0.5">Report User</span>
-                      <span className="block text-[#666] font-dmsans text-[12px]">Flag inappropriate behavior</span>
-                    </div>
-                  </button>
-                </div>
+                <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <VolumeX className="w-5 h-5 text-[#888] group-hover:text-white transition-colors" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Mute @{username}</span>
+                    <span className="block text-[#666] font-dmsans text-[12px]">Stop seeing their posts</span>
+                  </div>
+                </button>
+
+                <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <Share2 className="w-5 h-5 text-[#888] group-hover:text-white transition-colors" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Share Profile</span>
+                    <span className="block text-[#666] font-dmsans text-[12px]">Send this profile to someone</span>
+                  </div>
+                </button>
+
+                <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group mt-2">
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                    <X className="w-5 h-5 text-[#888] group-hover:text-red-500 transition-colors" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="block text-red-500 font-dmsans font-semibold text-[15px] mb-0.5">Report User</span>
+                    <span className="block text-[#666] font-dmsans text-[12px]">Flag inappropriate behavior</span>
+                  </div>
+                </button>
               </div>
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
