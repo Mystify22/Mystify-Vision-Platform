@@ -62,11 +62,30 @@ const avatarData = {
 };
 
 const coverData = {
-  Dark: ['#1a0a3e', '#0a1a2e', '#2a0a1a', '#0a0a0a', '#1a1a0a', '#0a2a1a'],
-  Nature: ['#1a3a1a', '#2a4a1a', '#0a2a0a', '#3a4a1a', '#1a2a0a', '#0a3a2a'],
-  Abstract: ['#3a1a2a', '#1a2a4a', '#3a2a1a', '#2a1a3a', '#1a3a3a', '#3a3a1a'],
-  Minimal: ['#1a1a1a', '#222222', '#181818', '#141414', '#1e1e1e', '#161616'],
-  City: ['#0a1a2a', '#1a1a2a', '#0a0a1a', '#2a1a0a', '#1a0a2a', '#0a2a2a']
+  Dark: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681847/mystify/cover/dark/jg7colb5rnciwp1c2he1.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681834/mystify/cover/dark/pr0fwvw6asfix3c35c59.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681824/mystify/cover/dark/u6obss5wnfcfmvkh7cxn.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681787/mystify/cover/dark/mihbwavbyvxiiaeb7ax6.jpg"
+  ],
+  Nature: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681415/mystify/cover/nature/ahiuvfarfqni6ucbq60h.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681372/mystify/cover/nature/prf606vbl1uzlz0wohrh.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778679897/mystify/cover/nature/pxgslssi04h7xgliujaj.jpg"
+  ],
+  Anime: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681914/mystify/cover/anime/hdote5qsisrin9g4i1ci.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681899/mystify/cover/anime/e2pnjldullm7qy5wrcpa.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681455/mystify/cover/anime/ye9yyzi2c9lj4hfhcyrx.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778681444/mystify/cover/anime/r2psqbpoxp4xkw3nlfih.jpg",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778679855/mystify/cover/anime/k4bqcfvzxjal1ptrb3ej.png"
+  ],
+  Aesthetic: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778680874/mystify/cover/aesthetic/vbwtrvqikhat7h5sruqx.webp"
+  ],
+  Action: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778680007/mystify/cover/action/i8tbkmdduox329rxuovz.jpg"
+  ]
 };
 
 const suggestedUsernames = [
@@ -141,8 +160,8 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
         <div className="relative mb-6">
           {/* Cover Preview Area */}
           <div 
-            className="w-full h-[100px] relative cursor-pointer" 
-            style={{ backgroundColor: coverColor }}
+            className="w-full h-[100px] relative cursor-pointer bg-center bg-cover" 
+            style={coverColor.startsWith('http') ? { backgroundImage: `url(${coverColor})` } : { backgroundColor: coverColor }}
             onClick={() => handlePanelSwitch('cover')}
           >
             <div className="absolute bottom-2 right-2 bg-[rgba(0,0,0,0.55)] rounded-[20px] px-[10px] py-[3px] flex flex-row items-center gap-[4px]">
@@ -247,8 +266,8 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
               )}
               {activePanel === 'cover' && (
                 <div 
-                  className="w-[80%] max-w-[300px] h-[100px] rounded-[16px] border-[4px] border-[#111] shadow-2xl"
-                  style={{ backgroundColor: tempCoverColor }}
+                  className="w-[80%] max-w-[300px] h-[100px] rounded-[16px] border-[4px] border-[#111] shadow-2xl bg-center bg-cover"
+                  style={tempCoverColor.startsWith('http') ? { backgroundImage: `url(${tempCoverColor})` } : { backgroundColor: tempCoverColor }}
                 />
               )}
               {activePanel === 'username' && (
@@ -346,16 +365,16 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
                       ))}
                     </div>
                     <div className="p-[12px_16px_20px] grid grid-cols-3 gap-[8px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-                      {coverData[selectedCoverCat].map((color, idx) => (
+                      {coverData[selectedCoverCat].map((item, idx) => (
                         <button
                           key={idx}
                           onClick={() => {
-                            setTempCoverColor(color);
+                            setTempCoverColor(item);
                           }}
-                          className={`w-full h-[60px] rounded-[10px] border-[2px] transition-transform hover:scale-[1.03] ${
-                            tempCoverColor === color ? 'border-[#ff5a1a] shadow-[0_0_12px_rgba(255,90,26,0.4)]' : 'border-transparent'
+                          className={`w-full h-[60px] rounded-[10px] border-[2px] transition-transform hover:scale-[1.03] overflow-hidden bg-center bg-cover ${
+                            tempCoverColor === item ? 'border-[#ff5a1a] shadow-[0_0_12px_rgba(255,90,26,0.4)]' : 'border-transparent'
                           }`}
-                          style={{ backgroundColor: color }}
+                          style={item.startsWith('http') ? { backgroundImage: `url(${item})` } : { backgroundColor: item }}
                         />
                       ))}
                     </div>

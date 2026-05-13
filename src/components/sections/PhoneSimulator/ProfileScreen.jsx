@@ -79,10 +79,10 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
       {/* 1. COVER BANNER */}
       <div
-        className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden cursor-pointer"
-        style={isOwnProfile ? { backgroundColor: userProfileData.coverColor } : {}}
+        className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden cursor-pointer bg-center bg-cover"
+        style={isOwnProfile ? (userProfileData.coverColor?.startsWith('http') ? { backgroundImage: `url(${userProfileData.coverColor})` } : { backgroundColor: userProfileData.coverColor }) : {}}
         onClick={() => setViewingMedia({
-          type: isOwnProfile ? 'color' : 'image',
+          type: (isOwnProfile && !userProfileData.coverColor?.startsWith('http')) ? 'color' : 'image',
           value: isOwnProfile ? userProfileData.coverColor : (userProfile?.coverImage || coverImage),
           isCover: true
         })}
