@@ -3,11 +3,62 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, ChevronRight, X, Check } from 'lucide-react';
 
 const avatarData = {
-  Cosmic: ['✦', '☀', '☽', '★', '✴', '◈', '✧', '☄', '❋', '☁'],
-  Shadows: ['☠', '◉', '◈', '⚔', '☣', '✝', '◆', '⚡', '✦', '⚗'],
-  Nature: ['✿', '✾', '❀', '✻', '✽', '❁', '❃', '❊', '✺', '✹'],
-  Tech: ['⌬', '⎔', '⊗', '⊞', '⟁', '⊙', '⬡', '⟐', '⊕', '◎'],
-  Spirits: ['⚯', '❧', '☯', '⚝', '⟁', '⚜', '⎈', '✤', '⚛', '☮']
+  Monx: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672802/mystify/avatar/monx/andlhzujd2pqp2aodc2t.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672793/mystify/avatar/monx/p7u3prwwskqwgdrf6yhn.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672715/mystify/avatar/monx/uzaezuofgjpgilodhacv.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672596/mystify/avatar/monx/skhzlrtushx96cgyrxpg.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672580/mystify/avatar/monx/haaakhmwjjapsmjayssi.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672560/mystify/avatar/monx/fijgp3iehcz3fmzb2fen.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672550/mystify/avatar/monx/pretea2hsysmd5x9yflv.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672491/mystify/avatar/monx/ybixgtlb4asujgxfadur.png"
+  ],
+  Mimo: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675662/mystify/avatar/mimo/rrg53863czv8cutzzfwd.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675605/mystify/avatar/mimo/dmhylycaf9j52zj1139p.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675594/mystify/avatar/mimo/kkeaywhzgxfs4errituf.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675623/mystify/avatar/mimo/ldw8b1p0xkvkikunfnrr.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675583/mystify/avatar/mimo/qmlyku6eqjejminthlua.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675615/mystify/avatar/mimo/jvwer7c0ghbsqxucvizh.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675548/mystify/avatar/mimo/lsf9dd4svnxiyum4ccll.png"
+  ],
+  Peeps: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677371/mystify/avatar/peeps/imir0hqmtwelttlqtu79.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677353/mystify/avatar/peeps/qg2v19nuk2ywez1je2vh.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677335/mystify/avatar/peeps/ut7dod8ikds9vj1gwmmt.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677325/mystify/avatar/peeps/umjb9h57qj030wfqbtvy.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677315/mystify/avatar/peeps/kkpokgzwt6emct9tmbwp.png"
+  ],
+  Toon: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677804/mystify/avatar/toons/n5n4vji9p5nhkqr7n4ya.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677784/mystify/avatar/toons/ydhjko6zbxptjq6nuvyb.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677757/mystify/avatar/toons/zzvuscxdinwcr0nickpb.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677748/mystify/avatar/toons/j6lxddsjb9fdiijyovls.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677735/mystify/avatar/toons/ktwd5p7tqcqd0ko3gxak.png"
+  ],
+  Emoji: [
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678511/mystify/avatar/emoji/wbxiyhnocj9tsuafp0tj.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678491/mystify/avatar/emoji/ovq0qywdoijnlglfzmoe.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678483/mystify/avatar/emoji/iy3tlf7xlqs8j89k4f0c.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678475/mystify/avatar/emoji/i21r6uo62ay4g3vdrd3j.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678466/mystify/avatar/emoji/zozwxy6hue5pmrmyfwxs.png",
+    "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678457/mystify/avatar/emoji/w2v0hzetf4idusmloo22.png"
+  ]
 };
 
 const coverData = {
@@ -26,7 +77,7 @@ const suggestedUsernames = [
 const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
   const [activePanel, setActivePanel] = useState(null); // 'avatar' | 'cover' | 'username' | null
   
-  const [selectedAvatarCat, setSelectedAvatarCat] = useState('Cosmic');
+  const [selectedAvatarCat, setSelectedAvatarCat] = useState('Monx');
   const [selectedCoverCat, setSelectedCoverCat] = useState('Dark');
   
   const [username, setUsername] = useState(initialData?.username || 'ghost_mind');
@@ -106,7 +157,11 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
               className="relative w-[58px] h-[58px] rounded-full border-[3px] border-[#111] bg-[#1c1c1c] flex items-center justify-center cursor-pointer pointer-events-auto"
               onClick={() => handlePanelSwitch('avatar')}
             >
-              <span className="text-[24px] text-white">{avatarValue}</span>
+              {avatarValue.startsWith('http') ? (
+                <img src={avatarValue} alt="avatar" className="w-full h-full rounded-full object-cover" />
+              ) : (
+                <span className="text-[24px] text-white">{avatarValue}</span>
+              )}
               <div className="absolute bottom-[-2px] right-[-2px] w-[18px] h-[18px] rounded-full bg-[#ff5a1a] border-[2px] border-[#111] flex items-center justify-center">
                 <Camera size={10} color="white" />
               </div>
@@ -179,11 +234,15 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="mb-8 flex justify-center w-full"
+              className="absolute top-[10%] flex justify-center w-full"
             >
               {activePanel === 'avatar' && (
                 <div className="w-[100px] h-[100px] rounded-full border-[4px] border-[#111] bg-[#1a1a1a] flex items-center justify-center shadow-2xl">
-                  <span className="text-[44px] text-white">{tempAvatarValue}</span>
+                  {tempAvatarValue.startsWith('http') ? (
+                    <img src={tempAvatarValue} alt="avatar" className="w-full h-full rounded-full object-cover" />
+                  ) : (
+                    <span className="text-[44px] text-white">{tempAvatarValue}</span>
+                  )}
                 </div>
               )}
               {activePanel === 'cover' && (
@@ -204,7 +263,7 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full bg-[#111] border border-[rgba(255,255,255,0.12)] rounded-[20px] flex flex-col max-h-[70%] shadow-2xl overflow-hidden"
+              className="w-full bg-[#111] border border-[rgba(255,255,255,0.12)] rounded-[20px] flex flex-col max-h-[45%] shadow-2xl overflow-hidden"
             >
               {/* Header */}
               <div className="px-4 py-[14px] flex justify-between items-center shrink-0 border-b border-[rgba(255,255,255,0.06)] bg-[#111]">
@@ -246,7 +305,7 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
                         </button>
                       ))}
                     </div>
-                    <div className="p-[12px_16px_20px] grid grid-cols-5 gap-[10px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                    <div className="p-[12px_16px_20px] grid grid-cols-3 gap-[10px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
                       {avatarData[selectedAvatarCat].map((symbol, idx) => (
                         <button
                           key={idx}
@@ -257,7 +316,11 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
                             tempAvatarValue === symbol ? 'border-[#ff5a1a] bg-[rgba(255,90,26,0.1)]' : 'border-transparent'
                           }`}
                         >
-                          {symbol}
+                          {symbol.startsWith('http') ? (
+                            <img src={symbol} alt="avatar option" className="w-full h-full rounded-full object-cover" />
+                          ) : (
+                            symbol
+                          )}
                         </button>
                       ))}
                     </div>

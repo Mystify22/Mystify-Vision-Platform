@@ -9,6 +9,7 @@ import coverImage from '../../../assets/cover.png';
 const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
+  const [viewingMedia, setViewingMedia] = useState(null);
   const streakDays = 30;
 
   const isOwnProfile = userProfileData && username === userProfileData.username;
@@ -78,8 +79,13 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
       {/* 1. COVER BANNER */}
       <div
-        className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden"
+        className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden cursor-pointer"
         style={isOwnProfile ? { backgroundColor: userProfileData.coverColor } : {}}
+        onClick={() => setViewingMedia({
+          type: isOwnProfile ? 'color' : 'image',
+          value: isOwnProfile ? userProfileData.coverColor : (userProfile?.coverImage || coverImage),
+          isCover: true
+        })}
       >
         {!isOwnProfile && <img src={userProfile?.coverImage || coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />}
         <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
@@ -88,9 +94,20 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       {/* 2. AVATAR ROW */}
       <div className="relative z-10 px-5 flex justify-between items-end" style={{ marginTop: '-44px' }}>
         <div className="relative">
-          <div className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center overflow-hidden">
+          <div 
+            className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center overflow-hidden cursor-pointer"
+            onClick={() => setViewingMedia({
+              type: (isOwnProfile && !userProfileData.avatarValue?.startsWith('http')) ? 'text' : 'image',
+              value: isOwnProfile ? userProfileData.avatarValue : displayAvatar,
+              isCover: false
+            })}
+          >
             {isOwnProfile ? (
-              <span className="text-[34px] text-white">{userProfileData.avatarValue}</span>
+              userProfileData.avatarValue?.startsWith('http') ? (
+                <img src={userProfileData.avatarValue} alt="DP" className="w-full h-full rounded-full object-cover" />
+              ) : (
+                <span className="text-[34px] text-white">{userProfileData.avatarValue}</span>
+              )
             ) : (
               <img src={displayAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
             )}
@@ -263,6 +280,39 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 8. MEDIA VIEWER MODAL */}
+      <AnimatePresence>
+        {viewingMedia && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+            onClick={() => setViewingMedia(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className={`relative overflow-hidden shadow-2xl flex items-center justify-center ${
+                viewingMedia.isCover ? 'w-full aspect-[21/9] rounded-[16px]' : 'w-[250px] h-[250px] rounded-full bg-[#111] border-[4px] border-[#222]'
+              }`}
+              style={viewingMedia.type === 'color' ? { backgroundColor: viewingMedia.value } : {}}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {viewingMedia.type === 'image' && (
+                <img src={viewingMedia.value} alt="Expanded Media" className="w-full h-full object-cover" />
+              )}
+              {viewingMedia.type === 'text' && (
+                <span className="text-[100px] text-white">{viewingMedia.value}</span>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </motion.div>
   );
 };
