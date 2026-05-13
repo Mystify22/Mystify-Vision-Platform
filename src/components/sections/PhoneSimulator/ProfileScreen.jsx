@@ -6,8 +6,9 @@ import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings }) => {
   const [activeTab, setActiveTab] = useState("Posts");
+  const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const streakDays = 30;
 
   const isOwnProfile = userProfileData && username === userProfileData.username;
@@ -97,7 +98,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
         </div>
 
         <div className="flex gap-2 pb-1">
-          <button className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
+          <button onClick={isOwnProfile ? onOpenSettings : () => setShowOtherUserActions(true)} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
             <i className="ti ti-dots text-[#666] text-[16px]"></i>
           </button>
           
@@ -226,6 +227,77 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
         {activeTab === "Saved" && renderGrid(sampleSaved)}
       </div>
+
+      <AnimatePresence>
+        {showOtherUserActions && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowOtherUserActions(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm z-40"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="absolute bottom-0 left-0 right-0 bg-[#0f0f0f] rounded-t-[24px] z-50 border-t border-[#1a1a1a] overflow-hidden flex flex-col max-h-[85vh]"
+            >
+              <div className="w-full flex justify-center pt-3 pb-2 shrink-0">
+                <div className="w-10 h-1 bg-[#333] rounded-full"></div>
+              </div>
+              <div className="px-5 pb-4 pt-2 shrink-0">
+                <h3 className="text-white font-syne font-bold text-[18px]">Profile Actions</h3>
+              </div>
+              <div className="flex-1 overflow-y-auto px-5 pb-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex flex-col gap-2">
+                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
+                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-[#FF4500]/20 transition-colors">
+                      <Ghost className="w-5 h-5 text-[#888] group-hover:text-[#FF4500] transition-colors" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Ghost User</span>
+                      <span className="block text-[#666] font-dmsans text-[12px]">Temporarily hide their content</span>
+                    </div>
+                  </button>
+
+                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
+                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                      <VolumeX className="w-5 h-5 text-[#888] group-hover:text-white transition-colors" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Mute @{username}</span>
+                      <span className="block text-[#666] font-dmsans text-[12px]">Stop seeing their posts</span>
+                    </div>
+                  </button>
+                  
+                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group">
+                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                      <Share2 className="w-5 h-5 text-[#888] group-hover:text-white transition-colors" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className="block text-white font-dmsans font-semibold text-[15px] mb-0.5">Share Profile</span>
+                      <span className="block text-[#666] font-dmsans text-[12px]">Send this profile to someone</span>
+                    </div>
+                  </button>
+
+                  <button onClick={() => setShowOtherUserActions(false)} className="w-full bg-[#111] border border-[#1a1a1a] rounded-[14px] p-4 flex items-center gap-4 hover:bg-[#151515] transition-colors group mt-2">
+                    <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                      <X className="w-5 h-5 text-[#888] group-hover:text-red-500 transition-colors" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className="block text-red-500 font-dmsans font-semibold text-[15px] mb-0.5">Report User</span>
+                      <span className="block text-[#666] font-dmsans text-[12px]">Flag inappropriate behavior</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
