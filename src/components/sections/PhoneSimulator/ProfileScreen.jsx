@@ -6,8 +6,9 @@ import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings }) => {
   const [activeTab, setActiveTab] = useState("Posts");
+  const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const streakDays = 30;
 
   const isOwnProfile = userProfileData && username === userProfileData.username;
@@ -76,7 +77,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
 
       {/* 1. COVER BANNER */}
-      <div 
+      <div
         className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden"
         style={isOwnProfile ? { backgroundColor: userProfileData.coverColor } : {}}
       >
@@ -97,10 +98,10 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
         </div>
 
         <div className="flex gap-2 pb-1">
-          <button className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
+          <button onClick={isOwnProfile ? onOpenSettings : () => setShowOtherUserActions(!showOtherUserActions)} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
             <i className="ti ti-dots text-[#666] text-[16px]"></i>
           </button>
-          
+
           {username !== (userProfileData?.username || "ghost_mind") && (
             <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
               <i className="ti ti-mail text-[#666] text-[16px]"></i>
@@ -112,13 +113,12 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
               Edit Profile
             </button>
           ) : (
-            <button 
+            <button
               onClick={() => onFollowToggle && onFollowToggle(userProfile?.id)}
-              className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${
-                isFollowing 
-                  ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]' 
+              className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${isFollowing
+                  ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]'
                   : 'bg-[#FF4500] hover:bg-[#ff5722]'
-              }`}
+                }`}
             >
               {isFollowing ? 'Following' : 'Follow'}
             </button>
@@ -226,6 +226,43 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
         {activeTab === "Saved" && renderGrid(sampleSaved)}
       </div>
+
+      {/* Invisible overlay for dropdown */}
+      {showOtherUserActions && !isOwnProfile && (
+        <div 
+          onClick={() => setShowOtherUserActions(false)}
+          className="absolute inset-0 z-40"
+        />
+      )}
+
+      <AnimatePresence>
+        {showOtherUserActions && !isOwnProfile && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute top-[105px] right-[20px] w-[160px] bg-[#111] border border-[#222] rounded-[12px] shadow-2xl overflow-hidden z-50 flex flex-col"
+          >
+            <button onClick={() => setShowOtherUserActions(false)} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#1a1a1a] transition-colors text-left group border-b border-[#222]">
+              <Ghost className="w-4 h-4 text-[#888] group-hover:text-white transition-colors" />
+              <span className="text-[13px] font-dmsans font-medium text-[#aaa] group-hover:text-white transition-colors">Ghost User</span>
+            </button>
+            <button onClick={() => setShowOtherUserActions(false)} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#1a1a1a] transition-colors text-left group border-b border-[#222]">
+              <VolumeX className="w-4 h-4 text-[#888] group-hover:text-white transition-colors" />
+              <span className="text-[13px] font-dmsans font-medium text-[#aaa] group-hover:text-white transition-colors">Mute</span>
+            </button>
+            <button onClick={() => setShowOtherUserActions(false)} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#1a1a1a] transition-colors text-left group border-b border-[#222]">
+              <Share2 className="w-4 h-4 text-[#888] group-hover:text-white transition-colors" />
+              <span className="text-[13px] font-dmsans font-medium text-[#aaa] group-hover:text-white transition-colors">Share</span>
+            </button>
+            <button onClick={() => setShowOtherUserActions(false)} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-500/10 transition-colors text-left group">
+              <X className="w-4 h-4 text-[#888] group-hover:text-red-500 transition-colors" />
+              <span className="text-[13px] font-dmsans font-medium text-[#aaa] group-hover:text-red-500 transition-colors">Report</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
