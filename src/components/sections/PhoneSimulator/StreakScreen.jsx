@@ -8,19 +8,16 @@ const mockData = {
     { rank: 3, symbol: '☽', username: 'mind_drift', points: '11,880', streak: '60', isMe: false, crown: '#c87941' },
     { rank: 4, symbol: '✴', username: 'dark_note', points: '9,340', streak: '30', isMe: false, crown: null },
     { rank: 5, symbol: '⚝', username: 'lost_voice', points: '7,100', streak: '30', isMe: false, crown: null },
-    { rank: 43, symbol: '✦', username: 'ghost_mind', points: '3,000', streak: '30', isMe: true, crown: null },
   ],
   week: [
     { rank: 1, symbol: '⚛', username: 'anon_wave', points: '420', streak: '7', isMe: false, crown: '#f5c842' },
     { rank: 2, symbol: '☯', username: 'night_pen', points: '385', streak: '7', isMe: false, crown: '#b0b0b0' },
     { rank: 3, symbol: '◈', username: 'deep_ask', points: '310', streak: '5', isMe: false, crown: '#c87941' },
     { rank: 4, symbol: '❧', username: 'void_echo', points: '290', streak: '7', isMe: false, crown: null },
-    { rank: 43, symbol: '✦', username: 'ghost_mind', points: '210', streak: '6', isMe: true, crown: null },
   ],
   following: [
     { rank: 1, symbol: '❋', username: 'soul_query', points: '14,200', streak: '60', isMe: false, crown: '#f5c842' },
     { rank: 2, symbol: '☽', username: 'mind_drift', points: '11,880', streak: '60', isMe: false, crown: '#b0b0b0' },
-    { rank: 3, symbol: '✦', username: 'ghost_mind', points: '3,000', streak: '30', isMe: true, crown: '#c87941' },
   ]
 };
 
@@ -318,15 +315,8 @@ const StreakScreen = ({ onBack }) => {
               {/* LEADERBOARD LIST */}
               <div>
                 {mockData[lbFilter].map((item, idx) => {
-                  const showSeparator = lbFilter === 'global' && item.rank === 43 && mockData.global[idx - 1]?.rank !== 42;
-                  
                   return (
                     <React.Fragment key={idx}>
-                      {showSeparator && (
-                        <div className="text-center text-[9px] text-white/[0.12] tracking-[0.1em] py-1.5">
-                          · · ·
-                        </div>
-                      )}
                       <div className={`flex flex-row items-center gap-[10px] p-[9px_12px] rounded-[11px] mb-[5px] border ${
                         item.isMe ? 'bg-[#ff5a1a]/[0.05] border-[#ff5a1a]/[0.22]' : 'bg-[#141418] border-white/[0.06]'
                       }`}>
