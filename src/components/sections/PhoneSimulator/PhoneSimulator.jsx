@@ -14,6 +14,7 @@ import MessageScreen from './MessageScreen';
 import LoginScreen from './LoginScreen';
 import EditProfileScreen from './EditProfileScreen';
 import SettingsScreen from './SettingsScreen';
+import StreakScreen from './StreakScreen';
 
 const PhoneSimulator = () => {
   const containerRef = useRef(null);
@@ -183,6 +184,7 @@ const PhoneSimulator = () => {
                 followedUsers={followedUsers}
                 onFollowToggle={handleFollowToggle}
                 onOpenSettings={() => setStep(9)}
+                onOpenStreak={() => setStep(10)}
               />
             )}
             {step === 6 && (
@@ -229,10 +231,16 @@ const PhoneSimulator = () => {
                 }}
               />
             )}
+            {step === 10 && (
+              <StreakScreen
+                key="step-streak"
+                onBack={() => setStep(5)}
+              />
+            )}
           </AnimatePresence>
 
           {/* Bottom Navigation Bar */}
-          {step > 0 && (
+          {step > 0 && step !== 10 && (
             <div className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t-[0.5px] border-[rgba(255,255,255,0.07)] flex items-center justify-around px-0 z-40 p-[8px_0_10px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
               <button onClick={() => setStep(4)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <Home size={20} strokeWidth={step === 4 ? 2.5 : 2} className={step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
