@@ -6,7 +6,7 @@ import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
@@ -170,7 +170,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       </div>
 
       {/* 5. GAMIFICATION & LEADERBOARD WIDGET (Minimal Strip) */}
-      <div className="px-5 mb-[18px] shrink-0">
+      <div className="px-5 mb-[18px] shrink-0" onClick={onOpenStreak}>
         <div className="h-[48px] rounded-[14px] bg-[#111] border border-[#1e1e1e] flex items-center justify-between px-4 cursor-pointer hover:bg-[#151515] transition-colors relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent pointer-events-none translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
 
