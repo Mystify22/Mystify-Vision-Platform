@@ -51,9 +51,8 @@ const StreakScreen = ({ onBack }) => {
           <button
             key={segment}
             onClick={() => setActiveSegment(segment)}
-            className={`flex-1 py-[7px] text-center text-[11px] font-medium capitalize transition-all duration-200 ${
-              activeSegment === segment ? 'bg-white text-[#0c0c10] rounded-[16px]' : 'bg-transparent text-white/40'
-            }`}
+            className={`flex-1 py-[7px] text-center text-[11px] font-medium capitalize transition-all duration-200 ${activeSegment === segment ? 'bg-white text-[#0c0c10] rounded-[16px]' : 'bg-transparent text-white/40'
+              }`}
             style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
             {segment}
@@ -78,7 +77,7 @@ const StreakScreen = ({ onBack }) => {
                   <div className="flex flex-row gap-[10px] items-center">
                     <i className="ti ti-flame text-[#ff5a1a] text-[36px]"></i>
                     <div className="flex flex-col">
-                      <span className="text-[#ff5a1a] text-[44px] font-bold leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>30</span>
+                      <span className="text-[#ff5a1a] text-[44px] font-bold leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>15</span>
                       <span className="text-[12px] font-medium text-white/60" style={{ fontFamily: "'DM Sans', sans-serif" }}>day streak</span>
                       <span className="text-[10px] text-white/30 mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Best: 30 days</span>
                     </div>
@@ -92,30 +91,29 @@ const StreakScreen = ({ onBack }) => {
                 {/* CYCLE PROGRESS */}
                 <div className="flex flex-row justify-between mb-1">
                   <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>30-day cycle progress</span>
-                  <span className="text-[10px] text-[#ff5a1a] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>30 / 30 — Bonus earned!</span>
+                  <span className="text-[10px] text-[#ff5a1a] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>15 / 30 — Halfway there!</span>
                 </div>
                 <div className="h-[6px] bg-white/[0.07] rounded-[4px] overflow-hidden mb-[10px]">
                   <motion.div
                     initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
+                    animate={{ width: "50%" }}
                     transition={{ duration: 1.2, ease: "easeOut" }}
                     className="h-full bg-[#ff5a1a] rounded-[4px]"
                   />
                 </div>
 
-                {/* WEEK DOT ROW */}
-                <div className="flex flex-row gap-[5px] mt-[10px]">
-                  {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => {
-                    const isDone = idx < 5;
-                    const isToday = idx === 5;
+                {/* MONTH DOT GRID */}
+                <div className="grid grid-cols-6 gap-y-3 gap-x-2 mt-[12px]">
+                  {Array.from({ length: 30 }).map((_, idx) => {
+                    const isDone = idx < 15;
+                    const isToday = idx === 15;
                     return (
-                      <div key={day} className="flex-1 flex flex-col items-center gap-1">
-                        <span className="text-[9px] text-white/25" style={{ fontFamily: "'DM Sans', sans-serif" }}>{day}</span>
+                      <div key={idx} className="flex flex-col items-center gap-1">
+                        <span className="text-[9px] text-white/25" style={{ fontFamily: "'DM Sans', sans-serif" }}>{idx + 1}</span>
                         <div className={`w-[32px] h-[32px] rounded-full flex items-center justify-center ${
                           isDone ? 'bg-[#ff5a1a]' : isToday ? 'bg-[#ff5a1a]/[0.15] border-[1.5px] border-[#ff5a1a]' : 'bg-white/[0.05] border border-white/[0.09]'
                         }`}>
-                          {isDone && <i className="ti ti-check text-white text-[12px]"></i>}
-                          {isToday && <i className="ti ti-flame text-[#ff5a1a] text-[12px]"></i>}
+                          {isDone && <span className="text-[16px]">🥷🏻</span>}
                         </div>
                       </div>
                     );
@@ -123,15 +121,7 @@ const StreakScreen = ({ onBack }) => {
                 </div>
               </div>
 
-              {/* RANK STRIP */}
-              <div className="flex flex-row items-center gap-3 bg-[#ff5a1a]/[0.06] border border-[#ff5a1a]/[0.18] rounded-[14px] p-[12px_14px] mb-3">
-                <div className="text-[30px] font-bold text-[#ff5a1a] min-w-[46px] text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>#43</div>
-                <div className="flex-1 flex flex-col">
-                  <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>Global rank</span>
-                  <span className="text-[10px] text-white/[0.35] mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Top 5% this month · 12 spots up</span>
-                </div>
-                <div className="bg-[#ff5a1a]/[0.15] border border-[#ff5a1a]/25 rounded-[10px] px-2 py-[3px] text-[9px] text-[#ff5a1a]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Rising</div>
-              </div>
+
 
               <div className="text-[9px] font-medium tracking-[0.09em] uppercase text-white/[0.22] mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>How it works</div>
 
@@ -302,9 +292,8 @@ const StreakScreen = ({ onBack }) => {
                   <button
                     key={filter}
                     onClick={() => setLbFilter(filter)}
-                    className={`text-[10px] px-3 py-1.5 rounded-[20px] transition-colors capitalize ${
-                      lbFilter === filter ? 'bg-white text-[#0c0c10] border border-white' : 'bg-transparent border border-white/10 text-white/[0.45]'
-                    }`}
+                    className={`text-[10px] px-3 py-1.5 rounded-[20px] transition-colors capitalize ${lbFilter === filter ? 'bg-white text-[#0c0c10] border border-white' : 'bg-transparent border border-white/10 text-white/[0.45]'
+                      }`}
                     style={{ fontFamily: "'DM Sans', sans-serif" }}
                   >
                     {filter === 'week' ? 'This week' : filter}
@@ -317,9 +306,8 @@ const StreakScreen = ({ onBack }) => {
                 {mockData[lbFilter].map((item, idx) => {
                   return (
                     <React.Fragment key={idx}>
-                      <div className={`flex flex-row items-center gap-[10px] p-[9px_12px] rounded-[11px] mb-[5px] border ${
-                        item.isMe ? 'bg-[#ff5a1a]/[0.05] border-[#ff5a1a]/[0.22]' : 'bg-[#141418] border-white/[0.06]'
-                      }`}>
+                      <div className={`flex flex-row items-center gap-[10px] p-[9px_12px] rounded-[11px] mb-[5px] border ${item.isMe ? 'bg-[#ff5a1a]/[0.05] border-[#ff5a1a]/[0.22]' : 'bg-[#141418] border-white/[0.06]'
+                        }`}>
                         <div className={`text-[12px] min-w-[22px] text-center ${item.isMe ? 'text-[#ff5a1a] font-semibold' : 'text-white/30 font-medium'}`} style={{ fontFamily: "'DM Sans', sans-serif" }}>
                           {item.crown ? <i className="ti ti-crown" style={{ color: item.crown, fontSize: '14px' }}></i> : item.rank}
                         </div>
