@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { mockResultsRiya } from './MockData';
+import coverImage from '../../../assets/cover.png';
 
 const mockData = {
   global: [
@@ -21,9 +23,14 @@ const mockData = {
   ]
 };
 
-const StreakScreen = ({ onBack }) => {
-  const [activeSegment, setActiveSegment] = useState('streak');
+const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", userProfileData }) => {
+  const [activeSegment, setActiveSegment] = useState(isOwnProfile ? 'streak' : 'leaderboard');
   const [lbFilter, setLbFilter] = useState('global');
+
+  const userProfile = mockResultsRiya?.find(u => u.handle === username || u.handle === `@${username}`);
+  const displayCover = userProfile?.coverImage || coverImage;
+  const otherUserAvatar = userProfile?.avatarImage;
+  const myAvatarValue = userProfileData?.avatarValue;
 
   return (
     <motion.div
@@ -41,24 +48,29 @@ const StreakScreen = ({ onBack }) => {
         <button onClick={onBack} className="w-8 h-8 rounded-full bg-white/[0.08] flex items-center justify-center cursor-pointer transition-colors hover:bg-white/[0.12]">
           <i className="ti ti-chevron-left text-[16px] text-white/70"></i>
         </button>
-        <span className="text-[14px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>Streak & Points</span>
+        <span className="text-[14px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{isOwnProfile ? "Streak & Points" : ""}</span>
         <div className="w-8" />
       </div>
 
       {/* SEGMENTED CONTROL */}
-      <div className="bg-white/[0.06] rounded-[20px] m-[12px_16px] p-[3px] flex flex-row gap-[2px] shrink-0">
-        {['streak', 'points', 'leaderboard'].map(segment => (
-          <button
-            key={segment}
-            onClick={() => setActiveSegment(segment)}
-            className={`flex-1 py-[7px] text-center text-[11px] font-medium capitalize transition-all duration-200 ${activeSegment === segment ? 'bg-white text-[#0c0c10] rounded-[16px]' : 'bg-transparent text-white/40'
-              }`}
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
-          >
-            {segment}
-          </button>
-        ))}
-      </div>
+      {isOwnProfile && (
+        <div className="bg-white/[0.06] rounded-[20px] m-[12px_16px] p-[3px] flex flex-row gap-[2px] shrink-0">
+          {['streak', 'points', 'leaderboard'].map(segment => (
+            <button
+              key={segment}
+              onClick={() => setActiveSegment(segment)}
+              className={`flex-1 py-[7px] text-center text-[11px] font-medium capitalize transition-all duration-200 ${activeSegment === segment ? 'bg-white text-[#0c0c10] rounded-[16px]' : 'bg-transparent text-white/40'
+                }`}
+              style={{ fontFamily: "'DM Sans', sans-serif" }}
+            >
+              {segment}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* TOP PADDING FOR OTHER USER */}
+      {!isOwnProfile && <div className="h-[16px]"></div>}
 
       {/* SCROLLABLE CONTENT */}
       <div className="flex-1 overflow-y-auto pb-5 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -110,9 +122,8 @@ const StreakScreen = ({ onBack }) => {
                     return (
                       <div key={idx} className="flex flex-col items-center gap-1">
                         <span className="text-[9px] text-white/25" style={{ fontFamily: "'DM Sans', sans-serif" }}>{idx + 1}</span>
-                        <div className={`w-[32px] h-[32px] rounded-full flex items-center justify-center ${
-                          isDone ? 'bg-[#ff5a1a]' : isToday ? 'bg-[#ff5a1a]/[0.15] border-[1.5px] border-[#ff5a1a]' : 'bg-white/[0.05] border border-white/[0.09]'
-                        }`}>
+                        <div className={`w-[32px] h-[32px] rounded-full flex items-center justify-center ${isDone ? 'bg-[#ff5a1a]' : isToday ? 'bg-[#ff5a1a]/[0.15] border-[1.5px] border-[#ff5a1a]' : 'bg-white/[0.05] border border-white/[0.09]'
+                          }`}>
                           {isDone && <span className="text-[16px]">🥷🏻</span>}
                         </div>
                       </div>
@@ -267,73 +278,172 @@ const StreakScreen = ({ onBack }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {/* YOU CARD */}
-              <div className="flex flex-row items-center gap-[10px] bg-[#ff5a1a]/[0.07] border border-[#ff5a1a]/20 rounded-[14px] p-[11px_13px] mb-[10px]">
-                <div className="text-[18px] font-bold text-[#ff5a1a] min-w-[30px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>#43</div>
-                <div className="w-[36px] h-[36px] rounded-full bg-[#1a1a28] border-[1.5px] border-[#ff5a1a] flex items-center justify-center shrink-0">
-                  <span className="text-white text-[17px]">✦</span>
-                </div>
-                <div className="flex-1 flex flex-col">
-                  <div className="flex flex-row items-center gap-1.5">
-                    <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>ghost_mind</span>
-                    <span className="bg-[#ff5a1a]/[0.15] text-[#ff5a1a] text-[8px] px-1.5 py-[2px] rounded-[8px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>You</span>
+              {/* YOU / OTHER USER CARD */}
+              {isOwnProfile ? (
+                <div className="flex flex-row items-center gap-[10px] bg-[#ff5a1a]/[0.07] border border-[#ff5a1a]/20 rounded-[14px] p-[11px_13px] mb-[10px]">
+                  <div className="text-[18px] font-bold text-[#ff5a1a] min-w-[30px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>#43</div>
+                  <div className="w-[36px] h-[36px] rounded-full bg-[#1a1a28] border-[1.5px] border-[#ff5a1a] flex items-center justify-center shrink-0">
+                    <span className="text-white text-[17px]">✦</span>
                   </div>
-                  <div className="flex flex-row items-center gap-1 mt-0.5">
-                    <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000 pts · </span>
-                    <i className="ti ti-flame text-[#ff5a1a] text-[10px]"></i>
-                    <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>30 days</span>
+                  <div className="flex-1 flex flex-col">
+                    <div className="flex flex-row items-center gap-1.5">
+                      <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{username}</span>
+                      <span className="bg-[#ff5a1a]/[0.15] text-[#ff5a1a] text-[8px] px-1.5 py-[2px] rounded-[8px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>You</span>
+                    </div>
+                    <div className="flex flex-row items-center gap-1 mt-0.5">
+                      <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000 pts · </span>
+                      <i className="ti ti-flame text-[#ff5a1a] text-[10px]"></i>
+                      <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>30 days</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div className="relative bg-gradient-to-br from-[#1a1a24] to-[#0c0c10] border border-white/[0.08] rounded-[24px] p-6 mb-[16px] overflow-hidden flex flex-col items-center shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                    <div className="absolute top-0 inset-x-0 h-[110px] z-0">
+                      <img src={displayCover} alt="cover" className="w-full h-full object-cover opacity-40" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#14141d]" />
+                    </div>
+                    <div className="absolute top-[-20%] right-[-10%] w-[150px] h-[150px] bg-[#ff5a1a]/15 blur-[50px] rounded-full pointer-events-none" />
+                    <div className="absolute bottom-[-20%] left-[-10%] w-[120px] h-[120px] bg-[#4a90e2]/10 blur-[40px] rounded-full pointer-events-none" />
 
-              {/* FILTER PILLS */}
-              <div className="flex flex-row gap-1.5 mb-[10px]">
-                {['global', 'week', 'following'].map(filter => (
-                  <button
-                    key={filter}
-                    onClick={() => setLbFilter(filter)}
-                    className={`text-[10px] px-3 py-1.5 rounded-[20px] transition-colors capitalize ${lbFilter === filter ? 'bg-white text-[#0c0c10] border border-white' : 'bg-transparent border border-white/10 text-white/[0.45]'
-                      }`}
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {filter === 'week' ? 'This week' : filter}
-                  </button>
-                ))}
-              </div>
+                    <div className="w-[72px] h-[72px] rounded-full bg-[#111] border-[2px] border-white/10 flex items-center justify-center shrink-0 mb-3 z-10 shadow-[0_4px_15px_rgba(0,0,0,0.4)]">
+                      {otherUserAvatar
+                        ? <img src={otherUserAvatar} alt="avatar" className="w-[60px] h-[60px] rounded-full object-cover" />
+                        : <span className="text-white text-[28px]">✦</span>
+                      }
+                    </div>
 
-              {/* LEADERBOARD LIST */}
-              <div>
-                {mockData[lbFilter].map((item, idx) => {
-                  return (
-                    <React.Fragment key={idx}>
-                      <div className={`flex flex-row items-center gap-[10px] p-[9px_12px] rounded-[11px] mb-[5px] border ${item.isMe ? 'bg-[#ff5a1a]/[0.05] border-[#ff5a1a]/[0.22]' : 'bg-[#141418] border-white/[0.06]'
-                        }`}>
-                        <div className={`text-[12px] min-w-[22px] text-center ${item.isMe ? 'text-[#ff5a1a] font-semibold' : 'text-white/30 font-medium'}`} style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                          {item.crown ? <i className="ti ti-crown" style={{ color: item.crown, fontSize: '14px' }}></i> : item.rank}
+                    <div className="text-[19px] font-bold text-white mb-1.5 z-10" style={{ fontFamily: "'DM Sans', sans-serif" }}>{username}</div>
+
+                    <div className="flex items-center gap-2 mb-5 z-10">
+                      <span className="text-[11px] text-white/50 font-medium tracking-wide uppercase" style={{ fontFamily: "'DM Sans', sans-serif" }}>Global Rank</span>
+                      <div className="bg-[#ff5a1a] text-[#0c0c10] text-[11px] font-bold px-2 py-[3px] rounded-[6px] shadow-[0_0_10px_rgba(255,90,26,0.3)]">#12</div>
+                    </div>
+
+                    <div className="w-full flex flex-row border-t border-white/[0.06] pt-[18px] z-10">
+                      <div className="flex-1 flex flex-col items-center border-r border-white/[0.06]">
+                        <span className="text-[22px] font-bold text-white leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>12.5k</span>
+                        <span className="text-[9px] text-white/40 uppercase tracking-widest mt-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Points</span>
+                      </div>
+                      <div className="flex-1 flex flex-col items-center">
+                        <span className="text-[22px] font-bold text-white leading-none flex items-center gap-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                          45 <i className="ti ti-flame text-[#ff5a1a] text-[18px] mt-0.5"></i>
+                        </span>
+                        <span className="text-[9px] text-white/40 uppercase tracking-widest mt-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Streak</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* COMPARISON CARD */}
+                  <div className="mt-2">
+                    <div className="bg-[#141418] border border-white/[0.07] rounded-[20px] p-4 mb-4">
+                      <div className="flex flex-row justify-between items-center mb-5 px-2">
+                        <div className="flex flex-col items-center">
+                          <div className="w-[44px] h-[44px] rounded-full bg-[#1a1a28] border-[1.5px] border-white/20 flex items-center justify-center shrink-0 mb-1.5 overflow-hidden">
+                            {myAvatarValue?.startsWith('http')
+                              ? <img src={myAvatarValue} alt="you" className="w-full h-full rounded-full object-cover" />
+                              : <span className="text-white text-[20px]">{myAvatarValue || '✦'}</span>
+                            }
+                          </div>
+                          <span className="text-[11px] font-medium text-white/80" style={{ fontFamily: "'DM Sans', sans-serif" }}>You</span>
                         </div>
-                        <div className="w-[30px] h-[30px] rounded-full bg-[#1a1a28] border border-white/10 flex items-center justify-center shrink-0">
-                          <span className="text-white text-[14px]">{item.symbol}</span>
+                        <div className="text-[10px] font-bold text-white/20 italic tracking-wider">VS</div>
+                        <div className="flex flex-col items-center">
+                          <div className="w-[44px] h-[44px] rounded-full bg-[#111] border-[1.5px] border-[#ff5a1a] flex items-center justify-center shrink-0 mb-1.5 shadow-[0_0_10px_rgba(255,90,26,0.2)] overflow-hidden">
+                            {otherUserAvatar
+                              ? <img src={otherUserAvatar} alt="them" className="w-full h-full rounded-full object-cover" />
+                              : <span className="text-white text-[16px]">✦</span>
+                            }
+                          </div>
+                          <span className="text-[11px] font-medium text-[#ff5a1a]" style={{ fontFamily: "'DM Sans', sans-serif" }}>{username}</span>
                         </div>
-                        <div className="flex-1 flex flex-row items-center">
-                          <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.username}</span>
-                          {item.isMe && <span className="text-[9px] text-[#ff5a1a] ml-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>you</span>}
+                      </div>
+
+                      <div className="flex flex-col gap-2">
+                        {/* Rank */}
+                        <div className="flex flex-row justify-between items-center bg-white/[0.03] rounded-[12px] p-3">
+                          <span className="text-[15px] font-bold text-white w-[60px] text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>#43</span>
+                          <span className="text-[9px] text-white/40 uppercase tracking-widest" style={{ fontFamily: "'DM Sans', sans-serif" }}>Rank</span>
+                          <span className="text-[15px] font-bold text-[#ff5a1a] w-[60px] text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>#12</span>
                         </div>
-                        <div className="text-right flex flex-col">
-                          <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.points}</span>
-                          <div className="flex flex-row items-center justify-end gap-1 mt-0.5">
-                            <i className="ti ti-flame text-[#ff5a1a] text-[9px]"></i>
-                            <span className="text-[9px] text-white/[0.28]" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.streak} days</span>
+
+                        {/* Points */}
+                        <div className="flex flex-row justify-between items-center bg-white/[0.03] rounded-[12px] p-3">
+                          <span className="text-[15px] font-bold text-white w-[60px] text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000</span>
+                          <span className="text-[9px] text-white/40 uppercase tracking-widest" style={{ fontFamily: "'DM Sans', sans-serif" }}>Points</span>
+                          <span className="text-[15px] font-bold text-[#ff5a1a] w-[60px] text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>12.5k</span>
+                        </div>
+
+                        {/* Streak */}
+                        <div className="flex flex-row justify-between items-center bg-[#ff5a1a]/[0.05] border border-[#ff5a1a]/10 rounded-[12px] p-3">
+                          <div className="w-[60px] flex justify-center items-center gap-1.5">
+                            <span className="text-[15px] font-bold text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>15</span>
+                            <i className="ti ti-flame text-white/40 text-[14px]"></i>
+                          </div>
+                          <span className="text-[9px] text-[#ff5a1a]/70 uppercase tracking-widest" style={{ fontFamily: "'DM Sans', sans-serif" }}>Streak</span>
+                          <div className="w-[60px] flex justify-center items-center gap-1.5">
+                            <span className="text-[15px] font-bold text-[#ff5a1a]" style={{ fontFamily: "'DM Sans', sans-serif" }}>45</span>
+                            <i className="ti ti-flame text-[#ff5a1a] text-[14px]"></i>
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
-                  );
-                })}
-              </div>
+                    </div>
+                  </div>
+                </>
+              )}
 
-              <div className="text-center text-[10px] text-white/[0.18] mt-[10px] mb-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                Resets every 30 days · All-time points are kept
-              </div>
+              {isOwnProfile && (
+                <>
+                  {/* FILTER PILLS */}
+                  <div className="flex flex-row gap-1.5 mb-[10px]">
+                    {['global', 'week', 'following'].map(filter => (
+                      <button
+                        key={filter}
+                        onClick={() => setLbFilter(filter)}
+                        className={`text-[10px] px-3 py-1.5 rounded-[20px] transition-colors capitalize ${lbFilter === filter ? 'bg-white text-[#0c0c10] border border-white' : 'bg-transparent border border-white/10 text-white/[0.45]'
+                          }`}
+                        style={{ fontFamily: "'DM Sans', sans-serif" }}
+                      >
+                        {filter === 'week' ? 'This week' : filter}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* LIST & CONTENT */}
+                  <div>
+                    {mockData[lbFilter]?.map((item, idx) => {
+                      return (
+                        <React.Fragment key={idx}>
+                          <div className={`flex flex-row items-center gap-[10px] p-[9px_12px] rounded-[11px] mb-[5px] border ${item.isMe ? 'bg-[#ff5a1a]/[0.05] border-[#ff5a1a]/[0.22]' : 'bg-[#141418] border-white/[0.06]'
+                            }`}>
+                            <div className={`text-[12px] min-w-[22px] text-center ${item.isMe ? 'text-[#ff5a1a] font-semibold' : 'text-white/30 font-medium'}`} style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                              {item.crown ? <i className="ti ti-crown" style={{ color: item.crown, fontSize: '14px' }}></i> : item.rank}
+                            </div>
+                            <div className="w-[30px] h-[30px] rounded-full bg-[#1a1a28] border border-white/10 flex items-center justify-center shrink-0">
+                              <span className="text-white text-[14px]">{item.symbol}</span>
+                            </div>
+                            <div className="flex-1 flex flex-row items-center">
+                              <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.username}</span>
+                              {item.isMe && <span className="text-[9px] text-[#ff5a1a] ml-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>you</span>}
+                            </div>
+                            <div className="text-right flex flex-col">
+                              <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.points}</span>
+                              <div className="flex flex-row items-center justify-end gap-1 mt-0.5">
+                                <i className="ti ti-flame text-[#ff5a1a] text-[9px]"></i>
+                                <span className="text-[9px] text-white/[0.28]" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.streak} days</span>
+                              </div>
+                            </div>
+                          </div>
+                        </React.Fragment>
+                      );
+                    })}
+                  </div>
+                  <div className="text-center text-[10px] text-white/[0.18] mt-[10px] mb-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    Resets every 30 days · All-time points are kept
+                  </div>
+                </>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
