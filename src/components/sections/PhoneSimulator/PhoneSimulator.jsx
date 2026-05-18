@@ -235,6 +235,8 @@ const PhoneSimulator = () => {
               <StreakScreen
                 key="step-streak"
                 onBack={() => setStep(5)}
+                isOwnProfile={selectedProfileUsername === userProfileData.username}
+                username={selectedProfileUsername}
               />
             )}
           </AnimatePresence>
