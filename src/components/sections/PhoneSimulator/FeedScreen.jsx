@@ -24,74 +24,6 @@ const AgentMessageIcon = ({ size = 24, className = "" }) => (
   </svg>
 );
 
-
-const mockPostsData = [
-  {
-    id: 'p1',
-    username: 'riya_m',
-    avatarGradient: ['from-[#2d1b4e]', 'to-[#1a3a2a]'],
-    avatarSymbol: '👻',
-    hasActiveStory: true,
-    mood: 'Vulnerable',
-    timeAgo: '2m ago',
-    question: 'Is it brave or naive to trust a stranger completely?',
-    image: { bgGradient: 'from-[#1a3a2a] to-[#0a2a1a]', category: 'Nature' },
-    audio: { artGradient: 'from-[#1a2a3a] to-[#2d1b4e]', trackName: 'Still Water', genre: 'Ambient' },
-    likeCount: 22,
-    isLiked: false,
-    answerCount: 11,
-    isSaved: false,
-  },
-  {
-    id: 'p2',
-    username: 'arjun_k',
-    avatarGradient: ['from-[#1a2a3a]', 'to-[#1e3a5f]'],
-    avatarSymbol: '☀️',
-    hasActiveStory: false,
-    mood: 'Curious',
-    timeAgo: '18m ago',
-    question: 'Does the city make you feel free, or just invisible?',
-    image: { bgGradient: 'from-[#0a1a2a] to-[#1a1a3a]', category: 'Urban' },
-    audio: { artGradient: 'from-[#1a2a3a] to-[#0a1a2a]', trackName: 'City Pulse', genre: 'Cinematic' },
-    likeCount: 86,
-    isLiked: false,
-    answerCount: 48,
-    isSaved: false,
-  },
-  {
-    id: 'p3',
-    username: 'void_echo',
-    avatarGradient: ['from-[#3a1a2a]', 'to-[#2d1b4e]'],
-    avatarSymbol: '🌙',
-    hasActiveStory: false,
-    mood: 'Nostalgic',
-    timeAgo: '1hr ago',
-    question: 'Why do we miss people we were never even close to?',
-    image: { bgGradient: 'from-[#2d1b4e] to-[#3a1a2a]', category: 'Dark' },
-    audio: { artGradient: 'from-[#2d1b4e] to-[#1a1a3a]', trackName: 'Neon Rain', genre: 'Cinematic' },
-    likeCount: 41,
-    isLiked: false,
-    answerCount: 34,
-    isSaved: false,
-  },
-  {
-    id: 'p4',
-    username: 'night_pen',
-    avatarGradient: ['from-[#1a3a1a]', 'to-[#1a2a3a]'],
-    avatarSymbol: '✨',
-    hasActiveStory: false,
-    mood: 'Hopeful',
-    timeAgo: '3hr ago',
-    question: 'Is peace something you earn, or something you stumble into?',
-    image: null,
-    audio: null,
-    likeCount: 17,
-    isLiked: false,
-    answerCount: 9,
-    isSaved: false,
-  }
-];
-
 const moodStylesMapping = {
   Curious: { border: 'border-[#4d90d7]/40', text: 'text-[#4d90d7]/90' },
   Vulnerable: { border: 'border-[#9f7fda]/40', text: 'text-[#9f7fda]/90' },
@@ -116,10 +48,28 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
 
   // New State for Feed
   const [viewingReel, setViewingReel] = useState(initialMode === "reels");
-  const [posts, setPosts] = useState(mockPostsData);
+  const [feedAudioPlayingIdx, setFeedAudioPlayingIdx] = useState(null);
+  const feedAudioRefs = useRef({});
+
+  const getAudioName = (src) => {
+    if (!src) return "Original Audio";
+    const parts = src.split('/');
+    let filename = parts[parts.length - 1].replace(/\.[^/.]+$/, "");
+    filename = filename.replace(/[-_]/g, " ").replace(/[0-9]/g, "").trim();
+    const words = filename.split(/\s+/).filter(w => w.length > 0);
+    if (words.length === 0) return "Original Audio";
+    return words.slice(0, 2).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  };
 
   useEffect(() => {
     if (viewingReel && audioRef.current && reelsData[activeHeroReel]?.audioSrc) {
+      if (feedAudioPlayingIdx !== null) {
+        if (feedAudioRefs.current[feedAudioPlayingIdx]) {
+          feedAudioRefs.current[feedAudioPlayingIdx].pause();
+        }
+        setFeedAudioPlayingIdx(null);
+      }
+      
       const currentSrc = audioRef.current.src;
       const targetSrc = reelsData[activeHeroReel].audioSrc;
       if (!currentSrc || currentSrc !== targetSrc) {
@@ -133,7 +83,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
     } else if (!viewingReel && audioRef.current) {
         audioRef.current.pause();
     }
-  }, [activeHeroReel, isMuted, reelsData, viewingReel]);
+  }, [activeHeroReel, isMuted, reelsData, viewingReel, feedAudioPlayingIdx]);
 
   // Existing Reel Helpers
   const handleCommentSubmit = (e) => {
@@ -195,24 +145,6 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
     }
   };
 
-  // Feed Helpers
-  const toggleLike = (id) => {
-    setPosts(posts.map(p => {
-      if (p.id === id) {
-        return { ...p, isLiked: !p.isLiked, likeCount: p.isLiked ? p.likeCount - 1 : p.likeCount + 1 };
-      }
-      return p;
-    }));
-  };
-
-  const toggleSave = (id) => {
-    setPosts(posts.map(p => {
-      if (p.id === id) {
-        return { ...p, isSaved: !p.isSaved };
-      }
-      return p;
-    }));
-  };
 
   if (viewingReel) {
     const isStandaloneReel = initialMode === "reels";
@@ -535,94 +467,138 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
         
             {/* Posts List */}
             <div className="flex flex-col pb-6">
-              {posts.map((post, idx) => (
+              {reelsData.map((reel, idx) => (
                 <div 
-                  key={post.id} 
-                  className={`w-full bg-[#0c0c10] border-b border-white/[0.07] cursor-pointer ${!post.image && !post.audio ? 'opacity-65' : ''}`}
-                  onClick={() => setViewingReel(true)}
+                  key={idx} 
+                  className="w-full bg-[#0c0c10] border-b border-white/[0.07] cursor-pointer"
+                  onClick={() => {
+                    setActiveHeroReel(idx);
+                    setViewingReel(true);
+                  }}
                 >
                   {/* Post Header */}
                   <div className="flex items-center gap-[10px] px-[14px] pt-[10px] pb-[8px]">
                     <div className="w-[36px] h-[36px] rounded-full shrink-0 flex items-center justify-center relative overflow-hidden bg-[#1a1a1a]">
-                       <div className={`absolute inset-0 bg-gradient-to-br ${post.avatarGradient[0]} ${post.avatarGradient[1]}`} />
-                       <span className="relative text-[16px] leading-none">{post.avatarSymbol}</span>
+                       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600" />
+                       <span className="relative text-[16px] leading-none">👤</span>
                     </div>
                     <div className="flex-1 flex flex-col">
-                       <span className="text-[13px] font-medium text-white">@{post.username}</span>
+                       <span className="text-[13px] font-medium text-white">@mystik_user_{idx+1}</span>
                        <div className="flex items-center gap-1 mt-0.5">
-                         <span className="text-[10px] text-white/30">{post.timeAgo}</span>
+                         <span className="text-[10px] text-white/30">Just now</span>
                          <span className="text-[10px] text-white/30">·</span>
-                         <span className={`text-[9px] px-[7px] py-[1px] rounded-[10px] border ${moodStylesMapping[post.mood].border} ${moodStylesMapping[post.mood].text}`}>
-                           {post.mood}
+                         <span className="text-[9px] px-[7px] py-[1px] rounded-[10px] border border-white/20 text-white/70">
+                           {reel.type}
                          </span>
                        </div>
                     </div>
-                    <button className="text-white/30 p-2 -mr-2">
+                    <button className="text-white/30 p-2 -mr-2" onClick={(e) => e.stopPropagation()}>
                       <MoreHorizontal size={18} />
                     </button>
                   </div>
                   
                   {/* Content Area */}
-                  {post.image ? (
-                    <div className="w-full relative pb-[65%] overflow-hidden bg-gradient-to-br mt-1">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${post.image.bgGradient}`} />
-                      <div className="absolute inset-0 bg-black/40" />
-                      
-                      <div className="absolute top-3 left-3 bg-black/55 rounded-[6px] px-[8px] py-[3px] text-[10px] font-semibold text-white tracking-[0.05em] uppercase backdrop-blur-md border border-white/10 z-10">
-                        {post.image.category}
-                      </div>
-
-                      <div className="absolute inset-0 flex items-center justify-center p-[20px] text-center z-10">
-                        <p className="text-[17px] sm:text-[18px] font-bold text-white leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
-                          {post.question}
-                        </p>
-                      </div>
+                  <div className="w-full relative pb-[100%] overflow-hidden bg-[#111] mt-1">
+                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.bgImage}')` }} />
+                    <div className="absolute inset-0 bg-black/40" />
+                    
+                    <div className="absolute top-3 left-3 bg-black/55 rounded-[6px] px-[8px] py-[3px] text-[10px] font-semibold text-white tracking-[0.05em] uppercase backdrop-blur-md border border-white/10 z-10">
+                      {reel.type}
                     </div>
-                  ) : (
-                    <div className="px-[14px] pb-[12px] pt-[2px]">
-                      <p className="text-[15px] font-medium text-white leading-relaxed opacity-90">
-                        {post.question}
+
+                    <div className="absolute inset-0 flex items-center justify-center p-[20px] text-center z-10">
+                      <p className="text-[17px] sm:text-[18px] font-bold text-white leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+                        {reel.question}
                       </p>
                     </div>
-                  )}
+                  </div>
 
                   {/* Audio Row */}
-                  {post.audio && (
+                  {reel.audioSrc && (
                     <div className="flex items-center gap-[8px] px-[14px] py-[8px] border-t border-white/[0.06]">
-                      <div className={`w-[24px] h-[24px] rounded-[6px] bg-gradient-to-br ${post.audio.artGradient}`} />
+                      <div className="w-[24px] h-[24px] rounded-[6px] bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+                        <Music size={12} className="text-white" />
+                      </div>
                       <div className="flex-1 text-[11px] text-white/45 truncate">
-                        {post.audio.trackName} · {post.audio.genre}
+                        {getAudioName(reel.audioSrc)}
                       </div>
-                      <div className="flex items-center gap-[2px]">
-                        {[8, 12, 6, 10, 5].map((h, i) => (
-                           <div key={i} className="w-[2px] bg-white/25 rounded-[1px]" style={{ height: h }} />
-                        ))}
+                      <div className="flex items-center gap-[10px]">
+                        <button 
+                          className="w-6 h-6 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (feedAudioPlayingIdx === idx) {
+                              feedAudioRefs.current[idx]?.pause();
+                              setFeedAudioPlayingIdx(null);
+                            } else {
+                              if (feedAudioPlayingIdx !== null && feedAudioRefs.current[feedAudioPlayingIdx]) {
+                                feedAudioRefs.current[feedAudioPlayingIdx].pause();
+                              }
+                              feedAudioRefs.current[idx]?.play().catch(err => console.log("Feed audio error:", err));
+                              setFeedAudioPlayingIdx(idx);
+                            }
+                          }}
+                        >
+                          {feedAudioPlayingIdx === idx ? <Volume2 size={12} className="text-white" /> : <VolumeX size={12} className="text-white" />}
+                        </button>
+                        <div className="flex items-center gap-[2px]">
+                          {[8, 12, 6, 10, 5].map((h, i) => (
+                             <div 
+                               key={i} 
+                               className="w-[2px] bg-white/25 rounded-[1px] transition-all duration-300" 
+                               style={{ height: feedAudioPlayingIdx === idx ? h : 4 }} 
+                             />
+                          ))}
+                        </div>
                       </div>
+                      <audio 
+                        ref={el => feedAudioRefs.current[idx] = el}
+                        src={reel.audioSrc}
+                        loop
+                      />
                     </div>
                   )}
 
                   {/* Actions Row */}
-                  <div className="flex items-center px-[14px] pt-[8px] pb-[10px]">
-                    <button className="flex items-center gap-[5px] pr-[10px]" onClick={(e) => { e.stopPropagation(); toggleLike(post.id); }}>
-                      <motion.div animate={{ scale: post.isLiked ? [1, 1.3, 1] : 1 }} transition={{ duration: 0.15 }}>
-                        <Heart size={18} className={post.isLiked ? 'text-[#ff5a1a] fill-[#ff5a1a]' : 'text-white/45'} />
-                      </motion.div>
-                      <span className={`text-[11px] ${post.isLiked ? 'text-[#ff5a1a]' : 'text-white/40'}`}>
-                        {post.likeCount}
-                      </span>
-                    </button>
-                    <button className="flex items-center gap-[5px] pr-[10px]" onClick={(e) => { e.stopPropagation(); /* open post detail */ }}>
-                      <MessageCircle size={18} className="text-white/45" />
-                      <span className="text-[11px] text-[#ff5a1a]">{post.answerCount} answers</span>
-                    </button>
-                    <button className="flex items-center gap-[5px]" onClick={(e) => e.stopPropagation()}>
-                      <Share2 size={18} className="text-white/45" />
-                    </button>
-                    <div className="flex-1" />
-                    <button className={`w-[28px] h-[28px] rounded-full flex items-center justify-center ${post.isSaved ? 'bg-[#d4f56a]/10' : 'bg-white/[0.06]'}`} onClick={(e) => { e.stopPropagation(); toggleSave(post.id); }}>
-                      <Bookmark size={14} className={post.isSaved ? 'text-[#d4f56a] fill-[#d4f56a]' : 'text-white/40'} />
+                  <div className="flex items-center justify-between px-[14px] py-[10px] pb-1">
+                    <div className="flex items-center gap-4">
+                      <button className="flex items-center gap-1.5 group" onClick={(e) => e.stopPropagation()}>
+                        <Heart size={20} className="text-white/60" />
+                        <span className="text-[12px] font-medium text-white/60">{reel.likes}</span>
+                      </button>
+                      <button className="flex items-center gap-1.5 group" onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveHeroReel(idx);
+                          setViewingReel(true);
+                        }}>
+                        <MessageCircle size={20} className="text-white/60" />
+                        <span className="text-[12px] font-medium text-white/60">{reel.comments}</span>
+                      </button>
+                      <button className="flex items-center gap-1.5 group" onClick={(e) => e.stopPropagation()}>
+                        <Share2 size={20} className="text-white/60" />
+                      </button>
+                    </div>
+                    <button onClick={(e) => e.stopPropagation()}>
+                      <Bookmark size={20} className="text-white/60" />
                     </button>
                   </div>
+
+                  {/* Top 2 Comments */}
+                  {reel.commentsList && reel.commentsList.length > 0 && (
+                    <div className="px-[14px] pt-2 pb-4">
+                      {reel.commentsList.slice(0, 2).map((comment, cidx) => (
+                        <div key={cidx} className="flex gap-2 mt-1">
+                          <span className="text-[12px] font-semibold text-white">{comment.user}</span>
+                          <span className="text-[12px] text-white/80 line-clamp-1">{comment.text}</span>
+                        </div>
+                      ))}
+                      {reel.commentsList.length > 2 && (
+                        <div className="text-[12px] text-white/40 mt-1.5 font-medium">
+                          View all {reel.comments} comments
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
