@@ -169,7 +169,10 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 4 && (
-              <FeedScreen key="step-home" />
+              <FeedScreen key="step-home" initialMode="feed" onInboxClick={() => { setChatTargetUsername(null); setStep(7); }} />
+            )}
+            {step === 11 && (
+              <FeedScreen key="step-reels" initialMode="reels" onBackFromReels={() => setStep(4)} />
             )}
             {step === 5 && (
               <ProfileScreen
@@ -248,30 +251,23 @@ const PhoneSimulator = () => {
               <button onClick={() => setStep(4)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <Home size={20} strokeWidth={step === 4 ? 2.5 : 2} className={step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
                 <span className={`text-[9px] font-medium ${step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Home</span>
-
               </button>
               <button onClick={() => setStep(6)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <Search size={20} strokeWidth={step === 6 ? 2.5 : 2} className={step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
                 <span className={`text-[9px] font-medium ${step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Search</span>
-
               </button>
               <button onClick={() => setStep(1)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer transition-transform active:scale-95">
                 <div className="w-[34px] h-[34px] bg-[#FF4500] rounded-full flex items-center justify-center mt-[-4px]">
                   <Plus size={20} className="text-white" strokeWidth={2.5} />
                 </div>
               </button>
-              <button onClick={() => { setChatTargetUsername(null); setStep(7); }} className="relative flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
-                <div className="relative">
-                  <Inbox size={20} strokeWidth={step === 7 ? 2.5 : 2} className={step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
-                  <div className="absolute -top-[2px] -right-[3px] w-[8px] h-[8px] rounded-full bg-[#FF4500] border-[1.5px] border-[#0c0c10]" />
-                </div>
-                <span className={`text-[9px] font-medium ${step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Inbox</span>
-
+              <button onClick={() => setStep(11)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
+                <Play size={20} strokeWidth={step === 11 ? 2.5 : 2} className={step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
+                <span className={`text-[9px] font-medium ${step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Reels</span>
               </button>
               <button onClick={() => { setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
                 <User size={20} strokeWidth={step === 5 ? 2.5 : 2} className={step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
                 <span className={`text-[9px] font-medium ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Profile</span>
-
               </button>
             </div>
           )}
