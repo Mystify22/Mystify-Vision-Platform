@@ -1,8 +1,29 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark } from 'lucide-react';
+import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox } from 'lucide-react';
 import { initialHeroReels } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
+const AgentMessageIcon = ({ size = 24, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" fill="currentColor" className={className}>
+    {/* Hat Top */}
+    <path d="M 27 35 L 43 35 L 41 20 L 29 20 Z" />
+    <rect x="28" y="24" width="14" height="4" fill="#0c0c10" />
+    {/* Hat Brim */}
+    <path d="M 16 40 L 54 40 L 50 34 L 20 34 Z" />
+    {/* Head */}
+    <circle cx="35" cy="50" r="11" />
+    {/* Body */}
+    <path d="M 10 90 C 10 65, 20 62, 35 62 C 50 62, 60 65, 60 90 Z" />
+    {/* Tie */}
+    <path d="M 32 62 L 38 62 L 36 82 L 35 86 L 34 82 Z" fill="#0c0c10" />
+    {/* Speech Bubble */}
+    <path d="M 55 42 C 55 22, 95 22, 95 42 C 95 57, 80 60, 70 60 L 58 70 L 61 57 C 55 52, 55 47, 55 42 Z" />
+    {/* Dashes */}
+    <rect x="63" y="38" width="10" height="5" rx="2" fill="#0c0c10" />
+    <rect x="77" y="38" width="10" height="5" rx="2" fill="#0c0c10" />
+  </svg>
+);
+
 
 const mockPostsData = [
   {
@@ -79,7 +100,7 @@ const moodStylesMapping = {
   Nostalgic: { border: 'border-[#dab87f]/40', text: 'text-[#dab87f]/90' },
 };
 
-const FeedScreen = () => {
+const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(initialHeroReels);
   const [activeHeroReel, setActiveHeroReel] = useState(0);
@@ -94,7 +115,7 @@ const FeedScreen = () => {
   const audioRef = useRef(null);
 
   // New State for Feed
-  const [viewingReel, setViewingReel] = useState(false);
+  const [viewingReel, setViewingReel] = useState(initialMode === "reels");
   const [posts, setPosts] = useState(mockPostsData);
 
   useEffect(() => {
@@ -194,6 +215,7 @@ const FeedScreen = () => {
   };
 
   if (viewingReel) {
+    const isStandaloneReel = initialMode === "reels";
     return (
       <motion.div
         key="step-reel"
@@ -201,14 +223,19 @@ const FeedScreen = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.15 }}
-        className="absolute inset-0 flex flex-col font-sans bg-[#0c0c10] text-white overflow-hidden pb-[64px] z-[200]"
+        className={`absolute inset-0 flex flex-col font-sans bg-[#0c0c10] text-white overflow-hidden pb-[64px] ${isStandaloneReel ? 'z-10' : 'z-[200]'}`}
       >
-        <button 
-          onClick={() => setViewingReel(false)}
-          className="absolute top-6 left-4 z-[250] w-10 h-10 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-lg"
-        >
-          <ChevronLeft size={24} className="text-white pr-0.5" />
-        </button>
+        {!isStandaloneReel && (
+          <button 
+            onClick={() => {
+              if (onBackFromReels) onBackFromReels();
+              else setViewingReel(false);
+            }}
+            className="absolute top-6 left-4 z-[250] w-10 h-10 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-lg"
+          >
+            <ChevronLeft size={24} className="text-white pr-0.5" />
+          </button>
+        )}
 
         <audio ref={audioRef} loop />
 
@@ -490,12 +517,14 @@ const FeedScreen = () => {
     >
       {/* Top Bar */}
       <div className="flex justify-between items-center bg-[#0c0c10] border-b border-white/[0.08] pt-[10px] pb-[8px] px-[14px]">
-        <div className="text-white text-[18px] font-medium tracking-tight">
-          Mystify<span className="text-[#ff5a1a]">.</span>
-        </div>
-        <div className="flex gap-3">
+        <div className="flex">
           <button className="w-8 h-8 rounded-full bg-white/[0.07] flex items-center justify-center relative">
             <Bell size={16} className="text-white" />
+          </button>
+        </div>
+        <div className="flex">
+          <button onClick={() => onInboxClick && onInboxClick()} className="w-8 h-8 rounded-full bg-white/[0.07] flex items-center justify-center relative">
+            <AgentMessageIcon size={22} className="text-white" />
             <div className="w-2 h-2 rounded-full bg-[#ff5a1a] border-[1.5px] border-[#0c0c10] absolute top-0.5 right-0.5" />
           </button>
         </div>
