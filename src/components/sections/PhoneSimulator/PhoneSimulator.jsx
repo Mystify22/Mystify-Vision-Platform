@@ -16,6 +16,41 @@ import EditProfileScreen from './EditProfileScreen';
 import SettingsScreen from './SettingsScreen';
 import StreakScreen from './StreakScreen';
 
+const TablerFlame = ({ size = 24, color = "currentColor", className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z" />
+  </svg>
+);
+
+const TablerPlanet = ({ size = 24, color = "currentColor", className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M18.816 13.58c2.292 2.138 3.546 4 3.092 4.9c-.745 1.46 -5.783 -.259 -11.255 -3.838c-5.47 -3.579 -9.304 -7.664 -8.56 -9.123c.464 -.91 2.926 -.444 5.803 .805" />
+    <circle cx="12" cy="12" r="7" />
+  </svg>
+);
+
+const TablerWaveSine = ({ size = 24, color = "currentColor", className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M4 12h2.5c1.5 0 2 5 3.5 5s2.5 -12 4.5 -12s2 7 3.5 7h2" />
+  </svg>
+);
+
+const TablerCircleDashed = ({ size = 24, color = "currentColor", className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" />
+    <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" />
+    <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" />
+    <path d="M8.56 20.31a9 9 0 0 0 3.44 .69" />
+    <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" />
+    <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" />
+    <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" />
+    <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" />
+  </svg>
+);
+
 const PhoneSimulator = () => {
   const containerRef = useRef(null);
 
@@ -247,27 +282,40 @@ const PhoneSimulator = () => {
 
           {/* Bottom Navigation Bar */}
           {step > 0 && step !== 10 && (
-            <div className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t-[0.5px] border-[rgba(255,255,255,0.07)] flex items-center justify-around px-0 z-40 p-[8px_0_10px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
-              <button onClick={() => setStep(4)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
-                <Home size={20} strokeWidth={step === 4 ? 2.5 : 2} className={step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
-                <span className={`text-[9px] font-medium ${step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Home</span>
+            <div className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t-[0.5px] border-[rgba(255,255,255,0.08)] flex items-center justify-around px-0 z-40 p-[10px_0_14px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
+              {/* TAB 1: FEED (Step 4) */}
+              <button onClick={() => setStep(4)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+                <TablerFlame size={24} color={step === 4 ? '#ff5a1a' : 'rgba(255,255,255,0.4)'} />
+                <div className="h-[4px]" />
+                <span className={`text-[8px] font-medium leading-none ${step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Feed</span>
               </button>
-              <button onClick={() => setStep(6)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
-                <Search size={20} strokeWidth={step === 6 ? 2.5 : 2} className={step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
-                <span className={`text-[9px] font-medium ${step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Search</span>
+
+              {/* TAB 2: EXPLORE (Step 6) */}
+              <button onClick={() => setStep(6)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+                <TablerPlanet size={24} color={step === 6 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                <div className="h-[4px]" />
+                <span className={`text-[8px] font-medium leading-none ${step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Explore</span>
               </button>
+
+              {/* TAB 3: CREATE (Step 1) */}
               <button onClick={() => setStep(1)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer transition-transform active:scale-95">
                 <div className="w-[34px] h-[34px] bg-[#FF4500] rounded-full flex items-center justify-center mt-[-4px]">
                   <Plus size={20} className="text-white" strokeWidth={2.5} />
                 </div>
               </button>
-              <button onClick={() => setStep(11)} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
-                <Play size={20} strokeWidth={step === 11 ? 2.5 : 2} className={step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
-                <span className={`text-[9px] font-medium ${step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Reels</span>
+
+              {/* TAB 4: VIBES (Step 11) */}
+              <button onClick={() => setStep(11)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+                <TablerWaveSine size={24} color={step === 11 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                <div className="h-[4px]" />
+                <span className={`text-[8px] font-medium leading-none ${step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Vibes</span>
               </button>
-              <button onClick={() => { setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] gap-[3px] cursor-pointer transition-colors">
-                <User size={20} strokeWidth={step === 5 ? 2.5 : 2} className={step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.4)]'} />
-                <span className={`text-[9px] font-medium ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.3)]'}`}>Profile</span>
+
+              {/* TAB 5: ME (Step 5) */}
+              <button onClick={() => { setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+                <TablerCircleDashed size={24} color={step === 5 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                <div className="h-[4px]" />
+                <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Me</span>
               </button>
             </div>
           )}
