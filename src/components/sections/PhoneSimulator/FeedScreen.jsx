@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox } from 'lucide-react';
+import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle } from 'lucide-react';
 import { initialHeroReels } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
@@ -51,6 +51,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
   const [activeFeedIdx, setActiveFeedIdx] = useState(0);
   const [feedLikes, setFeedLikes] = useState({});
   const [feedSaved, setFeedSaved] = useState({});
+  const [showMoreMenuIdx, setShowMoreMenuIdx] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
   const feedAudioRefs = useRef({});
   const postRefs = useRef({});
   const reelScrollRef = useRef(null);
@@ -111,7 +113,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
       // Play hero reel audio
       if (audioRef.current && reelsData[activeHeroReel]?.audioSrc) {
         const currentSrc = audioRef.current.src;
-        const targetSrc = reelsData[activeHeroReel].audioSrc;
+        const targetSrc = reelsData[activeHeroReel]?.audioSrc;
         if (!currentSrc || currentSrc !== targetSrc) {
           audioRef.current.src = targetSrc;
         }
@@ -184,9 +186,34 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
     setTimeout(() => setShowMutePopup(false), 900);
   };
 
-  const handleShare = async (e, reel) => {
+  const handleShare = async (e, reel, idx) => {
     e.stopPropagation();
+    if (idx !== undefined) {
+      setActiveHeroReel(idx);
+    }
     setShowSharePopup(true);
+  };
+
+  const handleCopyLink = (e) => {
+    e.stopPropagation();
+    const shareUrl = `https://mystify.me/post/${reelsData[activeHeroReel]?.id || activeHeroReel}`;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      setToastMessage("Link copied to clipboard!");
+      setShowSharePopup(false);
+      setTimeout(() => setToastMessage(""), 2000);
+    }).catch(err => {
+      console.error("Clipboard copy failed: ", err);
+      setToastMessage("Link copied!");
+      setShowSharePopup(false);
+      setTimeout(() => setToastMessage(""), 2000);
+    });
+  };
+
+  const handleSimulatedShare = (e, platform) => {
+    e.stopPropagation();
+    setToastMessage(`Shared to ${platform}!`);
+    setShowSharePopup(false);
+    setTimeout(() => setToastMessage(""), 2000);
   };
 
   const handleHeroScroll = (e) => {
@@ -368,12 +395,12 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                 <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
                 <div className="w-full flex items-center justify-between">
                   <div className="w-8" />
-                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel].commentsList.length})</span></span>
+                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel]?.commentsList?.length || 0})</span></span>
                   <div className="w-8" />
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto p-4 space-y-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                {reelsData[activeHeroReel].commentsList.map(comment => (
+                {reelsData[activeHeroReel]?.commentsList?.map(comment => (
                   <div key={comment.id} className="flex flex-col gap-3">
                     <div className="flex gap-3">
                       <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
@@ -460,19 +487,19 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
               </div>
 
               <div className="flex justify-around items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-1 pb-4">
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <button onClick={handleCopyLink} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                   <div className="w-[52px] h-[52px] rounded-full bg-gray-700/80 flex items-center justify-center text-white shadow-lg border border-white/10">
                     <Link size={22} className="group-hover:scale-110 transition-transform" />
                   </div>
                   <span className="text-white/80 text-[10px] font-medium">Copy Link</span>
                 </button>
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <button onClick={(e) => handleSimulatedShare(e, "WhatsApp")} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                   <div className="w-[52px] h-[52px] rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg border border-white/10">
                     <MessageCircle size={22} className="group-hover:scale-110 transition-transform fill-white" />
                   </div>
                   <span className="text-white/80 text-[10px] font-medium">WhatsApp</span>
                 </button>
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <button onClick={(e) => handleSimulatedShare(e, "Instagram")} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                   <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] via-[#dc2743] via-[#cc2366] to-[#bc1888] flex items-center justify-center text-white shadow-lg border border-white/10">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform text-white">
                       <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -482,7 +509,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                   </div>
                   <span className="text-white/80 text-[10px] font-medium">Instagram</span>
                 </button>
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <button onClick={(e) => handleSimulatedShare(e, "X.com")} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
                   <div className="w-[52px] h-[52px] rounded-full bg-black border border-white/20 flex items-center justify-center text-white shadow-lg">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="group-hover:scale-110 transition-transform text-white">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -491,6 +518,20 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                   <span className="text-white/80 text-[10px] font-medium">X.com</span>
                 </button>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {toastMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+              animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+              exit={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+              className="absolute top-16 left-1/2 z-[300] bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2 shadow-2xl pointer-events-none"
+            >
+              <Check size={14} className="text-[#FF4500]" strokeWidth={3} />
+              <span className="text-white text-xs font-semibold tracking-wide">{toastMessage}</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -554,9 +595,16 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                          </span>
                        </div>
                     </div>
-                    <button className="text-white/30 p-2 -mr-2" onClick={(e) => e.stopPropagation()}>
-                      <MoreHorizontal size={18} />
-                    </button>
+                     <button 
+                       className="text-white/30 hover:text-white transition-colors p-2 -mr-2 cursor-pointer" 
+                       onClick={(e) => {
+                         e.stopPropagation();
+                         setActiveHeroReel(idx);
+                         setShowMoreMenuIdx(idx);
+                       }}
+                     >
+                       <MoreHorizontal size={18} />
+                     </button>
                   </div>
                   
                   {/* Content Area */}
@@ -629,7 +677,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                           {feedLikes[idx] ? `${parseFloat(reel.likes) + 0.1}` : reel.likes}
                         </span>
                       </button>
-                      <button className="flex items-center gap-1.5 group" onClick={(e) => handleShare(e, reel)}>
+                      <button className="flex items-center gap-1.5 group" onClick={(e) => handleShare(e, reel, idx)}>
                         <Share2 size={20} className="text-white/60" />
                         <span className="text-[12px] font-medium text-white/60">{reel.shares}</span>
                       </button>
@@ -642,168 +690,236 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                 </div>
               ))}
             </div>
+      </div>
 
+      {/* Modal Backdrop for Feed */}
+      <AnimatePresence>
+        {(showComments || showSharePopup || showMoreMenuIdx !== null) && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-[90] bg-black/60 backdrop-blur-[2px]"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowComments(false);
+              setShowSharePopup(false);
+              setShowMoreMenuIdx(null);
+              setReplyTo(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
+      {/* Post Options Drawer (3-dot menu) */}
+      <AnimatePresence>
+        {showMoreMenuIdx !== null && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="absolute inset-x-0 bottom-0 bg-[#1c1c1e] rounded-t-3xl rounded-b-[2.4rem] z-[100] flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto pb-[80px] pt-4 px-4 border-t border-white/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col items-center shrink-0 mb-4">
+              <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
+              <span className="text-white text-sm font-bold">Post Options</span>
+            </div>
 
-        {/* Modal Backdrop for Feed */}
-        <AnimatePresence>
-          {(showComments || showSharePopup) && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 z-[90]"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowComments(false);
-                setShowSharePopup(false);
-                setReplyTo(null);
-              }}
-            />
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {showComments && (
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute inset-x-0 bottom-0 h-[55%] bg-[#1c1c1e] rounded-t-3xl rounded-b-[2.4rem] z-[100] flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex flex-col items-center px-4 py-3 border-b border-white/10 shrink-0">
-                <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
-                <div className="w-full flex items-center justify-between">
-                  <div className="w-8" />
-                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel].commentsList.length})</span></span>
-                  <div className="w-8" />
+            <div className="flex flex-col gap-2">
+              {/* Ghost Mode Option */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMoreMenuIdx(null);
+                }}
+                className="flex items-center gap-4 w-full p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors border border-white/5 text-left group cursor-default"
+              >
+                <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                  <EyeOff size={20} />
                 </div>
+                <div className="flex-1">
+                  <h4 className="text-white font-bold text-xs">Ghost Mode</h4>
+                  <p className="text-white/40 text-[10px] mt-0.5">Block and hide this post and user footprint</p>
+                </div>
+              </button>
+
+              {/* Report Option */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMoreMenuIdx(null);
+                }}
+                className="flex items-center gap-4 w-full p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors border border-white/5 active:scale-[0.98] text-left group"
+              >
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
+                  <AlertTriangle size={20} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-white font-bold text-xs">Report Content</h4>
+                  <p className="text-white/40 text-[10px] mt-0.5">Flag inappropriate or rule-violating posts</p>
+                </div>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showComments && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="absolute inset-x-0 bottom-0 h-[55%] bg-[#1c1c1e] rounded-t-3xl rounded-b-[2.4rem] z-[100] flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col items-center px-4 py-3 border-b border-white/10 shrink-0">
+              <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
+              <div className="w-full flex items-center justify-between">
+                <div className="w-8" />
+                <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel]?.commentsList?.length || 0})</span></span>
+                <div className="w-8" />
               </div>
-              <div className="flex-1 overflow-y-auto p-4 space-y-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                {reelsData[activeHeroReel].commentsList.map(comment => (
-                  <div key={comment.id} className="flex flex-col gap-3">
-                    <div className="flex gap-3">
-                      <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <span className="text-white/70 font-bold text-xs">@{comment.user}</span>
-                          <span className="text-white/40 text-[10px]">{comment.time}</span>
-                        </div>
-                        <p className="text-white/90 text-sm leading-snug mb-1.5">{comment.text}</p>
-                        <div className="flex items-center gap-4 text-white/50 text-xs font-medium">
-                          <button onClick={() => setReplyTo({ id: comment.id, user: comment.user })} className="hover:text-white transition-colors">Reply</button>
-                        </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              {reelsData[activeHeroReel]?.commentsList?.map(comment => (
+                <div key={comment.id} className="flex flex-col gap-3">
+                  <div className="flex gap-3">
+                    <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-white/70 font-bold text-xs">@{comment.user}</span>
+                        <span className="text-white/40 text-[10px]">{comment.time}</span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 shrink-0 pt-2">
-                        <button onClick={() => toggleCommentLike(comment.id)} className="transition-transform active:scale-90">
-                          <Heart size={14} className={commentLikes[comment.id] ? "text-rose-500 fill-rose-500" : "text-white/50"} />
-                        </button>
-                        <span className="text-white/50 text-[10px]">{comment.likes + (commentLikes[comment.id] ? 1 : 0)}</span>
+                      <p className="text-white/90 text-sm leading-snug mb-1.5">{comment.text}</p>
+                      <div className="flex items-center gap-4 text-white/50 text-xs font-medium">
+                        <button onClick={() => setReplyTo({ id: comment.id, user: comment.user })} className="hover:text-white transition-colors">Reply</button>
                       </div>
                     </div>
-                    {comment.replies && comment.replies.map(reply => (
-                      <div key={reply.id} className="flex gap-3 ml-11">
-                        <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-white/70 font-bold text-[11px]">@{reply.user}</span>
-                            <span className="text-white/40 text-[9px]">{reply.time}</span>
-                          </div>
-                          <p className="text-white/80 text-xs leading-snug mb-1.5">{reply.text}</p>
-                          <div className="flex items-center gap-4 text-white/50 text-[10px] font-medium">
-                            <button onClick={() => setReplyTo({ id: comment.id, user: reply.user })} className="hover:text-white transition-colors">Reply</button>
-                          </div>
+                    <div className="flex flex-col items-center gap-1 shrink-0 pt-2">
+                      <button onClick={() => toggleCommentLike(comment.id)} className="transition-transform active:scale-90">
+                        <Heart size={14} className={commentLikes[comment.id] ? "text-rose-500 fill-rose-500" : "text-white/50"} />
+                      </button>
+                      <span className="text-white/50 text-[10px]">{comment.likes + (commentLikes[comment.id] ? 1 : 0)}</span>
+                    </div>
+                  </div>
+                  {comment.replies && comment.replies.map(reply => (
+                    <div key={reply.id} className="flex gap-3 ml-11">
+                      <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-white/70 font-bold text-[11px]">@{reply.user}</span>
+                          <span className="text-white/40 text-[9px]">{reply.time}</span>
                         </div>
-                        <div className="flex flex-col items-center gap-1 shrink-0 pt-1">
-                          <button onClick={() => toggleCommentLike(reply.id)} className="transition-transform active:scale-90">
-                            <Heart size={12} className={commentLikes[reply.id] ? "text-rose-500 fill-rose-500" : "text-white/50"} />
-                          </button>
-                          <span className="text-white/50 text-[9px]">{reply.likes + (commentLikes[reply.id] ? 1 : 0)}</span>
+                        <p className="text-white/80 text-xs leading-snug mb-1.5">{reply.text}</p>
+                        <div className="flex items-center gap-4 text-white/50 text-[10px] font-medium">
+                          <button onClick={() => setReplyTo({ id: comment.id, user: reply.user })} className="hover:text-white transition-colors">Reply</button>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              <div className="p-3 bg-[#1c1c1e] border-t border-white/10 shrink-0 mb-[64px]">
-                {replyTo && (
-                  <div className="flex justify-between items-center text-xs text-white/50 mb-2 px-1">
-                    <span>Replying to <span className="text-white/80 font-bold">@{replyTo.user}</span></span>
-                    <button onClick={() => setReplyTo(null)}><X size={12} /></button>
-                  </div>
-                )}
-                <form onSubmit={handleCommentSubmit} className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex-shrink-0" />
-                  <div className="flex-1 bg-white/10 rounded-full px-4 py-2 flex items-center border border-white/5 focus-within:border-[#FF4500]/50 transition-colors">
-                    <input
-                      type="text"
-                      value={commentText}
-                      onChange={(e) => setCommentText(e.target.value)}
-                      placeholder={replyTo ? "Write a reply..." : "Add a comment..."}
-                      className="bg-transparent text-white text-sm w-full focus:outline-none placeholder:text-white/40"
-                    />
-                    <button type="submit" disabled={!commentText.trim()} className="text-[#FF4500] disabled:opacity-50 ml-2">
-                      <Send size={16} className={commentText.trim() ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"} />
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                      <div className="flex flex-col items-center gap-1 shrink-0 pt-1">
+                        <button onClick={() => toggleCommentLike(reply.id)} className="transition-transform active:scale-90">
+                          <Heart size={12} className={commentLikes[reply.id] ? "text-rose-500 fill-rose-500" : "text-white/50"} />
+                        </button>
+                        <span className="text-white/50 text-[9px]">{reply.likes + (commentLikes[reply.id] ? 1 : 0)}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className="p-3 bg-[#1c1c1e] border-t border-white/10 shrink-0 mb-[64px]">
+              {replyTo && (
+                <div className="flex justify-between items-center text-xs text-white/50 mb-2 px-1">
+                  <span>Replying to <span className="text-white/80 font-bold">@{replyTo.user}</span></span>
+                  <button onClick={() => setReplyTo(null)}><X size={12} /></button>
+                </div>
+              )}
+              <form onSubmit={handleCommentSubmit} className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex-shrink-0" />
+                <div className="flex-1 bg-white/10 rounded-full px-4 py-2 flex items-center border border-white/5 focus-within:border-[#FF4500]/50 transition-colors">
+                  <input
+                    type="text"
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder={replyTo ? "Write a reply..." : "Add a comment..."}
+                    className="bg-transparent text-white text-sm w-full focus:outline-none placeholder:text-white/40"
+                  />
+                  <button type="submit" disabled={!commentText.trim()} className="text-[#FF4500] disabled:opacity-50 ml-2">
+                    <Send size={16} className={commentText.trim() ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"} />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        <AnimatePresence>
-          {showSharePopup && (
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute inset-x-0 bottom-0 bg-[#1c1c1e] rounded-b-[2.4rem] rounded-t-3xl z-[150] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto pb-[80px] pt-4 px-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-center mb-4 px-2">
-                <span className="text-white text-sm font-bold">Share to</span>
-              </div>
+      <AnimatePresence>
+        {showSharePopup && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="absolute inset-x-0 bottom-0 bg-[#1c1c1e] rounded-b-[2.4rem] rounded-t-3xl z-[150] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto pb-[80px] pt-4 px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-center mb-4 px-2">
+              <span className="text-white text-sm font-bold">Share to</span>
+            </div>
 
-              <div className="flex justify-around items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-1 pb-4">
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
-                  <div className="w-[52px] h-[52px] rounded-full bg-gray-700/80 flex items-center justify-center text-white shadow-lg border border-white/10">
-                    <Link size={22} className="group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className="text-white/80 text-[10px] font-medium">Copy Link</span>
-                </button>
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
-                  <div className="w-[52px] h-[52px] rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg border border-white/10">
-                    <MessageCircle size={22} className="group-hover:scale-110 transition-transform fill-white" />
-                  </div>
-                  <span className="text-white/80 text-[10px] font-medium">WhatsApp</span>
-                </button>
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
-                  <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] via-[#dc2743] via-[#cc2366] to-[#bc1888] flex items-center justify-center text-white shadow-lg border border-white/10">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform text-white">
-                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                    </svg>
-                  </div>
-                  <span className="text-white/80 text-[10px] font-medium">Instagram</span>
-                </button>
-                <button onClick={(e) => e.stopPropagation()} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
-                  <div className="w-[52px] h-[52px] rounded-full bg-black border border-white/20 flex items-center justify-center text-white shadow-lg">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="group-hover:scale-110 transition-transform text-white">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                  </div>
-                  <span className="text-white/80 text-[10px] font-medium">X.com</span>
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            <div className="flex justify-around items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-1 pb-4">
+              <button onClick={handleCopyLink} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <div className="w-[52px] h-[52px] rounded-full bg-gray-700/80 flex items-center justify-center text-white shadow-lg border border-white/10">
+                  <Link size={22} className="group-hover:scale-110 transition-transform" />
+                </div>
+                <span className="text-white/80 text-[10px] font-medium">Copy Link</span>
+              </button>
+              <button onClick={(e) => handleSimulatedShare(e, "WhatsApp")} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <div className="w-[52px] h-[52px] rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg border border-white/10">
+                  <MessageCircle size={22} className="group-hover:scale-110 transition-transform fill-white" />
+                </div>
+                <span className="text-white/80 text-[10px] font-medium">WhatsApp</span>
+              </button>
+              <button onClick={(e) => handleSimulatedShare(e, "Instagram")} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] via-[#dc2743] via-[#cc2366] to-[#bc1888] flex items-center justify-center text-white shadow-lg border border-white/10">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform text-white">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                  </svg>
+                </div>
+                <span className="text-white/80 text-[10px] font-medium">Instagram</span>
+              </button>
+              <button onClick={(e) => handleSimulatedShare(e, "X.com")} className="flex flex-col items-center gap-2 min-w-[60px] group transition-transform active:scale-95">
+                <div className="w-[52px] h-[52px] rounded-full bg-black border border-white/20 flex items-center justify-center text-white shadow-lg">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="group-hover:scale-110 transition-transform text-white">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </div>
+                <span className="text-white/80 text-[10px] font-medium">X.com</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+            className="absolute top-16 left-1/2 z-[300] bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2 shadow-2xl pointer-events-none"
+          >
+            <Check size={14} className="text-[#FF4500]" strokeWidth={3} />
+            <span className="text-white text-xs font-semibold tracking-wide">{toastMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
