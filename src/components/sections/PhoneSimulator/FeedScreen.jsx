@@ -728,7 +728,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                   <EyeOff size={20} />
                 </div>
                 <div className="flex-1">
-                  <h4 className="text-white font-bold text-xs">Ghost Mode</h4>
+                  <h4 className="text-white font-bold text-xs">Ghost</h4>
                   <p className="text-white/40 text-[10px] mt-0.5">Block and hide this post and user footprint</p>
                 </div>
               </button>
