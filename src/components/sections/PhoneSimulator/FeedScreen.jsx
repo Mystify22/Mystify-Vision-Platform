@@ -48,42 +48,69 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
 
   // New State for Feed
   const [viewingReel, setViewingReel] = useState(initialMode === "reels");
-  const [feedAudioPlayingIdx, setFeedAudioPlayingIdx] = useState(null);
+  const [activeFeedIdx, setActiveFeedIdx] = useState(0);
   const feedAudioRefs = useRef({});
+  const postRefs = useRef({});
 
-  const getAudioName = (src) => {
-    if (!src) return "Original Audio";
-    const parts = src.split('/');
-    let filename = parts[parts.length - 1].replace(/\.[^/.]+$/, "");
-    filename = filename.replace(/[-_]/g, " ").replace(/[0-9]/g, "").trim();
-    const words = filename.split(/\s+/).filter(w => w.length > 0);
-    if (words.length === 0) return "Original Audio";
-    return words.slice(0, 2).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-  };
-
+  // Intersection Observer for Feed
   useEffect(() => {
-    if (viewingReel && audioRef.current && reelsData[activeHeroReel]?.audioSrc) {
-      if (feedAudioPlayingIdx !== null) {
-        if (feedAudioRefs.current[feedAudioPlayingIdx]) {
-          feedAudioRefs.current[feedAudioPlayingIdx].pause();
-        }
-        setFeedAudioPlayingIdx(null);
-      }
+    if (viewingReel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveFeedIdx(Number(entry.target.dataset.idx));
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    const currentRefs = postRefs.current;
+    Object.values(currentRefs).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [viewingReel, reelsData]);
+
+  // Audio Playback Manager
+  useEffect(() => {
+    if (viewingReel) {
+      // Pause all feed audio
+      Object.values(feedAudioRefs.current).forEach((el) => {
+        if (el) el.pause();
+      });
       
-      const currentSrc = audioRef.current.src;
-      const targetSrc = reelsData[activeHeroReel].audioSrc;
-      if (!currentSrc || currentSrc !== targetSrc) {
-        audioRef.current.src = targetSrc;
+      // Play hero reel audio
+      if (audioRef.current && reelsData[activeHeroReel]?.audioSrc) {
+        const currentSrc = audioRef.current.src;
+        const targetSrc = reelsData[activeHeroReel].audioSrc;
+        if (!currentSrc || currentSrc !== targetSrc) {
+          audioRef.current.src = targetSrc;
+        }
+        if (!isMuted) {
+          audioRef.current.play().catch(e => console.log('Audio error:', e));
+        } else {
+          audioRef.current.pause();
+        }
       }
-      if (!isMuted) {
-        audioRef.current.play().catch(e => console.log('Audio error:', e));
-      } else {
-        audioRef.current.pause();
-      }
-    } else if (!viewingReel && audioRef.current) {
-        audioRef.current.pause();
+    } else {
+      // Pause hero reel audio
+      if (audioRef.current) audioRef.current.pause();
+
+      // Play active feed audio
+      Object.entries(feedAudioRefs.current).forEach(([idx, el]) => {
+        if (!el) return;
+        if (Number(idx) === activeFeedIdx && !isMuted) {
+          el.play().catch(e => console.log('Feed audio error:', e));
+        } else {
+          el.pause();
+        }
+      });
     }
-  }, [activeHeroReel, isMuted, reelsData, viewingReel, feedAudioPlayingIdx]);
+  }, [activeFeedIdx, isMuted, viewingReel, activeHeroReel, reelsData]);
 
   // Existing Reel Helpers
   const handleCommentSubmit = (e) => {
@@ -470,6 +497,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
               {reelsData.map((reel, idx) => (
                 <div 
                   key={idx} 
+                  ref={el => postRefs.current[idx] = el}
+                  data-idx={idx}
                   className="w-full bg-[#0c0c10] border-b border-white/[0.07] cursor-pointer"
                   onClick={() => {
                     setActiveHeroReel(idx);
@@ -506,66 +535,44 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                       {reel.type}
                     </div>
 
-                    <div className="absolute inset-0 flex items-center justify-center p-[20px] text-center z-10">
-                      <p className="text-[17px] sm:text-[18px] font-bold text-white leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
-                        {reel.question}
-                      </p>
+                    <div className="absolute inset-x-0 bottom-3 px-3 flex flex-col items-start z-10 w-[85%] gap-2 pointer-events-none">
+                      <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3 sm:p-3.5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-full relative overflow-hidden pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
+                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                        <p className="text-white text-[14px] sm:text-[15px] leading-snug font-black tracking-tight drop-shadow-md">{reel.question}</p>
+                      </div>
+                      
+                      <div className="space-y-1.5 w-full pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
+                        {reel.commentsList && reel.commentsList.slice(0, 2).map((comment, cidx) => (
+                          <div key={cidx} className="flex items-start gap-1.5 origin-left">
+                            <div className={`w-5 h-5 rounded-full border border-white/50 bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} flex-shrink-0 shadow-md mt-0`} />
+                            <div className="bg-black/40 backdrop-blur-md p-1.5 px-2.5 rounded-2xl rounded-tl-sm border border-white/10 shadow-lg inline-block max-w-[90%]">
+                              <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-px">@{comment.user}</p>
+                              <p className="text-white text-[10px] leading-snug drop-shadow-sm line-clamp-1">{comment.text}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Audio Row */}
-                  {reel.audioSrc && (
-                    <div className="flex items-center gap-[8px] px-[14px] py-[8px] border-t border-white/[0.06]">
-                      <div className="w-[24px] h-[24px] rounded-[6px] bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-                        <Music size={12} className="text-white" />
-                      </div>
-                      <div className="flex-1 text-[11px] text-white/45 truncate">
-                        {getAudioName(reel.audioSrc)}
-                      </div>
-                      <div className="flex items-center gap-[10px]">
-                        <button 
-                          className="w-6 h-6 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (feedAudioPlayingIdx === idx) {
-                              feedAudioRefs.current[idx]?.pause();
-                              setFeedAudioPlayingIdx(null);
-                            } else {
-                              if (feedAudioPlayingIdx !== null && feedAudioRefs.current[feedAudioPlayingIdx]) {
-                                feedAudioRefs.current[feedAudioPlayingIdx].pause();
-                              }
-                              feedAudioRefs.current[idx]?.play().catch(err => console.log("Feed audio error:", err));
-                              setFeedAudioPlayingIdx(idx);
-                            }
-                          }}
-                        >
-                          {feedAudioPlayingIdx === idx ? <Volume2 size={12} className="text-white" /> : <VolumeX size={12} className="text-white" />}
-                        </button>
-                        <div className="flex items-center gap-[2px]">
-                          {[8, 12, 6, 10, 5].map((h, i) => (
-                             <div 
-                               key={i} 
-                               className="w-[2px] bg-white/25 rounded-[1px] transition-all duration-300" 
-                               style={{ height: feedAudioPlayingIdx === idx ? h : 4 }} 
-                             />
-                          ))}
-                        </div>
-                      </div>
+                    {/* Mute/Unmute Button overlay */}
+                    <button 
+                      onClick={toggleMute}
+                      className="absolute bottom-3 right-3 w-8 h-8 flex items-center justify-center bg-black/50 rounded-full backdrop-blur-sm border border-white/10 z-10 hover:bg-black/70 transition-colors"
+                    >
+                      {isMuted ? <VolumeX size={16} className="text-white" /> : <Volume2 size={16} className="text-white" />}
+                    </button>
+                    {reel.audioSrc && (
                       <audio 
                         ref={el => feedAudioRefs.current[idx] = el}
                         src={reel.audioSrc}
                         loop
                       />
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   {/* Actions Row */}
                   <div className="flex items-center justify-between px-[14px] py-[10px] pb-1">
                     <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-1.5 group" onClick={(e) => e.stopPropagation()}>
-                        <Heart size={20} className="text-white/60" />
-                        <span className="text-[12px] font-medium text-white/60">{reel.likes}</span>
-                      </button>
                       <button className="flex items-center gap-1.5 group" onClick={(e) => {
                           e.stopPropagation();
                           setActiveHeroReel(idx);
@@ -573,6 +580,10 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                         }}>
                         <MessageCircle size={20} className="text-white/60" />
                         <span className="text-[12px] font-medium text-white/60">{reel.comments}</span>
+                      </button>
+                      <button className="flex items-center gap-1.5 group" onClick={(e) => e.stopPropagation()}>
+                        <Heart size={20} className="text-white/60" />
+                        <span className="text-[12px] font-medium text-white/60">{reel.likes}</span>
                       </button>
                       <button className="flex items-center gap-1.5 group" onClick={(e) => e.stopPropagation()}>
                         <Share2 size={20} className="text-white/60" />
@@ -583,20 +594,12 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                     </button>
                   </div>
 
-                  {/* Top 2 Comments */}
-                  {reel.commentsList && reel.commentsList.length > 0 && (
-                    <div className="px-[14px] pt-2 pb-4">
-                      {reel.commentsList.slice(0, 2).map((comment, cidx) => (
-                        <div key={cidx} className="flex gap-2 mt-1">
-                          <span className="text-[12px] font-semibold text-white">{comment.user}</span>
-                          <span className="text-[12px] text-white/80 line-clamp-1">{comment.text}</span>
-                        </div>
-                      ))}
-                      {reel.commentsList.length > 2 && (
-                        <div className="text-[12px] text-white/40 mt-1.5 font-medium">
-                          View all {reel.comments} comments
-                        </div>
-                      )}
+                  {/* View all comments */}
+                  {reel.commentsList && reel.commentsList.length > 2 && (
+                    <div className="px-[14px] pb-4">
+                      <div className="text-[12px] text-white/40 font-medium cursor-pointer" onClick={(e) => { e.stopPropagation(); setShowComments(true); setActiveHeroReel(idx); }}>
+                        View all {reel.comments} comments
+                      </div>
                     </div>
                   )}
                 </div>
