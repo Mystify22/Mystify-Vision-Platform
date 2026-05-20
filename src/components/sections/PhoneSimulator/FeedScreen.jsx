@@ -276,9 +276,17 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div className={`${reply.dot} rounded-full border border-white/50 bg-gradient-to-tr ${reply.from} ${reply.to} flex-shrink-0 shadow-md ${reply.margin}`} />
-                      <div className={`bg-black/40 backdrop-blur-md ${reply.padding} rounded-2xl rounded-tl-sm border border-white/10 shadow-lg`}>
-                        <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-px">@{reply.user}</p>
+                      <div className={`bg-black/40 backdrop-blur-md ${reply.padding} rounded-2xl rounded-tl-sm border border-white/10 shadow-lg min-w-[60%] flex flex-col`}>
+                        <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-1">@{reply.user}</p>
                         <p className="text-white text-[10px] sm:text-[11px] leading-snug drop-shadow-sm">{reply.text}</p>
+                        <div className="flex justify-end mt-1.5">
+                          <button 
+                            className="text-white/40 hover:text-white transition-colors text-[8px] font-bold uppercase tracking-wider"
+                            onClick={(e) => { e.stopPropagation(); setShowComments(true); }}
+                          >
+                            Reply
+                          </button>
+                        </div>
                       </div>
                     </motion.div>
                   ))}
