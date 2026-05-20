@@ -261,7 +261,13 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="absolute top-[105px] right-[20px] w-[160px] bg-[#111] border border-[#222] rounded-[12px] shadow-2xl overflow-hidden z-50 flex flex-col"
           >
-            <button onClick={() => setShowOtherUserActions(false)} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#1a1a1a] transition-colors text-left group border-b border-[#222]">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowOtherUserActions(false);
+              }} 
+              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#1a1a1a] transition-colors text-left group border-b border-[#222] cursor-default"
+            >
               <Ghost className="w-4 h-4 text-[#888] group-hover:text-white transition-colors" />
               <span className="text-[13px] font-dmsans font-medium text-[#aaa] group-hover:text-white transition-colors">Ghost User</span>
             </button>
