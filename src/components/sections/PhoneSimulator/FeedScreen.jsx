@@ -196,24 +196,12 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
 
   const handleCopyLink = (e) => {
     e.stopPropagation();
-    const shareUrl = `https://mystify.me/post/${reelsData[activeHeroReel]?.id || activeHeroReel}`;
-    navigator.clipboard.writeText(shareUrl).then(() => {
-      setToastMessage("Link copied to clipboard!");
-      setShowSharePopup(false);
-      setTimeout(() => setToastMessage(""), 2000);
-    }).catch(err => {
-      console.error("Clipboard copy failed: ", err);
-      setToastMessage("Link copied!");
-      setShowSharePopup(false);
-      setTimeout(() => setToastMessage(""), 2000);
-    });
+    setShowSharePopup(false);
   };
 
   const handleSimulatedShare = (e, platform) => {
     e.stopPropagation();
-    setToastMessage(`Shared to ${platform}!`);
     setShowSharePopup(false);
-    setTimeout(() => setToastMessage(""), 2000);
   };
 
   const handleHeroScroll = (e) => {
