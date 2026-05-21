@@ -403,3 +403,60 @@ export const initialHeroReels = [
     audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
   }
 ];
+
+export const mockNotifications = [
+  {
+    id: 'n1',
+    type: 'reply',
+    user: 'upside_down_fan',
+    avatarFrom: 'from-red-600',
+    avatarTo: 'to-black',
+    avatarImage: null,
+    content: 'replied to your scary story: "Hearing a clock tick is definitely Vecna 🕰️😱"',
+    time: '2m ago',
+    unread: true,
+    targetText: 'Hearing a clock tick is definitely Vecna 🕰️😱'
+  },
+  {
+    id: 'n2',
+    type: 'like',
+    user: 'eleven_waffles',
+    avatarFrom: 'from-yellow-400',
+    avatarTo: 'to-orange-500',
+    avatarImage: null,
+    content: 'liked your answer about Sunday brunch waffles 🧇',
+    time: '12m ago',
+    unread: true
+  },
+  {
+    id: 'n3',
+    type: 'streak',
+    user: 'Mystify Engine',
+    icon: 'flame',
+    content: 'Your 5-day streak is burning! Send an anonymous vibe today to keep the flame alive.',
+    time: '2h ago',
+    unread: true
+  },
+  {
+    id: 'n4',
+    type: 'vibe',
+    user: 'Resonance AI',
+    icon: 'sparkles',
+    content: 'New high-resonance thoughts in "Nature" match your mood "Curious". Explore now.',
+    time: '5h ago',
+    unread: false
+  },
+  {
+    id: 'n5',
+    type: 'reply',
+    user: 'lofi_girl',
+    avatarFrom: 'from-amber-400',
+    avatarTo: 'to-orange-500',
+    avatarImage: null,
+    content: 'responded to your focus vibe: "Writing code in late night rain is unmatched ☕📚"',
+    time: '1d ago',
+    unread: false,
+    targetText: 'Writing code in late night rain is unmatched ☕📚'
+  }
+];
+

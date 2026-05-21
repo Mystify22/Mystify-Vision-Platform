@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle } from 'lucide-react';
-import { initialHeroReels } from './MockData';
+import { initialHeroReels, mockNotifications } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" fill="currentColor" className={className}>
@@ -32,7 +32,7 @@ const moodStylesMapping = {
   Nostalgic: { border: 'border-[#dab87f]/40', text: 'text-[#dab87f]/90' },
 };
 
-const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => {
+const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNotificationsClick }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(initialHeroReels);
   const [activeHeroReel, setActiveHeroReel] = useState(0);
@@ -583,8 +583,14 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
       {/* Top Bar */}
       <div className="flex justify-between items-center bg-[#0c0c10] border-b border-white/[0.08] pt-[10px] pb-[8px] px-[14px]">
         <div className="flex">
-          <button className="w-8 h-8 rounded-full bg-white/[0.07] flex items-center justify-center relative">
+          <button 
+            onClick={() => onNotificationsClick && onNotificationsClick()}
+            className="w-8 h-8 rounded-full bg-white/[0.07] hover:bg-white/[0.12] active:scale-95 transition-all flex items-center justify-center relative"
+          >
             <Bell size={16} className="text-white" />
+            {mockNotifications.filter(n => n.unread).length > 0 && (
+              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5a1a] border-[1.5px] border-[#0c0c10] absolute top-0 right-0 animate-pulse shadow-[0_0_8px_rgba(255,90,26,0.6)]" />
+            )}
           </button>
         </div>
         <div className="flex">

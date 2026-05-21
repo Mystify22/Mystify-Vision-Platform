@@ -15,6 +15,7 @@ import LoginScreen from './LoginScreen';
 import EditProfileScreen from './EditProfileScreen';
 import SettingsScreen from './SettingsScreen';
 import StreakScreen from './StreakScreen';
+import NotificationsScreen from './NotificationsScreen';
 
 const TablerFlame = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -204,10 +205,26 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 4 && (
-              <FeedScreen key="step-home" initialMode="feed" onInboxClick={() => { setChatTargetUsername(null); setStep(7); }} />
+              <FeedScreen 
+                key="step-home" 
+                initialMode="feed" 
+                onInboxClick={() => { setChatTargetUsername(null); setStep(7); }} 
+                onNotificationsClick={() => setStep(12)} 
+              />
             )}
             {step === 11 && (
               <FeedScreen key="step-reels" initialMode="reels" onBackFromReels={() => setStep(4)} />
+            )}
+            {step === 12 && (
+              <NotificationsScreen
+                key="step-notifications"
+                onBack={() => setStep(4)}
+                onNavigateToStreak={() => setStep(10)}
+                onNavigateToProfile={(username) => {
+                  setSelectedProfileUsername(username);
+                  setStep(5);
+                }}
+              />
             )}
             {step === 5 && (
               <ProfileScreen
