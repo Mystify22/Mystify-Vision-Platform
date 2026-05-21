@@ -53,6 +53,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
   const [feedSaved, setFeedSaved] = useState({});
   const [showMoreMenuIdx, setShowMoreMenuIdx] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
+  const [showTagsForReelIdx, setShowTagsForReelIdx] = useState(null);
+  const [showTagsForFeedIdx, setShowTagsForFeedIdx] = useState(null);
   const feedAudioRefs = useRef({});
   const postRefs = useRef({});
   const reelScrollRef = useRef(null);
@@ -88,6 +90,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveFeedIdx(Number(entry.target.dataset.idx));
+            setShowTagsForFeedIdx(null);
           }
         });
       },
@@ -209,6 +212,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
     if (idx !== activeHeroReel) {
       setActiveHeroReel(idx);
       setIsReelLiked(false);
+      setShowTagsForReelIdx(null);
     }
   };
 
@@ -227,6 +231,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
         {!isStandaloneReel && (
           <button 
             onClick={() => {
+              setShowTagsForReelIdx(null);
+              setShowTagsForFeedIdx(null);
               if (onBackFromReels) onBackFromReels();
               else setViewingReel(false);
             }}
@@ -257,9 +263,10 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
           className="w-full h-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-y snap-mandatory cursor-pointer relative z-10"
           onScroll={handleHeroScroll}
           onClick={(e) => {
-            if (showComments || showSharePopup) {
+            if (showComments || showSharePopup || showTagsForReelIdx !== null) {
               setShowComments(false);
               setShowSharePopup(false);
+              setShowTagsForReelIdx(null);
               setReplyTo(null);
             } else {
               toggleMute(e);
@@ -282,27 +289,63 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5, type: 'spring', bounce: 0.4 }}
                   viewport={{ once: false }}
-                  className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3.5 sm:p-4 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-[95%] relative overflow-hidden mb-1 pointer-events-auto cursor-auto"
+                  className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3.5 sm:p-4 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-[95%] relative overflow-visible mb-1 pointer-events-auto cursor-auto"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
 
-                  <div className="w-full flex items-center justify-between mb-2.5">
+                  <div className="w-full flex items-center mb-2.5">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full border border-white/30 shadow-md overflow-hidden flex-shrink-0 bg-[#1c1c1c]">
+                      <div className="w-6 h-6 rounded-full border border-white/30 shadow-md overflow-hidden flex-shrink-0 bg-[#1c1c1e]">
                         <img src={reel.avatarImage || userAvatar} alt="DP" className="w-full h-full object-cover" />
                       </div>
                       <span className="text-white/90 font-bold text-[11px] tracking-wide mt-[1px]">@mystik_user_{i+1}</span>
                     </div>
-                    <div className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/20 pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/10">
+                  </div>
+
+                  <p className="text-white text-[15px] sm:text-base leading-snug font-black tracking-tight drop-shadow-md w-full">{reel.question}</p>
+
+                  <div className="w-full flex justify-end mt-2 relative">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowTagsForReelIdx(showTagsForReelIdx === i ? null : i);
+                      }}
+                      className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/30 hover:bg-white/20 active:scale-95 transition-all pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/20 shrink-0 cursor-pointer"
+                    >
                       <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
                         <Sparkles size={7} className="text-white" strokeWidth={3} />
                       </div>
-                      <span className="mt-[1px]">{reel.type}</span>
-                    </div>
-                  </div>
+                      <span className="mt-[1px]">Vibes</span>
+                      {(reel.tags && reel.tags.length > 1) && (
+                        <span className="ml-1 text-[7px] bg-[#FF4500] text-white px-1.5 py-[0.5px] rounded-full font-black tracking-normal shadow-sm">+{reel.tags.length - 1}</span>
+                      )}
+                    </button>
 
-                  <p className="text-white text-[15px] sm:text-base leading-snug font-black tracking-tight drop-shadow-md">{reel.question}</p>
+                    <AnimatePresence>
+                      {showTagsForReelIdx === i && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                          transition={{ type: "spring", damping: 15, stiffness: 200 }}
+                          className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-2 rounded-xl flex flex-col gap-1 min-w-[120px] max-w-[180px] pointer-events-auto text-left"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span className="text-[7px] text-white/40 uppercase tracking-widest font-extrabold px-1 mb-0.5">Post Vibes</span>
+                          {(reel.tags || [reel.type]).map((tag, tIdx) => (
+                            <div
+                              key={tIdx}
+                              className="text-white/95 text-[9px] font-semibold py-1 px-2 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-1.5 hover:bg-white/[0.08] transition-colors"
+                            >
+                              <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_#818cf8]" />
+                              <span>{tag}</span>
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </motion.div>
 
                 <div className="space-y-3 sm:space-y-4 w-full">
@@ -555,6 +598,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
       {/* Main Scroll Content */}
       <div 
         ref={feedScrollRef}
+        onClick={() => setShowTagsForFeedIdx(null)}
         className="flex-1 overflow-y-auto relative [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
       >
         
@@ -612,14 +656,53 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                     <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.bgImage}')` }} />
                     <div className="absolute inset-0 bg-black/40" />
                     
-                    <div className="absolute top-3 left-3 bg-black/55 rounded-[6px] px-[8px] py-[3px] text-[10px] font-semibold text-white tracking-[0.05em] uppercase backdrop-blur-md border border-white/10 z-10">
-                      {reel.type}
-                    </div>
+
 
                     <div className="absolute inset-x-0 bottom-3 px-3 flex flex-col items-start z-10 w-[85%] gap-2 pointer-events-none">
-                      <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3 sm:p-3.5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-full relative overflow-hidden pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
+                      <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3 sm:p-3.5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-full relative overflow-visible pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
                         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-                        <p className="text-white text-[14px] sm:text-[15px] leading-snug font-black tracking-tight drop-shadow-md">{reel.question}</p>
+                        <p className="text-white text-[14px] sm:text-[15px] leading-snug font-black tracking-tight drop-shadow-md w-full">{reel.question}</p>
+                        <div className="w-full flex justify-end mt-2 relative">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowTagsForFeedIdx(showTagsForFeedIdx === idx ? null : idx);
+                            }}
+                            className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/30 hover:bg-white/20 active:scale-95 transition-all pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/20 shrink-0 cursor-pointer"
+                          >
+                            <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
+                              <Sparkles size={7} className="text-white" strokeWidth={3} />
+                            </div>
+                            <span className="mt-[1px]">Vibes</span>
+                            {(reel.tags && reel.tags.length > 1) && (
+                              <span className="ml-1 text-[7px] bg-[#FF4500] text-white px-1.5 py-[0.5px] rounded-full font-black tracking-normal shadow-sm">+{reel.tags.length - 1}</span>
+                            )}
+                          </button>
+
+                          <AnimatePresence>
+                            {showTagsForFeedIdx === idx && (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                                transition={{ type: "spring", damping: 15, stiffness: 200 }}
+                                className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-2 rounded-xl flex flex-col gap-1 min-w-[120px] max-w-[180px] pointer-events-auto text-left"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <span className="text-[7px] text-white/40 uppercase tracking-widest font-extrabold px-1 mb-0.5">Post Vibes</span>
+                                {(reel.tags || [reel.type]).map((tag, tIdx) => (
+                                  <div
+                                    key={tIdx}
+                                    className="text-white/95 text-[9px] font-semibold py-1 px-2 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-1.5 hover:bg-white/[0.08] transition-colors"
+                                  >
+                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_#818cf8]" />
+                                    <span>{tag}</span>
+                                  </div>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
                       </div>
                       
                       <div className="space-y-1.5 w-full pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
@@ -699,6 +782,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
               setShowComments(false);
               setShowSharePopup(false);
               setShowMoreMenuIdx(null);
+              setShowTagsForFeedIdx(null);
+              setShowTagsForReelIdx(null);
               setReplyTo(null);
             }}
           />

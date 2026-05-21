@@ -283,6 +283,7 @@ export const moodColors = {
 export const initialHeroReels = [
   {
     type: "Spooky Vibes",
+    tags: ["Spooky Vibes", "Ghost Stories", "Late Night", "Horror"],
     question: `"What's the scariest thing that happened to you?"`,
     avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672802/mystify/avatar/monx/andlhzujd2pqp2aodc2t.png",
     replies: [
@@ -302,6 +303,7 @@ export const initialHeroReels = [
   },
   {
     type: "Secret Confession",
+    tags: ["Secret Confession", "Introvert", "Deep Thoughts", "Relatable"],
     question: `"What's one thing you're too afraid to tell anyone?"`,
     avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
     replies: [
@@ -322,6 +324,7 @@ export const initialHeroReels = [
   },
   {
     type: "Anime Debate",
+    tags: ["Anime Debate", "Otaku Life", "One Piece", "Naruto"],
     question: `"If you could live in any anime world, which one would it be?"`,
     avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
     replies: [
@@ -341,6 +344,7 @@ export const initialHeroReels = [
   },
   {
     type: "Productivity Flex",
+    tags: ["Productivity Flex", "Code Setup", "Hotkeys", "Work Hacks"],
     question: `"What's your most overpowered setup secret?"`,
     avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
     replies: [
@@ -360,6 +364,7 @@ export const initialHeroReels = [
   },
   {
     type: "Zen Focus",
+    tags: ["Zen Focus", "Deep Work", "Lofi Beats", "Ocean Sound"],
     question: `"What's your go-to sound for ultimate deep work?"`,
     avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
     replies: [
@@ -379,6 +384,7 @@ export const initialHeroReels = [
   },
   {
     type: "Weekend Vibes",
+    tags: ["Weekend Vibes", "Unwind", "Coffee Break", "Shopping"],
     question: `"What's your favorite way to unwind on a Saturday?"`,
     avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672793/mystify/avatar/monx/p7u3prwwskqwgdrf6yhn.png",
     replies: [
