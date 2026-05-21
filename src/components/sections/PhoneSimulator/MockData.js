@@ -284,6 +284,7 @@ export const initialHeroReels = [
   {
     type: "Spooky Vibes",
     question: `"What's the scariest thing that happened to you?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672802/mystify/avatar/monx/andlhzujd2pqp2aodc2t.png",
     replies: [
       { user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", from: "from-red-600", to: "to-black", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
       { user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", from: "from-yellow-400", to: "to-orange-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
@@ -302,6 +303,7 @@ export const initialHeroReels = [
   {
     type: "Secret Confession",
     question: `"What's one thing you're too afraid to tell anyone?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
     replies: [
       { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
       { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
@@ -321,6 +323,7 @@ export const initialHeroReels = [
   {
     type: "Anime Debate",
     question: `"If you could live in any anime world, which one would it be?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
     replies: [
       { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
       { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
@@ -339,6 +342,7 @@ export const initialHeroReels = [
   {
     type: "Productivity Flex",
     question: `"What's your most overpowered setup secret?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
     replies: [
       { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
       { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
@@ -357,6 +361,7 @@ export const initialHeroReels = [
   {
     type: "Zen Focus",
     question: `"What's your go-to sound for ultimate deep work?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
     replies: [
       { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
       { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
@@ -375,6 +380,7 @@ export const initialHeroReels = [
   {
     type: "Weekend Vibes",
     question: `"What's your favorite way to unwind on a Saturday?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672793/mystify/avatar/monx/p7u3prwwskqwgdrf6yhn.png",
     replies: [
       { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
       { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }

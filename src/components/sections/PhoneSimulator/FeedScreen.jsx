@@ -290,9 +290,9 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                   <div className="w-full flex items-center justify-between mb-2.5">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full border border-white/30 shadow-md overflow-hidden flex-shrink-0 bg-[#1c1c1c]">
-                        <img src={userAvatar} alt="DP" className="w-full h-full object-cover" />
+                        <img src={reel.avatarImage || userAvatar} alt="DP" className="w-full h-full object-cover" />
                       </div>
-                      <span className="text-white/90 font-bold text-[11px] tracking-wide mt-[1px]">@ghost_mind</span>
+                      <span className="text-white/90 font-bold text-[11px] tracking-wide mt-[1px]">@mystik_user_{i+1}</span>
                     </div>
                     <div className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/20 pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/10">
                       <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
@@ -569,9 +569,15 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick }) => 
                 >
                   {/* Post Header */}
                   <div className="flex items-center gap-[10px] px-[14px] pt-[10px] pb-[8px]">
-                    <div className="w-[36px] h-[36px] rounded-full shrink-0 flex items-center justify-center relative overflow-hidden bg-[#1a1a1a]">
-                       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600" />
-                       <span className="relative text-[16px] leading-none">👤</span>
+                    <div className="w-[36px] h-[36px] rounded-full shrink-0 flex items-center justify-center relative overflow-hidden bg-[#1a1a1a] border border-white/[0.08]">
+                       {reel.avatarImage ? (
+                         <img src={reel.avatarImage} alt={`@mystik_user_${idx+1}`} className="w-full h-full object-cover relative z-10" />
+                       ) : (
+                         <>
+                           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600" />
+                           <span className="relative text-[16px] leading-none">👤</span>
+                         </>
+                       )}
                     </div>
                     <div className="flex-1 flex flex-col">
                        <span className="text-[13px] font-medium text-white">@mystik_user_{idx+1}</span>
