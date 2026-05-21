@@ -329,17 +329,15 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.9, y: 10 }}
                           transition={{ type: "spring", damping: 15, stiffness: 200 }}
-                          className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-2 rounded-xl flex flex-col gap-1 min-w-[120px] max-w-[180px] pointer-events-auto text-left"
+                          className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <span className="text-[7px] text-white/40 uppercase tracking-widest font-extrabold px-1 mb-0.5">Post Vibes</span>
                           {(reel.tags || [reel.type]).map((tag, tIdx) => (
                             <div
                               key={tIdx}
-                              className="text-white/95 text-[9px] font-semibold py-1 px-2 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-1.5 hover:bg-white/[0.08] transition-colors"
+                              className="text-white/90 hover:text-white text-[10px] font-semibold py-1 px-2.5 rounded-lg hover:bg-white/10 transition-colors"
                             >
-                              <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_#818cf8]" />
-                              <span>{tag}</span>
+                              {tag}
                             </div>
                           ))}
                         </motion.div>
@@ -589,7 +587,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
           >
             <Bell size={16} className="text-white" />
             {mockNotifications.filter(n => n.unread).length > 0 && (
-              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5a1a] border-[1.5px] border-[#0c0c10] absolute top-0 right-0 animate-pulse shadow-[0_0_8px_rgba(255,90,26,0.6)]" />
+              <div className="w-2 h-2 rounded-full bg-[#ff5a1a] border-[1.5px] border-[#0c0c10] absolute top-0.5 right-0.5" />
             )}
           </button>
         </div>
@@ -692,17 +690,15 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 10 }}
                                 transition={{ type: "spring", damping: 15, stiffness: 200 }}
-                                className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-2 rounded-xl flex flex-col gap-1 min-w-[120px] max-w-[180px] pointer-events-auto text-left"
+                                className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <span className="text-[7px] text-white/40 uppercase tracking-widest font-extrabold px-1 mb-0.5">Post Vibes</span>
                                 {(reel.tags || [reel.type]).map((tag, tIdx) => (
                                   <div
                                     key={tIdx}
-                                    className="text-white/95 text-[9px] font-semibold py-1 px-2 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-1.5 hover:bg-white/[0.08] transition-colors"
+                                    className="text-white/90 hover:text-white text-[10px] font-semibold py-1 px-2.5 rounded-lg hover:bg-white/10 transition-colors"
                                   >
-                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_#818cf8]" />
-                                    <span>{tag}</span>
+                                    {tag}
                                   </div>
                                 ))}
                               </motion.div>
