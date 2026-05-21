@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, ChevronRight, X, Check } from 'lucide-react';
+import { Camera, ChevronRight, X, Check, Search } from 'lucide-react';
 
 const avatarData = {
   Monx: [
@@ -282,7 +282,7 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full bg-[#111] border border-[rgba(255,255,255,0.12)] rounded-[20px] flex flex-col max-h-[45%] shadow-2xl overflow-hidden"
+              className="w-full bg-[#111] border border-[rgba(255,255,255,0.12)] rounded-[20px] flex flex-col max-h-[50%] shadow-2xl overflow-hidden"
             >
               {/* Header */}
               <div className="px-4 py-[14px] flex justify-between items-center shrink-0 border-b border-[rgba(255,255,255,0.06)] bg-[#111]">
@@ -384,11 +384,10 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
                 {/* Username Mode */}
                 {activePanel === 'username' && (
                   <>
-                    <div className="px-5 pt-[14px] pb-[8px] text-[11px] text-[rgba(255,255,255,0.4)] leading-[1.5] shrink-0 font-medium">
-                      Pick from suggested names or type your own below
-                    </div>
-                    <div className="px-5 py-[6px] flex flex-wrap gap-[8px] overflow-y-auto [&::-webkit-scrollbar]:hidden shrink-0 max-h-[140px]">
-                      {suggestedUsernames.map(name => (
+                    <div className="px-5 pt-[14px] py-[6px] flex flex-wrap gap-[8px] overflow-y-auto [&::-webkit-scrollbar]:hidden flex-1 max-h-[140px]">
+                      {suggestedUsernames
+                        .filter(name => name.toLowerCase().includes(customUsername.toLowerCase()))
+                        .map(name => (
                         <button
                           key={name}
                           onClick={() => {
@@ -404,20 +403,28 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
                           {name}
                         </button>
                       ))}
+                      {suggestedUsernames.filter(name => name.toLowerCase().includes(customUsername.toLowerCase())).length === 0 && (
+                        <div className="text-[11px] text-[rgba(255,255,255,0.3)] italic py-2 w-full text-center">
+                          No matching suggestions
+                        </div>
+                      )}
                     </div>
                     <div className="p-[16px_20px_20px] flex gap-[8px] items-center shrink-0 border-t border-[rgba(255,255,255,0.04)] mt-2">
-                      <input
-                        type="text"
-                        value={customUsername}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCustomUsername(val);
-                          if(val) setTempUsername(val);
-                        }}
-                        placeholder="Type your own..."
-                        maxLength={24}
-                        className="flex-1 bg-[#1a1a22] border border-[rgba(255,255,255,0.12)] focus:border-[rgba(255,255,255,0.3)] transition-colors rounded-[10px] px-[14px] py-[10px] text-[13px] text-white outline-none placeholder:text-[rgba(255,255,255,0.25)]"
-                      />
+                      <div className="relative flex-1 flex items-center">
+                        <Search size={14} className="absolute left-[12px] text-[rgba(255,255,255,0.3)] pointer-events-none" />
+                        <input
+                          type="text"
+                          value={customUsername}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCustomUsername(val);
+                            if(val) setTempUsername(val);
+                          }}
+                          placeholder="Search or type username..."
+                          maxLength={24}
+                          className="w-full bg-[#1a1a22] border border-[rgba(255,255,255,0.12)] focus:border-[rgba(255,255,255,0.3)] transition-colors rounded-[10px] pl-[34px] pr-[14px] py-[10px] text-[13px] text-white outline-none placeholder:text-[rgba(255,255,255,0.25)]"
+                        />
+                      </div>
                       {customUsername.length >= 3 && (
                         <div className="flex items-center gap-[4px] shrink-0 ml-1 bg-[rgba(78,175,107,0.15)] px-[8px] py-[4px] rounded-full">
                           <Check size={12} color="#4caf50" strokeWidth={3} />
