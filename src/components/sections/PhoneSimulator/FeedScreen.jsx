@@ -146,14 +146,33 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (!commentText.trim()) return;
+    
+    let userAvatarVal = null;
+    let customUsername = "mystik_user";
+    try {
+      const saved = localStorage.getItem('mystify_user_profile');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.avatarValue && parsed.avatarValue.startsWith('http')) {
+          userAvatarVal = parsed.avatarValue;
+        }
+        if (parsed.username) {
+          customUsername = parsed.username;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
     const newComment = {
       id: Date.now(),
-      user: "mystik_user",
+      user: customUsername,
       text: replyTo ? `@${replyTo.user} ${commentText}` : commentText,
       likes: 0,
       time: "Just now",
       avatarFrom: "from-indigo-500",
       avatarTo: "to-purple-500",
+      avatarImage: userAvatarVal || userAvatar,
       replies: []
     };
     const updatedReels = [...reelsData];
@@ -357,7 +376,11 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                       className={`flex items-start gap-2 ${reply.size} pointer-events-auto cursor-auto`}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className={`${reply.dot} rounded-full border border-white/50 bg-gradient-to-tr ${reply.from} ${reply.to} flex-shrink-0 shadow-md ${reply.margin}`} />
+                      {reply.avatarImage ? (
+                        <img src={reply.avatarImage} alt="DP" className={`${reply.dot} rounded-full border border-white/50 flex-shrink-0 shadow-md object-cover ${reply.margin}`} />
+                      ) : (
+                        <div className={`${reply.dot} rounded-full border border-white/50 bg-gradient-to-tr ${reply.from} ${reply.to} flex-shrink-0 shadow-md ${reply.margin}`} />
+                      )}
                       <div className={`bg-black/40 backdrop-blur-md ${reply.padding} rounded-2xl rounded-tl-sm border border-white/10 shadow-lg min-w-[60%] flex flex-col`}>
                         <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-1">@{reply.user}</p>
                         <p className="text-white text-[10px] sm:text-[11px] leading-snug drop-shadow-sm">{reply.text}</p>
@@ -432,7 +455,11 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                 {reelsData[activeHeroReel]?.commentsList?.map(comment => (
                   <div key={comment.id} className="flex flex-col gap-3">
                     <div className="flex gap-3">
-                      <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
+                      {comment.avatarImage ? (
+                        <img src={comment.avatarImage} alt="DP" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                      ) : (
+                        <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
+                      )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
                           <span className="text-white/70 font-bold text-xs">@{comment.user}</span>
@@ -452,7 +479,11 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                     </div>
                     {comment.replies && comment.replies.map(reply => (
                       <div key={reply.id} className="flex gap-3 ml-11">
-                        <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
+                        {reply.avatarImage ? (
+                          <img src={reply.avatarImage} alt="DP" className="w-6 h-6 rounded-full object-cover shrink-0" />
+                        ) : (
+                          <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
+                        )}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="text-white/70 font-bold text-[11px]">@{reply.user}</span>
@@ -710,7 +741,11 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                       <div className="space-y-1.5 w-full pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
                         {reel.commentsList && reel.commentsList.slice(0, 2).map((comment, cidx) => (
                           <div key={cidx} className="flex items-start gap-1.5 origin-left">
-                            <div className={`w-5 h-5 rounded-full border border-white/50 bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} flex-shrink-0 shadow-md mt-0`} />
+                            {comment.avatarImage ? (
+                              <img src={comment.avatarImage} alt="DP" className="w-5 h-5 rounded-full border border-white/50 flex-shrink-0 shadow-md object-cover mt-0" />
+                            ) : (
+                              <div className={`w-5 h-5 rounded-full border border-white/50 bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} flex-shrink-0 shadow-md mt-0`} />
+                            )}
                             <div className="bg-black/40 backdrop-blur-md p-1.5 px-2.5 rounded-2xl rounded-tl-sm border border-white/10 shadow-lg inline-block max-w-[90%]">
                               <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-px">@{comment.user}</p>
                               <p className="text-white text-[10px] leading-snug drop-shadow-sm line-clamp-1">{comment.text}</p>
@@ -869,7 +904,11 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
               {reelsData[activeHeroReel]?.commentsList?.map(comment => (
                 <div key={comment.id} className="flex flex-col gap-3">
                   <div className="flex gap-3">
-                    <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
+                    {comment.avatarImage ? (
+                      <img src={comment.avatarImage} alt="DP" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                    ) : (
+                      <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} shrink-0`} />
+                    )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-white/70 font-bold text-xs">@{comment.user}</span>
@@ -889,7 +928,11 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                   </div>
                   {comment.replies && comment.replies.map(reply => (
                     <div key={reply.id} className="flex gap-3 ml-11">
-                      <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
+                      {reply.avatarImage ? (
+                        <img src={reply.avatarImage} alt="DP" className="w-6 h-6 rounded-full object-cover shrink-0" />
+                      ) : (
+                        <div className={`w-6 h-6 rounded-full bg-gradient-to-tr ${reply.avatarFrom} ${reply.avatarTo} shrink-0`} />
+                      )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
                           <span className="text-white/70 font-bold text-[11px]">@{reply.user}</span>

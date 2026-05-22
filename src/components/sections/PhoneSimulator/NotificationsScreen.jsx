@@ -108,12 +108,28 @@ const NotificationsScreen = ({ onBack, onNavigateToStreak, onNavigateToProfile }
                 className={`w-full p-3.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] active:scale-[0.99] border border-white/[0.04] cursor-pointer transition-all flex gap-3 items-center ${notif.unread ? 'bg-white/[0.04] border-white/[0.08]' : ''}`}
               >
                 {/* Left Icon Panel */}
-                <div className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] shrink-0 flex items-center justify-center relative">
-                  {getIcon(notif.type)}
-                  {notif.unread && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff5a1a] absolute top-0.5 right-0.5" />
-                  )}
-                </div>
+                {notif.avatarImage ? (
+                  <div className="w-8 h-8 shrink-0 relative">
+                    <img 
+                      src={notif.avatarImage} 
+                      alt="DP" 
+                      className="w-8 h-8 rounded-full object-cover border border-white/[0.08]" 
+                    />
+                    <div className="w-[18px] h-[18px] rounded-full bg-[#0c0c10] border border-white/[0.1] absolute -bottom-1 -right-1 flex items-center justify-center">
+                      {getIcon(notif.type)}
+                    </div>
+                    {notif.unread && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff5a1a] absolute -top-0.5 -right-0.5" />
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] shrink-0 flex items-center justify-center relative">
+                    {getIcon(notif.type)}
+                    {notif.unread && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff5a1a] absolute top-0.5 right-0.5" />
+                    )}
+                  </div>
+                )}
 
                 {/* Content Panel */}
                 <div className="flex-1 min-w-0 flex flex-col text-left">
