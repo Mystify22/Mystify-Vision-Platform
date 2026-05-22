@@ -283,15 +283,17 @@ export const moodColors = {
 export const initialHeroReels = [
   {
     type: "Spooky Vibes",
+    tags: ["Spooky Vibes", "Ghost Stories", "Late Night", "Horror"],
     question: `"What's the scariest thing that happened to you?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672802/mystify/avatar/monx/andlhzujd2pqp2aodc2t.png",
     replies: [
-      { user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", from: "from-red-600", to: "to-black", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
-      { user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", from: "from-yellow-400", to: "to-orange-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+      { user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png", from: "from-red-600", to: "to-black", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png", from: "from-yellow-400", to: "to-orange-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
     ],
     commentsList: [
-      { id: 1, user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", likes: 842, time: "2h", avatarFrom: "from-red-600", avatarTo: "to-black" },
-      { id: 2, user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", likes: 256, time: "1h", avatarFrom: "from-yellow-400", avatarTo: "to-orange-500" },
-      { id: 3, user: "vecna_stan", text: "This song is my alarm clock now.", likes: 89, time: "45m", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" }
+      { id: 1, user: "upside_down_fan", text: "Hearing a clock tick when there's no clock in the room. 🕰️😱", likes: 842, time: "2h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png", avatarFrom: "from-red-600", avatarTo: "to-black" },
+      { id: 2, user: "eleven_waffles", text: "Running out of Eggos on a Monday morning. The true horror. 🧇😭", likes: 256, time: "1h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png", avatarFrom: "from-yellow-400", avatarTo: "to-orange-500" },
+      { id: 3, user: "vecna_stan", text: "This song is my alarm clock now.", likes: 89, time: "45m", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677371/mystify/avatar/peeps/imir0hqmtwelttlqtu79.png", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" }
     ],
     likes: "11.0",
     comments: "2.1K",
@@ -301,16 +303,18 @@ export const initialHeroReels = [
   },
   {
     type: "Secret Confession",
+    tags: ["Secret Confession", "Introvert", "Deep Thoughts", "Relatable"],
     question: `"What's one thing you're too afraid to tell anyone?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
     replies: [
-      { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
-      { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+      { user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png", from: "from-yellow-400", to: "to-pink-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png", from: "from-cyan-400", to: "to-emerald-400", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
     ],
     commentsList: [
-      { id: 11, user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", likes: 842, time: "2h", avatarFrom: "from-yellow-400", avatarTo: "to-pink-500" },
-      { id: 12, user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", likes: 256, time: "1h", avatarFrom: "from-cyan-400", avatarTo: "to-emerald-400" },
-      { id: 13, user: "introvert_king", text: "Relatable levels are off the charts right now", likes: 89, time: "45m", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" },
-      { id: 14, user: "anon_user_99", text: "I put my phone on DND 24/7 lol", likes: 12, time: "10m", avatarFrom: "from-gray-400", avatarTo: "to-gray-600" }
+      { id: 11, user: "mystik_creator", text: "Honestly, I just let my phone ring and then text them \"what's up?\" 🤷‍♂️😂", likes: 842, time: "2h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png", avatarFrom: "from-yellow-400", avatarTo: "to-pink-500" },
+      { id: 12, user: "sarah_vibes", text: "Same here! Thought I was the only one that did this. 👀", likes: 256, time: "1h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png", avatarFrom: "from-cyan-400", avatarTo: "to-emerald-400" },
+      { id: 13, user: "introvert_king", text: "Relatable levels are off the charts right now", likes: 89, time: "45m", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672715/mystify/avatar/monx/uzaezuofgjpgilodhacv.png", avatarFrom: "from-purple-400", avatarTo: "to-indigo-500" },
+      { id: 14, user: "anon_user_99", text: "I put my phone on DND 24/7 lol", likes: 12, time: "10m", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675662/mystify/avatar/mimo/rrg53863czv8cutzzfwd.png", avatarFrom: "from-gray-400", avatarTo: "to-gray-600" }
     ],
     likes: "12",
     comments: "4.2K",
@@ -320,15 +324,17 @@ export const initialHeroReels = [
   },
   {
     type: "Anime Debate",
+    tags: ["Anime Debate", "Otaku Life", "One Piece", "Naruto"],
     question: `"If you could live in any anime world, which one would it be?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
     replies: [
-      { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
-      { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+      { user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png", from: "from-red-500", to: "to-orange-500", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677784/mystify/avatar/toons/ydhjko6zbxptjq6nuvyb.png", from: "from-blue-400", to: "to-indigo-500", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
     ],
     commentsList: [
-      { id: 21, user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", likes: 532, time: "5h", avatarFrom: "from-red-500", avatarTo: "to-orange-500" },
-      { id: 22, user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", likes: 410, time: "3h", avatarFrom: "from-blue-400", avatarTo: "to-indigo-500" },
-      { id: 23, user: "ghoul_boy", text: "Tokyo Ghoul... but as a human just trying to survive coffee shops ☕", likes: 120, time: "2h", avatarFrom: "from-stone-700", avatarTo: "to-zinc-900" }
+      { id: 21, user: "otaku_warrior", text: "Definitely the One Piece world! I want to set sail and search for the ultimate treasure. 🏴‍☠️🍖", likes: 532, time: "5h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png", avatarFrom: "from-red-500", avatarTo: "to-orange-500" },
+      { id: 22, user: "ninja_way", text: "Naruto universe! Learning jutsu and exploring the hidden leaf. 🦊🍥", likes: 410, time: "3h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677784/mystify/avatar/toons/ydhjko6zbxptjq6nuvyb.png", avatarFrom: "from-blue-400", avatarTo: "to-indigo-500" },
+      { id: 23, user: "ghoul_boy", text: "Tokyo Ghoul... but as a human just trying to survive coffee shops ☕", likes: 120, time: "2h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678511/mystify/avatar/emoji/wbxiyhnocj9tsuafp0tj.png", avatarFrom: "from-stone-700", avatarTo: "to-zinc-900" }
     ],
     likes: "15.8",
     comments: "1.2K",
@@ -338,15 +344,17 @@ export const initialHeroReels = [
   },
   {
     type: "Productivity Flex",
+    tags: ["Productivity Flex", "Code Setup", "Hotkeys", "Work Hacks"],
     question: `"What's your most overpowered setup secret?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
     replies: [
-      { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
-      { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      { user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png", from: "from-purple-500", to: "to-indigo-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675605/mystify/avatar/mimo/dmhylycaf9j52zj1139p.png", from: "from-green-400", to: "to-emerald-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
     ],
     commentsList: [
-      { id: 31, user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", likes: 1024, time: "1h", avatarFrom: "from-purple-500", avatarTo: "to-indigo-600" },
-      { id: 32, user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", likes: 890, time: "45m", avatarFrom: "from-green-400", avatarTo: "to-emerald-500" },
-      { id: 33, user: "vim_user", text: "Vim. I still don't know how to exit, but my productivity is amazing.", likes: 450, time: "20m", avatarFrom: "from-emerald-400", avatarTo: "to-teal-600" }
+      { id: 31, user: "code_ninja", text: "Using AI to write my boilerplate. Saves me like 10 hours a week! 🚀💻", likes: 1024, time: "1h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png", avatarFrom: "from-purple-500", avatarTo: "to-indigo-600" },
+      { id: 32, user: "mac_addict", text: "Keyboard shortcuts for everything. If I touch the mouse, I lose. ⌨️🔥", likes: 890, time: "45m", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675605/mystify/avatar/mimo/dmhylycaf9j52zj1139p.png", avatarFrom: "from-green-400", avatarTo: "to-emerald-500" },
+      { id: 33, user: "vim_user", text: "Vim. I still don't know how to exit, but my productivity is amazing.", likes: 450, time: "20m", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677353/mystify/avatar/peeps/qg2v19nuk2ywez1je2vh.png", avatarFrom: "from-emerald-400", avatarTo: "to-teal-600" }
     ],
     likes: "24.5",
     comments: "3.1K",
@@ -356,15 +364,17 @@ export const initialHeroReels = [
   },
   {
     type: "Zen Focus",
+    tags: ["Zen Focus", "Deep Work", "Lofi Beats", "Ocean Sound"],
     question: `"What's your go-to sound for ultimate deep work?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
     replies: [
-      { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
-      { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      { user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png", from: "from-blue-500", to: "to-cyan-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png", from: "from-amber-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
     ],
     commentsList: [
-      { id: 41, user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", likes: 620, time: "3h", avatarFrom: "from-blue-500", avatarTo: "to-cyan-500" },
-      { id: 42, user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", likes: 590, time: "2h", avatarFrom: "from-amber-400", avatarTo: "to-orange-500" },
-      { id: 43, user: "noise_fan", text: "Brown noise is highly underrated 🤎", likes: 210, time: "1h", avatarFrom: "from-yellow-700", avatarTo: "to-amber-900" }
+      { id: 41, user: "chill_coder", text: "Ocean waves all day. Drowns out everything so I can just flow. 🌊🎧", likes: 620, time: "3h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png", avatarFrom: "from-blue-500", avatarTo: "to-cyan-500" },
+      { id: 42, user: "lofi_girl", text: "Lofi hip hop beats to relax/study to. A classic. ☕📚", likes: 590, time: "2h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png", avatarFrom: "from-amber-400", avatarTo: "to-orange-500" },
+      { id: 43, user: "noise_fan", text: "Brown noise is highly underrated 🤎", likes: 210, time: "1h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672596/mystify/avatar/monx/skhzlrtushx96cgyrxpg.png", avatarFrom: "from-yellow-700", avatarTo: "to-amber-900" }
     ],
     likes: "18.2",
     comments: "1.5K",
@@ -374,15 +384,17 @@ export const initialHeroReels = [
   },
   {
     type: "Weekend Vibes",
+    tags: ["Weekend Vibes", "Unwind", "Coffee Break", "Shopping"],
     question: `"What's your favorite way to unwind on a Saturday?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672793/mystify/avatar/monx/p7u3prwwskqwgdrf6yhn.png",
     replies: [
-      { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
-      { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+      { user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png", from: "from-pink-500", to: "to-rose-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
     ],
     commentsList: [
-       { id: 51, user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", likes: 780, time: "6h", avatarFrom: "from-pink-500", avatarTo: "to-rose-500" },
-       { id: 52, user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", likes: 640, time: "5h", avatarFrom: "from-fuchsia-400", avatarTo: "to-purple-500" },
-       { id: 53, user: "couch_potato", text: "Binge watching 3 seasons of a show without moving", likes: 1100, time: "4h", avatarFrom: "from-orange-300", avatarTo: "to-rose-400" }
+       { id: 51, user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", likes: 780, time: "6h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png", avatarFrom: "from-pink-500", avatarTo: "to-rose-500" },
+       { id: 52, user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", likes: 640, time: "5h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png", avatarFrom: "from-fuchsia-400", avatarTo: "to-purple-500" },
+       { id: 53, user: "couch_potato", text: "Binge watching 3 seasons of a show without moving", likes: 1100, time: "4h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png", avatarFrom: "from-orange-300", avatarTo: "to-rose-400" }
     ],
     likes: "21.4",
     comments: "2.8K",
@@ -391,3 +403,60 @@ export const initialHeroReels = [
     audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
   }
 ];
+
+export const mockNotifications = [
+  {
+    id: 'n1',
+    type: 'reply',
+    user: 'upside_down_fan',
+    avatarFrom: 'from-red-600',
+    avatarTo: 'to-black',
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
+    content: 'replied to your scary story: "Hearing a clock tick is definitely Vecna 🕰️😱"',
+    time: '2m ago',
+    unread: true,
+    targetText: 'Hearing a clock tick is definitely Vecna 🕰️😱'
+  },
+  {
+    id: 'n2',
+    type: 'like',
+    user: 'eleven_waffles',
+    avatarFrom: 'from-yellow-400',
+    avatarTo: 'to-orange-500',
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png",
+    content: 'liked your answer about Sunday brunch waffles 🧇',
+    time: '12m ago',
+    unread: true
+  },
+  {
+    id: 'n3',
+    type: 'streak',
+    user: 'Mystify Engine',
+    icon: 'flame',
+    content: 'Your 5-day streak is burning! Send an anonymous vibe today to keep the flame alive.',
+    time: '2h ago',
+    unread: true
+  },
+  {
+    id: 'n4',
+    type: 'vibe',
+    user: 'Resonance AI',
+    icon: 'sparkles',
+    content: 'New high-resonance thoughts in "Nature" match your mood "Curious". Explore now.',
+    time: '5h ago',
+    unread: false
+  },
+  {
+    id: 'n5',
+    type: 'reply',
+    user: 'lofi_girl',
+    avatarFrom: 'from-amber-400',
+    avatarTo: 'to-orange-500',
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png",
+    content: 'responded to your focus vibe: "Writing code in late night rain is unmatched ☕📚"',
+    time: '1d ago',
+    unread: false,
+    targetText: 'Writing code in late night rain is unmatched ☕📚'
+  }
+];
+
