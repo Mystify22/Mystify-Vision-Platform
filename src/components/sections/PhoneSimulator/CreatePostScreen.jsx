@@ -1,27 +1,62 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
+import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
+
+const AVAILABLE_MOODS = [
+  'Curious', 'Vulnerable', 'Frustrated', 'Hopeful', 'Nostalgic',
+  'Lonely', 'Anxious', 'Excited', 'Grateful', 'Angry', 'Peaceful',
+  'Bored', 'Confused', 'Energetic', 'Restless', 'Empowered', 'Dreamy',
+  'Melancholy', 'Spooky', 'Quiet', 'Stressed', 'Insecure', 'Rebellious'
+];
+
+const getMoodStyle = (moodName, moodStyles) => {
+  if (!moodName) return { border: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' };
+  if (moodStyles && moodStyles[moodName]) return moodStyles[moodName];
+
+  // Deterministic pastel color based on string hash
+  let hash = 0;
+  for (let i = 0; i < moodName.length; i++) {
+    hash = moodName.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = Math.abs(hash % 360);
+  return {
+    border: 'rgba(255, 255, 255, 0.1)',
+    color: `hsla(${hue}, 75%, 75%, 0.9)`,
+    customBorder: `hsla(${hue}, 60%, 65%, 0.4)`
+  };
+};
 
 const CreatePostScreen = ({
   thoughtText,
   setThoughtText,
-  audienceIndex,
-  setAudienceIndex,
-  selectedMood,
-  setSelectedMood,
+  selectedMoods = [],
+  setSelectedMoods,
   isAnonymous,
   setIsAnonymous,
   selectedVibe,
   selectedMusic,
   onAddVibe,
   onNext,
-  onCancel
+  onCancel,
+  userProfileData
 }) => {
   const [showPreview, setShowPreview] = React.useState(false);
+  const [showPreviewTags, setShowPreviewTags] = React.useState(false);
   const editorRef = React.useRef(null);
-  const [isBold, setIsBold] = React.useState(false);
-  const [isItalic, setIsItalic] = React.useState(false);
+
+  const [moodSearchQuery, setMoodSearchQuery] = React.useState('');
+
+  const allPossibleMoods = Array.from(new Set([
+    ...moods,
+    ...AVAILABLE_MOODS
+  ]));
+
+  const filteredMoods = moodSearchQuery.trim() === ''
+    ? moods
+    : allPossibleMoods.filter(mood =>
+      mood.toLowerCase().includes(moodSearchQuery.trim().toLowerCase())
+    );
 
   const stripHtml = (html) => {
     if (typeof document === 'undefined') return '';
@@ -33,30 +68,11 @@ const CreatePostScreen = ({
   const plainText = stripHtml(thoughtText);
   const charCount = plainText.length;
 
-  const handleCommand = (command) => {
-    if (editorRef.current) {
-      editorRef.current.focus();
-      document.execCommand(command, false, null);
-      checkFormatState();
-    }
-  };
-
-  const checkFormatState = () => {
-    if (typeof document !== 'undefined') {
-      setIsBold(document.queryCommandState('bold'));
-      setIsItalic(document.queryCommandState('italic'));
-    }
-  };
-
   React.useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== thoughtText) {
       editorRef.current.innerHTML = thoughtText;
     }
   }, [thoughtText]);
-  const circumference = 62.8; // 2 * pi * 10
-  const dashoffset = Math.max(0, circumference - (charCount / 280) * circumference);
-  const isRed = (280 - charCount) <= 10;
-  const showNumber = (280 - charCount) <= 40;
 
   return (
     <motion.div
@@ -82,23 +98,17 @@ const CreatePostScreen = ({
         {/* Avatar + Compose Area */}
         <div className="px-4 flex gap-3 items-start mt-2">
           {/* Avatar */}
-          <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-[#2d1b4e] to-[#1a2a3a] flex items-center justify-center shrink-0 border border-white/5">
-            <span className="text-[13px] font-medium text-white/70">A</span>
+          <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-[#2d1b4e] to-[#1a2a3a] flex items-center justify-center shrink-0 border border-white/5 overflow-hidden">
+            {userProfileData?.avatarValue?.startsWith('http') ? (
+              <img src={userProfileData.avatarValue} alt="profile" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-[13px] font-medium text-white/70">{userProfileData?.avatarValue || '✦'}</span>
+            )}
           </div>
 
           <div className="flex-1 flex flex-col min-w-0">
-            {/* Audience Pill */}
-            <button
-              onClick={() => setAudienceIndex((audienceIndex + 1) % 3)}
-              className="self-start rounded-[20px] px-[10px] py-[4px] pl-[8px] bg-white/5 border border-white/10 flex items-center gap-[5px] mb-[10px] hover:bg-white/10 transition-colors"
-            >
-              <div className="w-[7px] h-[7px] bg-white/80 rounded-full" />
-              <span className="text-[11px] font-medium text-white/70">{audiences[audienceIndex]}</span>
-              <ChevronDown size={10} className="text-white/40" />
-            </button>
-
             {/* Text Input Box */}
-            <div className="relative w-full h-[180px] bg-[rgba(255,255,255,0.03)] border border-white/5 rounded-2xl p-4 transition-colors focus-within:bg-[rgba(255,255,255,0.05)] focus-within:border-white/10 flex flex-col">
+            <div className="relative w-full h-[240px] bg-[rgba(255,255,255,0.03)] border border-white/5 rounded-2xl p-4 transition-colors focus-within:bg-[rgba(255,255,255,0.05)] focus-within:border-white/10 flex flex-col">
               {charCount === 0 && thoughtText === '' && (
                 <div className="absolute top-4 left-4 text-white/20 text-[18px] pointer-events-none">
                   What's on your mind?
@@ -109,45 +119,65 @@ const CreatePostScreen = ({
                 contentEditable
                 onInput={(e) => {
                   setThoughtText(e.currentTarget.innerHTML);
-                  checkFormatState();
                 }}
-                onKeyUp={checkFormatState}
-                onMouseUp={checkFormatState}
                 className="w-full flex-1 bg-transparent border-none outline-none text-white text-[18px] font-normal leading-[1.55] caret-white whitespace-pre-wrap break-words focus:outline-none [&_a]:text-blue-400 [&_a]:underline overflow-y-auto [scrollbar-width:none]"
               />
-            </div>
-            <div className="h-4 mt-1 mb-2">
-              {charCount === 0 && (
-                <span className="text-[11px] text-white/20 block">Ask something.</span>
-              )}
             </div>
           </div>
         </div>
 
-        {/* Mood Tags */}
-        <div className="px-4 pt-[10px] flex gap-[6px] overflow-x-auto [scrollbar-width:none]">
-          {moods.map(mood => {
-            const isSelected = selectedMood === mood;
-            const style = moodStyles[mood];
-            return (
+        {/* Mood Tags & Search Section */}
+        <div className="px-4 pt-[10px] flex flex-col gap-2 shrink-0">
+          {/* Row 1: Suggested Tags */}
+          <div className="flex gap-[6px] overflow-x-auto [scrollbar-width:none] py-1 items-center w-full">
+            {filteredMoods.length > 0 ? (
+              filteredMoods.map(mood => {
+                const isSelected = selectedMoods.includes(mood);
+                const style = getMoodStyle(mood, moodStyles);
+                const borderStyle = style.customBorder || style.border;
+                return (
+                  <button
+                    key={mood}
+                    onClick={() => setSelectedMoods(prev => prev.includes(mood) ? prev.filter(m => m !== mood) : [...prev, mood])}
+                    className="px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium shrink-0 transition-all duration-200 cursor-pointer"
+                    style={isSelected ? {
+                      backgroundColor: 'rgba(255,255,255,0.08)',
+                      color: '#ffffff',
+                      border: '1px solid rgba(255,255,255,0.2)'
+                    } : {
+                      backgroundColor: 'transparent',
+                      color: style.color,
+                      border: `1px solid ${borderStyle}`
+                    }}
+                  >
+                    {mood}
+                  </button>
+                );
+              })
+            ) : (
+              <span className="text-[11px] text-white/30 italic px-2 py-0.5 whitespace-nowrap shrink-0">No tags found</span>
+            )}
+          </div>
+
+          {/* Row 2: Permanent Search Bar */}
+          <div className="flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md shadow-inner rounded-[20px] px-3 py-1 h-[29px] w-full">
+            <Search size={12} className="text-white/40 shrink-0" />
+            <input
+              type="text"
+              placeholder="Search mood tags..."
+              value={moodSearchQuery}
+              onChange={(e) => setMoodSearchQuery(e.target.value)}
+              className="bg-transparent border-none outline-none text-[12px] text-white placeholder-white/30 flex-1 p-0 focus:ring-0 focus:outline-none min-w-0"
+            />
+            {moodSearchQuery && (
               <button
-                key={mood}
-                onClick={() => setSelectedMood(isSelected ? null : mood)}
-                className="px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium shrink-0 transition-all duration-200 cursor-pointer"
-                style={isSelected ? {
-                  backgroundColor: 'rgba(255,255,255,0.08)',
-                  color: '#ffffff',
-                  border: '1px solid rgba(255,255,255,0.2)'
-                } : {
-                  backgroundColor: 'transparent',
-                  color: style.color,
-                  border: `1px solid ${style.border}`
-                }}
+                onClick={() => setMoodSearchQuery('')}
+                className="text-white/40 hover:text-white/70 p-0 bg-transparent border-none focus:outline-none cursor-pointer flex items-center justify-center shrink-0"
               >
-                {mood}
+                <X size={12} />
               </button>
-            );
-          })}
+            )}
+          </div>
         </div>
 
         {/* Vibe Preview Strip */}
@@ -182,57 +212,7 @@ const CreatePostScreen = ({
           </button>
         </div>
 
-        <div className="h-[0.5px] bg-[rgba(255,255,255,0.07)] mt-[14px]" />
 
-        {/* Formatting Toolbar */}
-        <div className="px-4 flex gap-[4px] items-center mt-2">
-          <button
-            onClick={() => handleCommand('bold')}
-            className={`w-[36px] h-[36px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-none ${isBold ? 'bg-white/20 text-white' : 'bg-transparent text-white/45 hover:bg-white/10'}`}
-          >
-            <Bold size={18} strokeWidth={isBold ? 3 : 2} />
-          </button>
-          <button
-            onClick={() => handleCommand('italic')}
-            className={`w-[36px] h-[36px] rounded-full flex items-center justify-center transition-colors cursor-pointer border-none ${isItalic ? 'bg-white/20 text-white' : 'bg-transparent text-white/45 hover:bg-white/10'}`}
-          >
-            <Italic size={18} strokeWidth={isItalic ? 3 : 2} />
-          </button>
-          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
-            <Link size={18} className="text-white/45" strokeWidth={2} />
-          </button>
-          <div className="w-[1px] h-[20px] bg-[rgba(255,255,255,0.08)] mx-[4px]" />
-          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
-            <AtSign size={18} className="text-white/45" strokeWidth={2} />
-          </button>
-          <button className="w-[36px] h-[36px] rounded-full flex items-center justify-center hover:bg-[rgba(255,255,255,0.06)] transition-colors cursor-pointer bg-transparent border-none">
-            <Hash size={18} className="text-white/45" strokeWidth={2} />
-          </button>
-
-          <div className="flex-1" />
-
-          {/* Character Ring */}
-          <div className="w-[26px] h-[26px] relative flex items-center justify-center">
-            <svg width="26" height="26" viewBox="0 0 26 26" className="-rotate-90">
-              <circle cx="13" cy="13" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <circle
-                cx="13" cy="13" r="10"
-                stroke={isRed ? "rgba(218,80,80,0.8)" : "rgba(255,255,255,0.5)"}
-                strokeWidth="2.5"
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={dashoffset}
-                strokeLinecap="round"
-                style={{ transition: 'stroke-dashoffset 0.2s ease-out, stroke 0.2s ease-out' }}
-              />
-            </svg>
-            {showNumber && (
-              <span className={`absolute inset-0 flex items-center justify-center text-[9px] font-medium ${isRed ? 'text-[rgba(218,80,80,0.9)]' : 'text-[rgba(255,255,255,0.5)]'}`}>
-                {280 - charCount}
-              </span>
-            )}
-          </div>
-        </div>
 
         {/* Bottom Area */}
         <div className="border-t-[0.5px] border-[rgba(255,255,255,0.07)] px-4 pt-[10px] pb-[24px] mt-[12px] flex items-center justify-between">
@@ -264,6 +244,7 @@ const CreatePostScreen = ({
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="absolute inset-0 z-50 bg-[#0c0c10] overflow-hidden"
+            onClick={() => setShowPreviewTags(false)}
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -275,7 +256,7 @@ const CreatePostScreen = ({
             <div className="absolute top-12 left-5 right-5 flex justify-between items-center text-white z-50 pointer-events-auto">
               <span className="font-bold text-base shadow-sm">Preview</span>
               <button
-                onClick={(e) => { e.stopPropagation(); setShowPreview(false); }}
+                onClick={(e) => { e.stopPropagation(); setShowPreview(false); setShowPreviewTags(false); }}
                 className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 cursor-pointer hover:bg-black/60 transition-colors"
               >
                 <ChevronDown size={20} />
@@ -284,21 +265,57 @@ const CreatePostScreen = ({
 
             {/* Question Sticker */}
             <div className="absolute inset-0 flex items-center justify-center z-20 px-6 pointer-events-none">
-              <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-5 rounded-3xl border border-white/40 shadow-2xl inline-flex flex-col items-center text-center w-full max-w-xs relative overflow-hidden pointer-events-auto">
+              <div
+                className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-5 rounded-3xl rounded-bl-sm border border-white/40 shadow-2xl inline-flex flex-col items-start text-left w-full max-w-xs relative overflow-visible pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-                <p className="text-white text-[18px] leading-relaxed font-medium tracking-tight drop-shadow-md">
+                <p className="text-white text-[16px] leading-snug font-black tracking-tight drop-shadow-md w-full">
                   {thoughtText ? (
                     <span dangerouslySetInnerHTML={{ __html: thoughtText }} className="[&_b]:font-black [&_i]:italic [&_a]:text-blue-300 [&_a]:underline" />
                   ) : (
                     "What's on your mind?"
                   )}
                 </p>
-                {selectedMood && (
-                  <div className="w-full mt-5 flex justify-start">
-                    <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white/50 bg-black/20 px-2.5 py-1.5 rounded-sm border border-white/5 shadow-inner">
-                      <div className="w-1 h-1 bg-white/30 rounded-full" />
-                      {selectedMood}
-                    </div>
+                {selectedMoods && selectedMoods.length > 0 && (
+                  <div className="w-full flex justify-end mt-2.5 relative pointer-events-auto">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowPreviewTags(!showPreviewTags);
+                      }}
+                      className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/30 hover:bg-white/20 active:scale-95 transition-all pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/20 shrink-0 cursor-pointer"
+                    >
+                      <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
+                        <Sparkles size={8} className="text-white" strokeWidth={3} />
+                      </div>
+                      <span className="mt-[1px] text-[8px]">Vibes</span>
+                      {selectedMoods.length > 1 && (
+                        <span className="ml-1 text-[7px] bg-[#FF4500] text-white px-1.5 py-[0.5px] rounded-full font-black tracking-normal shadow-sm">+{selectedMoods.length - 1}</span>
+                      )}
+                    </button>
+
+                    <AnimatePresence>
+                      {showPreviewTags && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                          transition={{ type: "spring", damping: 15, stiffness: 200 }}
+                          className="absolute bottom-8 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {selectedMoods.map((tag, tIdx) => (
+                            <div
+                              key={tIdx}
+                              className="text-white/90 hover:text-white text-[10px] font-semibold py-1 px-2.5 rounded-lg hover:bg-white/10 transition-colors"
+                            >
+                              {tag}
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
               </div>
