@@ -177,23 +177,27 @@ const SelectMusicScreen = ({
                 {section.items.map(item => renderMusicItem(item, section.category))}
 
                 {/* Expanded Items */}
-                <AnimatePresence>
-                  {expandedCategories[section.id] && section.extraItems && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden flex flex-col gap-1"
-                    >
-                      {section.extraItems.map(item => renderMusicItem(item, section.category))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeCategory === 'For you' && section.extraItems ? (
+                  section.extraItems.map(item => renderMusicItem(item, section.category))
+                ) : (
+                  <AnimatePresence>
+                    {expandedCategories[section.id] && section.extraItems && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden flex flex-col gap-1"
+                      >
+                        {section.extraItems.map(item => renderMusicItem(item, section.category))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
               </div>
 
               {/* Dropdown Blur Overlay */}
-              {section.extraItems && (
+              {section.extraItems && activeCategory !== 'For you' && (
                 <div className={`absolute bottom-0 inset-x-0 flex items-end justify-center transition-all duration-300 pointer-events-none ${expandedCategories[section.id] ? 'h-10 bg-transparent pb-0 relative mt-2 z-10' : 'h-24 bg-gradient-to-t from-[#0c0c10] via-[#0c0c10]/80 to-transparent pb-2 backdrop-blur-[1px] z-10'}`}>
                   <button
                     onClick={() => handleCategoryExpand(section.id)}
@@ -212,19 +216,10 @@ const SelectMusicScreen = ({
         </div>
       </div>
 
-      {/* Volume Control */}
-      <div className="px-6 py-4 flex items-center gap-3 shrink-0">
-        <Volume1 size={14} className="text-white/40" />
-        <div className="flex-1 h-1 bg-white/10 rounded-full relative">
-          <div className="absolute left-0 top-0 bottom-0 w-[60%] bg-white rounded-full">
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-full shadow" />
-          </div>
-        </div>
-        <Volume2 size={14} className="text-white/40" />
-      </div>
+
 
       {/* Bottom Strip */}
-      <div className="border-t-[0.5px] border-white/10 px-4 pt-[10px] pb-[22px] flex items-center gap-3 shrink-0 bg-[#0c0c10]">
+      <div className="px-4 pt-[10px] pb-[22px] flex items-center gap-3 shrink-0 bg-[#0c0c10]">
         <div
           className="w-[36px] h-[36px] rounded-lg border border-white/10 transition-all duration-300 flex items-center justify-center overflow-hidden bg-white/5"
         >
