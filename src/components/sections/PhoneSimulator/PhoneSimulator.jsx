@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
+import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
 
 import './PhoneSimulator.css';
 import CreatePostScreen from './CreatePostScreen';
@@ -57,8 +57,7 @@ const PhoneSimulator = () => {
 
   const [step, setStep] = useState(0);
   const [thoughtText, setThoughtText] = useState("");
-  const [audienceIndex, setAudienceIndex] = useState(0);
-  const [selectedMood, setSelectedMood] = useState(null);
+  const [selectedMoods, setSelectedMoods] = useState([]);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
@@ -152,24 +151,24 @@ const PhoneSimulator = () => {
                 key="step-compose"
                 thoughtText={thoughtText}
                 setThoughtText={setThoughtText}
-                audienceIndex={audienceIndex}
-                setAudienceIndex={setAudienceIndex}
-                selectedMood={selectedMood}
-                setSelectedMood={setSelectedMood}
+                selectedMoods={selectedMoods}
+                setSelectedMoods={setSelectedMoods}
                 isAnonymous={isAnonymous}
                 setIsAnonymous={setIsAnonymous}
                 selectedVibe={selectedVibe}
                 selectedMusic={selectedMusic}
+                userProfileData={userProfileData}
                 onAddVibe={() => setStep(2)}
                 onNext={() => {
                   if (selectedVibe && selectedMusic) {
-                    console.log("Posting...", { thoughtText, audienceIndex, selectedMood, isAnonymous, selectedVibe, selectedMusic });
+                    console.log("Posting...", { thoughtText, selectedMoods, isAnonymous, selectedVibe, selectedMusic });
                   } else {
                     setStep(2);
                   }
                 }}
                 onCancel={() => {
                   setThoughtText("");
+                  setSelectedMoods([]);
                   setSelectedVibe(null);
                   setSelectedMusic(null);
                   setStep(4);

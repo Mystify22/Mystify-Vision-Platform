@@ -147,7 +147,7 @@ const SelectVibeScreen = ({
       </div>
 
       {/* Bottom Strip */}
-      <div className="border-t-[0.5px] border-white/10 px-4 pt-[10px] pb-[22px] flex items-center gap-3 shrink-0 bg-[#0c0c10]">
+      <div className="px-4 pt-[10px] pb-[22px] flex items-center gap-3 shrink-0 bg-[#0c0c10]">
         <div
           className="w-[36px] h-[36px] rounded-lg border border-white/10 transition-all duration-300"
           style={{
