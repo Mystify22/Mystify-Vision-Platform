@@ -283,6 +283,9 @@ const PhoneSimulator = () => {
                 onLogout={() => {
                   setStep(0);
                 }}
+                onLogoutAll={() => {
+                  setStep(0);
+                }}
               />
             )}
             {step === 10 && (
