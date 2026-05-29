@@ -75,7 +75,7 @@ const Toggle = ({ enabled, onToggle }) => (
   </button>
 );
 
-const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout }) => {
+const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLogoutAll }) => {
   const [notifEnabled, setNotifEnabled] = useState(true);
   const [selectedTheme, setSelectedTheme] = useState('dark');
   const [ghostedAccounts, setGhostedAccounts] = useState(['@void_wanderer', '@dark_troll_99', '@anon_shadow']);
@@ -237,6 +237,12 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout }) =>
                 icon={LogOut} iconBg="rgba(255,90,26,0.1)" iconColor="#ff5a1a"
                 title="Log out" subtitle="Sign out of this device"
                 onPress={() => setActiveModal('logout')}
+                isLast={false}
+              />
+              <SettingsRow 
+                icon={LogOut} iconBg="rgba(255,60,60,0.12)" iconColor="rgba(255,80,80,0.9)"
+                title="Log out from all devices" titleColor="rgba(255,80,80,0.9)" subtitle="Sign out of all active sessions"
+                onPress={() => setActiveModal('logoutAll')}
                 isLast={true}
               />
             </div>
@@ -408,6 +414,21 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout }) =>
         </button>
         <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-white/5 border border-white/10 text-white/55 font-medium text-[14px]">
           Stay logged in
+        </button>
+      </BottomSheet>
+
+      {/* LOGOUT ALL MODAL */}
+      <BottomSheet 
+        visible={activeModal === 'logoutAll'} 
+        onClose={() => setActiveModal(null)}
+        title="Log out from all devices?" 
+        subtitle="This will sign you out of all devices and active sessions. You'll need to log back in everywhere."
+      >
+        <button onClick={() => { setActiveModal(null); onLogoutAll ? onLogoutAll() : onLogout(); }} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-[rgba(255,60,60,0.12)] border border-[rgba(255,60,60,0.2)] text-[rgba(255,80,80,0.9)] font-medium text-[14px]">
+          Log out from all devices
+        </button>
+        <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-white/5 border border-white/10 text-white/55 font-medium text-[14px]">
+          Cancel
         </button>
       </BottomSheet>
 
