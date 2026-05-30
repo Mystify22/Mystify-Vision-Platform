@@ -2,27 +2,31 @@ import './Bubbles.css';
 import React from 'react';
 
 const Bubbles = () => {
-    // Generate fewer, larger bubbles for a more subtle elegant look
-    const bubbles = Array.from({ length: 8 });
+    // Generate random bubble styles once upon mount to keep render pure and stable
+    const [bubbleStyles] = React.useState(() => 
+        Array.from({ length: 8 }).map(() => ({
+            size: Math.random() * 150 + 50,
+            left: Math.random() * 100,
+            delay: Math.random() * 20,
+            duration: Math.random() * 20 + 20
+        }))
+    );
 
     return (
         <div className="bubbles-container">
-            {bubbles.map((_, i) => {
-                const size = Math.random() * 150 + 50; // Larger size
-                return (
-                    <div 
-                        key={i} 
-                        className="bubble" 
-                        style={{
-                            width: `${size}px`,
-                            height: `${size}px`,
-                            left: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 20}s`,
-                            animationDuration: `${Math.random() * 20 + 20}s`
-                        }}
-                    />
-                );
-            })}
+            {bubbleStyles.map((style, i) => (
+                <div 
+                    key={i} 
+                    className="bubble" 
+                    style={{
+                        width: `${style.size}px`,
+                        height: `${style.size}px`,
+                        left: `${style.left}%`,
+                        animationDelay: `${style.delay}s`,
+                        animationDuration: `${style.duration}s`
+                    }}
+                />
+            ))}
         </div>
     );
 };

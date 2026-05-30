@@ -1,23 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
+import { moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
 
 const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [activeResultTab, setActiveResultTab] = useState('Questions'); // Questions, People, Moods, Vibes
-  const [selectedMoodFilter, setSelectedMoodFilter] = useState(null);
   const [recentSearches, setRecentSearches] = useState(exploreRecentItems);
   const inputRef = useRef(null);
-
-  const vibeCardsList = [
-    { name: 'Urban', bg: '#1a2a3a', posts: '2.4K' },
-    { name: 'Nature', bg: '#1a3a2a', posts: '1.8K' },
-    { name: 'Dark', bg: '#2d1b4e', posts: '4.1K' },
-    { name: 'Abstract', bg: '#3a1a2a', posts: '890' },
-    { name: 'Minimal', bg: '#3d2b1f', posts: '1.2K' }
-  ];
 
   const renderHighlightedText = (text, query) => {
     if (!query) return text;
@@ -244,18 +235,24 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
               {[
                 { id: 's1', name: 'Meera Talwar', handle: '@meera_t', followers: '1.1K' },
                 { id: 's2', name: 'Rohan Desai', handle: '@rohan_d', followers: '678' }
-              ].map(item => (
-                <div key={item.id} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)]">
-                  <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-blue-500/30 to-green-500/30 border border-white/5" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.handle}</p>
-                    <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
+              ].map(item => {
+                const isFollowing = followedUsers.has(item.id);
+                return (
+                  <div key={item.id} onClick={() => onUserSelect && onUserSelect(item.handle.replace('@', ''))} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)] cursor-pointer hover:bg-white/5 transition-colors">
+                    <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-blue-500/30 to-green-500/30 border border-white/5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.handle}</p>
+                      <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onFollowToggle && onFollowToggle(item.id); }}
+                      className={`px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 ${isFollowing ? 'bg-transparent text-white/50 border border-white/15' : 'bg-[#FF4500] text-white border border-[#FF4500]'}`}
+                    >
+                      {isFollowing ? 'Following' : 'Follow'}
+                    </button>
                   </div>
-                  <button className="px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 bg-[#FF4500] text-white border border-[#FF4500]">
-                    Follow
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

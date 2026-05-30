@@ -1,4 +1,3 @@
-import './Testimonials.css';
 import React from 'react';
 import { motion } from 'framer-motion';
 
