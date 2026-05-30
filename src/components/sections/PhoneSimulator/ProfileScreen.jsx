@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
+import { mockResultsRiya } from './MockData';
 
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
@@ -22,9 +22,11 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   const [showSuggestions, setShowSuggestions] = useState(false);
   const streakDays = 30;
 
-  useEffect(() => {
+  const [prevUsername, setPrevUsername] = useState(username);
+  if (username !== prevUsername) {
+    setPrevUsername(username);
     setShowSuggestions(false);
-  }, [username]);
+  }
 
   const isOwnProfile = userProfileData && username === userProfileData.username;
   const profileTabs = isOwnProfile ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];

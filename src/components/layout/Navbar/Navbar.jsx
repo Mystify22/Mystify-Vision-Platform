@@ -1,4 +1,3 @@
-import './Navbar.css';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Flame, Trophy } from 'lucide-react';

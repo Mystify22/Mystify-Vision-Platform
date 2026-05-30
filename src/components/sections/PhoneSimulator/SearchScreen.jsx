@@ -1,23 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
+import { moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
 
 const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [activeResultTab, setActiveResultTab] = useState('Questions'); // Questions, People, Moods, Vibes
-  const [selectedMoodFilter, setSelectedMoodFilter] = useState(null);
   const [recentSearches, setRecentSearches] = useState(exploreRecentItems);
   const inputRef = useRef(null);
-
-  const vibeCardsList = [
-    { name: 'Urban', bg: '#1a2a3a', posts: '2.4K' },
-    { name: 'Nature', bg: '#1a3a2a', posts: '1.8K' },
-    { name: 'Dark', bg: '#2d1b4e', posts: '4.1K' },
-    { name: 'Abstract', bg: '#3a1a2a', posts: '890' },
-    { name: 'Minimal', bg: '#3d2b1f', posts: '1.2K' }
-  ];
 
   const renderHighlightedText = (text, query) => {
     if (!query) return text;
