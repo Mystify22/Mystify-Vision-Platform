@@ -7,6 +7,7 @@ import GamificationHub from './components/sections/GamificationHub/GamificationH
 import Testimonials from './components/sections/Testimonials/Testimonials';
 import FAQ from './components/sections/FAQ/FAQ';
 import Features from './components/sections/Features/Features';
+import WaitlistForm from './components/sections/WaitlistForm/WaitlistForm';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       
       <main className="relative z-10 flex-1 flex flex-col pt-12 pb-16">
         <PhoneSimulator />
+        <WaitlistForm />
         
         <Features />
         

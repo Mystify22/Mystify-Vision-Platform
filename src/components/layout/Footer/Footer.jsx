@@ -1,4 +1,3 @@
-import './Footer.css';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, MessageSquare, Video, Code, ArrowRight } from 'lucide-react';

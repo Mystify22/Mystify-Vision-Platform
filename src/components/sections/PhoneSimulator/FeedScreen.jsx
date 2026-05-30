@@ -24,13 +24,7 @@ const AgentMessageIcon = ({ size = 24, className = "" }) => (
   </svg>
 );
 
-const moodStylesMapping = {
-  Curious: { border: 'border-[#4d90d7]/40', text: 'text-[#4d90d7]/90' },
-  Vulnerable: { border: 'border-[#9f7fda]/40', text: 'text-[#9f7fda]/90' },
-  Frustrated: { border: 'border-[#da7f7f]/40', text: 'text-[#da7f7f]/90' },
-  Hopeful: { border: 'border-[#7fda9f]/40', text: 'text-[#7fda9f]/90' },
-  Nostalgic: { border: 'border-[#dab87f]/40', text: 'text-[#dab87f]/90' },
-};
+
 
 const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNotificationsClick }) => {
   // Existing state for Reels
@@ -52,7 +46,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
   const [feedLikes, setFeedLikes] = useState({});
   const [feedSaved, setFeedSaved] = useState({});
   const [showMoreMenuIdx, setShowMoreMenuIdx] = useState(null);
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastMessage] = useState("");
   const [showTagsForReelIdx, setShowTagsForReelIdx] = useState(null);
   const [showTagsForFeedIdx, setShowTagsForFeedIdx] = useState(null);
   const feedAudioRefs = useRef({});
@@ -79,6 +73,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
         }
       }, 50);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewingReel]);
 
   // Intersection Observer for Feed
@@ -221,7 +216,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
     setShowSharePopup(false);
   };
 
-  const handleSimulatedShare = (e, platform) => {
+  const handleSimulatedShare = (e, _platform) => {
     e.stopPropagation();
     setShowSharePopup(false);
   };

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeft, ChevronRight, Phone, Bell, Ghost, 
   Palette, HelpCircle, Flag, Pause, Trash, LogOut, 
-  Moon, Sun, Smartphone, Check
+  Moon, Sun, Smartphone, Check, ChevronDown, PlusCircle, MessageSquare, Info, Shield
 } from 'lucide-react';
 
 const BottomSheet = ({ visible, onClose, title, subtitle, children }) => {
@@ -82,6 +82,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
   const [activeModal, setActiveModal] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [reportText, setReportText] = useState('');
+  const [expandedFaq, setExpandedFaq] = useState(null);
 
   const themeOptions = [
     { id: 'dark', label: 'Dark', desc: 'Easy on the eyes at night', icon: Moon, bg: 'rgba(77,144,215,0.1)', color: 'rgba(77,144,215,0.9)' },
@@ -207,6 +208,19 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
             </div>
           </div>
 
+          {/* SECTION: About */}
+          <div>
+            <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">About</div>
+            <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
+              <SettingsRow 
+                icon={Info} iconBg="rgba(255,255,255,0.06)" iconColor="rgba(255,255,255,0.55)"
+                title="About Mystify" subtitle="App details and privacy policy"
+                onPress={() => setActiveModal('about')}
+                isLast={true}
+              />
+            </div>
+          </div>
+
           {/* SECTION: Danger zone */}
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Danger zone</div>
@@ -249,7 +263,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           </div>
 
           <div className="text-[11px] text-white/15 text-center py-[22px]">
-            Vibe · v2.4.1 · Made in India
+            Mystify · v2.4.1 · Made in India
           </div>
         </div>
       </div>
@@ -320,7 +334,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
         visible={activeModal === 'theme'} 
         onClose={() => setActiveModal(null)}
         title="Choose theme" 
-        subtitle="Pick how Vibe looks for you."
+        subtitle="Pick how Mystify looks for you."
       >
         <div className="mx-4 mb-[14px] bg-[#111] rounded-[12px] overflow-hidden">
           {themeOptions.map((opt, index) => {
@@ -360,22 +374,85 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
         title="Help center" 
         subtitle="Browse common questions or reach out to support."
       >
-        <div className="mx-4 mb-[14px] bg-[#111] rounded-[12px] overflow-hidden">
+        <div className="mx-4 mb-[10px] bg-[#111] rounded-[12px] overflow-hidden border border-white/5">
           {[
-            "How does anonymous posting work?",
-            "How do I earn streak points?",
-            "How do I ghost someone?",
-            "Why can't I see my post in Explore?"
-          ].map((q, i, arr) => (
-            <div key={i} className={`p-[10px_14px] text-[12px] text-white/60 cursor-pointer ${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}>
-              {q}
-            </div>
-          ))}
+            {
+              id: 'phone',
+              question: "How to update phone number?",
+              answer: "Go to settings, tap 'Phone number' under the Account section, enter your new phone number with the country code, and tap 'Send OTP'. Once verified, your number is updated instantly.",
+              icon: Phone,
+              iconBg: "rgba(77,144,215,0.12)",
+              iconColor: "rgba(77,144,215,0.9)",
+            },
+            {
+              id: 'post',
+              question: "How to post a thought?",
+              answer: "Tap the '+' icon on the home screen toolbar. Compose your message, choose mood tags that capture your vibe, choose an optional background canvas/track, and toggle 'Post anonymously' if you want to stay private, then hit Post.",
+              icon: PlusCircle,
+              iconBg: "rgba(255,90,26,0.12)",
+              iconColor: "#ff5a1a",
+            },
+            {
+              id: 'dm',
+              question: "About direct messages",
+              answer: "DMs allow private replies to posts. Tap the message icon on any post to reply contextually. All conversations live in your inbox, and you can Ghost (block) any user anytime to stop receiving messages.",
+              icon: MessageSquare,
+              iconBg: "rgba(127,218,159,0.12)",
+              iconColor: "rgba(127,218,159,0.9)",
+            }
+          ].map((faq, i, arr) => {
+            const isExpanded = expandedFaq === faq.id;
+            return (
+              <div key={faq.id} className={`${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}>
+                <div 
+                  onClick={() => setExpandedFaq(isExpanded ? null : faq.id)}
+                  className="flex items-center gap-3 p-[12px_14px] cursor-pointer hover:bg-white/[0.03] active:bg-white/[0.03] transition-colors"
+                >
+                  <div className="w-[28px] h-[28px] rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: faq.iconBg }}>
+                    <faq.icon size={14} color={faq.iconColor} />
+                  </div>
+                  <span className="flex-1 text-[12px] font-medium text-white/80">{faq.question}</span>
+                  <div className="shrink-0 transition-transform duration-200" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                    <ChevronDown size={14} color="rgba(255,255,255,0.3)" />
+                  </div>
+                </div>
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden bg-white/[0.01]"
+                    >
+                      <div className="px-[14px] pb-[14px] pt-[2px] text-[11px] leading-relaxed text-white/50 pl-[54px] pr-4">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
-        <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-[#ff5a1a] text-white font-medium text-[14px]">
-          Contact support
-        </button>
-        <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-white/5 border border-white/10 text-white/55 font-medium text-[14px]">
+        
+        {/* Still Need Help Gradient Card */}
+        <div className="mx-4 mt-2 mb-4 p-4 rounded-[14px] bg-gradient-to-r from-[rgba(255,90,26,0.12)] to-[rgba(77,144,215,0.12)] border border-white/[0.08] flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[12px] font-semibold text-white/90">Still need help?</span>
+            <span className="text-[10px] text-white/45">Our support agents are available 24/7.</span>
+          </div>
+          <button 
+            onClick={() => {
+              setActiveModal('report');
+            }} 
+            className="px-4 h-[32px] rounded-[16px] bg-[#ff5a1a] hover:bg-[#ff6b2d] active:scale-95 transition-all text-white font-semibold text-[11px] shrink-0"
+          >
+            Ask Us
+          </button>
+        </div>
+
+        <button onClick={() => { setExpandedFaq(null); setActiveModal(null); }} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-white/5 border border-white/10 text-white/55 font-medium text-[14px]">
           Close
         </button>
       </BottomSheet>
@@ -459,6 +536,61 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
         </button>
         <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-white/5 border border-white/10 text-white/55 font-medium text-[14px]">
           No, keep my account
+        </button>
+      </BottomSheet>
+
+      {/* ABOUT MODAL */}
+      <BottomSheet 
+        visible={activeModal === 'about'} 
+        onClose={() => setActiveModal(null)}
+        title="About Mystify" 
+        subtitle="Learn more about our mission and privacy protection."
+      >
+        <div className="mx-4 mb-[14px] flex flex-col items-center text-center p-4 bg-[#111] rounded-[12px] border border-white/5">
+          <div className="w-[48px] h-[48px] rounded-[12px] bg-gradient-to-br from-[#ff5a1a] to-[#9f7fda] flex items-center justify-center shadow-lg mb-3">
+            <span className="text-[20px] font-black text-white tracking-widest">M</span>
+          </div>
+          <span className="text-[14px] font-bold text-white mb-1">Mystify</span>
+          <span className="text-[11px] text-white/35 mb-3">Version 2.4.1 (Stable)</span>
+          <p className="text-[11px] text-white/60 leading-relaxed max-w-[260px]">
+            Mystify is a canvas for authentic expressions. Share mood-synced thoughts, reply contextually to others, and connect under your handle or in full anonymity.
+          </p>
+        </div>
+
+        <div className="mx-4 mb-[14px] bg-[#111] rounded-[12px] overflow-hidden border border-white/5">
+          <div className="p-[12px_14px] border-b border-white/5 flex items-center gap-3">
+            <div className="w-[24px] h-[24px] rounded-[6px] bg-white/[0.06] flex items-center justify-center shrink-0">
+              <Shield size={12} className="text-[#7edaba]" />
+            </div>
+            <div className="flex-1 flex flex-col">
+              <span className="text-[12px] font-semibold text-white">Privacy Policy</span>
+              <span className="text-[10px] text-white/35 mt-0.5">Your data is safe and protected.</span>
+            </div>
+          </div>
+          <div className="p-[12px_14px] flex flex-col gap-3 max-h-[160px] overflow-y-auto [scrollbar-width:none]">
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-semibold text-white/85">1. Anonymity Integrity</span>
+              <p className="text-[10px] text-white/50 leading-relaxed">
+                When you post anonymously, your username is stripped away and replaced with 'Anonymous'. We do not track or link this back to your profile in the public feed.
+              </p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-semibold text-white/85">2. Minimal Storage</span>
+              <p className="text-[10px] text-white/50 leading-relaxed">
+                We only store key information required for account verification (your phone number) and to display your feed. We never sell your personal information.
+              </p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-semibold text-white/85">3. Complete User Control</span>
+              <p className="text-[10px] text-white/50 leading-relaxed">
+                You have absolute control over your digital footprint. Deactivate or delete your account at any time right from settings to remove all data permanently.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-white/5 border border-white/10 text-white/55 font-medium text-[14px]">
+          Close
         </button>
       </BottomSheet>
 
