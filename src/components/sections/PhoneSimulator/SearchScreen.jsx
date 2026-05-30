@@ -244,18 +244,24 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
               {[
                 { id: 's1', name: 'Meera Talwar', handle: '@meera_t', followers: '1.1K' },
                 { id: 's2', name: 'Rohan Desai', handle: '@rohan_d', followers: '678' }
-              ].map(item => (
-                <div key={item.id} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)]">
-                  <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-blue-500/30 to-green-500/30 border border-white/5" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.handle}</p>
-                    <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
+              ].map(item => {
+                const isFollowing = followedUsers.has(item.id);
+                return (
+                  <div key={item.id} onClick={() => onUserSelect && onUserSelect(item.handle.replace('@', ''))} className="flex items-center gap-[9px] py-2 px-3 border-b border-[rgba(255,255,255,0.05)] cursor-pointer hover:bg-white/5 transition-colors">
+                    <div className="w-[36px] h-[36px] rounded-full shrink-0 bg-gradient-to-tr from-blue-500/30 to-green-500/30 border border-white/5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[12px] font-medium text-white mb-[1px] truncate">{item.handle}</p>
+                      <p className="text-[10px] text-white/35 truncate">{item.name} • {item.followers} followers</p>
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onFollowToggle && onFollowToggle(item.id); }}
+                      className={`px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 ${isFollowing ? 'bg-transparent text-white/50 border border-white/15' : 'bg-[#FF4500] text-white border border-[#FF4500]'}`}
+                    >
+                      {isFollowing ? 'Following' : 'Follow'}
+                    </button>
                   </div>
-                  <button className="px-[12px] py-[4px] rounded-[20px] text-[10px] font-medium transition-colors shrink-0 bg-[#FF4500] text-white border border-[#FF4500]">
-                    Follow
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

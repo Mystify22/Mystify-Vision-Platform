@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
 import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, audiences, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
@@ -6,11 +6,25 @@ import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak }) => {
+const suggestionPool = [
+  { id: 's1_s', name: 'Lofi Girl', handle: 'lofi_girl', followers: '15.4K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png' },
+  { id: 's2_s', name: 'Chill Coder', handle: 'chill_coder', followers: '8.2K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png' },
+  { id: 's3_s', name: 'Mystik Creator', handle: 'mystik_creator', followers: '12.1K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png' },
+  { id: 's4_s', name: 'Code Ninja', handle: 'code_ninja', followers: '24.5K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png' },
+  { id: 's5_s', name: 'Sarah Vibes', handle: 'sarah_vibes', followers: '6.7K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png' },
+  { id: 's6_s', name: 'Otaku Warrior', handle: 'otaku_warrior', followers: '11.8K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png' }
+];
+
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const streakDays = 30;
+
+  useEffect(() => {
+    setShowSuggestions(false);
+  }, [username]);
 
   const isOwnProfile = userProfileData && username === userProfileData.username;
   const profileTabs = isOwnProfile ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];
@@ -131,7 +145,15 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             </button>
           ) : (
             <button
-              onClick={() => onFollowToggle && onFollowToggle(userProfile?.id)}
+              onClick={() => {
+                const nextFollowing = !isFollowing;
+                onFollowToggle && onFollowToggle(userProfile?.id);
+                if (nextFollowing) {
+                  setShowSuggestions(true);
+                } else {
+                  setShowSuggestions(false);
+                }
+              }}
               className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${isFollowing
                   ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]'
                   : 'bg-[#FF4500] hover:bg-[#ff5722]'
@@ -189,6 +211,66 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {showSuggestions && !isOwnProfile && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden bg-[#111] border-[#1e1e1e] border-t border-b mb-[18px] shrink-0"
+          >
+            <div className="p-3.5 flex flex-col gap-2">
+              <div className="flex justify-between items-center px-1">
+                <span className="text-[9px] font-semibold text-white/40 uppercase tracking-[0.05em]">Suggested for you</span>
+                <button 
+                  onClick={() => setShowSuggestions(false)}
+                  className="text-white/30 hover:text-white/60 p-0.5"
+                >
+                  <X size={10} />
+                </button>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {suggestionPool
+                  .filter(suggestedUser => suggestedUser.id !== userProfile?.id)
+                  .map(suggestedUser => {
+                    const isSuggestedFollowing = followedUsers?.has(suggestedUser.id);
+                    return (
+                      <div 
+                        key={suggestedUser.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onNavigateToProfile && onNavigateToProfile(suggestedUser.handle);
+                        }}
+                        className="w-[105px] bg-[#16161c] border border-[rgba(255,255,255,0.05)] rounded-[10px] p-2 flex flex-col items-center text-center shrink-0 cursor-pointer hover:border-white/10 active:scale-95 transition-all"
+                      >
+                        <div className="relative mb-1.5">
+                          <img src={suggestedUser.avatarImage} alt={suggestedUser.name} className="w-[38px] h-[38px] rounded-full object-cover border border-white/5" />
+                        </div>
+                        <p className="text-[10px] font-bold text-white truncate w-full">@{suggestedUser.handle}</p>
+                        <p className="text-[8px] text-white/35 truncate w-full mb-2">{suggestedUser.followers} followers</p>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onFollowToggle && onFollowToggle(suggestedUser.id);
+                          }}
+                          className={`w-full py-1 rounded-[12px] text-[8px] font-bold transition-all ${
+                            isSuggestedFollowing
+                              ? 'bg-transparent text-white/40 border border-white/10'
+                              : 'bg-[#FF4500] text-white border border-[#FF4500] hover:bg-[#ff5d1f]'
+                          }`}
+                        >
+                          {isSuggestedFollowing ? 'Following' : 'Follow'}
+                        </button>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 6. STICKY TABS BAR */}
       <div className="sticky top-0 z-30 bg-[#0a0a0a] border-b border-[#141414] flex px-2 shrink-0">

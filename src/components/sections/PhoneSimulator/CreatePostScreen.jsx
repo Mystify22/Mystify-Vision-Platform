@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
+import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
 import { vibeData, vibeCategories, musicData, musicCategories, moods, moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems, mockConversationsData, moodColors } from './MockData';
 
 const AVAILABLE_MOODS = [
@@ -45,18 +45,10 @@ const CreatePostScreen = ({
   const [showPreviewTags, setShowPreviewTags] = React.useState(false);
   const editorRef = React.useRef(null);
 
-  const [moodSearchQuery, setMoodSearchQuery] = React.useState('');
-
   const allPossibleMoods = Array.from(new Set([
     ...moods,
     ...AVAILABLE_MOODS
   ]));
-
-  const filteredMoods = moodSearchQuery.trim() === ''
-    ? moods
-    : allPossibleMoods.filter(mood =>
-      mood.toLowerCase().includes(moodSearchQuery.trim().toLowerCase())
-    );
 
   const stripHtml = (html) => {
     if (typeof document === 'undefined') return '';
@@ -130,53 +122,29 @@ const CreatePostScreen = ({
         <div className="px-4 pt-[10px] flex flex-col gap-2 shrink-0">
           {/* Row 1: Suggested Tags */}
           <div className="flex gap-[6px] overflow-x-auto [scrollbar-width:none] py-1 items-center w-full">
-            {filteredMoods.length > 0 ? (
-              filteredMoods.map(mood => {
-                const isSelected = selectedMoods.includes(mood);
-                const style = getMoodStyle(mood, moodStyles);
-                const borderStyle = style.customBorder || style.border;
-                return (
-                  <button
-                    key={mood}
-                    onClick={() => setSelectedMoods(prev => prev.includes(mood) ? prev.filter(m => m !== mood) : [...prev, mood])}
-                    className="px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium shrink-0 transition-all duration-200 cursor-pointer"
-                    style={isSelected ? {
-                      backgroundColor: 'rgba(255,255,255,0.08)',
-                      color: '#ffffff',
-                      border: '1px solid rgba(255,255,255,0.2)'
-                    } : {
-                      backgroundColor: 'transparent',
-                      color: style.color,
-                      border: `1px solid ${borderStyle}`
-                    }}
-                  >
-                    {mood}
-                  </button>
-                );
-              })
-            ) : (
-              <span className="text-[11px] text-white/30 italic px-2 py-0.5 whitespace-nowrap shrink-0">No tags found</span>
-            )}
-          </div>
-
-          {/* Row 2: Permanent Search Bar */}
-          <div className="flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md shadow-inner rounded-[20px] px-3 py-1 h-[29px] w-full">
-            <Search size={12} className="text-white/40 shrink-0" />
-            <input
-              type="text"
-              placeholder="Search mood tags..."
-              value={moodSearchQuery}
-              onChange={(e) => setMoodSearchQuery(e.target.value)}
-              className="bg-transparent border-none outline-none text-[12px] text-white placeholder-white/30 flex-1 p-0 focus:ring-0 focus:outline-none min-w-0"
-            />
-            {moodSearchQuery && (
-              <button
-                onClick={() => setMoodSearchQuery('')}
-                className="text-white/40 hover:text-white/70 p-0 bg-transparent border-none focus:outline-none cursor-pointer flex items-center justify-center shrink-0"
-              >
-                <X size={12} />
-              </button>
-            )}
+            {allPossibleMoods.map(mood => {
+              const isSelected = selectedMoods.includes(mood);
+              const style = getMoodStyle(mood, moodStyles);
+              const borderStyle = style.customBorder || style.border;
+              return (
+                <button
+                  key={mood}
+                  onClick={() => setSelectedMoods(prev => prev.includes(mood) ? prev.filter(m => m !== mood) : [...prev, mood])}
+                  className="px-[12px] py-[5px] rounded-[20px] text-[11px] font-medium shrink-0 transition-all duration-200 cursor-pointer"
+                  style={isSelected ? {
+                    backgroundColor: 'rgba(255,255,255,0.08)',
+                    color: '#ffffff',
+                    border: '1px solid rgba(255,255,255,0.2)'
+                  } : {
+                    backgroundColor: 'transparent',
+                    color: style.color,
+                    border: `1px solid ${borderStyle}`
+                  }}
+                >
+                  {mood}
+                </button>
+              );
+            })}
           </div>
         </div>
 

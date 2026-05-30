@@ -239,6 +239,9 @@ const PhoneSimulator = () => {
                 onFollowToggle={handleFollowToggle}
                 onOpenSettings={() => setStep(9)}
                 onOpenStreak={() => setStep(10)}
+                onNavigateToProfile={(username) => {
+                  setSelectedProfileUsername(username);
+                }}
               />
             )}
             {step === 6 && (
