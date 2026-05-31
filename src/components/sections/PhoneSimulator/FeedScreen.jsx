@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle } from 'lucide-react';
+import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash } from 'lucide-react';
 import { initialHeroReels, mockNotifications } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
@@ -325,16 +325,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                         e.stopPropagation();
                         setShowTagsForReelIdx(showTagsForReelIdx === i ? null : i);
                       }}
-                      className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/30 hover:bg-white/20 active:scale-95 transition-all pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/20 shrink-0 cursor-pointer"
-                    >
-                      <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
-                        <Sparkles size={7} className="text-white" strokeWidth={3} />
-                      </div>
-                      <span className="mt-[1px]">Vibes</span>
-                      {(reel.tags && reel.tags.length > 1) && (
-                        <span className="ml-1 text-[7px] bg-[#FF4500] text-white px-1.5 py-[0.5px] rounded-full font-black tracking-normal shadow-sm">+{reel.tags.length - 1}</span>
-                      )}
-                    </button>
+                      className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_6px_rgba(239,68,68,0.7)] hover:scale-125 transition-all cursor-pointer pointer-events-auto shrink-0 border border-white/20"
+                    />
 
                     <AnimatePresence>
                       {showTagsForReelIdx === i && (
@@ -343,7 +335,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.9, y: 10 }}
                           transition={{ type: "spring", damping: 15, stiffness: 200 }}
-                          className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
+                          className="absolute bottom-8 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {(reel.tags || [reel.type]).map((tag, tIdx) => (
@@ -685,8 +677,6 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                   >
                     <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.bgImage}')` }} />
                     <div className="absolute inset-0 bg-black/40" />
-                    
-
 
                     <div className="absolute inset-x-0 bottom-3 px-3 flex flex-col items-start z-10 w-[85%] gap-2 pointer-events-none">
                       <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3 sm:p-3.5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-full relative overflow-visible pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
@@ -698,16 +688,8 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                               e.stopPropagation();
                               setShowTagsForFeedIdx(showTagsForFeedIdx === idx ? null : idx);
                             }}
-                            className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/30 hover:bg-white/20 active:scale-95 transition-all pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/20 shrink-0 cursor-pointer"
-                          >
-                            <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
-                              <Sparkles size={7} className="text-white" strokeWidth={3} />
-                            </div>
-                            <span className="mt-[1px]">Vibes</span>
-                            {(reel.tags && reel.tags.length > 1) && (
-                              <span className="ml-1 text-[7px] bg-[#FF4500] text-white px-1.5 py-[0.5px] rounded-full font-black tracking-normal shadow-sm">+{reel.tags.length - 1}</span>
-                            )}
-                          </button>
+                            className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_6px_rgba(239,68,68,0.7)] hover:scale-125 transition-all cursor-pointer pointer-events-auto shrink-0 border border-white/20"
+                          />
 
                           <AnimatePresence>
                             {showTagsForFeedIdx === idx && (
@@ -716,7 +698,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 10 }}
                                 transition={{ type: "spring", damping: 15, stiffness: 200 }}
-                                className="absolute bottom-7 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
+                                className="absolute bottom-8 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 {(reel.tags || [reel.type]).map((tag, tIdx) => (
