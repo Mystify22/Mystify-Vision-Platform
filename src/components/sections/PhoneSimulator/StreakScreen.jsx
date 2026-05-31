@@ -1,31 +1,87 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { mockResultsRiya } from './MockData';
+import { mockResultsRiya, RANDOM_AVATARS } from './MockData';
 import coverImage from '../../../assets/cover.png';
+
+
+const getStableAvatar = (username) => {
+  if (!username) return RANDOM_AVATARS[0];
+  let hash = 0;
+  for (let i = 0; i < username.length; i++) {
+    hash = username.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % RANDOM_AVATARS.length;
+  return RANDOM_AVATARS[index];
+};
 
 const mockData = {
   global: [
-    { rank: 1, symbol: '◎', username: 'void_echo', points: '18,450', streak: '90', isMe: false, crown: '#f5c842' },
-    { rank: 2, symbol: '❋', username: 'soul_query', points: '14,200', streak: '60', isMe: false, crown: '#b0b0b0' },
-    { rank: 3, symbol: '☽', username: 'mind_drift', points: '11,880', streak: '60', isMe: false, crown: '#c87941' },
-    { rank: 4, symbol: '✴', username: 'dark_note', points: '9,340', streak: '30', isMe: false, crown: null },
-    { rank: 5, symbol: '⚝', username: 'lost_voice', points: '7,100', streak: '30', isMe: false, crown: null },
-  ],
-  week: [
-    { rank: 1, symbol: '⚛', username: 'anon_wave', points: '420', streak: '7', isMe: false, crown: '#f5c842' },
-    { rank: 2, symbol: '☯', username: 'night_pen', points: '385', streak: '7', isMe: false, crown: '#b0b0b0' },
-    { rank: 3, symbol: '◈', username: 'deep_ask', points: '310', streak: '5', isMe: false, crown: '#c87941' },
-    { rank: 4, symbol: '❧', username: 'void_echo', points: '290', streak: '7', isMe: false, crown: null },
+    { rank: 1, username: 'void_echo', points: '18,450', streak: '90', isMe: false },
+    { rank: 2, username: 'soul_query', points: '14,200', streak: '60', isMe: false },
+    { rank: 3, username: 'mind_drift', points: '11,880', streak: '60', isMe: false },
+    { rank: 4, username: 'dark_note', points: '9,340', streak: '30', isMe: false },
+    { rank: 5, username: 'lost_voice', points: '7,100', streak: '30', isMe: false },
   ],
   following: [
-    { rank: 1, symbol: '❋', username: 'soul_query', points: '14,200', streak: '60', isMe: false, crown: '#f5c842' },
-    { rank: 2, symbol: '☽', username: 'mind_drift', points: '11,880', streak: '60', isMe: false, crown: '#b0b0b0' },
+    { rank: 1, username: 'soul_query', points: '14,200', streak: '60', isMe: false },
+    { rank: 2, username: 'mind_drift', points: '11,880', streak: '60', isMe: false },
   ]
 };
 
 const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", userProfileData }) => {
   const [activeSegment, setActiveSegment] = useState(isOwnProfile ? 'streak' : 'leaderboard');
   const [lbFilter, setLbFilter] = useState('global');
+
+  const [selectedMonth, setSelectedMonth] = useState(new Date(2026, 4, 1)); // May 2026
+
+  const handlePrevMonth = () => {
+    setSelectedMonth(prev => {
+      const d = new Date(prev);
+      d.setMonth(d.getMonth() - 1);
+      return d;
+    });
+  };
+
+  const handleNextMonth = () => {
+    setSelectedMonth(prev => {
+      const d = new Date(prev);
+      d.setMonth(d.getMonth() + 1);
+      if (d.getFullYear() > 2026 || (d.getFullYear() === 2026 && d.getMonth() > 4)) {
+        return prev;
+      }
+      return d;
+    });
+  };
+
+  const isDayCompleted = (dYear, dMonth, dayNum) => {
+    if (dYear === 2026 && dMonth === 4) {
+      return dayNum >= 17 && dayNum <= 31;
+    }
+    if (dYear === 2026 && dMonth === 3) {
+      return dayNum >= 5 && dayNum <= 24;
+    }
+    if (dYear === 2026 && dMonth === 2) {
+      return dayNum >= 10 && dayNum <= 28;
+    }
+    return false;
+  };
+
+  const isToday = (dYear, dMonth, dayNum) => {
+    return dYear === 2026 && dMonth === 4 && dayNum === 31;
+  };
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+
+  const year = selectedMonth.getFullYear();
+  const month = selectedMonth.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7;
+  const formattedMonthYear = `${monthNames[month]} ${year}`;
 
   const userProfile = mockResultsRiya?.find(u => u.handle === username || u.handle === `@${username}`);
   const displayCover = userProfile?.coverImage || coverImage;
@@ -83,88 +139,135 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {/* FLAME HERO CARD */}
-              <div className="bg-[#141418] border border-white/[0.07] rounded-[20px] p-5 mb-3">
-                <div className="flex flex-row justify-between items-center mb-[18px]">
-                  <div className="flex flex-row gap-[10px] items-center">
-                    <i className="ti ti-flame text-[#ff5a1a] text-[36px]"></i>
-                    <div className="flex flex-col">
-                      <span className="text-[#ff5a1a] text-[44px] font-bold leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>15</span>
-                      <span className="text-[12px] font-medium text-white/60" style={{ fontFamily: "'DM Sans', sans-serif" }}>day streak</span>
-                      <span className="text-[10px] text-white/30 mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Best: 30 days</span>
-                    </div>
+              {/* SLICK PREMIUM HERO CARD */}
+              <div className="bg-[#111115] border border-white/[0.04] rounded-[24px] p-6 mb-4 relative overflow-hidden flex flex-row items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-white/30 uppercase tracking-widest font-semibold mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Current Streak</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-[32px] font-bold text-white leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>15</span>
+                    <span className="text-[13px] font-medium text-white/50" style={{ fontFamily: "'DM Sans', sans-serif" }}>days</span>
+                    <i className="ti ti-flame text-[#ff5a1a] text-[18px] ml-1 animate-pulse"></i>
                   </div>
-                  <div className="bg-[#ff5a1a]/[0.12] border border-[#ff5a1a]/25 rounded-[20px] py-1.5 px-3 text-right">
-                    <div className="text-[#ff5a1a] text-[18px] font-semibold" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000</div>
-                    <div className="text-[#ff5a1a]/60 text-[9px] mt-[1px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>total pts</div>
+                  <span className="text-[10px] text-white/30 mt-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Personal Best: 30 days</span>
+                </div>
+
+                <div className="flex flex-col items-end">
+                  <span className="text-[10px] text-white/30 uppercase tracking-widest font-semibold mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Total Points</span>
+                  <span className="text-[28px] font-bold text-[#ff5a1a] leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000</span>
+                  <span className="text-[9px] text-[#ff5a1a]/60 font-semibold uppercase mt-1 tracking-wider" style={{ fontFamily: "'DM Sans', sans-serif" }}>pts earned</span>
+                </div>
+              </div>
+
+              {/* DYNAMIC MONTHLY CALENDAR GRID */}
+              <div className="bg-[#111115] border border-white/[0.04] rounded-[24px] p-5 mb-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                {/* CALENDAR HEADER */}
+                <div className="flex flex-row justify-between items-center mb-4 px-1">
+                  <span className="text-[12px] font-semibold text-white/80 uppercase tracking-wider" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    {formattedMonthYear}
+                  </span>
+                  <div className="flex flex-row gap-2">
+                    <button 
+                      onClick={handlePrevMonth} 
+                      className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center cursor-pointer hover:bg-white/[0.1] transition-colors"
+                    >
+                      <i className="ti ti-chevron-left text-[11px] text-white/70"></i>
+                    </button>
+                    <button 
+                      onClick={handleNextMonth} 
+                      disabled={year === 2026 && month === 4}
+                      className={`w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center transition-colors ${
+                        year === 2026 && month === 4 
+                          ? 'opacity-30 cursor-not-allowed' 
+                          : 'cursor-pointer hover:bg-white/[0.1]'
+                      }`}
+                    >
+                      <i className="ti ti-chevron-right text-[11px] text-white/70"></i>
+                    </button>
                   </div>
                 </div>
 
-                {/* CYCLE PROGRESS */}
-                <div className="flex flex-row justify-between mb-1">
-                  <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>30-day cycle progress</span>
-                  <span className="text-[10px] text-[#ff5a1a] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>15 / 30 — Halfway there!</span>
-                </div>
-                <div className="h-[6px] bg-white/[0.07] rounded-[4px] overflow-hidden mb-[10px]">
-                  <motion.div
-                    initial={{ width: "0%" }}
-                    animate={{ width: "50%" }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className="h-full bg-[#ff5a1a] rounded-[4px]"
-                  />
+                {/* WEEKDAY LABELS */}
+                <div className="grid grid-cols-7 gap-1 text-center mb-3">
+                  {weekDays.map(wd => (
+                    <span key={wd} className="text-[9px] font-semibold text-white/20 uppercase tracking-widest" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      {wd}
+                    </span>
+                  ))}
                 </div>
 
-                {/* MONTH DOT GRID */}
-                <div className="grid grid-cols-6 gap-y-3 gap-x-2 mt-[12px]">
-                  {Array.from({ length: 30 }).map((_, idx) => {
-                    const isDone = idx < 15;
-                    const isToday = idx === 15;
+                {/* DAYS GRID */}
+                <div className="grid grid-cols-7 gap-y-2.5 gap-x-1">
+                  {/* Empty offset cells for starting day alignment */}
+                  {Array.from({ length: firstDayIndex }).map((_, idx) => (
+                    <div key={`empty-${idx}`} className="w-[32px] h-[32px]" />
+                  ))}
+
+                  {/* Calendar day cells */}
+                  {Array.from({ length: daysInMonth }).map((_, idx) => {
+                    const dayNum = idx + 1;
+                    const completed = isDayCompleted(year, month, dayNum);
+                    const today = isToday(year, month, dayNum);
+
                     return (
-                      <div key={idx} className="flex flex-col items-center gap-1">
-                        <span className="text-[9px] text-white/25" style={{ fontFamily: "'DM Sans', sans-serif" }}>{idx + 1}</span>
-                        <div className={`w-[32px] h-[32px] rounded-full flex items-center justify-center ${isDone ? 'bg-[#ff5a1a]' : isToday ? 'bg-[#ff5a1a]/[0.15] border-[1.5px] border-[#ff5a1a]' : 'bg-white/[0.05] border border-white/[0.09]'
-                          }`}>
-                          {isDone && <span className="text-[16px]">🥷🏻</span>}
-                        </div>
+                      <div key={dayNum} className="flex flex-col items-center justify-center">
+                        {completed ? (
+                          <div className="w-[32px] h-[32px] rounded-full bg-[#ff5a1a] flex items-center justify-center relative shadow-[0_2px_8px_rgba(255,90,26,0.3)]">
+                            <span className="text-white text-[10px] font-bold" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                              {dayNum}
+                            </span>
+                          </div>
+                        ) : today ? (
+                          <div className="w-[32px] h-[32px] rounded-full border-[1.5px] border-[#ff5a1a] bg-[#ff5a1a]/[0.1] flex items-center justify-center">
+                            <span className="text-[#ff5a1a] text-[10px] font-bold animate-pulse" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                              {dayNum}
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="w-[32px] h-[32px] flex items-center justify-center">
+                            <span className="text-white/35 text-[10px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                              {dayNum}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-
-
-              <div className="text-[9px] font-medium tracking-[0.09em] uppercase text-white/[0.22] mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>How it works</div>
-
-              {/* HOW IT WORKS CARD */}
-              <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] p-[14px] mb-3">
-                <div className="flex flex-row gap-[10px] items-start border-b border-white/[0.06] pb-[11px] mb-[11px]">
-                  <div className="w-[28px] h-[28px] rounded-[8px] bg-[#ff5a1a]/[0.12] flex items-center justify-center shrink-0">
-                    <i className="ti ti-flame text-[#ff5a1a] text-[16px]"></i>
+              {/* HOW IT WORKS SECTION */}
+              <div className="mt-5 mb-3 px-1">
+                <div className="text-[9px] font-semibold tracking-[0.12em] uppercase text-white/30 mb-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>How it works</div>
+                
+                <div className="space-y-4">
+                  <div className="flex gap-3.5 items-start">
+                    <div className="w-[22px] h-[22px] rounded-full bg-white/[0.04] border border-white/[0.07] flex items-center justify-center shrink-0 mt-0.5">
+                      <i className="ti ti-flame text-[#ff5a1a] text-[11px]"></i>
+                    </div>
+                    <div>
+                      <h4 className="text-[11px] font-bold text-white/90" style={{ fontFamily: "'DM Sans', sans-serif" }}>Post once every day</h4>
+                      <p className="text-[10px] text-white/40 leading-relaxed mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>One post before midnight keeps your streak burning. Skipping a day resets the count — your points stay safe.</p>
+                    </div>
                   </div>
-                  <div className="flex flex-col pt-0.5">
-                    <span className="text-[11px] font-medium text-white mb-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Post once every day</span>
-                    <span className="text-[10px] text-white/[0.35] leading-[1.45]" style={{ fontFamily: "'DM Sans', sans-serif" }}>One post before midnight keeps your streak alive. Skipping a day resets the count — your points stay.</span>
-                  </div>
-                </div>
 
-                <div className="flex flex-row gap-[10px] items-start border-b border-white/[0.06] pb-[11px] mb-[11px]">
-                  <div className="w-[28px] h-[28px] rounded-[8px] bg-[#7fda9f]/10 flex items-center justify-center shrink-0">
-                    <i className="ti ti-circle-check text-[#7fda9f]/85 text-[16px]"></i>
+                  <div className="flex gap-3.5 items-start">
+                    <div className="w-[22px] h-[22px] rounded-full bg-white/[0.04] border border-white/[0.07] flex items-center justify-center shrink-0 mt-0.5">
+                      <i className="ti ti-circle-check text-white/60 text-[11px]"></i>
+                    </div>
+                    <div>
+                      <h4 className="text-[11px] font-bold text-white/90" style={{ fontFamily: "'DM Sans', sans-serif" }}>Complete a 30-day cycle</h4>
+                      <p className="text-[10px] text-white/40 leading-relaxed mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Hit 30 consecutive days and earn a 500 pt bonus. The cycle resets and starts fresh automatically.</p>
+                    </div>
                   </div>
-                  <div className="flex flex-col pt-0.5">
-                    <span className="text-[11px] font-medium text-white mb-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Complete a 30-day cycle</span>
-                    <span className="text-[10px] text-white/[0.35] leading-[1.45]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Hit 30 consecutive days and earn a 500 pt bonus. The cycle resets and starts fresh automatically.</span>
-                  </div>
-                </div>
 
-                <div className="flex flex-row gap-[10px] items-start">
-                  <div className="w-[28px] h-[28px] rounded-[8px] bg-[#dab87f]/10 flex items-center justify-center shrink-0">
-                    <i className="ti ti-message-circle text-[#dab87f]/85 text-[16px]"></i>
-                  </div>
-                  <div className="flex flex-col pt-0.5">
-                    <span className="text-[11px] font-medium text-white mb-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Reply to earn points</span>
-                    <span className="text-[10px] text-white/[0.35] leading-[1.45]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Every reply you give earns +3 pts. When someone replies to your post, +1 more. Points compound your rank.</span>
+                  <div className="flex gap-3.5 items-start">
+                    <div className="w-[22px] h-[22px] rounded-full bg-white/[0.04] border border-white/[0.07] flex items-center justify-center shrink-0 mt-0.5">
+                      <i className="ti ti-message-circle text-white/60 text-[11px]"></i>
+                    </div>
+                    <div>
+                      <h4 className="text-[11px] font-bold text-white/90" style={{ fontFamily: "'DM Sans', sans-serif" }}>Reply to earn points</h4>
+                      <p className="text-[10px] text-white/40 leading-relaxed mt-0.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Every reply you give earns +3 pts. When someone replies to your post, +1 more. Points compound your rank.</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -282,13 +385,15 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
               {isOwnProfile ? (
                 <div className="flex flex-row items-center gap-[10px] bg-[#ff5a1a]/[0.07] border border-[#ff5a1a]/20 rounded-[14px] p-[11px_13px] mb-[10px]">
                   <div className="text-[18px] font-bold text-[#ff5a1a] min-w-[30px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>#43</div>
-                  <div className="w-[36px] h-[36px] rounded-full bg-[#1a1a28] border-[1.5px] border-[#ff5a1a] flex items-center justify-center shrink-0">
-                    <span className="text-white text-[17px]">✦</span>
+                  <div className="w-[36px] h-[36px] rounded-full bg-[#1a1a28] border-[1.5px] border-[#ff5a1a] flex items-center justify-center shrink-0 overflow-hidden">
+                    {myAvatarValue?.startsWith('http')
+                      ? <img src={myAvatarValue} alt="you" className="w-full h-full object-cover" />
+                      : <span className="text-white text-[17px]">{myAvatarValue || '✦'}</span>
+                    }
                   </div>
                   <div className="flex-1 flex flex-col">
                     <div className="flex flex-row items-center gap-1.5">
                       <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{username}</span>
-                      <span className="bg-[#ff5a1a]/[0.15] text-[#ff5a1a] text-[8px] px-1.5 py-[2px] rounded-[8px]" style={{ fontFamily: "'DM Sans', sans-serif" }}>You</span>
                     </div>
                     <div className="flex flex-row items-center gap-1 mt-0.5">
                       <span className="text-[10px] text-white/[0.35]" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000 pts · </span>
@@ -397,7 +502,7 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
                 <>
                   {/* FILTER PILLS */}
                   <div className="flex flex-row gap-1.5 mb-[10px]">
-                    {['global', 'week', 'following'].map(filter => (
+                    {['global', 'following'].map(filter => (
                       <button
                         key={filter}
                         onClick={() => setLbFilter(filter)}
@@ -405,7 +510,7 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
                           }`}
                         style={{ fontFamily: "'DM Sans', sans-serif" }}
                       >
-                        {filter === 'week' ? 'This week' : filter}
+                        {filter}
                       </button>
                     ))}
                   </div>
@@ -418,14 +523,19 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
                           <div className={`flex flex-row items-center gap-[10px] p-[9px_12px] rounded-[11px] mb-[5px] border ${item.isMe ? 'bg-[#ff5a1a]/[0.05] border-[#ff5a1a]/[0.22]' : 'bg-[#141418] border-white/[0.06]'
                             }`}>
                             <div className={`text-[12px] min-w-[22px] text-center ${item.isMe ? 'text-[#ff5a1a] font-semibold' : 'text-white/30 font-medium'}`} style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                              {item.crown ? <i className="ti ti-crown" style={{ color: item.crown, fontSize: '14px' }}></i> : item.rank}
+                              {item.rank}
                             </div>
-                            <div className="w-[30px] h-[30px] rounded-full bg-[#1a1a28] border border-white/10 flex items-center justify-center shrink-0">
-                              <span className="text-white text-[14px]">{item.symbol}</span>
+                            <div className="w-[30px] h-[30px] rounded-full bg-[#1a1a28] border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                              {item.isMe ? (
+                                myAvatarValue?.startsWith('http')
+                                  ? <img src={myAvatarValue} alt="you" className="w-full h-full object-cover" />
+                                  : <span className="text-white text-[14px]">{myAvatarValue || '✦'}</span>
+                              ) : (
+                                <img src={getStableAvatar(item.username)} alt={item.username} className="w-full h-full object-cover" />
+                              )}
                             </div>
                             <div className="flex-1 flex flex-row items-center">
                               <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.username}</span>
-                              {item.isMe && <span className="text-[9px] text-[#ff5a1a] ml-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>you</span>}
                             </div>
                             <div className="text-right flex flex-col">
                               <span className="text-[12px] font-medium text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.points}</span>

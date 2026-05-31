@@ -460,3 +460,32 @@ export const mockNotifications = [
   }
 ];
 
+export const RANDOM_AVATARS = [
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672802/mystify/avatar/monx/andlhzujd2pqp2aodc2t.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677371/mystify/avatar/peeps/imir0hqmtwelttlqtu79.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672715/mystify/avatar/monx/uzaezuofgjpgilodhacv.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675662/mystify/avatar/mimo/rrg53863czv8cutzzfwd.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677784/mystify/avatar/toons/ydhjko6zbxptjq6nuvyb.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678511/mystify/avatar/emoji/wbxiyhnocj9tsuafp0tj.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675605/mystify/avatar/mimo/dmhylycaf9j52zj1139p.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677353/mystify/avatar/peeps/qg2v19nuk2ywez1je2vh.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672596/mystify/avatar/monx/skhzlrtushx96cgyrxpg.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672793/mystify/avatar/monx/p7u3prwwskqwgdrf6yhn.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png"
+];
+
+
