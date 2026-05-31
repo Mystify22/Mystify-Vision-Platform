@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
+import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash, Tag } from 'lucide-react';
 import { moods, moodStyles } from './MockData';
 
 const AVAILABLE_MOODS = [
@@ -252,16 +252,8 @@ const CreatePostScreen = ({
                         e.stopPropagation();
                         setShowPreviewTags(!showPreviewTags);
                       }}
-                      className="text-white/90 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 bg-black/30 hover:bg-white/20 active:scale-95 transition-all pr-2.5 pl-1.5 py-[3px] rounded-full shadow-inner border border-white/20 shrink-0 cursor-pointer"
-                    >
-                      <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm shadow-sm">
-                        <Sparkles size={8} className="text-white" strokeWidth={3} />
-                      </div>
-                      <span className="mt-[1px] text-[8px]">Vibes</span>
-                      {selectedMoods.length > 1 && (
-                        <span className="ml-1 text-[7px] bg-[#FF4500] text-white px-1.5 py-[0.5px] rounded-full font-black tracking-normal shadow-sm">+{selectedMoods.length - 1}</span>
-                      )}
-                    </button>
+                      className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_6px_rgba(239,68,68,0.7)] hover:scale-125 transition-all cursor-pointer pointer-events-auto shrink-0 border border-white/20"
+                    />
 
                     <AnimatePresence>
                       {showPreviewTags && (
