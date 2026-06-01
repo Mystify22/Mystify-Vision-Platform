@@ -1,135 +1,130 @@
-import user1aImg from '../../../assets/user_1a.png';
-import user2aImg from '../../../assets/user_2a.png';
-import user3aImg from '../../../assets/user_3a.png';
-import user3aCoverImg from '../../../assets/user_3a_cover.jpg';
-import user1aCoverImg from '../../../assets/user_1a_cover.jpg';
-import user2aCoverImg from '../../../assets/user_2a_cover.jpg';
+// MockData.js - Premium mock data for Simulated Phone with custom Cloudinary links
 
 export const vibeData = [
   {
     category: "Nature",
     id: "nature",
     items: [
-      { id: "nature-1", name: "Serene Mountain", bg: "#1e3a5f", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
-      { id: "nature-2", name: "Valley Dusk", bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
-      { id: "nature-3", name: "Misty Forest", bg: "#2a2a1a", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
+      { id: "nature-1", name: "Serene Mountain", bg: "#1e3a5f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_a-cherry-blossom-tree-in-full-bloom_tuivgz.png" },
+      { id: "nature-2", name: "Valley Dusk", bg: "#1a3a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325915/flux1-schnell_a-birds-eye-view-of-a-summer_kasdp3.png" },
+      { id: "nature-3", name: "Misty Forest", bg: "#2a2a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" }
     ],
     extraItems: [
-      { id: "nature-4", name: "Deep Lake", bg: "#152238", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
-      { id: "nature-5", name: "Red Woods", bg: "#4a2e2b", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" },
-      { id: "nature-6", name: "Golden Hour", bg: "#8a5a44", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" }
+      { id: "nature-4", name: "Deep Lake", bg: "#152238", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_a-small-wooden-mailbox-at-the-end_xzxovw.png" },
+      { id: "nature-5", name: "Red Woods", bg: "#4a2e2b", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_an-empty-wooden-swing-set-in-a-park_qs1z5n.png" },
+      { id: "nature-6", name: "Golden Hour", bg: "#8a5a44", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png" }
     ]
   },
   {
     category: "Dark & Moody",
     id: "dark-moody",
     items: [
-      { id: "dark-1", name: "Mystic Aura", bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" },
-      { id: "dark-2", name: "Dark Matter", bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
-      { id: "dark-3", name: "Night Pulse", bg: "#3a1a2a", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" }
+      { id: "dark-1", name: "Mystic Aura", bg: "#2d1b4e", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" },
+      { id: "dark-2", name: "Dark Matter", bg: "#1a1a3a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_an-old-wooden-desk-by-a-rain_ntcpa5.png" },
+      { id: "dark-3", name: "Night Pulse", bg: "#3a1a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" }
     ],
     extraItems: [
-      { id: "dark-4", name: "Obsidian", bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
-      { id: "dark-5", name: "Crimson Night", bg: "#300810", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
-      { id: "dark-6", name: "Void", bg: "#1a1b26", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
+      { id: "dark-4", name: "Obsidian", bg: "#0d0d12", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png" },
+      { id: "dark-5", name: "Crimson Night", bg: "#300810", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png" },
+      { id: "dark-6", name: "Void", bg: "#1a1b26", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png" }
     ]
   },
   {
     category: "Avengers",
     id: "avengers",
     items: [
-      { id: "av-1", name: "Iron Man", bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
-      { id: "av-2", name: "Storm", bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
-      { id: "av-3", name: "Infinity", bg: "#4b0082", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
+      { id: "av-1", name: "Iron Man", bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" },
+      { id: "av-2", name: "Storm", bg: "#1a1a2e", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png" },
+      { id: "av-3", name: "Infinity", bg: "#4b0082", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-male-pilot-with-short-spiky_hgcmhx.png" }
     ],
     extraItems: [
-      { id: "av-4", name: "Shield", bg: "#00008b", img: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=400&q=80&fit=crop" },
-      { id: "av-5", name: "Snap", bg: "#2c2c54", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" },
-      { id: "av-6", name: "Assemble", bg: "#1a0a00", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80&fit=crop" }
+      { id: "av-4", name: "Shield", bg: "#00008b", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png" },
+      { id: "av-5", name: "Snap", bg: "#2c2c54", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325846/flux1-schnell_a-tired-high-school-boy-with-messy_qy3tat.png" },
+      { id: "av-6", name: "Assemble", bg: "#1a0a00", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png" }
     ]
   },
   {
     category: "Harry Potter",
     id: "harry-potter",
     items: [
-      { id: "hp-1", name: "Hogwarts", bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=400&q=80&fit=crop" },
-      { id: "hp-2", name: "Dark Arts", bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" },
-      { id: "hp-3", name: "Magic Library", bg: "#1c0a00", img: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&q=80&fit=crop" }
+      { id: "hp-1", name: "Hogwarts", bg: "#1a1a2e", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png" },
+      { id: "hp-2", name: "Dark Arts", bg: "#2d1b4e", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" },
+      { id: "hp-3", name: "Magic Library", bg: "#1c0a00", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_an-old-wooden-desk-by-a-rain_ntcpa5.png" }
     ],
     extraItems: [
-      { id: "hp-4", name: "Platform 9¾", bg: "#1a2a3a", img: "https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=400&q=80&fit=crop" },
-      { id: "hp-5", name: "Patronus", bg: "#0a1628", img: "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?w=400&q=80&fit=crop" },
-      { id: "hp-6", name: "Forbidden Forest", bg: "#0d1f0d", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" }
+      { id: "hp-4", name: "Platform 9¾", bg: "#1a2a3a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" },
+      { id: "hp-5", name: "Patronus", bg: "#0a1628", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png" },
+      { id: "hp-6", name: "Forbidden Forest", bg: "#0d1f0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png" }
     ]
   },
   {
     category: "Death Note",
     id: "death-note",
     items: [
-      { id: "dn-1", name: "The Notebook", bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=400&q=80&fit=crop" },
-      { id: "dn-2", name: "Shinigami", bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=400&q=80&fit=crop" },
-      { id: "dn-3", name: "L vs Kira", bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
+      { id: "dn-1", name: "The Notebook", bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png" },
+      { id: "dn-2", name: "Shinigami", bg: "#1a0a0a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png" },
+      { id: "dn-3", name: "L vs Kira", bg: "#0a0a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" }
     ],
     extraItems: [
-      { id: "dn-4", name: "Near", bg: "#1a1a1a", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
-      { id: "dn-5", name: "Kira", bg: "#200000", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" },
-      { id: "dn-6", name: "Shadows", bg: "#0d0d12", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" }
+      { id: "dn-4", name: "Near", bg: "#1a1a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_an-old-wooden-desk-by-a-rain_ntcpa5.png" },
+      { id: "dn-5", name: "Kira", bg: "#200000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png" },
+      { id: "dn-6", name: "Shadows", bg: "#0d0d12", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" }
     ]
   },
   {
     category: "Demon Slayer",
     id: "demon-slayer",
     items: [
-      { id: "ds-1", name: "Flame Hashira", bg: "#8b1a00", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
-      { id: "ds-2", name: "Cherry Blossom", bg: "#3d1a2a", img: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=400&q=80&fit=crop" },
-      { id: "ds-3", name: "Wisteria Moon", bg: "#1a0a2a", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80&fit=crop" }
+      { id: "ds-1", name: "Flame Hashira", bg: "#8b1a00", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png" },
+      { id: "ds-2", name: "Cherry Blossom", bg: "#3d1a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_a-cherry-blossom-tree-in-full-bloom_tuivgz.png" },
+      { id: "ds-3", name: "Wisteria Moon", bg: "#1a0a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png" }
     ],
     extraItems: [
-      { id: "ds-4", name: "Thunder Breath", bg: "#0a0a3a", img: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80&fit=crop" },
-      { id: "ds-5", name: "Sunrise", bg: "#5a2a1a", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop" },
-      { id: "ds-6", name: "Infinity Castle", bg: "#1a1a3a", img: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop" }
+      { id: "ds-4", name: "Thunder Breath", bg: "#0a0a3a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
+      { id: "ds-5", name: "Sunrise", bg: "#5a2a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png" },
+      { id: "ds-6", name: "Infinity Castle", bg: "#1a1a3a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" }
     ]
   },
   {
     category: "Prince of Persia",
     id: "prince-of-persia",
     items: [
-      { id: "pop-1", name: "Sand Dunes", bg: "#8b6914", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&q=80&fit=crop" },
-      { id: "pop-2", name: "Ancient Palace", bg: "#5a3a1a", img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=400&q=80&fit=crop" },
-      { id: "pop-3", name: "Desert Storm", bg: "#6b4a1a", img: "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop" }
+      { id: "pop-1", name: "Sand Dunes", bg: "#8b6914", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png" },
+      { id: "pop-2", name: "Ancient Palace", bg: "#5a3a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
+      { id: "pop-3", name: "Desert Storm", bg: "#6b4a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_an-empty-wooden-swing-set-in-a-park_qs1z5n.png" }
     ],
     extraItems: [
-      { id: "pop-4", name: "Oasis", bg: "#1a3a2a", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
-      { id: "pop-5", name: "Sands of Time", bg: "#7a5a1a", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop" },
-      { id: "pop-6", name: "Mirage", bg: "#4a3a1a", img: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=400&q=80&fit=crop" }
+      { id: "pop-4", name: "Oasis", bg: "#1a3a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_a-small-wooden-mailbox-at-the-end_xzxovw.png" },
+      { id: "pop-5", name: "Sands of Time", bg: "#7a5a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325915/flux1-schnell_a-birds-eye-view-of-a-summer_kasdp3.png" },
+      { id: "pop-6", name: "Mirage", bg: "#4a3a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png" }
     ]
   },
   {
     category: "Stranger Things",
     id: "stranger-things",
     items: [
-      { id: "st-1", name: "Upside Down", bg: "#1a0a1a", img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&q=80&fit=crop" },
-      { id: "st-2", name: "Hawkins Lab", bg: "#0a1a1a", img: "https://images.unsplash.com/photo-1553949285-1196ce81deda?w=400&q=80&fit=crop" },
-      { id: "st-3", name: "Neon 80s", bg: "#0a0a1a", img: "https://images.unsplash.com/photo-1545033131-485ea67fd7c3?w=400&q=80&fit=crop" }
+      { id: "st-1", name: "Upside Down", bg: "#1a0a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png" },
+      { id: "st-2", name: "Hawkins Lab", bg: "#0a1a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" },
+      { id: "st-3", name: "Neon 80s", bg: "#0a0a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" }
     ],
     extraItems: [
-      { id: "st-4", name: "The Void", bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&q=80&fit=crop" },
-      { id: "st-5", name: "Demogorgon", bg: "#1a0a0a", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
-      { id: "st-6", name: "Portal", bg: "#1a1a00", img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80&fit=crop" }
+      { id: "st-4", name: "The Void", bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png" },
+      { id: "st-5", name: "Demogorgon", bg: "#1a0a0a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png" },
+      { id: "st-6", name: "Portal", bg: "#1a1a00", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325846/flux1-schnell_a-tired-high-school-boy-with-messy_qy3tat.png" }
     ]
   },
   {
     category: "Game of Thrones",
     id: "game-of-thrones",
     items: [
-      { id: "got-1", name: "Winterfell", bg: "#1a1a2e", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
-      { id: "got-2", name: "Dragon Fire", bg: "#5a0000", img: "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=400&q=80&fit=crop" },
-      { id: "got-3", name: "The Wall", bg: "#1e2d3a", img: "https://images.unsplash.com/photo-1517525822813-9980d1813ce2?w=400&q=80&fit=crop" }
+      { id: "got-1", name: "Winterfell", bg: "#1a1a2e", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" },
+      { id: "got-2", name: "Dragon Fire", bg: "#5a0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png" },
+      { id: "got-3", name: "The Wall", bg: "#1e2d3a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png" }
     ],
     extraItems: [
-      { id: "got-4", name: "Iron Throne", bg: "#2a1a0a", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=80&fit=crop" },
-      { id: "got-5", name: "King's Landing", bg: "#3a2a1a", img: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&q=80&fit=crop" },
-      { id: "got-6", name: "Night King", bg: "#0d1a2a", img: "https://images.unsplash.com/photo-1464061884559-3d0c2b65c2b1?w=400&q=80&fit=crop" }
+      { id: "got-4", name: "Iron Throne", bg: "#2a1a0a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png" },
+      { id: "got-5", name: "King's Landing", bg: "#3a2a1a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
+      { id: "got-6", name: "Night King", bg: "#0d1a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png" }
     ]
   }
 ];
@@ -238,39 +233,46 @@ export const mockResultsRiya = [
   { id: 'r1', name: 'Riya Mehta', handle: '@riya_m', followers: '2.4K', following: false },
   { id: 'r2', name: 'Riyansh Kumar', handle: '@riyansh_k', followers: '890', following: true },
   { id: 'r3', name: 'Ananya Riya', handle: '@ananya_r', followers: '412', following: false },
-  { id: 'u1', name: 'User 1A', handle: 'user_1a', followers: '12.4K', following: false, avatarImage: user1aImg, coverImage: user1aCoverImg },
-  { id: 'u2', name: 'User 2A', handle: 'user_2a', followers: '12.4K', following: false, avatarImage: user2aImg, coverImage: user2aCoverImg },
-  { id: 'u3', name: 'User 3A', handle: 'user_3a', followers: '12.4K', following: false, avatarImage: user3aImg, coverImage: user3aCoverImg }
+  { id: 'u1', name: 'User 1A', handle: 'user_1a', followers: '12.4K', following: false, avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png", coverImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png" },
+  { id: 'u2', name: 'User 2A', handle: 'user_2a', followers: '12.4K', following: false, avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png", coverImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
+  { id: 'u3', name: 'User 3A', handle: 'user_3a', followers: '12.4K', following: false, avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png", coverImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325915/flux1-schnell_a-birds-eye-view-of-a-summer_kasdp3.png" }
 ];
 
 export const exploreGridItems = [
-  { id: 'g1', type: 'image', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'late night', text: 'City lights hide the brightest stars.', replies: 120 },
-  { id: 'g2', type: 'image', img: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'wonder', text: 'Space is just an ocean of silence.', replies: 85 },
-  { id: 'g3', type: 'video', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2', mood: 'raw', text: 'The mask you wear becomes your face.', replies: 112 },
-  { id: 'g4', type: 'image', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'anon', text: 'Would you say it if your name was on it?', replies: 77 },
-  { id: 'g5', type: 'image', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'thought', text: 'What if your inner voice isn\'t even yours?', replies: 61 },
-  { id: 'g6', type: 'video', img: 'https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2', mood: 'chill', text: 'Lost in the rhythm of the rain.', replies: 240 },
-  { id: 'g7', type: 'image', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'quiet', text: 'Mountains whisper what cities scream.', replies: 45 },
-  { id: 'g8', type: 'image', img: 'https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'dream', text: 'Desert dunes shift like time.', replies: 99 },
-  { id: 'g9', type: 'image', img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'nature', text: 'Green is the color of healing.', replies: 156 },
-  { id: 'g10', type: 'image', img: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'quiet', text: 'Silence is just noise nobody taught you to hear.', replies: 39 },
-  { id: 'g11', type: 'image', img: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'wonder', text: 'Looking up puts everything in perspective.', replies: 21 },
-  { id: 'g12', type: 'image', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'thought', text: 'Stars are just holes in the sky.', replies: 67 },
-  { id: 'g13', type: 'video', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop', span: 'col-span-1 row-span-2', mood: 'late night', text: 'When the world sleeps, I wake up.', replies: 180 },
-  { id: 'g14', type: 'image', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'anon', text: 'Secrets are heavier than lies.', replies: 93 },
-  { id: 'g15', type: 'image', img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop', span: 'col-span-1 row-span-1', mood: 'raw', text: 'Colors speak louder than words.', replies: 124 },
+  { id: 'g1', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png', span: 'col-span-1 row-span-1', mood: 'passion', text: 'Flaming youth, burning with questions.', replies: 120 },
+  { id: 'g2', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png', span: 'col-span-1 row-span-1', mood: 'mystery', text: 'A ghostly presence in the quiet halls.', replies: 85 },
+  { id: 'g3', type: 'video', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-young-girl-with-bushy-brown-hair_q052ym.png', span: 'col-span-1 row-span-2', mood: 'curious', text: 'Wide eyes, eager to learn the world.', replies: 112 },
+  { id: 'g4', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png', span: 'col-span-1 row-span-1', mood: 'vintage', text: 'An abandoned train, carrying ancient secrets.', replies: 77 },
+  { id: 'g5', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png', span: 'col-span-1 row-span-1', mood: 'wisdom', text: 'An old wizard, holding timeless truth.', replies: 61 },
+  { id: 'g6', type: 'video', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png', span: 'col-span-1 row-span-2', mood: 'shadow', text: 'Lost in the darkness of his own mind.', replies: 240 },
+  { id: 'g7', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png', span: 'col-span-1 row-span-1', mood: 'dream', text: 'A scarlet landscape, painting the horizon.', replies: 45 },
+  { id: 'g8', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_an-empty-wooden-swing-set-in-a-park_qs1z5n.png', span: 'col-span-1 row-span-1', mood: 'nostalgia', text: 'The swing set is empty, but the memories remain.', replies: 99 },
+  { id: 'g9', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png', span: 'col-span-1 row-span-1', mood: 'hope', text: 'A single ray of hope in the gloom.', replies: 156 },
+  { id: 'g10', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png', span: 'col-span-1 row-span-1', mood: 'quiet', text: 'Silent desks, waiting for tomorrow.', replies: 39 },
+  { id: 'g11', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png', span: 'col-span-1 row-span-1', mood: 'privacy', text: 'Behind closed doors, a story unfolds.', replies: 21 },
+  { id: 'g12', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325915/flux1-schnell_a-birds-eye-view-of-a-summer_kasdp3.png', span: 'col-span-1 row-span-1', mood: 'aerial', text: 'Summer green, stretching to infinity.', replies: 67 },
+  { id: 'g13', type: 'video', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_a-small-wooden-mailbox-at-the-end_xzxovw.png', span: 'col-span-1 row-span-2', mood: 'letters', text: 'Waiting for a letter that never came.', replies: 180 },
+  { id: 'g14', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_a-cherry-blossom-tree-in-full-bloom_tuivgz.png', span: 'col-span-1 row-span-1', mood: 'bloom', text: 'Cherry blossoms, kissing the spring air.', replies: 93 },
+  { id: 'g15', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_an-old-wooden-desk-by-a-rain_ntcpa5.png', span: 'col-span-1 row-span-1', mood: 'focus', text: 'Cozy study session while the rain falls.', replies: 124 },
+  { id: 'g16', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png', span: 'col-span-1 row-span-1', mood: 'attic', text: 'A single window, looking out to dreams.', replies: 48 },
+  { id: 'g17', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-male-pilot-with-short-spiky_hgcmhx.png', span: 'col-span-1 row-span-1', mood: 'flight', text: 'Ready to take to the endless blue skies.', replies: 59 },
+  { id: 'g18', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png', span: 'col-span-1 row-span-1', mood: 'grace', text: 'Holding a silent prayer for everyone.', replies: 72 },
+  { id: 'g19', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png', span: 'col-span-1 row-span-1', mood: 'honor', text: 'Staring into the face of destiny.', replies: 88 },
+  { id: 'g20', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325846/flux1-schnell_a-tired-high-school-boy-with-messy_qy3tat.png', span: 'col-span-1 row-span-1', mood: 'weary', text: 'Too tired to speak, too awake to sleep.', replies: 135 },
+  { id: 'g21', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png', span: 'col-span-1 row-span-1', mood: 'warrior', text: 'Short spiky hair, razor sharp focus.', replies: 142 },
+  { id: 'g22', type: 'image', img: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png', span: 'col-span-1 row-span-1', mood: 'magic', text: 'Harnessing the hidden elements of spark.', replies: 195 }
 ];
 
 export const mockConversationsData = [
   {
-    id: 'c1', handle: '@riya_m', unread: true, unreadCount: 3, isOnline: true, preview: "Your question hit different today...", moodTag: 'Vulnerable', contextTag: null, time: '2m', avatarImage: '/dp-1.png',
+    id: 'c1', handle: '@riya_m', unread: true, unreadCount: 3, isOnline: true, preview: "Your question hit different today...", moodTag: 'Vulnerable', contextTag: null, time: '2m', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png',
     post: { text: "Is it brave or naive to trust a stranger?", mood: "Vulnerable", answers: 42, bg: "#2d1b4e" }
   },
-  { id: 'c2', handle: '@arjun_k', unread: true, unreadCount: null, isOnline: false, preview: "I answered your city post — wanted to say more", moodTag: null, contextTag: 're: City post', time: '18m', avatarImage: '/dp-2.png' },
-  { id: 'c3', handle: '@meera_t', unread: false, unreadCount: null, isOnline: false, preview: "haha ok but seriously though...", moodTag: 'Nostalgic', contextTag: null, time: '1hr', avatarImage: '/dp-3.png' },
-  { id: 'c4', handle: '@rohan_d', unread: false, unreadCount: null, isOnline: false, preview: "you: yeah exactly that feeling", moodTag: null, contextTag: null, time: '3hr', avatarImage: '/dp-4.png' },
-  { id: 'c5', handle: '@anon_42', unread: false, unreadCount: null, isOnline: false, preview: "thanks for asking that question", moodTag: null, contextTag: null, time: 'Yesterday', avatarImage: '/dp-5.png', faded: true },
-  { id: 'c6', handle: '@priya_s', unread: false, unreadCount: null, isOnline: false, preview: "makes so much sense now", moodTag: null, contextTag: null, time: '2d', avatarImage: '/dp-1.png', moreFaded: true }
+  { id: 'c2', handle: '@arjun_k', unread: true, unreadCount: null, isOnline: false, preview: "I answered your city post — wanted to say more", moodTag: null, contextTag: 're: City post', time: '18m', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png' },
+  { id: 'c3', handle: '@meera_t', unread: false, unreadCount: null, isOnline: false, preview: "haha ok but seriously though...", moodTag: 'Nostalgic', contextTag: null, time: '1hr', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-young-girl-with-bushy-brown-hair_q052ym.png' },
+  { id: 'c4', handle: '@rohan_d', unread: false, unreadCount: null, isOnline: false, preview: "you: yeah exactly that feeling", moodTag: null, contextTag: null, time: '3hr', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-male-pilot-with-short-spiky_hgcmhx.png' },
+  { id: 'c5', handle: '@anon_42', unread: false, unreadCount: null, isOnline: false, preview: "thanks for asking that question", moodTag: null, contextTag: null, time: 'Yesterday', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png', faded: true },
+  { id: 'c6', handle: '@priya_s', unread: false, unreadCount: null, isOnline: false, preview: "makes so much sense now", moodTag: null, contextTag: null, time: '2d', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png', moreFaded: true }
 ];
 
 export const moodColors = {
@@ -280,6 +282,7 @@ export const moodColors = {
   'Hopeful': { border: 'rgba(127,218,159,0.4)', text: 'rgba(127,218,159,0.9)' },
   'Nostalgic': { border: 'rgba(218,184,127,0.4)', text: 'rgba(218,184,127,0.9)' },
 };
+
 export const initialHeroReels = [
   {
     type: "Spooky Vibes",
@@ -401,6 +404,120 @@ export const initialHeroReels = [
     shares: "1.1K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
     audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
+  },
+  {
+    type: "Forgotten Journey",
+    tags: ["Forgotten Journey", "Vintage Vibe", "Train Ride", "Abandoned"],
+    question: `"Where does the track go when nobody is left to ride?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png",
+    replies: [
+      { user: "rail_explorer", text: "It leads to the places we forgot to appreciate when we were busy. 🌲🚂", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-male-pilot-with-short-spiky_hgcmhx.png", from: "from-green-600", to: "to-stone-800", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "ghost_rider", text: "Overgrown tracks are nature reclaiming its beauty. 🌿✨", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png", from: "from-blue-400", to: "to-purple-900", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 61, user: "rail_explorer", text: "It leads to the places we forgot to appreciate when we were busy. 🌲🚂", likes: 320, time: "4h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-male-pilot-with-short-spiky_hgcmhx.png", avatarFrom: "from-green-600", avatarTo: "to-stone-800" },
+      { id: 62, user: "ghost_rider", text: "Overgrown tracks are nature reclaiming its beauty. 🌿✨", likes: 195, time: "3h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png", avatarFrom: "from-blue-400", avatarTo: "to-purple-900" }
+    ],
+    likes: "8.4",
+    comments: "512",
+    shares: "189",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
+  },
+  {
+    type: "Scarlet Dreams",
+    tags: ["Scarlet Dreams", "Fantasy Landscape", "Wild Vibe", "Wonder"],
+    question: `"Would you cross the crimson horizon to find a forgotten dream?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png",
+    replies: [
+      { user: "dreamer_alice", text: "In a heartbeat. Crimson is the color of passion and magic. 🌅💫", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png", from: "from-purple-500", to: "to-pink-600", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "knight_errant", text: "My blade and shield are ready for this fantasy horizon. ⚔️🛡️", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png", from: "from-amber-500", to: "to-red-700", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 71, user: "dreamer_alice", text: "In a heartbeat. Crimson is the color of passion and magic. 🌅💫", likes: 512, time: "2h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png", avatarFrom: "from-purple-500", avatarTo: "to-pink-600" },
+      { id: 72, user: "knight_errant", text: "My blade and shield are ready for this fantasy horizon. ⚔️🛡️", likes: 389, time: "1h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png", avatarFrom: "from-amber-500", avatarTo: "to-red-700" }
+    ],
+    likes: "14.2",
+    comments: "982",
+    shares: "420",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/q_auto/f_auto/v1776640285/pihf9rnxy73p1n7betwi.mp3"
+  },
+  {
+    type: "Nostalgic Childhood",
+    tags: ["Nostalgic Childhood", "Park Swing", "Quiet Hours", "Melancholy"],
+    question: `"When did the playground stop feeling like a castle?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325846/flux1-schnell_a-tired-high-school-boy-with-messy_qy3tat.png",
+    replies: [
+      { user: "lanky_boy", text: "The day we started looking at our clocks instead of the sky. 🕰️☁️", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png", from: "from-orange-500", to: "to-amber-800", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "bushy_hair", text: "We just built different castles in our minds as we grew. 🏰💭", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-young-girl-with-bushy-brown-hair_q052ym.png", from: "from-pink-400", to: "to-rose-600", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 81, user: "lanky_boy", text: "The day we started looking at our clocks instead of the sky. 🕰️☁️", likes: 890, time: "5h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png", avatarFrom: "from-orange-500", avatarTo: "to-amber-800" },
+      { id: 82, user: "bushy_hair", text: "We just built different castles in our minds as we grew. 🏰💭", likes: 750, time: "4h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-young-girl-with-bushy-brown-hair_q052ym.png", avatarFrom: "from-pink-400", avatarTo: "to-rose-600" }
+    ],
+    likes: "19.5",
+    comments: "1.4K",
+    shares: "640",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_an-empty-wooden-swing-set-in-a-park_qs1z5n.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-ocean-wave-loops-377890_gbxv2x.mp3"
+  },
+  {
+    type: "Golden Hope",
+    tags: ["Golden Hope", "Zen Focus", "Pure Ray", "Mindfulness"],
+    question: `"Can a single ray of light dispel the deepest doubts?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325813/flux1-schnell_a-young-female-mage-with-short_ihwggk.png",
+    replies: [
+      { user: "samurai_focus", text: "It only takes a spark to clear the mist from the sharpest blade. ⚔️☀️", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png", from: "from-red-500", to: "to-slate-800", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "wizard_old", text: "Light is the natural state. Shadows are just the absence of courage. 🧙‍♂️✨", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png", from: "from-yellow-400", to: "to-purple-600", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 91, user: "samurai_focus", text: "It only takes a spark to clear the mist from the sharpest blade. ⚔️☀️", likes: 642, time: "3h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png", avatarFrom: "from-red-500", avatarTo: "to-slate-800" },
+      { id: 92, user: "wizard_old", text: "Light is the natural state. Shadows are just the absence of courage. 🧙‍♂️✨", likes: 810, time: "2h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png", avatarFrom: "from-yellow-400", avatarTo: "to-purple-600" }
+    ],
+    likes: "25.7",
+    comments: "3.2K",
+    shares: "1.5K",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/monume-space-509492_jwpg3u.mp3"
+  },
+  {
+    type: "After School",
+    tags: ["After School", "Classroom Vibe", "Quiet Hours", "Nostalgia"],
+    question: `"Why does an empty classroom feel louder than a full one?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-male-pilot-with-short-spiky_hgcmhx.png",
+    replies: [
+      { user: "tired_boy", text: "Because the silence is filled with all the questions we didn't ask. 🎒📝", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325846/flux1-schnell_a-tired-high-school-boy-with-messy_qy3tat.png", from: "from-blue-600", to: "to-black", size: "w-11/12", padding: "px-3 py-2", margin: "mt-1", dot: "w-6 h-6" },
+      { user: "gaunt_man", text: "The echoes of youth are heavy in this empty room. 🕰️", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png", from: "from-gray-700", to: "to-zinc-950", size: "w-10/12 ml-4", padding: "px-3 py-2", margin: "mt-1", dot: "w-5 h-5" }
+    ],
+    commentsList: [
+      { id: 101, user: "tired_boy", text: "Because the silence is filled with all the questions we didn't ask. 🎒📝", likes: 1024, time: "4h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325846/flux1-schnell_a-tired-high-school-boy-with-messy_qy3tat.png", avatarFrom: "from-blue-600", avatarTo: "to-black" },
+      { id: 102, user: "gaunt_man", text: "The echoes of youth are heavy in this empty room. 🕰️", likes: 450, time: "3h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png", avatarFrom: "from-gray-700", avatarTo: "to-zinc-950" }
+    ],
+    likes: "22.1",
+    comments: "1.9K",
+    shares: "730",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
+  },
+  {
+    type: "Behind Closed Doors",
+    tags: ["Behind Closed Doors", "Bedroom Secret", "Vulnerability", "Introvert"],
+    question: `"What parts of yourself do you hide when you close your door?"`,
+    avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-ghostly-young-woman-with-waist_rxlhxo.png",
+    replies: [
+      { user: "cleric_girl", text: "I hide my worries and pray for a quiet, gentle tomorrow. 🕊️💫", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png", from: "from-indigo-400", to: "to-purple-500", size: "w-11/12", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-7 h-7" },
+      { user: "lanky_flame", text: "Just the exhaustion of pretending to have all the answers. 🤷‍♂️🔥", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png", from: "from-red-400", to: "to-orange-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
+    ],
+    commentsList: [
+      { id: 111, user: "cleric_girl", text: "I hide my worries and pray for a quiet, gentle tomorrow. 🕊️💫", likes: 820, time: "1h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325891/flux1-schnell_a-young-female-cleric-with-long_negynp.png", avatarFrom: "from-indigo-400", avatarTo: "to-purple-500" },
+      { id: 112, user: "lanky_flame", text: "Just the exhaustion of pretending to have all the answers. 🤷‍♂️🔥", likes: 690, time: "45m", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325923/flux1-schnell_a-lanky-teenage-boy-with-flaming_ieiups.png", avatarFrom: "from-red-400", avatarTo: "to-orange-500" }
+    ],
+    likes: "31.8",
+    comments: "4.5K",
+    shares: "2.1K",
+    bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png",
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-battle-rage-intense-fight-music-411019_mpf7i8.mp3"
   }
 ];
 
@@ -487,5 +604,3 @@ export const RANDOM_AVATARS = [
   "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png",
   "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png"
 ];
-
-

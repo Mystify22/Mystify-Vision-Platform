@@ -37,12 +37,12 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   const displayBio = isOwnProfile ? userProfileData.bio : "Anonymous thoughts. Questions nobody dares ask out loud.";
 
   const samplePosts = [
-    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=400&q=80&fit=crop" },
-    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80&fit=crop" },
-    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&q=80&fit=crop" },
-    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80&fit=crop" },
-    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80&fit=crop" },
-    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" },
+    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" },
+    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" },
+    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png" },
+    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
+    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png" },
+    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" },
   ];
 
   const sampleReplies = [
@@ -51,9 +51,9 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   ];
 
   const sampleSaved = [
-    { mood: "urban", text: "Is loneliness different when surrounded by millions?", replies: 189, bg: "#1a2a3a", img: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?w=400&q=80&fit=crop" },
-    { mood: "mind", text: "What do you do when you feel stuck but not unhappy?", replies: 134, bg: "#2d1b4e", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80&fit=crop" },
-    { mood: "anon", text: "Can you ever fully trust someone you met online?", replies: 76, bg: "#3a1a2a", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&q=80&fit=crop" }
+    { mood: "urban", text: "Is loneliness different when surrounded by millions?", replies: 189, bg: "#1a2a3a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png" },
+    { mood: "mind", text: "What do you do when you feel stuck but not unhappy?", replies: 134, bg: "#2d1b4e", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325913/flux1-schnell_an-old-wooden-desk-by-a-rain_ntcpa5.png" },
+    { mood: "anon", text: "Can you ever fully trust someone you met online?", replies: 76, bg: "#3a1a2a", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png" }
   ];
 
   const renderGrid = (posts) => (
