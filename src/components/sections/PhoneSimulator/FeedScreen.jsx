@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash } from 'lucide-react';
-import { initialHeroReels, mockNotifications } from './MockData';
+import { initialHeroReels, mockNotifications, RANDOM_AVATARS } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" fill="currentColor" className={className}>
@@ -37,54 +37,111 @@ const getCommentCount = (reel) => {
   return count;
 };
 
+const RANDOM_USERNAMES = [
+  "neon_dreamer", "shadow_walker", "velvet_mind", "cosmic_soul", "midnight_thinker",
+  "silent_echo", "ghost_whisperer", "quantum_ghost", "lunar_vibe", "solar_pulse",
+  "dusk_adventurer", "aurora_spark", "cipher_mind", "zen_coder", "abstract_heart",
+  "starlight_chaser", "oblivion_gaze", "whispering_wind", "echo_location", "parallel_lines",
+  "entropy_fan", "paradox_thinker", "mirage_seeker", "nebula_born", "solitude_seeker",
+  "wild_resonance", "calm_chaos", "infinite_loop", "glitch_heart", "retro_spirit"
+];
+
+const RANDOM_COMMENT_TEXTS = [
+  "This hit incredibly close to home. 🌌",
+  "I've been thinking about this all week.",
+  "Never thought about it this way, but it makes so much sense.",
+  "Is it just me or does anyone else feel this deeply?",
+  "This is the most relatable thing I've read today. 💯",
+  "A perfect description of late-night thoughts.",
+  "Absolutely beautiful. Thanks for sharing this anonymously.",
+  "Sending good vibes to whoever wrote this! ✨",
+  "Wow, this is so raw and honest.",
+  "We are all connected by these invisible threads.",
+  "Staring at the ceiling thinking about this now.",
+  "Could not have said it better myself.",
+  "An absolute masterpiece of a thought.",
+  "It's comforting to know I'm not the only one feeling this way.",
+  "This resonates on a whole different level. 🎧",
+  "Simple yet so incredibly profound.",
+  "Needed to hear this today. Thank you.",
+  "Anon posts are the best part of this app.",
+  "The mood and the soundtrack match perfectly.",
+  "This is pure magic. ✨💫",
+  "Mind-blown. Deep thoughts only.",
+  "Such a cozy and reflective vibe.",
+  "Honestly, same. Every single day.",
+  "We need more real conversations like this.",
+  "Is this a sign? Because it feels like one.",
+  "A quiet truth in a loud world.",
+  "Living for this aesthetic right now.",
+  "This makes me want to pause and just breathe.",
+  "Beautifully written. Hit me right in the feels.",
+  "Let's protect this anonymous space."
+];
+
+const populateReelsComments = (reels) => {
+  return reels.map((reel, rIdx) => {
+    const list = reel.commentsList ? [...reel.commentsList] : [];
+    let idCounter = 1000 + rIdx * 100;
+    while (list.length < 30) {
+      const uIndex = (list.length + rIdx) % RANDOM_USERNAMES.length;
+      const tIndex = (list.length + rIdx * 3) % RANDOM_COMMENT_TEXTS.length;
+      const avatarIndex = (list.length + rIdx * 2) % RANDOM_AVATARS.length;
+      
+      list.push({
+        id: idCounter++,
+        user: RANDOM_USERNAMES[uIndex],
+        text: RANDOM_COMMENT_TEXTS[tIndex],
+        likes: Math.floor(Math.random() * 200) + 5,
+        time: `${Math.floor(Math.random() * 12) + 1}h`,
+        avatarImage: RANDOM_AVATARS[avatarIndex],
+        avatarFrom: "from-indigo-500",
+        avatarTo: "to-purple-500"
+      });
+    }
+    return { ...reel, commentsList: list };
+  });
+};
+
+const getOverlayComments = (reel) => {
+  if (!reel || !reel.commentsList || reel.commentsList.length === 0) return [];
+  return reel.commentsList.slice(0, 2).map((comment, oIdx) => ({
+    user: comment.user,
+    text: comment.text,
+    avatarImage: comment.avatarImage,
+    from: comment.avatarFrom || "from-indigo-500",
+    to: comment.avatarTo || "to-purple-500",
+    size: oIdx === 0 ? "w-11/12" : "w-10/12 ml-4",
+    padding: "px-3 py-2",
+    margin: "mt-1",
+    dot: oIdx === 0 ? "w-6 h-6" : "w-5 h-5"
+  }));
+};
+
 const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels, onInboxClick, onNotificationsClick }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(() => {
+    let baseReels = initialHeroReels;
     if (initialPost) {
       const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
-      if (foundIdx !== -1) {
-        return initialHeroReels;
-      } else {
+      if (foundIdx === -1) {
         const newReel = {
           type: (initialPost.mood || "vibe").toUpperCase() + " VIBE",
           tags: [initialPost.mood ? initialPost.mood.toUpperCase() : "VIBE", "Explore", "Trending"],
           question: initialPost.text,
           avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
-          replies: [
-            {
-              user: "resonance_bot",
-              text: `Deeply feeling this ${initialPost.mood || 'vibe'}... ✨`,
-              avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
-              from: "from-indigo-500",
-              to: "to-purple-500",
-              size: "w-11/12",
-              padding: "px-3 py-2",
-              margin: "mt-1",
-              dot: "w-6 h-6"
-            }
-          ],
-          commentsList: [
-            {
-              id: Date.now(),
-              user: "resonance_bot",
-              text: `Deeply feeling this ${initialPost.mood || 'vibe'}... ✨`,
-              likes: 12,
-              time: "Just now",
-              avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
-              avatarFrom: "from-indigo-500",
-              avatarTo: "to-purple-500"
-            }
-          ],
+          replies: [],
+          commentsList: [],
           likes: (initialPost.replies ? (initialPost.replies * 0.15).toFixed(1) : "10.5"),
           comments: initialPost.replies ? String(initialPost.replies) : "1.2K",
           shares: initialPost.replies ? String(Math.floor(initialPost.replies * 0.4)) : "150",
           bgImage: initialPost.img,
           audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
         };
-        return [newReel, ...initialHeroReels];
+        baseReels = [newReel, ...initialHeroReels];
       }
     }
-    return initialHeroReels;
+    return populateReelsComments(baseReels);
   });
   const [activeHeroReel, setActiveHeroReel] = useState(() => {
     if (initialPost) {
@@ -416,7 +473,7 @@ const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels,
                 </motion.div>
 
                 <div className="space-y-3 sm:space-y-4 w-full">
-                  {reel.replies.map((reply, idx) => (
+                  {getOverlayComments(reel).map((reply, idx) => (
                     <motion.div
                       key={idx}
                       initial={{ y: 20, opacity: 0 }}
