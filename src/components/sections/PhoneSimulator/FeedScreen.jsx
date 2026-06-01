@@ -26,10 +26,73 @@ const AgentMessageIcon = ({ size = 24, className = "" }) => (
 
 
 
-const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNotificationsClick }) => {
+const getCommentCount = (reel) => {
+  if (!reel || !reel.commentsList) return 0;
+  let count = reel.commentsList.length;
+  reel.commentsList.forEach(c => {
+    if (c.replies) {
+      count += c.replies.length;
+    }
+  });
+  return count;
+};
+
+const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels, onInboxClick, onNotificationsClick }) => {
   // Existing state for Reels
-  const [reelsData, setReelsData] = useState(initialHeroReels);
-  const [activeHeroReel, setActiveHeroReel] = useState(0);
+  const [reelsData, setReelsData] = useState(() => {
+    if (initialPost) {
+      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
+      if (foundIdx !== -1) {
+        return initialHeroReels;
+      } else {
+        const newReel = {
+          type: (initialPost.mood || "vibe").toUpperCase() + " VIBE",
+          tags: [initialPost.mood ? initialPost.mood.toUpperCase() : "VIBE", "Explore", "Trending"],
+          question: initialPost.text,
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
+          replies: [
+            {
+              user: "resonance_bot",
+              text: `Deeply feeling this ${initialPost.mood || 'vibe'}... ✨`,
+              avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
+              from: "from-indigo-500",
+              to: "to-purple-500",
+              size: "w-11/12",
+              padding: "px-3 py-2",
+              margin: "mt-1",
+              dot: "w-6 h-6"
+            }
+          ],
+          commentsList: [
+            {
+              id: Date.now(),
+              user: "resonance_bot",
+              text: `Deeply feeling this ${initialPost.mood || 'vibe'}... ✨`,
+              likes: 12,
+              time: "Just now",
+              avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
+              avatarFrom: "from-indigo-500",
+              avatarTo: "to-purple-500"
+            }
+          ],
+          likes: (initialPost.replies ? (initialPost.replies * 0.15).toFixed(1) : "10.5"),
+          comments: initialPost.replies ? String(initialPost.replies) : "1.2K",
+          shares: initialPost.replies ? String(Math.floor(initialPost.replies * 0.4)) : "150",
+          bgImage: initialPost.img,
+          audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
+        };
+        return [newReel, ...initialHeroReels];
+      }
+    }
+    return initialHeroReels;
+  });
+  const [activeHeroReel, setActiveHeroReel] = useState(() => {
+    if (initialPost) {
+      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
+      return foundIdx !== -1 ? foundIdx : 0;
+    }
+    return 0;
+  });
   const [isMuted, setIsMuted] = useState(true);
   const [showMutePopup, setShowMutePopup] = useState(false);
   const [isReelLiked, setIsReelLiked] = useState(false);
@@ -398,7 +461,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
                     <MessageCircle size={20} className="text-white" />
                   </div>
-                  <span className="text-white font-bold text-[9px] sm:text-[10px]">{reel.comments}</span>
+                  <span className="text-white font-bold text-[9px] sm:text-[10px]">{getCommentCount(reel)}</span>
                 </button>
                 <button onClick={(e) => handleShare(e, reel)} className="flex flex-col items-center gap-1 group relative z-50">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
@@ -434,7 +497,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                 <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
                 <div className="w-full flex items-center justify-between">
                   <div className="w-8" />
-                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel]?.commentsList?.length || 0})</span></span>
+                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({getCommentCount(reelsData[activeHeroReel])})</span></span>
                   <div className="w-8" />
                 </div>
               </div>
@@ -757,7 +820,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                           setShowComments(true);
                         }}>
                         <MessageCircle size={20} className="text-white/60" />
-                        <span className="text-[12px] font-medium text-white/60">{reel.comments}</span>
+                        <span className="text-[12px] font-medium text-white/60">{getCommentCount(reel)}</span>
                       </button>
                       <button className="flex items-center gap-1.5 group" onClick={(e) => {
                           e.stopPropagation();
@@ -873,7 +936,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
               <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
               <div className="w-full flex items-center justify-between">
                 <div className="w-8" />
-                <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel]?.commentsList?.length || 0})</span></span>
+                <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({getCommentCount(reelsData[activeHeroReel])})</span></span>
                 <div className="w-8" />
               </div>
             </div>
