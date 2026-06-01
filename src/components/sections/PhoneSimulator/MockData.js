@@ -302,7 +302,7 @@ export const initialHeroReels = [
     comments: "2.1K",
     shares: "450",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1776715534/stable-diffusion-xl-base-10_wide-angle-shot_3_m9y7vl.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
   },
   {
     type: "Secret Confession",
@@ -323,7 +323,7 @@ export const initialHeroReels = [
     comments: "4.2K",
     shares: "Share",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775192948/xkqtlmnohayyh1hx3e78.jpg",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/q_auto/f_auto/v1776640285/pihf9rnxy73p1n7betwi.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330317/suryanatta-the-shape-of-disorder-410788_xvivqm.mp3"
   },
   {
     type: "Anime Debate",
@@ -343,7 +343,7 @@ export const initialHeroReels = [
     comments: "1.2K",
     shares: "890",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/q_auto/f_auto/v1775745594/stable-diffusion-xl-base-10_wide-angle-shot_1_uvwwwe.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-battle-rage-intense-fight-music-411019_mpf7i8.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330316/angelika728-cinematic-fight-cinematic-music-270920_mkirle.mp3"
   },
   {
     type: "Productivity Flex",
@@ -363,7 +363,7 @@ export const initialHeroReels = [
     comments: "3.1K",
     shares: "1.2K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775753291/mh5cum4ms0gl69ybwgal.jpg",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/monume-space-509492_jwpg3u.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330103/kaazoom-the-brewers-revenge-a-medieval-tavern-song-378236_zrt6zx.mp3"
   },
   {
     type: "Zen Focus",
@@ -383,7 +383,7 @@ export const initialHeroReels = [
     comments: "1.5K",
     shares: "920",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775755724/kzmvlx75tsy2mngul5qu.jpg",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-ocean-wave-loops-377890_gbxv2x.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330007/musiclaundry-khwaab-ka-musafir-romantic-hindi-song-ai-music-original-lyrics-477286_zlsj5x.mp3"
   },
   {
     type: "Weekend Vibes",
@@ -403,7 +403,7 @@ export const initialHeroReels = [
     comments: "2.8K",
     shares: "1.1K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1775756562/muzhikhjcsxhens09720.jpg",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780329965/ikoliks_aj-acoustic-spring-mothers-day-music-320427_ekvure.mp3"
   },
   {
     type: "Forgotten Journey",
@@ -422,7 +422,7 @@ export const initialHeroReels = [
     comments: "512",
     shares: "189",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_a-rusted-moss-covered-passenger_hdovku.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780329843/gvidon-gvidon-medicine-364031_f6kmtf.mp3"
   },
   {
     type: "Scarlet Dreams",
@@ -441,7 +441,7 @@ export const initialHeroReels = [
     comments: "982",
     shares: "420",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325919/flux1-schnell_wide-landscape-shot-of-a-scarlet_nel6ko.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/q_auto/f_auto/v1776640285/pihf9rnxy73p1n7betwi.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
   },
   {
     type: "Nostalgic Childhood",
@@ -460,7 +460,7 @@ export const initialHeroReels = [
     comments: "1.4K",
     shares: "640",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_an-empty-wooden-swing-set-in-a-park_qs1z5n.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-ocean-wave-loops-377890_gbxv2x.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330317/suryanatta-the-shape-of-disorder-410788_xvivqm.mp3"
   },
   {
     type: "Golden Hope",
@@ -479,7 +479,7 @@ export const initialHeroReels = [
     comments: "3.2K",
     shares: "1.5K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/monume-space-509492_jwpg3u.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330316/angelika728-cinematic-fight-cinematic-music-270920_mkirle.mp3"
   },
   {
     type: "After School",
@@ -498,7 +498,7 @@ export const initialHeroReels = [
     comments: "1.9K",
     shares: "730",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_an-empty-high-school-classroom-at_ehxheg.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630682/gregorquendel_sounddesign-crowd-people-shopping-mall-ambience-138235_u3fycr.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330103/kaazoom-the-brewers-revenge-a-medieval-tavern-song-378236_zrt6zx.mp3"
   },
   {
     type: "Behind Closed Doors",
@@ -517,7 +517,7 @@ export const initialHeroReels = [
     comments: "4.5K",
     shares: "2.1K",
     bgImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png",
-    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776630683/desifreemusic-battle-rage-intense-fight-music-411019_mpf7i8.mp3"
+    audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330007/musiclaundry-khwaab-ka-musafir-romantic-hindi-song-ai-music-original-lyrics-477286_zlsj5x.mp3"
   }
 ];
 
@@ -674,3 +674,60 @@ mockResultsRiya.forEach((u) => {
     u.avatarImage = getDeterministicAvatar(u.handle || u.name);
   }
 });
+
+const NEW_AUDIO_SRCS = [
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3",
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330317/suryanatta-the-shape-of-disorder-410788_xvivqm.mp3",
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330316/angelika728-cinematic-fight-cinematic-music-270920_mkirle.mp3",
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330103/kaazoom-the-brewers-revenge-a-medieval-tavern-song-378236_zrt6zx.mp3",
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330007/musiclaundry-khwaab-ka-musafir-romantic-hindi-song-ai-music-original-lyrics-477286_zlsj5x.mp3",
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780329965/ikoliks_aj-acoustic-spring-mothers-day-music-320427_ekvure.mp3",
+  "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780329843/gvidon-gvidon-medicine-364031_f6kmtf.mp3"
+];
+
+const getDeterministicAudio = (seedStr) => {
+  if (!seedStr) return NEW_AUDIO_SRCS[0];
+  let hash = 0;
+  for (let i = 0; i < seedStr.length; i++) {
+    hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % NEW_AUDIO_SRCS.length;
+  return NEW_AUDIO_SRCS[index];
+};
+
+initialHeroReels.forEach((reel, rIdx) => {
+  reel.audioSrc = getDeterministicAudio(reel.type || `reel-${rIdx}`);
+});
+
+if (typeof exploreGridItems !== 'undefined') {
+  exploreGridItems.forEach((item, idx) => {
+    item.audioSrc = getDeterministicAudio(item.id || `grid-${idx}`);
+  });
+}
+
+if (typeof exploreTrendingData !== 'undefined') {
+  exploreTrendingData.forEach((item, idx) => {
+    item.audioSrc = getDeterministicAudio(item.id || `trend-${idx}`);
+  });
+}
+
+if (typeof mockResultsCity !== 'undefined') {
+  mockResultsCity.forEach((item, idx) => {
+    item.audioSrc = getDeterministicAudio(item.id || `city-${idx}`);
+  });
+}
+
+if (typeof vibeData !== 'undefined') {
+  vibeData.forEach(cat => {
+    if (cat.items) {
+      cat.items.forEach((item, idx) => {
+        item.audioSrc = getDeterministicAudio(item.id || `vibe-${idx}`);
+      });
+    }
+    if (cat.extraItems) {
+      cat.extraItems.forEach((item, idx) => {
+        item.audioSrc = getDeterministicAudio(item.id || `vibe-extra-${idx}`);
+      });
+    }
+  });
+}

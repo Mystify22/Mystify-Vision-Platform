@@ -135,8 +135,8 @@ const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels,
           likes: (initialPost.replies ? (initialPost.replies * 0.15).toFixed(1) : "10.5"),
           comments: initialPost.replies ? String(initialPost.replies) : "1.2K",
           shares: initialPost.replies ? String(Math.floor(initialPost.replies * 0.4)) : "150",
-          bgImage: initialPost.img,
-          audioSrc: "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1776881859/qihcodueume9lipsgi1d.mp3"
+          bgImage: initialPost.img || initialPost.bg,
+          audioSrc: initialPost.audioSrc || "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
         };
         baseReels = [newReel, ...initialHeroReels];
       }
