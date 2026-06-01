@@ -787,7 +787,6 @@ const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels,
                      </button>
                   </div>
                   
-                  {/* Content Area */}
                   <div 
                     className="w-full relative pb-[100%] overflow-hidden bg-[#111] mt-1 cursor-pointer"
                     onClick={() => {
@@ -795,7 +794,12 @@ const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels,
                       setViewingReel(true);
                     }}
                   >
-                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.bgImage}')` }} />
+                    <motion.div
+                      animate={{ backgroundPositionX: ['100%', '0%'] }}
+                      transition={{ repeat: Infinity, duration: 70, ease: "linear" }}
+                      className="absolute inset-0 bg-cover pointer-events-none"
+                      style={{ backgroundImage: `url('${reel.bgImage}')`, backgroundPositionY: 'center', backgroundRepeat: 'repeat-x' }}
+                    />
                     <div className="absolute inset-0 bg-black/40" />
 
                     <div className="absolute inset-x-0 bottom-3 px-3 flex flex-col items-start z-10 w-[85%] gap-2 pointer-events-none">

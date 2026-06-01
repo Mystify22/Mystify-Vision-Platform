@@ -118,17 +118,17 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle, onPostClick
                 key={item.id}
                 onClick={() => onPostClick && onPostClick(item)}
                 className="relative cursor-pointer active:scale-[0.98] transition-all duration-300 overflow-hidden shadow-lg"
-                style={{
-                  backgroundImage: `url(${item.img})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
               >
+                <motion.div
+                  animate={{ backgroundPositionX: ['100%', '0%'] }}
+                  transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+                  className="absolute inset-0 bg-cover pointer-events-none"
+                  style={{ backgroundImage: `url('${item.img}')`, backgroundPositionY: 'center', backgroundRepeat: 'repeat-x' }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none transition-colors duration-300" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/10 z-20 pointer-events-none" />
 
                 <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
-                  <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{item.mood}</span>
                   <p className="text-[11px] text-white/90 font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{item.text}</p>
                 </div>
 
