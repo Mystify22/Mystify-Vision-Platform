@@ -64,6 +64,7 @@ const PhoneSimulator = () => {
   const [selectedProfileUsername, setSelectedProfileUsername] = useState("ghost_mind");
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2']));
+  const [selectedPost, setSelectedPost] = useState(null);
 
   const [userProfileData, setUserProfileData] = useState(() => {
     const saved = localStorage.getItem('mystify_user_profile');
@@ -212,7 +213,19 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 11 && (
-              <FeedScreen key="step-reels" initialMode="reels" onBackFromReels={() => setStep(4)} />
+              <FeedScreen 
+                key="step-reels" 
+                initialMode="reels" 
+                initialPost={selectedPost} 
+                onBackFromReels={() => {
+                  if (selectedPost) {
+                    setSelectedPost(null);
+                    setStep(6);
+                  } else {
+                    setStep(4);
+                  }
+                }} 
+              />
             )}
             {step === 12 && (
               <NotificationsScreen
@@ -253,6 +266,10 @@ const PhoneSimulator = () => {
                 }}
                 followedUsers={followedUsers}
                 onFollowToggle={handleFollowToggle}
+                onPostClick={(post) => {
+                  setSelectedPost(post);
+                  setStep(11);
+                }}
               />
             )}
             {step === 7 && (
@@ -306,14 +323,14 @@ const PhoneSimulator = () => {
           {step > 0 && step !== 10 && (
             <div className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t-[0.5px] border-[rgba(255,255,255,0.08)] flex items-center justify-around px-0 z-40 p-[10px_0_14px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
               {/* TAB 1: FEED (Step 4) */}
-              <button onClick={() => setStep(4)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+              <button onClick={() => { setSelectedPost(null); setStep(4); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
                 <TablerFlame size={24} color={step === 4 ? '#ff5a1a' : 'rgba(255,255,255,0.4)'} />
                 <div className="h-[4px]" />
                 <span className={`text-[8px] font-medium leading-none ${step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Feed</span>
               </button>
 
               {/* TAB 2: EXPLORE (Step 6) */}
-              <button onClick={() => setStep(6)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+              <button onClick={() => { setSelectedPost(null); setStep(6); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
                 <TablerPlanet size={24} color={step === 6 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
                 <div className="h-[4px]" />
                 <span className={`text-[8px] font-medium leading-none ${step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Explore</span>
@@ -327,14 +344,14 @@ const PhoneSimulator = () => {
               </button>
 
               {/* TAB 4: VIBES (Step 11) */}
-              <button onClick={() => setStep(11)} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+              <button onClick={() => { setSelectedPost(null); setStep(11); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
                 <TablerWaveSine size={24} color={step === 11 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
                 <div className="h-[4px]" />
                 <span className={`text-[8px] font-medium leading-none ${step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Vibes</span>
               </button>
 
               {/* TAB 5: ME (Step 5) */}
-              <button onClick={() => { setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+              <button onClick={() => { setSelectedPost(null); setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
                 <TablerCircleDashed size={24} color={step === 5 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
                 <div className="h-[4px]" />
                 <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Me</span>

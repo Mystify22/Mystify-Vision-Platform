@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
 import { moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
 
-const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
+const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle, onPostClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [activeResultTab, setActiveResultTab] = useState('Questions'); // Questions, People, Moods, Vibes
@@ -113,21 +113,22 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle }) => {
 
         {screenState === 'default' && (
           <div className="grid grid-cols-3 gap-[3px] auto-rows-[123px] grid-flow-dense pb-[10px] px-[6px] animate-fade-in pt-1">
-            {exploreGridItems.map(item => (
+            {exploreGridItems.map((item, index) => (
               <div
                 key={item.id}
-                className="relative cursor-pointer group active:scale-[0.98] transition-all duration-300 overflow-hidden shadow-lg"
-                style={{
-                  backgroundImage: `url(${item.img})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
+                onClick={() => onPostClick && onPostClick(item)}
+                className="relative cursor-pointer active:scale-[0.98] transition-all duration-300 overflow-hidden shadow-lg"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none group-hover:bg-black/80 transition-colors duration-300" />
+                <motion.div
+                  animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
+                  transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: (index * 0.4) % 4 }}
+                  className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
+                  style={{ backgroundImage: `url(${item.img})` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none transition-colors duration-300" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/10 z-20 pointer-events-none" />
 
                 <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
-                  <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{item.mood}</span>
                   <p className="text-[11px] text-white/90 font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{item.text}</p>
                 </div>
 

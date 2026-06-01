@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash } from 'lucide-react';
-import { initialHeroReels, mockNotifications } from './MockData';
+import { initialHeroReels, mockNotifications, RANDOM_AVATARS } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" fill="currentColor" className={className}>
@@ -26,10 +26,130 @@ const AgentMessageIcon = ({ size = 24, className = "" }) => (
 
 
 
-const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNotificationsClick }) => {
+const getCommentCount = (reel) => {
+  if (!reel || !reel.commentsList) return 0;
+  let count = reel.commentsList.length;
+  reel.commentsList.forEach(c => {
+    if (c.replies) {
+      count += c.replies.length;
+    }
+  });
+  return count;
+};
+
+const RANDOM_USERNAMES = [
+  "neon_dreamer", "shadow_walker", "velvet_mind", "cosmic_soul", "midnight_thinker",
+  "silent_echo", "ghost_whisperer", "quantum_ghost", "lunar_vibe", "solar_pulse",
+  "dusk_adventurer", "aurora_spark", "cipher_mind", "zen_coder", "abstract_heart",
+  "starlight_chaser", "oblivion_gaze", "whispering_wind", "echo_location", "parallel_lines",
+  "entropy_fan", "paradox_thinker", "mirage_seeker", "nebula_born", "solitude_seeker",
+  "wild_resonance", "calm_chaos", "infinite_loop", "glitch_heart", "retro_spirit"
+];
+
+const RANDOM_COMMENT_TEXTS = [
+  "This hit incredibly close to home. 🌌",
+  "I've been thinking about this all week.",
+  "Never thought about it this way, but it makes so much sense.",
+  "Is it just me or does anyone else feel this deeply?",
+  "This is the most relatable thing I've read today. 💯",
+  "A perfect description of late-night thoughts.",
+  "Absolutely beautiful. Thanks for sharing this anonymously.",
+  "Sending good vibes to whoever wrote this! ✨",
+  "Wow, this is so raw and honest.",
+  "We are all connected by these invisible threads.",
+  "Staring at the ceiling thinking about this now.",
+  "Could not have said it better myself.",
+  "An absolute masterpiece of a thought.",
+  "It's comforting to know I'm not the only one feeling this way.",
+  "This resonates on a whole different level. 🎧",
+  "Simple yet so incredibly profound.",
+  "Needed to hear this today. Thank you.",
+  "Anon posts are the best part of this app.",
+  "The mood and the soundtrack match perfectly.",
+  "This is pure magic. ✨💫",
+  "Mind-blown. Deep thoughts only.",
+  "Such a cozy and reflective vibe.",
+  "Honestly, same. Every single day.",
+  "We need more real conversations like this.",
+  "Is this a sign? Because it feels like one.",
+  "A quiet truth in a loud world.",
+  "Living for this aesthetic right now.",
+  "This makes me want to pause and just breathe.",
+  "Beautifully written. Hit me right in the feels.",
+  "Let's protect this anonymous space."
+];
+
+const populateReelsComments = (reels) => {
+  return reels.map((reel, rIdx) => {
+    const list = reel.commentsList ? [...reel.commentsList] : [];
+    let idCounter = 1000 + rIdx * 100;
+    while (list.length < 30) {
+      const uIndex = (list.length + rIdx) % RANDOM_USERNAMES.length;
+      const tIndex = (list.length + rIdx * 3) % RANDOM_COMMENT_TEXTS.length;
+      const avatarIndex = (list.length + rIdx * 2) % RANDOM_AVATARS.length;
+      
+      list.push({
+        id: idCounter++,
+        user: RANDOM_USERNAMES[uIndex],
+        text: RANDOM_COMMENT_TEXTS[tIndex],
+        likes: Math.floor(Math.random() * 200) + 5,
+        time: `${Math.floor(Math.random() * 12) + 1}h`,
+        avatarImage: RANDOM_AVATARS[avatarIndex],
+        avatarFrom: "from-indigo-500",
+        avatarTo: "to-purple-500"
+      });
+    }
+    return { ...reel, commentsList: list };
+  });
+};
+
+const getOverlayComments = (reel) => {
+  if (!reel || !reel.commentsList || reel.commentsList.length === 0) return [];
+  return reel.commentsList.slice(0, 2).map((comment, oIdx) => ({
+    user: comment.user,
+    text: comment.text,
+    avatarImage: comment.avatarImage,
+    from: comment.avatarFrom || "from-indigo-500",
+    to: comment.avatarTo || "to-purple-500",
+    size: oIdx === 0 ? "w-11/12" : "w-10/12 ml-4",
+    padding: "px-3 py-2",
+    margin: "mt-1",
+    dot: oIdx === 0 ? "w-6 h-6" : "w-5 h-5"
+  }));
+};
+
+const FeedScreen = ({ initialMode = "feed", initialPost = null, onBackFromReels, onInboxClick, onNotificationsClick }) => {
   // Existing state for Reels
-  const [reelsData, setReelsData] = useState(initialHeroReels);
-  const [activeHeroReel, setActiveHeroReel] = useState(0);
+  const [reelsData, setReelsData] = useState(() => {
+    let baseReels = initialHeroReels;
+    if (initialPost) {
+      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
+      if (foundIdx === -1) {
+        const newReel = {
+          type: (initialPost.mood || "vibe").toUpperCase() + " VIBE",
+          tags: [initialPost.mood ? initialPost.mood.toUpperCase() : "VIBE", "Explore", "Trending"],
+          question: initialPost.text,
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
+          replies: [],
+          commentsList: [],
+          likes: (initialPost.replies ? (initialPost.replies * 0.15).toFixed(1) : "10.5"),
+          comments: initialPost.replies ? String(initialPost.replies) : "1.2K",
+          shares: initialPost.replies ? String(Math.floor(initialPost.replies * 0.4)) : "150",
+          bgImage: initialPost.img || initialPost.bg,
+          audioSrc: initialPost.audioSrc || "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
+        };
+        baseReels = [newReel, ...initialHeroReels];
+      }
+    }
+    return populateReelsComments(baseReels);
+  });
+  const [activeHeroReel, setActiveHeroReel] = useState(() => {
+    if (initialPost) {
+      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
+      return foundIdx !== -1 ? foundIdx : 0;
+    }
+    return 0;
+  });
   const [isMuted, setIsMuted] = useState(true);
   const [showMutePopup, setShowMutePopup] = useState(false);
   const [isReelLiked, setIsReelLiked] = useState(false);
@@ -353,7 +473,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                 </motion.div>
 
                 <div className="space-y-3 sm:space-y-4 w-full">
-                  {reel.replies.map((reply, idx) => (
+                  {getOverlayComments(reel).map((reply, idx) => (
                     <motion.div
                       key={idx}
                       initial={{ y: 20, opacity: 0 }}
@@ -398,7 +518,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
                     <MessageCircle size={20} className="text-white" />
                   </div>
-                  <span className="text-white font-bold text-[9px] sm:text-[10px]">{reel.comments}</span>
+                  <span className="text-white font-bold text-[9px] sm:text-[10px]">{getCommentCount(reel)}</span>
                 </button>
                 <button onClick={(e) => handleShare(e, reel)} className="flex flex-col items-center gap-1 group relative z-50">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
@@ -434,7 +554,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                 <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
                 <div className="w-full flex items-center justify-between">
                   <div className="w-8" />
-                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel]?.commentsList?.length || 0})</span></span>
+                  <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({getCommentCount(reelsData[activeHeroReel])})</span></span>
                   <div className="w-8" />
                 </div>
               </div>
@@ -757,7 +877,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
                           setShowComments(true);
                         }}>
                         <MessageCircle size={20} className="text-white/60" />
-                        <span className="text-[12px] font-medium text-white/60">{reel.comments}</span>
+                        <span className="text-[12px] font-medium text-white/60">{getCommentCount(reel)}</span>
                       </button>
                       <button className="flex items-center gap-1.5 group" onClick={(e) => {
                           e.stopPropagation();
@@ -873,7 +993,7 @@ const FeedScreen = ({ initialMode = "feed", onBackFromReels, onInboxClick, onNot
               <div className="w-10 h-1 bg-white/20 rounded-full mb-3" />
               <div className="w-full flex items-center justify-between">
                 <div className="w-8" />
-                <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({reelsData[activeHeroReel]?.commentsList?.length || 0})</span></span>
+                <span className="text-white text-sm font-bold">Comments <span className="text-white/50 text-xs font-normal">({getCommentCount(reelsData[activeHeroReel])})</span></span>
                 <div className="w-8" />
               </div>
             </div>
