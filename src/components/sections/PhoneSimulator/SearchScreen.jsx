@@ -113,17 +113,17 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle, onPostClick
 
         {screenState === 'default' && (
           <div className="grid grid-cols-3 gap-[3px] auto-rows-[123px] grid-flow-dense pb-[10px] px-[6px] animate-fade-in pt-1">
-            {exploreGridItems.map(item => (
+            {exploreGridItems.map((item, index) => (
               <div
                 key={item.id}
                 onClick={() => onPostClick && onPostClick(item)}
                 className="relative cursor-pointer active:scale-[0.98] transition-all duration-300 overflow-hidden shadow-lg"
               >
                 <motion.div
-                  animate={{ backgroundPositionX: ['100%', '0%'] }}
-                  transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
-                  className="absolute inset-0 bg-cover pointer-events-none"
-                  style={{ backgroundImage: `url('${item.img}')`, backgroundPositionY: 'center', backgroundRepeat: 'repeat-x' }}
+                  animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
+                  transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: (index * 0.4) % 4 }}
+                  className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
+                  style={{ backgroundImage: `url(${item.img})` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none transition-colors duration-300" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/10 z-20 pointer-events-none" />

@@ -578,29 +578,99 @@ export const mockNotifications = [
 ];
 
 export const RANDOM_AVATARS = [
+  // Monx
   "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672802/mystify/avatar/monx/andlhzujd2pqp2aodc2t.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677371/mystify/avatar/peeps/imir0hqmtwelttlqtu79.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672715/mystify/avatar/monx/uzaezuofgjpgilodhacv.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675662/mystify/avatar/mimo/rrg53863czv8cutzzfwd.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677784/mystify/avatar/toons/ydhjko6zbxptjq6nuvyb.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678511/mystify/avatar/emoji/wbxiyhnocj9tsuafp0tj.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675605/mystify/avatar/mimo/dmhylycaf9j52zj1139p.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677353/mystify/avatar/peeps/qg2v19nuk2ywez1je2vh.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672596/mystify/avatar/monx/skhzlrtushx96cgyrxpg.png",
   "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672793/mystify/avatar/monx/p7u3prwwskqwgdrf6yhn.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672715/mystify/avatar/monx/uzaezuofgjpgilodhacv.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672596/mystify/avatar/monx/skhzlrtushx96cgyrxpg.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672580/mystify/avatar/monx/haaakhmwjjapsmjayssi.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672560/mystify/avatar/monx/fijgp3iehcz3fmzb2fen.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672550/mystify/avatar/monx/pretea2hsysmd5x9yflv.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672491/mystify/avatar/monx/ybixgtlb4asujgxfadur.png",
+  // Mimo
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675520/mystify/avatar/mimo/nnqkkw5flb9ceu9kdffz.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675662/mystify/avatar/mimo/rrg53863czv8cutzzfwd.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675605/mystify/avatar/mimo/dmhylycaf9j52zj1139p.png",
   "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675594/mystify/avatar/mimo/kkeaywhzgxfs4errituf.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675623/mystify/avatar/mimo/ldw8b1p0xkvkikunfnrr.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675583/mystify/avatar/mimo/qmlyku6eqjejminthlua.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675615/mystify/avatar/mimo/jvwer7c0ghbsqxucvizh.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675548/mystify/avatar/mimo/lsf9dd4svnxiyum4ccll.png",
+  // Peeps
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677380/mystify/avatar/peeps/ptbvkkwlde2kse4pej2k.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677371/mystify/avatar/peeps/imir0hqmtwelttlqtu79.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677353/mystify/avatar/peeps/qg2v19nuk2ywez1je2vh.png",
   "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png",
-  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png"
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677335/mystify/avatar/peeps/ut7dod8ikds9vj1gwmmt.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677325/mystify/avatar/peeps/umjb9h57qj030wfqbtvy.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677315/mystify/avatar/peeps/kkpokgzwt6emct9tmbwp.png",
+  // Toons
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677804/mystify/avatar/toons/n5n4vji9p5nhkqr7n4ya.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677784/mystify/avatar/toons/ydhjko6zbxptjq6nuvyb.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677757/mystify/avatar/toons/zzvuscxdinwcr0nickpb.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677748/mystify/avatar/toons/j6lxddsjb9fdiijyovls.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677735/mystify/avatar/toons/ktwd5p7tqcqd0ko3gxak.png",
+  // Emoji
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678527/mystify/avatar/emoji/iagpfb2rkyutj3vfpjuk.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678511/mystify/avatar/emoji/wbxiyhnocj9tsuafp0tj.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678491/mystify/avatar/emoji/ovq0qywdoijnlglfzmoe.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678483/mystify/avatar/emoji/iy3tlf7xlqs8j89k4f0c.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678475/mystify/avatar/emoji/i21r6uo62ay4g3vdrd3j.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678466/mystify/avatar/emoji/zozwxy6hue5pmrmyfwxs.png",
+  "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678457/mystify/avatar/emoji/w2v0hzetf4idusmloo22.png"
 ];
+
+const getDeterministicAvatar = (seed) => {
+  if (!seed) return RANDOM_AVATARS[0];
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % RANDOM_AVATARS.length;
+  return RANDOM_AVATARS[index];
+};
+
+initialHeroReels.forEach((reel, rIdx) => {
+  if (reel.avatarImage) {
+    reel.avatarImage = getDeterministicAvatar(reel.type || `reel-${rIdx}`);
+  }
+  if (reel.replies) {
+    reel.replies.forEach((reply) => {
+      reply.avatarImage = getDeterministicAvatar(reply.user);
+    });
+  }
+  if (reel.commentsList) {
+    reel.commentsList.forEach((comment) => {
+      comment.avatarImage = getDeterministicAvatar(comment.user);
+    });
+  }
+});
+
+mockConversationsData.forEach((c) => {
+  if (c.avatarImage) {
+    c.avatarImage = getDeterministicAvatar(c.handle);
+  }
+});
+
+mockNotifications.forEach((n) => {
+  if (n.avatarImage) {
+    n.avatarImage = getDeterministicAvatar(n.user);
+  }
+});
+
+mockResultsRiya.forEach((u) => {
+  if (u.avatarImage || u.avatarImage === undefined) {
+    u.avatarImage = getDeterministicAvatar(u.handle || u.name);
+  }
+});
