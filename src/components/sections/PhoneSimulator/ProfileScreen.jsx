@@ -20,21 +20,125 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showFollowModal, setShowFollowModal] = useState(false);
+  const [followListType, setFollowListType] = useState(null); // 'followers' or 'following'
+  const [followSearchQuery, setFollowSearchQuery] = useState('');
   const streakDays = 30;
 
   const [prevUsername, setPrevUsername] = useState(username);
   if (username !== prevUsername) {
     setPrevUsername(username);
     setShowSuggestions(false);
+    setShowFollowModal(false);
+    setFollowSearchQuery('');
   }
 
-  const isOwnProfile = userProfileData && username === userProfileData.username;
+  const cleanUsername = username.replace('@', '');
+  const isOwnProfile = userProfileData && cleanUsername === userProfileData.username;
   const profileTabs = isOwnProfile ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];
 
-  const userProfile = mockResultsRiya.find(u => u.handle === username || u.handle === `@${username}`);
+  const userProfile = mockResultsRiya.find(u => u.handle.replace('@', '') === cleanUsername) ||
+    suggestionPool.find(u => u.handle.replace('@', '') === cleanUsername);
   const displayAvatar = isOwnProfile ? null : (userProfile?.avatarImage || userAvatar);
   const isFollowing = followedUsers?.has(userProfile?.id);
   const displayBio = isOwnProfile ? userProfileData.bio : "Anonymous thoughts. Questions nobody dares ask out loud.";
+
+  // Helper to get user details by id or handle
+  const getUserDetails = (idOrHandle) => {
+    const found = mockResultsRiya.find(u => u.id === idOrHandle || u.handle.replace('@', '') === idOrHandle.replace('@', '')) ||
+      suggestionPool.find(u => u.id === idOrHandle || u.handle.replace('@', '') === idOrHandle.replace('@', '')) ||
+      (idOrHandle === 's1' ? { id: 's1', name: 'Meera Talwar', handle: 'meera_t', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677371/mystify/avatar/peeps/imir0hqmtwelttlqtu79.png' } : null) ||
+      (idOrHandle === 's2' ? { id: 's2', name: 'Rohan Desai', handle: 'rohan_d', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png' } : null);
+
+    if (found) {
+      return {
+        id: found.id,
+        name: found.name,
+        handle: found.handle.replace('@', ''),
+        avatarImage: found.avatarImage || userAvatar
+      };
+    }
+    return null;
+  };
+
+  // Helper for logged in user details
+  const getLoggedInUserDetails = () => ({
+    id: 'ghost_mind_user',
+    name: userProfileData?.username || 'ghost_mind',
+    handle: userProfileData?.username || 'ghost_mind',
+    avatarImage: userProfileData?.avatarValue?.startsWith('http') ? userProfileData?.avatarValue : 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png'
+  });
+
+  // Calculate followers and following lists
+  const getFollowersList = () => {
+    if (isOwnProfile) {
+      return ['r1', 'r3', 's2_s', 's5_s', 's6_s'].map(getUserDetails).filter(Boolean);
+    } else {
+      const baseFollowers = ['r2', 'r3', 's1_s'].map(getUserDetails).filter(Boolean);
+      if (isFollowing) {
+        return [getLoggedInUserDetails(), ...baseFollowers];
+      }
+      return baseFollowers;
+    }
+  };
+
+  const getFollowingList = () => {
+    if (isOwnProfile) {
+      return Array.from(followedUsers).map(getUserDetails).filter(Boolean);
+    } else {
+      return ['r3', 's2_s', 's4_s'].map(getUserDetails).filter(Boolean);
+    }
+  };
+
+  const parseFollowers = (str) => {
+    if (!str) return 0;
+    if (str.endsWith('K')) {
+      return Math.round(parseFloat(str.slice(0, -1)) * 1000);
+    }
+    return parseInt(str, 10) || 0;
+  };
+
+  const getDisplayFollowersCount = () => {
+    if (isOwnProfile) return "12.4K";
+    const baseCount = parseFollowers(userProfile?.followers || "1.2K");
+    const count = isFollowing ? baseCount + 1 : baseCount;
+    return count >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toLocaleString();
+  };
+
+  const getDisplayFollowingCount = () => {
+    if (isOwnProfile) {
+      return (88 + followedUsers.size).toString();
+    }
+    return "142";
+  };
+
+  const openFollowList = (type) => {
+    setFollowListType(type);
+    setShowFollowModal(true);
+  };
+
+  const handleTabChange = (type) => {
+    setFollowListType(type);
+    setFollowSearchQuery('');
+  };
+
+  const closeFollowModal = () => {
+    setShowFollowModal(false);
+    setFollowSearchQuery('');
+  };
+
+  const followersList = getFollowersList();
+  const followingList = getFollowingList();
+
+  const filteredFollowers = followersList.filter(user =>
+    user.name.toLowerCase().includes(followSearchQuery.toLowerCase()) ||
+    user.handle.toLowerCase().includes(followSearchQuery.toLowerCase())
+  );
+
+  const filteredFollowing = followingList.filter(user =>
+    user.name.toLowerCase().includes(followSearchQuery.toLowerCase()) ||
+    user.handle.toLowerCase().includes(followSearchQuery.toLowerCase())
+  );
 
   const samplePosts = [
     { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" },
@@ -110,7 +214,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       {/* 2. AVATAR ROW */}
       <div className="relative z-10 px-5 flex justify-between items-end" style={{ marginTop: '-44px' }}>
         <div className="relative">
-          <div 
+          <div
             className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center overflow-hidden cursor-pointer"
             onClick={() => setViewingMedia({
               type: (isOwnProfile && !userProfileData.avatarValue?.startsWith('http')) ? 'text' : 'image',
@@ -157,8 +261,8 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                 }
               }}
               className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${isFollowing
-                  ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]'
-                  : 'bg-[#FF4500] hover:bg-[#ff5722]'
+                ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]'
+                : 'bg-[#FF4500] hover:bg-[#ff5722]'
                 }`}
             >
               {isFollowing ? 'Following' : 'Follow'}
@@ -181,15 +285,21 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             <span className="text-[10px] text-[#666] uppercase tracking-[0.06em] mt-[3px]">POSTS</span>
             <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-[#1a1a1a]"></div>
           </div>
-          <div className="flex-1 flex flex-col items-center py-[12px] relative">
-            <span className="font-dmsans font-bold text-[18px] text-white">12.4K</span>
+          <button
+            onClick={() => openFollowList('followers')}
+            className="flex-1 flex flex-col items-center py-[12px] relative hover:bg-white/[0.02] active:bg-white/[0.04] transition-colors"
+          >
+            <span className="font-dmsans font-bold text-[18px] text-white">{getDisplayFollowersCount()}</span>
             <span className="text-[10px] text-[#666] uppercase tracking-[0.06em] mt-[3px]">FOLLOWERS</span>
             <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-[#1a1a1a]"></div>
-          </div>
-          <div className="flex-1 flex flex-col items-center py-[12px]">
-            <span className="font-dmsans font-bold text-[18px] text-white">89</span>
+          </button>
+          <button
+            onClick={() => openFollowList('following')}
+            className="flex-1 flex flex-col items-center py-[12px] hover:bg-white/[0.02] active:bg-white/[0.04] transition-colors"
+          >
+            <span className="font-dmsans font-bold text-[18px] text-white">{getDisplayFollowingCount()}</span>
             <span className="text-[10px] text-[#666] uppercase tracking-[0.06em] mt-[3px]">FOLLOWING</span>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -226,7 +336,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             <div className="p-3.5 flex flex-col gap-2">
               <div className="flex justify-between items-center px-1">
                 <span className="text-[9px] font-semibold text-white/40 uppercase tracking-[0.05em]">Suggested for you</span>
-                <button 
+                <button
                   onClick={() => setShowSuggestions(false)}
                   className="text-white/30 hover:text-white/60 p-0.5"
                 >
@@ -239,7 +349,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                   .map(suggestedUser => {
                     const isSuggestedFollowing = followedUsers?.has(suggestedUser.id);
                     return (
-                      <div 
+                      <div
                         key={suggestedUser.id}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -257,11 +367,10 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                             e.stopPropagation();
                             onFollowToggle && onFollowToggle(suggestedUser.id);
                           }}
-                          className={`w-full py-1 rounded-[12px] text-[8px] font-bold transition-all ${
-                            isSuggestedFollowing
+                          className={`w-full py-1 rounded-[12px] text-[8px] font-bold transition-all ${isSuggestedFollowing
                               ? 'bg-transparent text-white/40 border border-white/10'
                               : 'bg-[#FF4500] text-white border border-[#FF4500] hover:bg-[#ff5d1f]'
-                          }`}
+                            }`}
                         >
                           {isSuggestedFollowing ? 'Following' : 'Follow'}
                         </button>
@@ -330,7 +439,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
       {/* Invisible overlay for dropdown */}
       {showOtherUserActions && !isOwnProfile && (
-        <div 
+        <div
           onClick={() => setShowOtherUserActions(false)}
           className="absolute inset-0 z-40"
         />
@@ -345,11 +454,11 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="absolute top-[105px] right-[20px] w-[160px] bg-[#111] border border-[#222] rounded-[12px] shadow-2xl overflow-hidden z-50 flex flex-col"
           >
-            <button 
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 setShowOtherUserActions(false);
-              }} 
+              }}
               className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#1a1a1a] transition-colors text-left group border-b border-[#222] cursor-default"
             >
               <Ghost className="w-4 h-4 text-[#888] group-hover:text-white transition-colors" />
@@ -386,9 +495,8 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className={`relative overflow-hidden shadow-2xl flex items-center justify-center ${
-                viewingMedia.isCover ? 'w-full aspect-[21/9] rounded-[16px]' : 'w-[250px] h-[250px] rounded-full bg-[#111] border-[4px] border-[#222]'
-              }`}
+              className={`relative overflow-hidden shadow-2xl flex items-center justify-center ${viewingMedia.isCover ? 'w-full aspect-[21/9] rounded-[16px]' : 'w-[250px] h-[250px] rounded-full bg-[#111] border-[4px] border-[#222]'
+                }`}
               style={viewingMedia.type === 'color' ? { backgroundColor: viewingMedia.value } : {}}
               onClick={(e) => e.stopPropagation()}
             >
@@ -399,6 +507,146 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                 <span className="text-[100px] text-white">{viewingMedia.value}</span>
               )}
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 9. FOLLOWERS / FOLLOWING SCREEN (Instagram / X Style) */}
+      <AnimatePresence>
+        {showFollowModal && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "tween", ease: "easeInOut", duration: 0.25 }}
+            className="absolute inset-0 bg-[#0a0a0a] z-[90] flex flex-col font-sans overflow-hidden"
+          >
+            {/* Top Bar / Header */}
+            <div className="bg-[#0a0a0a] border-b border-white/[0.08] px-4 pt-3 pb-3 flex items-center justify-between shrink-0">
+              <button
+                onClick={closeFollowModal}
+                className="w-8 h-8 rounded-full bg-white/[0.04] flex items-center justify-center cursor-pointer transition-all hover:bg-white/[0.08] active:scale-95 text-white/80 hover:text-white"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <div className="flex flex-col items-center justify-center">
+                <span className="text-[13px] font-bold text-white tracking-wide">
+                  @{cleanUsername}
+                </span>
+              </div>
+              <div className="w-8" />
+            </div>
+
+            {/* Tabs Selector */}
+            <div className="flex border-b border-white/[0.06] bg-[#0a0a0a] shrink-0">
+              <button
+                onClick={() => handleTabChange('followers')}
+                className={`flex-1 py-3 text-center font-dmsans font-bold text-[12.5px] relative transition-colors ${followListType === 'followers' ? 'text-white' : 'text-white/35 hover:text-white/60'
+                  }`}
+              >
+                Followers
+                <span className="ml-1 text-[11.5px] font-normal text-white/40">
+                  {getDisplayFollowersCount()}
+                </span>
+                {followListType === 'followers' && (
+                  <motion.div layoutId="followFullUnderline" className="absolute bottom-0 inset-x-6 h-[2px] bg-[#FF4500]" />
+                )}
+              </button>
+              <button
+                onClick={() => handleTabChange('following')}
+                className={`flex-1 py-3 text-center font-dmsans font-bold text-[12.5px] relative transition-colors ${followListType === 'following' ? 'text-white' : 'text-white/35 hover:text-white/60'
+                  }`}
+              >
+                Following
+                <span className="ml-1 text-[11.5px] font-normal text-white/40">
+                  {getDisplayFollowingCount()}
+                </span>
+                {followListType === 'following' && (
+                  <motion.div layoutId="followFullUnderline" className="absolute bottom-0 inset-x-6 h-[2px] bg-[#FF4500]" />
+                )}
+              </button>
+            </div>
+
+            {/* Search Bar */}
+            <div className="p-3 bg-[#0a0a0a] border-b border-white/[0.04] shrink-0">
+              <div className="bg-white/[0.05] border border-white/[0.08] focus-within:border-[#FF4500]/50 focus-within:bg-white/[0.08] rounded-[10px] p-[7px_10px] flex items-center gap-2 transition-all duration-200">
+                <Search size={14} className="text-white/30 shrink-0" />
+                <input
+                  type="text"
+                  value={followSearchQuery}
+                  onChange={e => setFollowSearchQuery(e.target.value)}
+                  placeholder="Search"
+                  className="bg-transparent text-white text-[12px] outline-none placeholder:text-white/25 flex-1"
+                />
+                {followSearchQuery && (
+                  <button onClick={() => setFollowSearchQuery('')} className="p-0.5 hover:bg-white/10 rounded-full transition-colors shrink-0">
+                    <X size={12} className="text-white/40 hover:text-white" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* User List */}
+            <div className="flex-1 overflow-y-auto bg-[#0a0a0a] no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {(followListType === 'followers' ? filteredFollowers : filteredFollowing).length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 text-center px-4">
+                  <div className="w-14 h-14 rounded-full bg-white/[0.02] border border-white/[0.05] flex items-center justify-center mb-4">
+                    <User size={24} className="text-white/20" />
+                  </div>
+                  <h4 className="text-[13px] font-bold text-white mb-1">No results found</h4>
+                  <p className="text-white/35 text-[11px] max-w-[200px] leading-normal font-dmsans">
+                    {followSearchQuery ? `No users matched "${followSearchQuery}"` : "This list is currently empty."}
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y divide-white/[0.04]">
+                  {(followListType === 'followers' ? filteredFollowers : filteredFollowing).map(user => {
+                    const isUserFollowing = followedUsers?.has(user.id);
+                    return (
+                      <div
+                        key={user.id}
+                        onClick={() => {
+                          closeFollowModal();
+                          onNavigateToProfile && onNavigateToProfile(user.handle);
+                        }}
+                        className="flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.02] active:bg-white/[0.01] cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <img
+                            src={user.avatarImage}
+                            alt={user.name}
+                            className="w-[40px] h-[40px] rounded-full object-cover border border-white/10 shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <p className="text-[12.5px] font-bold text-white truncate leading-none mb-1 hover:underline">
+                              {user.name}
+                            </p>
+                            <p className="text-[11px] text-white/40 truncate leading-none">
+                              @{user.handle}
+                            </p>
+                          </div>
+                        </div>
+
+                        {user.id !== 'ghost_mind_user' && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onFollowToggle && onFollowToggle(user.id);
+                            }}
+                            className={`h-[28px] rounded-full px-4 text-[10.5px] font-bold tracking-wide transition-all shrink-0 active:scale-95 ${isUserFollowing
+                                ? 'bg-transparent text-white/80 border border-white/20 hover:bg-white/[0.05] hover:text-white'
+                                : 'bg-[#FF4500] hover:bg-[#ff5722] text-white border border-[#FF4500]'
+                              }`}
+                          >
+                            {isUserFollowing ? 'Following' : 'Follow'}
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

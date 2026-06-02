@@ -395,9 +395,9 @@ export const initialHeroReels = [
       { user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png", from: "from-fuchsia-400", to: "to-purple-500", size: "w-10/12 ml-6", padding: "px-3.5 py-2.5", margin: "mt-1", dot: "w-6 h-6" }
     ],
     commentsList: [
-       { id: 51, user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", likes: 780, time: "6h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png", avatarFrom: "from-pink-500", avatarTo: "to-rose-500" },
-       { id: 52, user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", likes: 640, time: "5h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png", avatarFrom: "from-fuchsia-400", avatarTo: "to-purple-500" },
-       { id: 53, user: "couch_potato", text: "Binge watching 3 seasons of a show without moving", likes: 1100, time: "4h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png", avatarFrom: "from-orange-300", avatarTo: "to-rose-400" }
+      { id: 51, user: "mall_rat", text: "Hitting the shops with friends! Love the energy of a busy mall. 🛍️✨", likes: 780, time: "6h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675632/mystify/avatar/mimo/goamacxbzx9gcwhgky47.png", avatarFrom: "from-pink-500", avatarTo: "to-rose-500" },
+      { id: 52, user: "coffee_lover", text: "Just people watching with an iced coffee. It's so peaceful in a weird way. ☕🚶", likes: 640, time: "5h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677344/mystify/avatar/peeps/taqricgvnq3kodve7lpf.png", avatarFrom: "from-fuchsia-400", avatarTo: "to-purple-500" },
+      { id: 53, user: "couch_potato", text: "Binge watching 3 seasons of a show without moving", likes: 1100, time: "4h", avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677766/mystify/avatar/toons/ryq1urz19sdgpieivdsh.png", avatarFrom: "from-orange-300", avatarTo: "to-rose-400" }
     ],
     likes: "21.4",
     comments: "2.8K",
