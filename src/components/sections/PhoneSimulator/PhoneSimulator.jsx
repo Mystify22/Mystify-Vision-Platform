@@ -19,14 +19,14 @@ import NotificationsScreen from './NotificationsScreen';
 
 const TablerFlame = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z" />
   </svg>
 );
 
 const TablerPlanet = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M18.816 13.58c2.292 2.138 3.546 4 3.092 4.9c-.745 1.46 -5.783 -.259 -11.255 -3.838c-5.47 -3.579 -9.304 -7.664 -8.56 -9.123c.464 -.91 2.926 -.444 5.803 .805" />
     <circle cx="12" cy="12" r="7" />
   </svg>
@@ -40,7 +40,7 @@ const TablerWaveSine = ({ size = 24, color = "currentColor", className = "" }) =
 
 const TablerCircleDashed = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" />
     <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" />
     <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" />
@@ -63,7 +63,7 @@ const PhoneSimulator = () => {
   const [selectedMusic, setSelectedMusic] = useState(null);
   const [selectedProfileUsername, setSelectedProfileUsername] = useState("ghost_mind");
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
-  const [followedUsers, setFollowedUsers] = useState(new Set(['r2']));
+  const [followedUsers, setFollowedUsers] = useState(new Set(['r2', 's1_s', 's4_s']));
   const [selectedPost, setSelectedPost] = useState(null);
 
   const [userProfileData, setUserProfileData] = useState(() => {
@@ -205,18 +205,18 @@ const PhoneSimulator = () => {
               />
             )}
             {step === 4 && (
-              <FeedScreen 
-                key="step-home" 
-                initialMode="feed" 
-                onInboxClick={() => { setChatTargetUsername(null); setStep(7); }} 
-                onNotificationsClick={() => setStep(12)} 
+              <FeedScreen
+                key="step-home"
+                initialMode="feed"
+                onInboxClick={() => { setChatTargetUsername(null); setStep(7); }}
+                onNotificationsClick={() => setStep(12)}
               />
             )}
             {step === 11 && (
-              <FeedScreen 
-                key="step-reels" 
-                initialMode="reels" 
-                initialPost={selectedPost} 
+              <FeedScreen
+                key="step-reels"
+                initialMode="reels"
+                initialPost={selectedPost}
                 onBackFromReels={() => {
                   if (selectedPost) {
                     setSelectedPost(null);
@@ -224,7 +224,7 @@ const PhoneSimulator = () => {
                   } else {
                     setStep(4);
                   }
-                }} 
+                }}
               />
             )}
             {step === 12 && (
