@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronLeft, ChevronRight, Phone, Bell, Ghost, 
-  Palette, HelpCircle, Flag, Pause, Trash, LogOut, 
+import {
+  ChevronLeft, ChevronRight, Phone, Bell, Ghost,
+  Palette, HelpCircle, Flag, Pause, Trash, LogOut,
   Moon, Sun, Smartphone, Check, ChevronDown, PlusCircle, MessageSquare, Info, Shield
 } from 'lucide-react';
 
@@ -38,11 +38,11 @@ const BottomSheet = ({ visible, onClose, title, subtitle, children }) => {
   );
 };
 
-const SettingsRow = ({ 
-  icon: Icon, iconBg, iconColor, title, titleColor = "white", subtitle, 
+const SettingsRow = ({
+  icon: Icon, iconBg, iconColor, title, titleColor = "white", subtitle,
   rightElement, onPress, isLast, activeOpacity = true, hideChevron = false
 }) => (
-  <div 
+  <div
     onClick={onPress}
     className={`flex items-center gap-3 p-[12px_14px] ${!isLast ? 'border-b border-white/5' : ''} ${activeOpacity && onPress ? 'cursor-pointer hover:bg-white/5 active:bg-white/5' : ''}`}
   >
@@ -63,12 +63,12 @@ const SettingsRow = ({
 );
 
 const Toggle = ({ enabled, onToggle }) => (
-  <button 
+  <button
     onClick={onToggle}
     className="relative w-[38px] h-[22px] rounded-[20px] transition-colors duration-200 ease-in-out"
     style={{ backgroundColor: enabled ? '#ff5a1a' : 'rgba(255,255,255,0.15)' }}
   >
-    <div 
+    <div
       className="absolute top-[2px] w-[18px] h-[18px] bg-white rounded-full transition-all duration-200 ease-in-out"
       style={{ left: enabled ? '18px' : '2px' }}
     />
@@ -121,7 +121,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
             <span className="text-[14px] font-medium text-white">{userProfileData?.username || 'ghost_mind'}</span>
             <span className="text-[11px] text-white/35">@{userProfileData?.username || 'ghost_mind'} · 12.4K followers</span>
           </div>
-          <button 
+          <button
             onClick={onEditProfile}
             className="text-[11px] text-white/40 bg-white/[0.06] border border-white/10 rounded-[20px] px-[10px] py-[4px]"
           >
@@ -130,12 +130,12 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
         </div>
 
         <div className="px-[14px] pb-[30px] space-y-[18px]">
-          
+
           {/* SECTION: Account */}
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Account</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={Phone} iconBg="rgba(77,144,215,0.12)" iconColor="rgba(77,144,215,0.9)"
                 title="Phone number" subtitle="+91 98765 •••••"
                 onPress={() => setActiveModal('phone')}
@@ -148,7 +148,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Notifications</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={Bell} iconBg="rgba(218,184,127,0.12)" iconColor="rgba(218,184,127,0.9)"
                 title="Push notifications" subtitle={notifEnabled ? "All notifications on" : "Notifications off"}
                 rightElement={<Toggle enabled={notifEnabled} onToggle={() => setNotifEnabled(!notifEnabled)} />}
@@ -161,7 +161,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Privacy</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={Ghost} iconBg="rgba(255,255,255,0.06)" iconColor="rgba(255,255,255,0.55)"
                 title="Ghosted" subtitle="Manage blocked accounts"
                 rightElement={
@@ -181,7 +181,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Appearance</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={Palette} iconBg="rgba(255,90,26,0.1)" iconColor="#ff5a1a"
                 title="Theme" subtitle={themeOptions.find(t => t.id === selectedTheme)?.label}
                 onPress={() => setActiveModal('theme')}
@@ -194,12 +194,12 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Support</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={HelpCircle} iconBg="rgba(77,144,215,0.1)" iconColor="rgba(77,144,215,0.9)"
                 title="Help center" subtitle="FAQs and guides"
                 onPress={() => setActiveModal('help')}
               />
-              <SettingsRow 
+              <SettingsRow
                 icon={Flag} iconBg="rgba(218,184,127,0.1)" iconColor="rgba(218,184,127,0.9)"
                 title="Report an issue" subtitle="Bug or content problem"
                 onPress={() => setActiveModal('report')}
@@ -212,7 +212,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">About</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={Info} iconBg="rgba(255,255,255,0.06)" iconColor="rgba(255,255,255,0.55)"
                 title="About Mystify" subtitle="App details and privacy policy"
                 onPress={() => setActiveModal('about')}
@@ -225,12 +225,12 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           <div>
             <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Danger zone</div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
-              <SettingsRow 
+              <SettingsRow
                 icon={Pause} iconBg="rgba(218,184,127,0.1)" iconColor="rgba(218,184,127,0.9)"
                 title="Deactivate account" titleColor="rgba(218,184,127,0.95)" subtitle="Temporarily pause your account"
                 onPress={() => setActiveModal('deactivate')}
               />
-              <SettingsRow 
+              <SettingsRow
                 icon={Trash} iconBg="rgba(255,60,60,0.1)" iconColor="rgba(255,80,80,0.9)"
                 title="Delete account" titleColor="rgba(255,80,80,0.9)" subtitle="Permanent — cannot be undone"
                 rightElement={
@@ -247,13 +247,13 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           {/* SECTION: Session */}
           <div>
             <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden mt-[10px]">
-              <SettingsRow 
+              <SettingsRow
                 icon={LogOut} iconBg="rgba(255,90,26,0.1)" iconColor="#ff5a1a"
                 title="Log out" subtitle="Sign out of this device"
                 onPress={() => setActiveModal('logout')}
                 isLast={false}
               />
-              <SettingsRow 
+              <SettingsRow
                 icon={LogOut} iconBg="rgba(255,60,60,0.12)" iconColor="rgba(255,80,80,0.9)"
                 title="Log out from all devices" titleColor="rgba(255,80,80,0.9)" subtitle="Sign out of all active sessions"
                 onPress={() => setActiveModal('logoutAll')}
@@ -269,15 +269,15 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </div>
 
       {/* MODALS */}
-      
+
       {/* PHONE MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'phone'} 
+      <BottomSheet
+        visible={activeModal === 'phone'}
         onClose={() => setActiveModal(null)}
-        title="Update phone number" 
+        title="Update phone number"
         subtitle="We'll send a verification code to your new number."
       >
-        <input 
+        <input
           type="tel"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
@@ -294,10 +294,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* GHOSTED MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'ghosted'} 
+      <BottomSheet
+        visible={activeModal === 'ghosted'}
         onClose={() => setActiveModal(null)}
-        title="Ghosted accounts" 
+        title="Ghosted accounts"
         subtitle="These accounts can't see your posts or send you messages."
       >
         <div className="mx-4 mb-[14px] bg-[#111] rounded-[12px] overflow-hidden">
@@ -314,7 +314,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
                   </div>
                   <span className="text-[13px] text-white">{account}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => setGhostedAccounts(prev => prev.filter((_, i) => i !== index))}
                   className="bg-[rgba(255,60,60,0.08)] border border-[rgba(255,60,60,0.15)] rounded-[8px] px-[10px] py-[4px] text-[11px] text-[rgba(255,80,80,0.8)]"
                 >
@@ -330,10 +330,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* THEME MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'theme'} 
+      <BottomSheet
+        visible={activeModal === 'theme'}
         onClose={() => setActiveModal(null)}
-        title="Choose theme" 
+        title="Choose theme"
         subtitle="Pick how Mystify looks for you."
       >
         <div className="mx-4 mb-[14px] bg-[#111] rounded-[12px] overflow-hidden">
@@ -341,7 +341,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
             const Icon = opt.icon;
             const isSelected = selectedTheme === opt.id;
             return (
-              <div 
+              <div
                 key={opt.id}
                 onClick={() => setSelectedTheme(opt.id)}
                 className={`flex items-center gap-[12px] p-[11px_14px] cursor-pointer ${index !== themeOptions.length - 1 ? 'border-b border-white/5' : ''} ${isSelected ? 'bg-[rgba(255,90,26,0.06)]' : ''}`}
@@ -353,7 +353,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
                   <span className="text-[13px] font-medium text-white">{opt.label}</span>
                   <span className="text-[11px] text-white/35">{opt.desc}</span>
                 </div>
-                <div 
+                <div
                   className={`w-[18px] h-[18px] rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${isSelected ? 'border-[#ff5a1a] bg-[#ff5a1a]' : 'border-white/30'}`}
                 >
                   {isSelected && <div className="w-[8px] h-[8px] bg-white rounded-full" />}
@@ -368,10 +368,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* HELP MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'help'} 
+      <BottomSheet
+        visible={activeModal === 'help'}
         onClose={() => setActiveModal(null)}
-        title="Help center" 
+        title="Help center"
         subtitle="Browse common questions or reach out to support."
       >
         <div className="mx-4 mb-[10px] bg-[#111] rounded-[12px] overflow-hidden border border-white/5">
@@ -404,7 +404,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
             const isExpanded = expandedFaq === faq.id;
             return (
               <div key={faq.id} className={`${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}>
-                <div 
+                <div
                   onClick={() => setExpandedFaq(isExpanded ? null : faq.id)}
                   className="flex items-center gap-3 p-[12px_14px] cursor-pointer hover:bg-white/[0.03] active:bg-white/[0.03] transition-colors"
                 >
@@ -435,17 +435,17 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
             );
           })}
         </div>
-        
+
         {/* Still Need Help Gradient Card */}
         <div className="mx-4 mt-2 mb-4 p-4 rounded-[14px] bg-gradient-to-r from-[rgba(255,90,26,0.12)] to-[rgba(77,144,215,0.12)] border border-white/[0.08] flex items-center justify-between gap-4">
           <div className="flex flex-col gap-0.5">
             <span className="text-[12px] font-semibold text-white/90">Still need help?</span>
             <span className="text-[10px] text-white/45">Our support agents are available 24/7.</span>
           </div>
-          <button 
+          <button
             onClick={() => {
               setActiveModal('report');
-            }} 
+            }}
             className="px-4 h-[32px] rounded-[16px] bg-[#ff5a1a] hover:bg-[#ff6b2d] active:scale-95 transition-all text-white font-semibold text-[11px] shrink-0"
           >
             Ask Us
@@ -458,13 +458,13 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* REPORT MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'report'} 
+      <BottomSheet
+        visible={activeModal === 'report'}
         onClose={() => setActiveModal(null)}
-        title="Report an issue" 
+        title="Report an issue"
         subtitle="Tell us what's wrong and we'll look into it quickly."
       >
-        <textarea 
+        <textarea
           value={reportText}
           onChange={(e) => setReportText(e.target.value)}
           placeholder="Describe the issue..."
@@ -480,10 +480,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* LOGOUT MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'logout'} 
+      <BottomSheet
+        visible={activeModal === 'logout'}
         onClose={() => setActiveModal(null)}
-        title="Log out?" 
+        title="Log out?"
         subtitle="You'll need to verify your phone number to log back in."
       >
         <button onClick={() => { setActiveModal(null); onLogout(); }} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-[rgba(255,60,60,0.12)] border border-[rgba(255,60,60,0.2)] text-[rgba(255,80,80,0.9)] font-medium text-[14px]">
@@ -495,10 +495,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* LOGOUT ALL MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'logoutAll'} 
+      <BottomSheet
+        visible={activeModal === 'logoutAll'}
         onClose={() => setActiveModal(null)}
-        title="Log out from all devices?" 
+        title="Log out from all devices?"
         subtitle="This will sign you out of all devices and active sessions. You'll need to log back in everywhere."
       >
         <button onClick={() => { setActiveModal(null); onLogoutAll ? onLogoutAll() : onLogout(); }} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-[rgba(255,60,60,0.12)] border border-[rgba(255,60,60,0.2)] text-[rgba(255,80,80,0.9)] font-medium text-[14px]">
@@ -510,10 +510,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* DEACTIVATE MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'deactivate'} 
+      <BottomSheet
+        visible={activeModal === 'deactivate'}
         onClose={() => setActiveModal(null)}
-        title="Deactivate account" 
+        title="Deactivate account"
         subtitle="Your profile and posts will be hidden. You can reactivate any time by logging back in."
       >
         <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-[rgba(218,184,127,0.12)] border border-[rgba(218,184,127,0.2)] text-[rgba(218,184,127,0.9)] font-medium text-[14px]">
@@ -525,10 +525,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* DELETE MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'delete'} 
+      <BottomSheet
+        visible={activeModal === 'delete'}
         onClose={() => setActiveModal(null)}
-        title="Delete account permanently" 
+        title="Delete account permanently"
         subtitle="This will erase all your posts, followers, streak and data. This cannot be undone."
       >
         <button onClick={() => setActiveModal(null)} className="mx-4 mb-2 h-[44px] rounded-[12px] bg-[rgba(255,60,60,0.12)] border border-[rgba(255,60,60,0.2)] text-[rgba(255,80,80,0.9)] font-medium text-[14px]">
@@ -540,10 +540,10 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
       </BottomSheet>
 
       {/* ABOUT MODAL */}
-      <BottomSheet 
-        visible={activeModal === 'about'} 
+      <BottomSheet
+        visible={activeModal === 'about'}
         onClose={() => setActiveModal(null)}
-        title="About Mystify" 
+        title="About Mystify"
         subtitle="Learn more about our mission and privacy protection."
       >
         <div className="mx-4 mb-[14px] flex flex-col items-center text-center p-4 bg-[#111] rounded-[12px] border border-white/5">
