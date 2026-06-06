@@ -148,13 +148,15 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
                     <span className="text-[13px] font-medium text-white/50" style={{ fontFamily: "'DM Sans', sans-serif" }}>days</span>
                     <i className="ti ti-flame text-[#ff5a1a] text-[18px] ml-1 animate-pulse"></i>
                   </div>
-                  <span className="text-[10px] text-white/30 mt-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Personal Best: 30 days</span>
                 </div>
 
                 <div className="flex flex-col items-end">
-                  <span className="text-[10px] text-white/30 uppercase tracking-widest font-semibold mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Total Points</span>
-                  <span className="text-[28px] font-bold text-[#ff5a1a] leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>3,000</span>
-                  <span className="text-[9px] text-[#ff5a1a]/60 font-semibold uppercase mt-1 tracking-wider" style={{ fontFamily: "'DM Sans', sans-serif" }}>pts earned</span>
+                  <span className="text-[10px] text-white/30 uppercase tracking-widest font-semibold mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>Highest Streak</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-[28px] font-bold text-[#ff5a1a] leading-none" style={{ fontFamily: "'DM Sans', sans-serif" }}>40</span>
+                    <span className="text-[13px] font-medium text-[#ff5a1a]/70" style={{ fontFamily: "'DM Sans', sans-serif" }}>days</span>
+                  </div>
+                  <span className="text-[9px] text-[#ff5a1a]/60 font-semibold uppercase mt-1 tracking-wider" style={{ fontFamily: "'DM Sans', sans-serif" }}>personal best</span>
                 </div>
               </div>
 
