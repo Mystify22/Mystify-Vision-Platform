@@ -14,6 +14,49 @@ const getStableAvatar = (username) => {
   return RANDOM_AVATARS[index];
 };
 
+const generateMockUsers = (count, includesMe, baseUsers) => {
+  const list = [...baseUsers];
+  const adjectives = ['dream', 'silent', 'cosmic', 'urban', 'lost', 'neon', 'hidden', 'silver', 'shadow', 'golden', 'retro', 'crypto', 'dark', 'cyber', 'velvet', 'vague', 'indigo', 'static', 'polar', 'lunar'];
+  const nouns = ['vibe', 'echo', 'wanderer', 'nomad', 'note', 'drift', 'voice', 'mind', 'soul', 'wave', 'phantom', 'spirit', 'pulse', 'spark', 'glow', 'whisper', 'shade', 'aura', 'haze', 'orbit'];
+  const usedNames = new Set(baseUsers.map(u => u.username));
+  usedNames.add('ghost_mind');
+  
+  while (list.length < count - (includesMe ? 1 : 0)) {
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const num = Math.floor(Math.random() * 90) + 10;
+    const username = `${adj}_${noun}${Math.random() > 0.6 ? num : ''}`;
+    if (!usedNames.has(username)) {
+      usedNames.add(username);
+      const pointsVal = Math.floor(Math.random() * 24000) + 1000;
+      const streakVal = Math.floor(Math.random() * 88) + 3;
+      list.push({
+        username,
+        points: pointsVal,
+        streak: streakVal,
+        isMe: false
+      });
+    }
+  }
+  
+  if (includesMe) {
+    list.push({
+      username: 'ghost_mind',
+      points: 3000,
+      streak: 15,
+      isMe: true
+    });
+  }
+  
+  list.sort((a, b) => b.points - a.points);
+  
+  return list.map((user, index) => ({
+    ...user,
+    rank: index + 1,
+    points: user.points.toLocaleString()
+  }));
+};
+
 const mockData = {
   global: [
     { rank: 1, username: 'void_echo', points: '18,450', streak: '90', isMe: false },
@@ -22,15 +65,18 @@ const mockData = {
     { rank: 4, username: 'dark_note', points: '9,340', streak: '30', isMe: false },
     { rank: 5, username: 'lost_voice', points: '7,100', streak: '30', isMe: false },
   ],
-  followers: [
-    { rank: 1, username: 'void_echo', points: '18,450', streak: '90', isMe: false },
-    { rank: 2, username: 'mind_drift', points: '11,880', streak: '60', isMe: false },
-    { rank: 3, username: 'lost_voice', points: '7,100', streak: '30', isMe: false },
-  ],
-  following: [
-    { rank: 1, username: 'soul_query', points: '14,200', streak: '60', isMe: false },
-    { rank: 2, username: 'mind_drift', points: '11,880', streak: '60', isMe: false },
-  ]
+  followers: generateMockUsers(50, true, [
+    { username: 'otaku_warrior', points: 15200, streak: 60, isMe: false },
+    { username: 'riya_m', points: 12400, streak: 45, isMe: false },
+    { username: 'chill_coder', points: 8900, streak: 30, isMe: false },
+    { username: 'sarah_vibes', points: 5600, streak: 20, isMe: false },
+    { username: 'ananya_r', points: 4100, streak: 12, isMe: false },
+  ]),
+  following: generateMockUsers(50, true, [
+    { username: 'code_ninja', points: 18100, streak: 90, isMe: false },
+    { username: 'lofi_girl', points: 14250, streak: 60, isMe: false },
+    { username: 'riyansh_k', points: 7120, streak: 30, isMe: false },
+  ])
 };
 
 const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", userProfileData }) => {
@@ -570,7 +616,10 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
                       let rankBgClass = 'bg-[#121215]/80 border-white/[0.04]';
                       let rankTextClass = 'text-white/35';
                       
-                      if (item.rank === 1) {
+                      if (item.isMe) {
+                        rankBgClass = 'bg-[#ff5a1a]/[0.08] border-[#ff5a1a]/[0.22]';
+                        rankTextClass = 'text-[#ff5a1a] font-bold';
+                      } else if (item.rank === 1) {
                         rankBgClass = 'bg-gradient-to-r from-[#eab308]/15 via-[#121215]/80 to-transparent border-[#eab308]/25';
                         rankTextClass = 'text-[#eab308] font-black drop-shadow-[0_0_6px_rgba(234,179,8,0.4)]';
                       } else if (item.rank === 2) {
@@ -579,9 +628,6 @@ const StreakScreen = ({ onBack, isOwnProfile = true, username = "ghost_mind", us
                       } else if (item.rank === 3) {
                         rankBgClass = 'bg-gradient-to-r from-[#b45309]/12 via-[#121215]/80 to-transparent border-[#b45309]/20';
                         rankTextClass = 'text-[#d97706] font-extrabold';
-                      } else if (item.isMe) {
-                        rankBgClass = 'bg-[#ff5a1a]/[0.08] border-[#ff5a1a]/[0.22]';
-                        rankTextClass = 'text-[#ff5a1a] font-bold';
                       }
 
                       return (
