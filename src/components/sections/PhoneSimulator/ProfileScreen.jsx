@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { mockResultsRiya } from './MockData';
+import { mockResultsRiya, RANDOM_AVATARS } from './MockData';
 
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
@@ -69,10 +69,47 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
     avatarImage: userProfileData?.avatarValue?.startsWith('http') ? userProfileData?.avatarValue : 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png'
   });
 
+  const getStableAvatar = (username) => {
+    if (!username) return RANDOM_AVATARS[0];
+    let hash = 0;
+    for (let i = 0; i < username.length; i++) {
+      hash = username.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % RANDOM_AVATARS.length;
+    return RANDOM_AVATARS[index];
+  };
+
+  const generateProfileUsers = (count, baseUsers) => {
+    const list = [...baseUsers];
+    const adjectives = ['dream', 'silent', 'cosmic', 'urban', 'lost', 'neon', 'hidden', 'silver', 'shadow', 'golden', 'retro', 'crypto', 'dark', 'cyber', 'velvet', 'vague', 'indigo', 'static', 'polar', 'lunar'];
+    const nouns = ['vibe', 'echo', 'wanderer', 'nomad', 'note', 'drift', 'voice', 'mind', 'soul', 'wave', 'phantom', 'spirit', 'pulse', 'spark', 'glow', 'whisper', 'shade', 'aura', 'haze', 'orbit'];
+    const usedNames = new Set(baseUsers.map(u => u.handle));
+    usedNames.add('ghost_mind');
+    
+    while (list.length < count) {
+      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const noun = nouns[Math.floor(Math.random() * nouns.length)];
+      const num = Math.floor(Math.random() * 90) + 10;
+      const handle = `${adj}_${noun}${Math.random() > 0.6 ? num : ''}`;
+      if (!usedNames.has(handle)) {
+        usedNames.add(handle);
+        const name = handle.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).replace(/[0-9]/g, '')).join(' ');
+        list.push({
+          id: `gen_${handle}`,
+          name,
+          handle,
+          avatarImage: getStableAvatar(handle)
+        });
+      }
+    }
+    return list;
+  };
+
   // Calculate followers and following lists
   const getFollowersList = () => {
     if (isOwnProfile) {
-      return ['r1', 'r3', 's2_s', 's5_s', 's6_s'].map(getUserDetails).filter(Boolean);
+      const baseFollowers = ['r1', 'r3', 's2_s', 's5_s', 's6_s'].map(getUserDetails).filter(Boolean);
+      return generateProfileUsers(50, baseFollowers);
     } else {
       const baseFollowers = ['r2', 'r3', 's1_s'].map(getUserDetails).filter(Boolean);
       if (isFollowing) {
@@ -84,7 +121,8 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
   const getFollowingList = () => {
     if (isOwnProfile) {
-      return Array.from(followedUsers).map(getUserDetails).filter(Boolean);
+      const baseFollowing = Array.from(followedUsers).map(getUserDetails).filter(Boolean);
+      return generateProfileUsers(50, baseFollowing);
     } else {
       return ['r3', 's2_s', 's4_s'].map(getUserDetails).filter(Boolean);
     }
@@ -99,7 +137,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   };
 
   const getDisplayFollowersCount = () => {
-    if (isOwnProfile) return "12.4K";
+    if (isOwnProfile) return "50";
     const baseCount = parseFollowers(userProfile?.followers || "1.2K");
     const count = isFollowing ? baseCount + 1 : baseCount;
     return count >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toLocaleString();
@@ -107,7 +145,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
   const getDisplayFollowingCount = () => {
     if (isOwnProfile) {
-      return (88 + followedUsers.size).toString();
+      return "50";
     }
     return "142";
   };
