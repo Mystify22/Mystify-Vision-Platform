@@ -15,7 +15,7 @@ const suggestionPool = [
   { id: 's6_s', name: 'Otaku Warrior', handle: 'otaku_warrior', followers: '11.8K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png' }
 ];
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile, createdPosts = [] }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
@@ -23,6 +23,8 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   const [showFollowModal, setShowFollowModal] = useState(false);
   const [followListType, setFollowListType] = useState(null); // 'followers' or 'following'
   const [followSearchQuery, setFollowSearchQuery] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
+  const [copiedPostIdx, setCopiedPostIdx] = useState(null);
   const streakDays = 30;
 
   const [prevUsername, setPrevUsername] = useState(username);
@@ -86,11 +88,18 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
     const usedNames = new Set(baseUsers.map(u => u.handle));
     usedNames.add('ghost_mind');
     
+    // Seed-based pseudo-random generator to remain pure & keep list stable
+    let seed = 42;
+    const seededRandom = () => {
+      const x = Math.sin(seed++) * 10000;
+      return x - Math.floor(x);
+    };
+    
     while (list.length < count) {
-      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-      const noun = nouns[Math.floor(Math.random() * nouns.length)];
-      const num = Math.floor(Math.random() * 90) + 10;
-      const handle = `${adj}_${noun}${Math.random() > 0.6 ? num : ''}`;
+      const adj = adjectives[Math.floor(seededRandom() * adjectives.length)];
+      const noun = nouns[Math.floor(seededRandom() * nouns.length)];
+      const num = Math.floor(seededRandom() * 90) + 10;
+      const handle = `${adj}_${noun}${seededRandom() > 0.6 ? num : ''}`;
       if (!usedNames.has(handle)) {
         usedNames.add(handle);
         const name = handle.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).replace(/[0-9]/g, '')).join(' ');
@@ -179,13 +188,135 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   );
 
   const samplePosts = [
-    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" },
-    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" },
-    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png" },
-    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
-    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png" },
-    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" },
+    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png", createdAt: "2h ago" },
+    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png", createdAt: "1d ago" },
+    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png", createdAt: "3d ago" },
+    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png", createdAt: "5d ago" },
+    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png", createdAt: "1w ago" },
+    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png", createdAt: "2w ago" },
   ];
+
+  const allPosts = isOwnProfile ? [...createdPosts, ...samplePosts] : samplePosts;
+
+  const handleCopyPostLink = (post, idx, e) => {
+    if (e) e.stopPropagation();
+    const cleanUser = username.replace('@', '');
+    const cleanMood = (post.mood || 'vibe').toLowerCase().replace(/\s+/g, '-');
+    const shareLink = `mystify.link/${cleanUser}/${cleanMood}`;
+    
+    navigator.clipboard.writeText(shareLink)
+      .then(() => {
+        setCopiedPostIdx(idx);
+        setToastMessage("Link copied! Share it to get replies.");
+        setTimeout(() => {
+          setCopiedPostIdx(null);
+        }, 1500);
+        setTimeout(() => {
+          setToastMessage("");
+        }, 2200);
+      })
+      .catch(() => {
+        setCopiedPostIdx(idx);
+        setToastMessage("Link copied!");
+        setTimeout(() => {
+          setCopiedPostIdx(null);
+          setToastMessage("");
+        }, 1500);
+      });
+  };
+
+  const handleShareVibe = (post, idx, e) => {
+    if (e) e.stopPropagation();
+    const cleanUser = username.replace('@', '');
+    const cleanMood = (post.mood || 'vibe').toLowerCase().replace(/\s+/g, '-');
+    const shareLink = `mystify.link/${cleanUser}/${cleanMood}`;
+    
+    navigator.clipboard.writeText(shareLink).catch(() => {});
+    setToastMessage("Ready for Instagram Story! Link copied.");
+    setTimeout(() => {
+      setToastMessage("");
+    }, 2500);
+  };
+
+  const renderPostCards = (postsList) => (
+    <div className="flex flex-col gap-4 p-4">
+      {postsList.map((post, idx) => {
+        const cleanUser = username.replace('@', '');
+        const cleanMood = (post.mood || 'vibe').toLowerCase().replace(/\s+/g, '-');
+        const shareLink = `mystify.link/${cleanUser}/${cleanMood}`;
+        const isCopied = copiedPostIdx === idx;
+
+        return (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
+            className="relative rounded-2xl overflow-hidden border border-white/[0.06] bg-[#111116] shadow-xl p-4 flex flex-col justify-between min-h-[160px] group transition-all duration-300 hover:border-white/10 hover:shadow-2xl"
+          >
+            {/* Visual Vibe background (highly blurred & low opacity) */}
+            {post.img && (
+              <div
+                className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-20 filter blur-xl scale-110"
+                style={{ backgroundImage: `url('${post.img}')` }}
+              />
+            )}
+            
+            {/* Ambient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#111116]/85 via-[#111116]/95 to-[#111116]/98 z-0 pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col gap-2 pt-1">
+              <div className="flex justify-end w-full">
+                <span className="text-[9px] font-medium text-white/30 font-dmsans tracking-wide">
+                  {post.createdAt || "Just now"}
+                </span>
+              </div>
+              {/* Body: Thought Text */}
+              <p className="text-[13px] text-white/90 font-dmsans font-medium leading-[1.55] break-words">
+                {post.text}
+              </p>
+            </div>
+
+            {/* Footer: Share/Copy Link Box */}
+            <div className="relative z-10 mt-4 pt-3 border-t border-white/[0.05] flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                {/* Simulated Link display */}
+                <div 
+                  onClick={(e) => handleCopyPostLink(post, idx, e)}
+                  className="flex-1 h-9 rounded-xl bg-black/40 border border-white/[0.06] flex items-center justify-between px-3 cursor-pointer group/link hover:bg-black/60 hover:border-white/15 transition-all duration-200"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Link size={11} className="text-white/40 group-hover/link:text-white/70 transition-colors shrink-0" />
+                    <span className="text-[10px] text-white/45 truncate group-hover/link:text-white/75 transition-colors font-dmsans select-none">
+                      {shareLink}
+                    </span>
+                  </div>
+                  <button 
+                    className="p-1 text-white/50 hover:text-white transition-colors shrink-0"
+                  >
+                    {isCopied ? (
+                      <Check size={12} className="text-[#FF4500]" strokeWidth={3} />
+                    ) : (
+                      <i className="ti ti-copy text-[12px] group-hover/link:scale-110 transition-transform text-white/40"></i>
+                    )}
+                  </button>
+                </div>
+
+                {/* Share Button */}
+                <button
+                  onClick={(e) => handleShareVibe(post, idx, e)}
+                  className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#FF4500] to-[#ff6a00] hover:brightness-110 transition-all duration-200 flex items-center justify-center text-white shrink-0 active:scale-95 shadow-[0_2px_10px_rgba(255,69,0,0.2)]"
+                  title="Share Vibe"
+                >
+                  <Share2 size={13} />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
 
   const sampleReplies = [
     { username: "ghost_mind", time: "2h", to: "void_speaks", text: "Anonymity isn't cowardice. Sometimes it's the only way truth survives.", likes: "412", retweets: "88", comments: "34" },
@@ -437,7 +568,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
       {/* 7. TAB PANELS */}
       <div className="flex-1 bg-[#0a0a0a] pt-1">
-        {activeTab === "Posts" && renderGrid(samplePosts)}
+        {activeTab === "Posts" && renderPostCards(allPosts)}
 
         {activeTab === "Replies" && (
           <div className="flex flex-col">
@@ -685,6 +816,21 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                 </div>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toast Notification overlay */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+            className="absolute top-16 left-1/2 z-[300] bg-black/90 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2 shadow-2xl pointer-events-none w-auto max-w-[260px] text-center"
+          >
+            <Sparkles size={12} className="text-[#FF4500]" />
+            <span className="text-white text-[11px] font-semibold tracking-wide font-dmsans whitespace-nowrap">{toastMessage}</span>
           </motion.div>
         )}
       </AnimatePresence>

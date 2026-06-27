@@ -65,6 +65,7 @@ const PhoneSimulator = () => {
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2', 's1_s', 's4_s']));
   const [selectedPost, setSelectedPost] = useState(null);
+  const [createdPosts, setCreatedPosts] = useState([]);
 
   const [userProfileData, setUserProfileData] = useState(() => {
     const saved = localStorage.getItem('mystify_user_profile');
@@ -162,7 +163,24 @@ const PhoneSimulator = () => {
                 onAddVibe={() => setStep(2)}
                 onNext={() => {
                   if (selectedVibe && selectedMusic) {
-                    console.log("Posting...", { thoughtText, selectedMoods, isAnonymous, selectedVibe, selectedMusic });
+                    const newPost = {
+                      mood: selectedMoods[0] || "Thought",
+                      text: thoughtText,
+                      replies: 0,
+                      bg: selectedVibe.bg || "#111",
+                      img: selectedVibe.img,
+                      audioSrc: selectedMusic.audioSrc,
+                      createdAt: "Just now"
+                    };
+                    setCreatedPosts(prev => [newPost, ...prev]);
+                    // Reset compose states
+                    setThoughtText("");
+                    setSelectedMoods([]);
+                    setSelectedVibe(null);
+                    setSelectedMusic(null);
+                    // Navigate to profile screen
+                    setSelectedProfileUsername(userProfileData.username);
+                    setStep(5);
                   } else {
                     setStep(2);
                   }
@@ -243,6 +261,7 @@ const PhoneSimulator = () => {
                 key="step-profile"
                 username={selectedProfileUsername}
                 userProfileData={userProfileData}
+                createdPosts={createdPosts}
                 onEditProfile={() => setStep(8)}
                 onMessageUser={() => {
                   setChatTargetUsername(selectedProfileUsername);
