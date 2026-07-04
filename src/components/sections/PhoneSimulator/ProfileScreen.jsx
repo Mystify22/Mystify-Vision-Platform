@@ -114,9 +114,43 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
   const userProfile = mockResultsRiya.find(u => u.handle.replace('@', '') === cleanUsername) ||
     suggestionPool.find(u => u.handle.replace('@', '') === cleanUsername);
-  const displayAvatar = isOwnProfile ? null : (userProfile?.avatarImage || userAvatar);
+  const displayAvatar = isOwnProfile 
+    ? (userProfileData?.avatarValue || userAvatar) 
+    : (userProfile?.avatarImage || userAvatar);
   const isFollowing = followedUsers?.has(userProfile?.id);
   const displayBio = isOwnProfile ? userProfileData.bio : "Anonymous thoughts. Questions nobody dares ask out loud.";
+
+  const getPointsCount = () => {
+    if (isOwnProfile) return "3,000";
+    if (cleanUsername === 'lofi_girl') return "14,250";
+    if (cleanUsername === 'chill_coder') return "8,900";
+    if (cleanUsername === 'sarah_vibes') return "5,600";
+    if (cleanUsername === 'code_ninja') return "18,100";
+    if (cleanUsername === 'otaku_warrior') return "15,200";
+    if (cleanUsername === 'riya_m') return "12,400";
+    return "1,200";
+  };
+
+  const getStreakDays = () => {
+    if (isOwnProfile) return "30";
+    if (cleanUsername === 'lofi_girl') return "60";
+    if (cleanUsername === 'chill_coder') return "30";
+    if (cleanUsername === 'sarah_vibes') return "20";
+    if (cleanUsername === 'code_ninja') return "90";
+    if (cleanUsername === 'otaku_warrior') return "60";
+    if (cleanUsername === 'riya_m') return "45";
+    return "12";
+  };
+
+  const getRankNum = () => {
+    if (isOwnProfile) return "#43";
+    if (cleanUsername === 'code_ninja') return "#1";
+    if (cleanUsername === 'lofi_girl') return "#2";
+    if (cleanUsername === 'otaku_warrior') return "#3";
+    if (cleanUsername === 'riya_m') return "#5";
+    if (cleanUsername === 'chill_coder') return "#8";
+    return "#15";
+  };
 
   // Helper to get user details by id or handle
   const getUserDetails = (idOrHandle) => {
@@ -219,7 +253,9 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   };
 
   const getDisplayFollowersCount = () => {
-    if (isOwnProfile) return "50";
+    if (isOwnProfile) {
+      return followersList ? followersList.length.toString() : "50";
+    }
     const baseCount = parseFollowers(userProfile?.followers || "1.2K");
     const count = isFollowing ? baseCount + 1 : baseCount;
     return count >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toLocaleString();
@@ -227,7 +263,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
   const getDisplayFollowingCount = () => {
     if (isOwnProfile) {
-      return "50";
+      return followedUsers ? followedUsers.size.toString() : "0";
     }
     return "142";
   };
@@ -423,27 +459,56 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 
-      {/* 3. USER INFO / HEADER (Removed Cover and AvatarDP, aligned to top) */}
-      <div className="px-5 pt-8 pb-3 flex justify-between items-start shrink-0">
-        <div className="flex-1 pr-4">
-          <h1 className="font-dmsans font-bold text-white text-[20px] leading-tight tracking-tight">{username}</h1>
-          <p className="font-dmsans font-normal text-[#888] text-[13.5px] mt-1.5 leading-[1.6] whitespace-pre-wrap">{displayBio}</p>
+      {/* 1. COVER BANNER */}
+      <div
+        className="relative h-[110px] bg-[#111] shrink-0 overflow-hidden cursor-pointer bg-center bg-cover"
+        style={isOwnProfile ? (userProfileData.coverColor?.startsWith('http') ? { backgroundImage: `url(${userProfileData.coverColor})` } : { backgroundColor: userProfileData.coverColor }) : {}}
+        onClick={() => setViewingMedia({
+          type: (isOwnProfile && !userProfileData.coverColor?.startsWith('http')) ? 'color' : 'image',
+          value: isOwnProfile ? userProfileData.coverColor : (userProfile?.coverImage || coverImage),
+          isCover: true
+        })}
+      >
+        {!isOwnProfile && <img src={userProfile?.coverImage || coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />}
+        <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#000000]"></div>
+      </div>
+
+      {/* 2. AVATAR ROW */}
+      <div className="relative z-10 px-5 flex justify-between items-end shrink-0" style={{ marginTop: '-44px' }}>
+        <div className="relative">
+          <div
+            className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-white/10 p-[2px] flex items-center justify-center overflow-hidden cursor-pointer hover:scale-105 active:scale-95 transition-transform"
+            onClick={() => setViewingMedia({
+              type: (isOwnProfile && !userProfileData.avatarValue?.startsWith('http')) ? 'text' : 'image',
+              value: isOwnProfile ? userProfileData.avatarValue : displayAvatar,
+              isCover: false
+            })}
+          >
+            {isOwnProfile ? (
+              userProfileData.avatarValue?.startsWith('http') ? (
+                <img src={userProfileData.avatarValue} alt="DP" className="w-full h-full rounded-full object-cover" />
+              ) : (
+                <span className="text-[34px] text-white">{userProfileData.avatarValue}</span>
+              )
+            ) : (
+              <img src={userProfile?.avatarImage || displayAvatar || userAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
+            )}
+          </div>
         </div>
-        
-        {/* Subtle, premium header actions */}
-        <div className="flex gap-2">
+
+        <div className="flex gap-2 pb-1">
           {isOwnProfile ? (
             <>
-              <button onClick={onEditProfile} className="w-[32px] h-[32px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Edit Profile">
-                <Edit size={13} className="text-white/60" />
+              <button onClick={onEditProfile} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Edit Profile">
+                <Edit size={14} className="text-white/60" />
               </button>
-              <button onClick={onOpenSettings} className="w-[32px] h-[32px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Settings">
-                <MoreHorizontal size={13} className="text-white/60" />
+              <button onClick={onOpenSettings} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Settings">
+                <MoreHorizontal size={14} className="text-white/60" />
               </button>
             </>
           ) : (
             <>
-              <button onClick={onMessageUser} className="w-[32px] h-[32px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Message">
+              <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Message">
                 <i className="ti ti-mail text-white/60 text-[14px]"></i>
               </button>
               <button
@@ -456,7 +521,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                     setShowSuggestions(false);
                   }
                 }}
-                className={`h-[32px] rounded-full px-4 text-[11px] font-bold transition-all shrink-0 ${isFollowing
+                className={`h-[34px] rounded-full px-4 text-[11px] font-bold transition-all shrink-0 ${isFollowing
                   ? 'bg-transparent border border-white/20 text-white/60 hover:bg-white/[0.05]'
                   : 'bg-[#FF4500] hover:bg-[#ff5722] text-white'
                 }`}
@@ -466,6 +531,12 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
             </>
           )}
         </div>
+      </div>
+
+      {/* 3. USER INFO / HEADER */}
+      <div className="px-5 pt-4 pb-3 shrink-0">
+        <h1 className="font-dmsans font-bold text-white text-[20px] leading-tight tracking-tight">{username}</h1>
+        <p className="font-dmsans font-normal text-[#888] text-[13.5px] mt-1.5 leading-[1.6] whitespace-pre-wrap">{displayBio}</p>
       </div>
 
       {/* 4. STATS CARD (Modular rounded rectangle columns matching layout) */}
@@ -500,7 +571,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           <div className="flex-1 flex flex-col items-center py-[14px] relative">
             <div className="flex items-center gap-1">
               <span className="text-[14px] leading-none">🔥</span>
-              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{isOwnProfile ? 1 : streakDays}</span>
+              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getStreakDays()}</span>
             </div>
             <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">STREAK</span>
             <div className="absolute right-0 top-3 bottom-3 w-[1px] bg-white/[0.08]"></div>
@@ -508,7 +579,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           <div className="flex-1 flex flex-col items-center py-[14px] relative">
             <div className="flex items-center gap-1">
               <span className="text-[14px] leading-none">⭐</span>
-              <span className="font-dmsans font-bold text-[18px] text-white leading-none">1,000</span>
+              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getPointsCount()}</span>
             </div>
             <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">POINTS</span>
             <div className="absolute right-0 top-3 bottom-3 w-[1px] bg-white/[0.08]"></div>
@@ -516,7 +587,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           <div className="flex-1 flex flex-col items-center py-[14px]">
             <div className="flex items-center gap-1">
               <span className="text-[14px] leading-none">👑</span>
-              <span className="font-dmsans font-bold text-[18px] text-white leading-none">#2</span>
+              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getRankNum()}</span>
             </div>
             <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">RANK</span>
           </div>
