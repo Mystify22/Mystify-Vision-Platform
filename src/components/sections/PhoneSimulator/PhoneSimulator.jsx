@@ -369,11 +369,11 @@ const PhoneSimulator = () => {
                 <span className={`text-[8px] font-medium leading-none ${step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Vibes</span>
               </button>
 
-              {/* TAB 5: ME (Step 5) */}
+              {/* TAB 5: PROFILE (Step 5) */}
               <button onClick={() => { setSelectedPost(null); setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
-                <TablerCircleDashed size={24} color={step === 5 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                <CircleDot size={24} color={step === 5 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
                 <div className="h-[4px]" />
-                <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Me</span>
+                <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Profile</span>
               </button>
             </div>
           )}
