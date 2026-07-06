@@ -1,7 +1,78 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { mockResultsRiya, RANDOM_AVATARS } from './MockData';
+import { mockResultsRiya, RANDOM_AVATARS, mockConversationsData } from './MockData';
+
+const ChatIcon = ({ size = 18, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    <circle cx="9" cy="10" r="1.2" fill="currentColor" />
+    <circle cx="13" cy="10" r="1.2" fill="currentColor" />
+    <circle cx="17" cy="10" r="1.2" fill="currentColor" />
+  </svg>
+);
+
+const RepliesIcon = ({ size = 18, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    <path d="M9 8c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4-2 4-4.5 4c-.5 0-1-.1-1.5-.3l-3 1.8.5-2.5C9.4 10.4 9 9.3 9 8z" />
+  </svg>
+);
+
+const GridIcon = ({ size = 18, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="3" y="3" width="7" height="7" />
+    <rect x="14" y="3" width="7" height="7" />
+    <rect x="14" y="14" width="7" height="7" />
+    <rect x="3" y="14" width="7" height="7" />
+  </svg>
+);
+
+const BookmarkIcon = ({ size = 18, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const getTabIcon = (tab, isActive) => {
+  switch (tab) {
+    case "Vibes":
+      return <ChatIcon size={18} />;
+    case "Replies":
+      return <RepliesIcon size={18} />;
+    case "Posts":
+      return <GridIcon size={18} />;
+    case "Saved":
+      return <BookmarkIcon size={18} />;
+    default:
+      return null;
+  }
+};
+
+const getFormattedDate = (createdAt) => {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const baseDate = new Date(2026, 6, 4); // July 4, 2026
+  
+  if (!createdAt || createdAt === "Just now" || createdAt.includes("h ago") || createdAt.includes("m ago")) {
+    return "04 Jul 2026";
+  }
+  
+  if (createdAt.includes("d ago")) {
+    const days = parseInt(createdAt, 10) || 1;
+    const targetDate = new Date(baseDate);
+    targetDate.setDate(baseDate.getDate() - days);
+    return `${String(targetDate.getDate()).padStart(2, '0')} ${months[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+  }
+  
+  if (createdAt.includes("w ago")) {
+    const weeks = parseInt(createdAt, 10) || 1;
+    const targetDate = new Date(baseDate);
+    targetDate.setDate(baseDate.getDate() - (weeks * 7));
+    return `${String(targetDate.getDate()).padStart(2, '0')} ${months[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+  }
+  
+  return "04 Jul 2026";
+};
 
 import userAvatar from '../../../assets/avatar.png';
 import coverImage from '../../../assets/cover.png';
@@ -15,7 +86,7 @@ const suggestionPool = [
   { id: 's6_s', name: 'Otaku Warrior', handle: 'otaku_warrior', followers: '11.8K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png' }
 ];
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile, createdPosts = [] }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
@@ -23,6 +94,8 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   const [showFollowModal, setShowFollowModal] = useState(false);
   const [followListType, setFollowListType] = useState(null); // 'followers' or 'following'
   const [followSearchQuery, setFollowSearchQuery] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
+  const [copiedPostIdx, setCopiedPostIdx] = useState(null);
   const streakDays = 30;
 
   const [prevUsername, setPrevUsername] = useState(username);
@@ -35,13 +108,49 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
   const cleanUsername = username.replace('@', '');
   const isOwnProfile = userProfileData && cleanUsername === userProfileData.username;
-  const profileTabs = isOwnProfile ? ["Posts", "Replies", "Saved"] : ["Posts", "Replies"];
+  const profileTabs = isOwnProfile 
+    ? ["Vibes", "Replies", "Posts", "Saved"] 
+    : ["Vibes", "Replies", "Posts"];
 
   const userProfile = mockResultsRiya.find(u => u.handle.replace('@', '') === cleanUsername) ||
     suggestionPool.find(u => u.handle.replace('@', '') === cleanUsername);
-  const displayAvatar = isOwnProfile ? null : (userProfile?.avatarImage || userAvatar);
+  const displayAvatar = isOwnProfile 
+    ? (userProfileData?.avatarValue || userAvatar) 
+    : (userProfile?.avatarImage || userAvatar);
   const isFollowing = followedUsers?.has(userProfile?.id);
   const displayBio = isOwnProfile ? userProfileData.bio : "Anonymous thoughts. Questions nobody dares ask out loud.";
+
+  const getPointsCount = () => {
+    if (isOwnProfile) return "3,000";
+    if (cleanUsername === 'lofi_girl') return "14,250";
+    if (cleanUsername === 'chill_coder') return "8,900";
+    if (cleanUsername === 'sarah_vibes') return "5,600";
+    if (cleanUsername === 'code_ninja') return "18,100";
+    if (cleanUsername === 'otaku_warrior') return "15,200";
+    if (cleanUsername === 'riya_m') return "12,400";
+    return "1,200";
+  };
+
+  const getStreakDays = () => {
+    if (isOwnProfile) return "30";
+    if (cleanUsername === 'lofi_girl') return "60";
+    if (cleanUsername === 'chill_coder') return "30";
+    if (cleanUsername === 'sarah_vibes') return "20";
+    if (cleanUsername === 'code_ninja') return "90";
+    if (cleanUsername === 'otaku_warrior') return "60";
+    if (cleanUsername === 'riya_m') return "45";
+    return "12";
+  };
+
+  const getRankNum = () => {
+    if (isOwnProfile) return "#43";
+    if (cleanUsername === 'code_ninja') return "#1";
+    if (cleanUsername === 'lofi_girl') return "#2";
+    if (cleanUsername === 'otaku_warrior') return "#3";
+    if (cleanUsername === 'riya_m') return "#5";
+    if (cleanUsername === 'chill_coder') return "#8";
+    return "#15";
+  };
 
   // Helper to get user details by id or handle
   const getUserDetails = (idOrHandle) => {
@@ -86,11 +195,18 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
     const usedNames = new Set(baseUsers.map(u => u.handle));
     usedNames.add('ghost_mind');
     
+    // Seed-based pseudo-random generator to remain pure & keep list stable
+    let seed = 42;
+    const seededRandom = () => {
+      const x = Math.sin(seed++) * 10000;
+      return x - Math.floor(x);
+    };
+    
     while (list.length < count) {
-      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-      const noun = nouns[Math.floor(Math.random() * nouns.length)];
-      const num = Math.floor(Math.random() * 90) + 10;
-      const handle = `${adj}_${noun}${Math.random() > 0.6 ? num : ''}`;
+      const adj = adjectives[Math.floor(seededRandom() * adjectives.length)];
+      const noun = nouns[Math.floor(seededRandom() * nouns.length)];
+      const num = Math.floor(seededRandom() * 90) + 10;
+      const handle = `${adj}_${noun}${seededRandom() > 0.6 ? num : ''}`;
       if (!usedNames.has(handle)) {
         usedNames.add(handle);
         const name = handle.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).replace(/[0-9]/g, '')).join(' ');
@@ -137,7 +253,9 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   };
 
   const getDisplayFollowersCount = () => {
-    if (isOwnProfile) return "50";
+    if (isOwnProfile) {
+      return followersList ? followersList.length.toString() : "50";
+    }
     const baseCount = parseFollowers(userProfile?.followers || "1.2K");
     const count = isFollowing ? baseCount + 1 : baseCount;
     return count >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toLocaleString();
@@ -145,7 +263,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
 
   const getDisplayFollowingCount = () => {
     if (isOwnProfile) {
-      return "50";
+      return followedUsers ? followedUsers.size.toString() : "0";
     }
     return "142";
   };
@@ -179,13 +297,120 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   );
 
   const samplePosts = [
-    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png" },
-    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png" },
-    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png" },
-    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png" },
-    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png" },
-    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png" },
+    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png", createdAt: "2h ago" },
+    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png", createdAt: "1d ago" },
+    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png", createdAt: "3d ago" },
+    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png", createdAt: "5d ago" },
+    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png", createdAt: "1w ago" },
+    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png", createdAt: "2w ago" },
   ];
+
+  const allPosts = isOwnProfile ? [...createdPosts, ...samplePosts] : samplePosts;
+
+  const handleCopyPostLink = (post, idx, e) => {
+    if (e) e.stopPropagation();
+    const cleanUser = username.replace('@', '');
+    const cleanMood = (post.mood || 'vibe').toLowerCase().replace(/\s+/g, '-');
+    const shareLink = `mystify.link/${cleanUser}/${cleanMood}`;
+    
+    navigator.clipboard.writeText(shareLink)
+      .then(() => {
+        setCopiedPostIdx(idx);
+        setToastMessage("Link copied! Share it to get replies.");
+        setTimeout(() => {
+          setCopiedPostIdx(null);
+        }, 1500);
+        setTimeout(() => {
+          setToastMessage("");
+        }, 2200);
+      })
+      .catch(() => {
+        setCopiedPostIdx(idx);
+        setToastMessage("Link copied!");
+        setTimeout(() => {
+          setCopiedPostIdx(null);
+          setToastMessage("");
+        }, 1500);
+      });
+  };
+
+  const handleShareVibe = (post, idx, e) => {
+    if (e) e.stopPropagation();
+    const cleanUser = username.replace('@', '');
+    const cleanMood = (post.mood || 'vibe').toLowerCase().replace(/\s+/g, '-');
+    const shareLink = `mystify.link/${cleanUser}/${cleanMood}`;
+    
+    navigator.clipboard.writeText(shareLink).catch(() => {});
+    setToastMessage("Ready for Instagram Story! Link copied.");
+    setTimeout(() => {
+      setToastMessage("");
+    }, 2500);
+  };
+
+  const renderPostCards = (postsList) => (
+    <div className="flex flex-col gap-4 p-4">
+      {postsList.map((post, idx) => {
+        const cleanUser = username.replace('@', '');
+        const cleanMood = (post.mood || 'vibe').toLowerCase().replace(/\s+/g, '-');
+        const shareLink = `mystify.link/${cleanUser}/${cleanMood}`;
+        const isCopied = copiedPostIdx === idx;
+        const postDate = getFormattedDate(post.createdAt);
+
+        return (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
+            className="relative rounded-[20px] border border-white/[0.05] bg-[#0c0c0f] shadow-xl p-5 flex flex-col justify-between min-h-[140px] group transition-all duration-300"
+          >
+            <div className="relative z-10 flex flex-col gap-3">
+              {/* Header: Date */}
+              <div className="flex justify-end w-full">
+                <span className="text-[11px] font-medium text-white/35 font-dmsans">
+                  {postDate}
+                </span>
+              </div>
+              {/* Body: Thought Text */}
+              <p className="text-[13px] text-white/95 font-dmsans font-medium leading-[1.6] break-words">
+                {post.text}
+              </p>
+            </div>
+
+            {/* Footer Row */}
+            <div className="relative z-10 mt-5 flex items-center justify-between gap-3">
+              {/* Left Pill Button (Showcase only) */}
+              <div 
+                className="h-10 rounded-full bg-[#1b1b1f] border border-white/[0.06] flex items-center justify-between pl-4 pr-1.5 py-1.5 min-w-[130px] select-none"
+              >
+                <span className="text-[11px] font-bold text-white/90 font-dmsans mr-2">
+                  let's go!
+                </span>
+                <div className="w-7 h-7 rounded-full bg-[#FF4500] flex items-center justify-center text-white shrink-0 shadow-md">
+                  <ArrowRight size={12} strokeWidth={2.5} />
+                </div>
+              </div>
+
+              {/* Right Share Button (Showcase only) */}
+              <div
+                className="w-10 h-10 rounded-full bg-[#FF4500] flex items-center justify-center text-white shrink-0 shadow-[0_2px_10px_rgba(255,69,0,0.2)]"
+              >
+                <Share2 size={13} />
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+
+  const renderChatTab = () => {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center text-white/20 text-[12px]">
+        No vibes yet
+      </div>
+    );
+  };
 
   const sampleReplies = [
     { username: "ghost_mind", time: "2h", to: "void_speaks", text: "Anonymity isn't cowardice. Sometimes it's the only way truth survives.", likes: "412", retweets: "88", comments: "34" },
@@ -229,11 +454,10 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      className="absolute inset-0 flex flex-col bg-[#0a0a0a] overflow-y-auto overflow-x-hidden pb-[64px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+      className="absolute inset-0 flex flex-col bg-[#000000] overflow-y-auto overflow-x-hidden pb-[64px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
     >
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-
 
       {/* 1. COVER BANNER */}
       <div
@@ -246,14 +470,14 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
         })}
       >
         {!isOwnProfile && <img src={userProfile?.coverImage || coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />}
-        <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
+        <div className="absolute bottom-0 inset-x-0 h-[70px] bg-gradient-to-b from-transparent to-[#000000]"></div>
       </div>
 
       {/* 2. AVATAR ROW */}
-      <div className="relative z-10 px-5 flex justify-between items-end" style={{ marginTop: '-44px' }}>
+      <div className="relative z-10 px-5 flex justify-between items-end shrink-0" style={{ marginTop: '-44px' }}>
         <div className="relative">
           <div
-            className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-[#2a2a2a] p-[2px] flex items-center justify-center overflow-hidden cursor-pointer"
+            className="w-[82px] h-[82px] rounded-full bg-[#1c1c1c] border-2 border-white/10 p-[2px] flex items-center justify-center overflow-hidden cursor-pointer hover:scale-105 active:scale-95 transition-transform"
             onClick={() => setViewingMedia({
               type: (isOwnProfile && !userProfileData.avatarValue?.startsWith('http')) ? 'text' : 'image',
               value: isOwnProfile ? userProfileData.avatarValue : displayAvatar,
@@ -267,97 +491,109 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                 <span className="text-[34px] text-white">{userProfileData.avatarValue}</span>
               )
             ) : (
-              <img src={displayAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
+              <img src={userProfile?.avatarImage || displayAvatar || userAvatar} alt="DP" className="w-full h-full rounded-full object-cover" />
             )}
           </div>
         </div>
 
         <div className="flex gap-2 pb-1">
-          <button onClick={isOwnProfile ? onOpenSettings : () => setShowOtherUserActions(!showOtherUserActions)} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
-            <i className="ti ti-dots text-[#666] text-[16px]"></i>
-          </button>
-
-          {username !== (userProfileData?.username || "ghost_mind") && (
-            <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-[#111] border border-[#222] flex items-center justify-center hover:bg-[#1a1a1a] transition-colors">
-              <i className="ti ti-mail text-[#666] text-[16px]"></i>
-            </button>
-          )}
-
           {isOwnProfile ? (
-            <button onClick={onEditProfile} className="h-[34px] rounded-[17px] bg-[#111] border border-[#333] px-[18px] text-white font-dmsans font-semibold text-[13px] hover:bg-[#1a1a1a] transition-colors">
-              Edit Profile
-            </button>
+            <>
+              <button onClick={onEditProfile} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Edit Profile">
+                <Edit size={14} className="text-white/60" />
+              </button>
+              <button onClick={onOpenSettings} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Settings">
+                <MoreHorizontal size={14} className="text-white/60" />
+              </button>
+            </>
           ) : (
-            <button
-              onClick={() => {
-                const nextFollowing = !isFollowing;
-                onFollowToggle && onFollowToggle(userProfile?.id);
-                if (nextFollowing) {
-                  setShowSuggestions(true);
-                } else {
-                  setShowSuggestions(false);
-                }
-              }}
-              className={`h-[34px] rounded-[17px] px-[18px] text-white font-dmsans font-semibold text-[13px] transition-colors ${isFollowing
-                ? 'bg-transparent border border-[rgba(255,255,255,0.15)] text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.05)]'
-                : 'bg-[#FF4500] hover:bg-[#ff5722]'
+            <>
+              <button onClick={onMessageUser} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Message">
+                <i className="ti ti-mail text-white/60 text-[14px]"></i>
+              </button>
+              <button
+                onClick={() => {
+                  const nextFollowing = !isFollowing;
+                  onFollowToggle && onFollowToggle(userProfile?.id);
+                  if (nextFollowing) {
+                    setShowSuggestions(true);
+                  } else {
+                    setShowSuggestions(false);
+                  }
+                }}
+                className={`h-[34px] rounded-full px-4 text-[11px] font-bold transition-all shrink-0 ${isFollowing
+                  ? 'bg-transparent border border-white/20 text-white/60 hover:bg-white/[0.05]'
+                  : 'bg-[#FF4500] hover:bg-[#ff5722] text-white'
                 }`}
-            >
-              {isFollowing ? 'Following' : 'Follow'}
-            </button>
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </button>
+            </>
           )}
         </div>
       </div>
 
-      {/* 3. USER INFO */}
-      <div className="px-5 mt-4 shrink-0">
-        <h1 className="font-dmsans font-bold text-white text-[20px] mb-1 leading-normal pb-1">{username}</h1>
-        <p className="font-dmsans font-normal text-[#888] text-[13.5px] leading-[1.65] mb-4 whitespace-pre-wrap">{displayBio}</p>
+      {/* 3. USER INFO / HEADER */}
+      <div className="px-5 pt-4 pb-3 shrink-0">
+        <h1 className="font-dmsans font-bold text-white text-[20px] leading-tight tracking-tight">{username}</h1>
+        <p className="font-dmsans font-normal text-[#888] text-[13.5px] mt-1.5 leading-[1.6] whitespace-pre-wrap">{displayBio}</p>
       </div>
 
-      {/* 4. STATS ROW */}
-      <div className="px-5 mb-5 shrink-0">
-        <div className="flex border border-[#1a1a1a] rounded-[14px] overflow-hidden relative">
-          <div className="flex-1 flex flex-col items-center py-[12px] relative">
-            <span className="font-dmsans font-bold text-[18px] text-white">348</span>
-            <span className="text-[10px] text-[#666] uppercase tracking-[0.06em] mt-[3px]">POSTS</span>
-            <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-[#1a1a1a]"></div>
+      {/* 4. STATS CARD (Modular rounded rectangle columns matching layout) */}
+      <div className="px-5 mb-3 shrink-0">
+        <div className="flex border border-white/[0.06] bg-[#0c0c0f] rounded-[16px] overflow-hidden">
+          <div className="flex-1 flex flex-col items-center py-[14px] relative">
+            <span className="font-dmsans font-bold text-[18px] text-white leading-none">{allPosts.length}</span>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">POSTS</span>
+            <div className="absolute right-0 top-3 bottom-3 w-[1px] bg-white/[0.08]"></div>
           </div>
           <button
             onClick={() => openFollowList('followers')}
-            className="flex-1 flex flex-col items-center py-[12px] relative hover:bg-white/[0.02] active:bg-white/[0.04] transition-colors"
+            className="flex-1 flex flex-col items-center py-[14px] relative hover:bg-white/[0.02] active:bg-white/[0.04] transition-colors"
           >
-            <span className="font-dmsans font-bold text-[18px] text-white">{getDisplayFollowersCount()}</span>
-            <span className="text-[10px] text-[#666] uppercase tracking-[0.06em] mt-[3px]">FOLLOWERS</span>
-            <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-[#1a1a1a]"></div>
+            <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getDisplayFollowersCount()}</span>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">FOLLOWERS</span>
+            <div className="absolute right-0 top-3 bottom-3 w-[1px] bg-white/[0.08]"></div>
           </button>
           <button
             onClick={() => openFollowList('following')}
-            className="flex-1 flex flex-col items-center py-[12px] hover:bg-white/[0.02] active:bg-white/[0.04] transition-colors"
+            className="flex-1 flex flex-col items-center py-[14px] hover:bg-white/[0.02] active:bg-white/[0.04] transition-colors"
           >
-            <span className="font-dmsans font-bold text-[18px] text-white">{getDisplayFollowingCount()}</span>
-            <span className="text-[10px] text-[#666] uppercase tracking-[0.06em] mt-[3px]">FOLLOWING</span>
+            <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getDisplayFollowingCount()}</span>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">FOLLOWING</span>
           </button>
         </div>
       </div>
 
-      {/* 5. GAMIFICATION & LEADERBOARD WIDGET (Minimal Strip) */}
-      <div className="px-5 mb-[18px] shrink-0" onClick={onOpenStreak}>
-        <div className="h-[48px] rounded-[14px] bg-[#111] border border-[#1e1e1e] flex items-center justify-between px-4 cursor-pointer hover:bg-[#151515] transition-colors relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent pointer-events-none translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
-
-          <div className="flex items-center gap-3 z-10">
-            <div className="flex items-center gap-1.5 opacity-80">
-              <span className="text-[14px]">🔥</span>
-              <span className="font-dmsans font-bold text-[#e8e8e8] text-[14px]">{streakDays}</span>
+      {/* 5. GAMIFICATION CARD (Streak, Points, Rank with Chevron right) */}
+      <div className="px-5 mb-4 shrink-0" onClick={onOpenStreak}>
+        <div className="relative flex border border-white/[0.06] bg-[#0c0c0f] rounded-[16px] items-center cursor-pointer hover:bg-white/[0.02] transition-colors pr-8">
+          <div className="flex-1 flex flex-col items-center py-[14px] relative">
+            <div className="flex items-center gap-1">
+              <span className="text-[14px] leading-none">🔥</span>
+              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getStreakDays()}</span>
             </div>
-            <div className="w-[1px] h-[12px] bg-[#333]"></div>
-            <span className="font-dmsans font-bold text-[#e8e8e8] text-[14px] tracking-wide">3,000 PTS</span>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">STREAK</span>
+            <div className="absolute right-0 top-3 bottom-3 w-[1px] bg-white/[0.08]"></div>
           </div>
-
-          <div className="flex items-center gap-2 z-10">
-            <span className="text-[#666] text-[12px] font-dmsans">Rank #43</span>
-            <i className="ti ti-chevron-right text-[#444] text-[14px]"></i>
+          <div className="flex-1 flex flex-col items-center py-[14px] relative">
+            <div className="flex items-center gap-1">
+              <span className="text-[14px] leading-none">⭐</span>
+              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getPointsCount()}</span>
+            </div>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">POINTS</span>
+            <div className="absolute right-0 top-3 bottom-3 w-[1px] bg-white/[0.08]"></div>
+          </div>
+          <div className="flex-1 flex flex-col items-center py-[14px]">
+            <div className="flex items-center gap-1">
+              <span className="text-[14px] leading-none">👑</span>
+              <span className="font-dmsans font-bold text-[18px] text-white leading-none">{getRankNum()}</span>
+            </div>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.08em] mt-[6px]">RANK</span>
+          </div>
+          {/* Chevron Icon aligned to the right inside the card */}
+          <div className="absolute right-3.5 top-1/2 -translate-y-1/2">
+            <ChevronRight size={14} className="text-white/30" />
           </div>
         </div>
       </div>
@@ -421,58 +657,50 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
         )}
       </AnimatePresence>
 
-      {/* 6. STICKY TABS BAR */}
-      <div className="sticky top-0 z-30 bg-[#0a0a0a] border-b border-[#141414] flex px-2 shrink-0">
-        {profileTabs.map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`flex-1 text-center py-[11px] pt-[13px] font-dmsans font-medium text-[12.5px] tracking-[0.02em] border-b-[1.5px] -mb-[1px] transition-colors ${activeTab === tab ? 'text-[#d0d0d0] border-[#d0d0d0]' : 'text-[#3a3a3a] border-transparent'
-              }`}
-          >
-            {tab}
-          </button>
-        ))}
+      {/* 6. DYNAMIC TABS BAR (Active tab expands to show label, indicator below) */}
+      <div className="sticky top-0 z-30 bg-[#000000] border-b border-white/[0.05] flex px-2 shrink-0 py-1.5 justify-around items-center">
+        {profileTabs.map(tab => {
+          const isActive = activeTab === tab;
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="relative flex items-center gap-2 py-3 px-3 cursor-pointer group transition-all"
+            >
+              <span className={`transition-colors duration-200 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
+                {getTabIcon(tab, isActive)}
+              </span>
+              
+              {isActive && (
+                <span className="font-dmsans font-bold text-[12.5px] text-white tracking-wide">
+                  {tab}
+                </span>
+              )}
+              
+              {isActive && (
+                <motion.div 
+                  layoutId="activeTabIndicator" 
+                  className="absolute bottom-0 left-2 right-2 h-[2.5px] bg-[#FF4500] rounded-full" 
+                />
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* 7. TAB PANELS */}
-      <div className="flex-1 bg-[#0a0a0a] pt-1">
-        {activeTab === "Posts" && renderGrid(samplePosts)}
+      <div className="flex-1 bg-[#000000] pt-1">
+        {activeTab === "Posts" && renderPostCards(allPosts)}
 
         {activeTab === "Replies" && (
-          <div className="flex flex-col">
-            {sampleReplies.map((reply, idx) => (
-              <div key={idx} className="flex gap-[11px] p-[15px_20px] border-b border-[#0f0f0f]">
-                <div className="w-[34px] h-[34px] rounded-full bg-[#141414] border border-[#1e1e1e] flex items-center justify-center shrink-0">
-                  <i className="ti ti-ghost text-[#333] text-[16px]"></i>
-                </div>
-                <div className="flex-1 flex flex-col">
-                  <div className="flex items-center gap-[6px]">
-                    <span className="font-syne font-semibold text-[#aaa] text-[13px]">{reply.username}</span>
-                    <span className="text-[#2e2e2e] text-[11px]">· {reply.time}</span>
-                  </div>
-                  <div className="text-[11.5px] text-[#2e2e2e] mb-[4px]">
-                    replying to <span className="text-[#555]">@{reply.to}</span>
-                  </div>
-                  <p className="font-dmsans font-light text-[#888] text-[13.5px] leading-[1.6]">{reply.text}</p>
-                  <div className="flex gap-[16px] mt-[9px]">
-                    <div className="flex items-center gap-[4px] text-[#2e2e2e] text-[12px] group cursor-pointer hover:text-[#e8643a]">
-                      <i className="ti ti-heart group-hover:text-[#e8643a]"></i> {reply.likes}
-                    </div>
-                    <div className="flex items-center gap-[4px] text-[#2e2e2e] text-[12px] cursor-pointer hover:text-[#555]">
-                      <i className="ti ti-repeat"></i> {reply.retweets}
-                    </div>
-                    <div className="flex items-center gap-[4px] text-[#2e2e2e] text-[12px] cursor-pointer hover:text-[#555]">
-                      <i className="ti ti-message-circle"></i> {reply.comments}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center py-16 text-center text-white/20 text-[12px]">
+            No replies yet
           </div>
         )}
 
         {activeTab === "Saved" && renderGrid(sampleSaved)}
+        
+        {activeTab === "Vibes" && renderChatTab()}
       </div>
 
       {/* Invisible overlay for dropdown */}
@@ -685,6 +913,21 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                 </div>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toast Notification overlay */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
+            className="absolute top-16 left-1/2 z-[300] bg-black/90 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2 shadow-2xl pointer-events-none w-auto max-w-[260px] text-center"
+          >
+            <Sparkles size={12} className="text-[#FF4500]" />
+            <span className="text-white text-[11px] font-semibold tracking-wide font-dmsans whitespace-nowrap">{toastMessage}</span>
           </motion.div>
         )}
       </AnimatePresence>

@@ -52,6 +52,27 @@ const TablerCircleDashed = ({ size = 24, color = "currentColor", className = "" 
   </svg>
 );
 
+const AgentMessageIcon = ({ size = 24, color = "currentColor", className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" fill={color} className={className}>
+    {/* Hat Top */}
+    <path d="M 27 35 L 43 35 L 41 20 L 29 20 Z" />
+    <rect x="28" y="24" width="14" height="4" fill="#0c0c10" />
+    {/* Hat Brim */}
+    <path d="M 16 40 L 54 40 L 50 34 L 20 34 Z" />
+    {/* Head */}
+    <circle cx="35" cy="50" r="11" />
+    {/* Body */}
+    <path d="M 10 90 C 10 65, 20 62, 35 62 C 50 62, 60 65, 60 90 Z" />
+    {/* Tie */}
+    <path d="M 32 62 L 38 62 L 36 82 L 35 86 L 34 82 Z" fill="#0c0c10" />
+    {/* Speech Bubble */}
+    <path d="M 55 42 C 55 22, 95 22, 95 42 C 95 57, 80 60, 70 60 L 58 70 L 61 57 C 55 52, 55 47, 55 42 Z" />
+    {/* Dashes */}
+    <rect x="63" y="38" width="10" height="5" rx="2" fill="#0c0c10" />
+    <rect x="77" y="38" width="10" height="5" rx="2" fill="#0c0c10" />
+  </svg>
+);
+
 const PhoneSimulator = () => {
   const containerRef = useRef(null);
 
@@ -65,6 +86,7 @@ const PhoneSimulator = () => {
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2', 's1_s', 's4_s']));
   const [selectedPost, setSelectedPost] = useState(null);
+  const [createdPosts, setCreatedPosts] = useState([]);
 
   const [userProfileData, setUserProfileData] = useState(() => {
     const saved = localStorage.getItem('mystify_user_profile');
@@ -162,7 +184,24 @@ const PhoneSimulator = () => {
                 onAddVibe={() => setStep(2)}
                 onNext={() => {
                   if (selectedVibe && selectedMusic) {
-                    console.log("Posting...", { thoughtText, selectedMoods, isAnonymous, selectedVibe, selectedMusic });
+                    const newPost = {
+                      mood: selectedMoods[0] || "Thought",
+                      text: thoughtText,
+                      replies: 0,
+                      bg: selectedVibe.bg || "#111",
+                      img: selectedVibe.img,
+                      audioSrc: selectedMusic.audioSrc,
+                      createdAt: "Just now"
+                    };
+                    setCreatedPosts(prev => [newPost, ...prev]);
+                    // Reset compose states
+                    setThoughtText("");
+                    setSelectedMoods([]);
+                    setSelectedVibe(null);
+                    setSelectedMusic(null);
+                    // Navigate to profile screen
+                    setSelectedProfileUsername(userProfileData.username);
+                    setStep(5);
                   } else {
                     setStep(2);
                   }
@@ -210,6 +249,16 @@ const PhoneSimulator = () => {
                 initialMode="feed"
                 onInboxClick={() => { setChatTargetUsername(null); setStep(7); }}
                 onNotificationsClick={() => setStep(12)}
+                onUserSelect={(username) => {
+                  setSelectedProfileUsername(username);
+                  setStep(5);
+                }}
+                followedUsers={followedUsers}
+                onFollowToggle={handleFollowToggle}
+                onPostClick={(post) => {
+                  setSelectedPost(post);
+                  setStep(11);
+                }}
               />
             )}
             {step === 11 && (
@@ -218,12 +267,8 @@ const PhoneSimulator = () => {
                 initialMode="reels"
                 initialPost={selectedPost}
                 onBackFromReels={() => {
-                  if (selectedPost) {
-                    setSelectedPost(null);
-                    setStep(6);
-                  } else {
-                    setStep(4);
-                  }
+                  setSelectedPost(null);
+                  setStep(4);
                 }}
               />
             )}
@@ -243,6 +288,7 @@ const PhoneSimulator = () => {
                 key="step-profile"
                 username={selectedProfileUsername}
                 userProfileData={userProfileData}
+                createdPosts={createdPosts}
                 onEditProfile={() => setStep(8)}
                 onMessageUser={() => {
                   setChatTargetUsername(selectedProfileUsername);
@@ -329,11 +375,13 @@ const PhoneSimulator = () => {
                 <span className={`text-[8px] font-medium leading-none ${step === 4 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Feed</span>
               </button>
 
-              {/* TAB 2: EXPLORE (Step 6) */}
-              <button onClick={() => { setSelectedPost(null); setStep(6); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
-                <TablerPlanet size={24} color={step === 6 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+              {/* TAB 2: CHAT (Step 7) */}
+              <button onClick={() => { setSelectedPost(null); setChatTargetUsername(null); setStep(7); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <AgentMessageIcon size={24} color={step === 7 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                </div>
                 <div className="h-[4px]" />
-                <span className={`text-[8px] font-medium leading-none ${step === 6 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Explore</span>
+                <span className={`text-[8px] font-medium leading-none ${step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Chat</span>
               </button>
 
               {/* TAB 3: CREATE (Step 1) */}
@@ -350,11 +398,11 @@ const PhoneSimulator = () => {
                 <span className={`text-[8px] font-medium leading-none ${step === 11 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Vibes</span>
               </button>
 
-              {/* TAB 5: ME (Step 5) */}
+              {/* TAB 5: PROFILE (Step 5) */}
               <button onClick={() => { setSelectedPost(null); setSelectedProfileUsername(userProfileData.username); setStep(5); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
-                <TablerCircleDashed size={24} color={step === 5 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                <CircleDot size={24} color={step === 5 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
                 <div className="h-[4px]" />
-                <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Me</span>
+                <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Profile</span>
               </button>
             </div>
           )}
