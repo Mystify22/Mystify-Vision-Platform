@@ -86,7 +86,7 @@ const suggestionPool = [
   { id: 's6_s', name: 'Otaku Warrior', handle: 'otaku_warrior', followers: '11.8K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png' }
 ];
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile, createdPosts = [] }) => {
+const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile, createdPosts: _createdPosts = [] }) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
@@ -305,7 +305,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
     { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png", createdAt: "2w ago" },
   ];
 
-  const allPosts = isOwnProfile ? [...createdPosts, ...samplePosts] : samplePosts;
+  const allPosts = samplePosts;
 
   const handleCopyPostLink = (post, idx, e) => {
     if (e) e.stopPropagation();
