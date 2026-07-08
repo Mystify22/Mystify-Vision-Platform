@@ -141,17 +141,17 @@ const PhoneSimulator = () => {
     setTimeout(() => {
       setScanProgress(1);
       setScannerSubtitle('Locating facial keypoints and geotags...');
-    }, 800);
+    }, 2000);
 
     setTimeout(() => {
       setScanProgress(2);
       setScannerSubtitle('Removing facial features & scrubbing EXIF metadata...');
-    }, 1600);
+    }, 4000);
 
     setTimeout(() => {
       setScanProgress(3);
       setPrivacyModalState('validation');
-    }, 2400);
+    }, 6000);
   };
 
   const handleFileChange = (e) => {
