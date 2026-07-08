@@ -87,6 +87,12 @@ const PhoneSimulator = () => {
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2', 's1_s', 's4_s']));
   const [selectedPost, setSelectedPost] = useState(null);
   const [createdPosts, setCreatedPosts] = useState([]);
+  const [showUploadActions, setShowUploadActions] = useState(false);
+  const [privacyModalState, setPrivacyModalState] = useState(null);
+  const [tempUploadedUrl, setTempUploadedUrl] = useState('');
+  const [tempUploadedName, setTempUploadedName] = useState('');
+  const [scannerSubtitle, setScannerSubtitle] = useState('Analyzing image for faces and identifiers...');
+  const fileInputRef = useRef(null);
 
   const [userProfileData, setUserProfileData] = useState(() => {
     const saved = localStorage.getItem('mystify_user_profile');
@@ -117,6 +123,66 @@ const PhoneSimulator = () => {
       else next.add(id);
       return next;
     });
+  };
+
+  const triggerFileSelect = () => {
+    setShowUploadActions(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setTempUploadedUrl(url);
+      setTempUploadedName(`Custom Upload (${file.name})`);
+      setPrivacyModalState('scanning');
+      setScannerSubtitle('Analyzing image for faces and identifiers...');
+
+      setTimeout(() => {
+        setScannerSubtitle('Locating facial keypoints and geotags...');
+      }, 800);
+
+      setTimeout(() => {
+        setScannerSubtitle('Removing facial features & scrubbing EXIF metadata...');
+      }, 1600);
+
+      setTimeout(() => {
+        setPrivacyModalState('validation');
+      }, 2400);
+    }
+  };
+
+  const handleKeepPhoto = () => {
+    setSelectedVibe({
+      id: 'custom_' + Date.now(),
+      name: tempUploadedName,
+      img: tempUploadedUrl,
+      isCustom: true
+    });
+    setPrivacyModalState(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    setStep(1); // Back to composer screen
+  };
+
+  const handleChangePhoto = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleDiscardPhoto = () => {
+    setPrivacyModalState(null);
+    setTempUploadedUrl('');
+    setTempUploadedName('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
@@ -174,73 +240,59 @@ const PhoneSimulator = () => {
                 key="step-compose"
                 thoughtText={thoughtText}
                 setThoughtText={setThoughtText}
-                selectedMoods={selectedMoods}
-                setSelectedMoods={setSelectedMoods}
-                isAnonymous={isAnonymous}
-                setIsAnonymous={setIsAnonymous}
                 selectedVibe={selectedVibe}
+                setSelectedVibe={setSelectedVibe}
                 selectedMusic={selectedMusic}
-                userProfileData={userProfileData}
+                setSelectedMusic={setSelectedMusic}
                 onAddVibe={() => setStep(2)}
-                onNext={() => {
-                  if (selectedVibe && selectedMusic) {
-                    const newPost = {
-                      mood: selectedMoods[0] || "Thought",
-                      text: thoughtText,
-                      replies: 0,
-                      bg: selectedVibe.bg || "#111",
-                      img: selectedVibe.img,
-                      audioSrc: selectedMusic.audioSrc,
-                      createdAt: "Just now"
-                    };
-                    setCreatedPosts(prev => [newPost, ...prev]);
-                    // Reset compose states
-                    setThoughtText("");
-                    setSelectedMoods([]);
-                    setSelectedVibe(null);
-                    setSelectedMusic(null);
-                    // Navigate to profile screen
-                    setSelectedProfileUsername(userProfileData.username);
-                    setStep(5);
-                  } else {
-                    setStep(2);
-                  }
-                }}
+                onAddMusic={() => setStep(3)}
                 onCancel={() => {
                   setThoughtText("");
-                  setSelectedMoods([]);
                   setSelectedVibe(null);
                   setSelectedMusic(null);
                   setStep(4);
                 }}
+                onTriggerUpload={triggerFileSelect}
+                onSubmit={(text) => {
+                  const newPost = {
+                    mood: selectedVibe ? selectedVibe.name : "Thought",
+                    text: text,
+                    replies: 0,
+                    bg: selectedVibe ? selectedVibe.bg || "#111" : "#111",
+                    img: selectedVibe ? selectedVibe.img : null,
+                    audioSrc: selectedMusic ? selectedMusic.audioSrc : null,
+                    audioName: selectedMusic ? selectedMusic.name : null,
+                    createdAt: "Just now"
+                  };
+                  setCreatedPosts(prev => [newPost, ...prev]);
+                  
+                  // Reset states
+                  setThoughtText("");
+                  setSelectedVibe(null);
+                  setSelectedMusic(null);
+                  setStep(4); // Route back to Feed
+                }}
+                userProfileData={userProfileData}
               />
             )}
             {step === 2 && (
               <SelectVibeScreen
                 key="step-vibe"
-                stepId={2}
-                title="Choose a vibe"
-                data={vibeData}
-                categories={vibeCategories}
-                selectedItem={selectedVibe}
+                selectedVibe={selectedVibe}
                 onSelect={setSelectedVibe}
-                onNext={() => setStep(3)}
+                onConfirm={() => setStep(1)}
                 onBack={() => setStep(1)}
-                bottomLabel="Vibe"
+                onTriggerUpload={triggerFileSelect}
               />
             )}
             {step === 3 && (
               <SelectMusicScreen
                 key="step-music"
-                stepId={3}
                 selectedVibe={selectedVibe}
-                selectedVibeCategory={vibeData.find(s => s.items.some(i => i.id === selectedVibe?.id) || s.extraItems?.some(i => i.id === selectedVibe?.id))?.category}
-                data={musicData}
-                categories={musicCategories}
                 selectedMusic={selectedMusic}
                 onSelectMusic={setSelectedMusic}
-                onNext={() => setStep(1)}
-                onBack={() => setStep(2)}
+                onConfirm={() => setStep(1)}
+                onBack={() => setStep(1)}
               />
             )}
             {step === 4 && (
@@ -259,6 +311,7 @@ const PhoneSimulator = () => {
                   setSelectedPost(post);
                   setStep(11);
                 }}
+                createdPosts={createdPosts}
               />
             )}
             {step === 11 && (
@@ -270,6 +323,7 @@ const PhoneSimulator = () => {
                   setSelectedPost(null);
                   setStep(4);
                 }}
+                createdPosts={createdPosts}
               />
             )}
             {step === 12 && (
@@ -404,6 +458,83 @@ const PhoneSimulator = () => {
                 <div className="h-[4px]" />
                 <span className={`text-[8px] font-medium leading-none ${step === 5 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Profile</span>
               </button>
+            </div>
+          )}
+
+          {/* Hidden File Input for Custom Uploads */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            style={{ display: 'none' }}
+          />
+
+          {/* Upload Actions Modal / Bottom Sheet */}
+          {showUploadActions && (
+            <div className="upload-actions-modal" id="upload-actions-modal">
+              <div className="actions-overlay" onClick={() => setShowUploadActions(false)}></div>
+              <div className="actions-sheet">
+                <div className="actions-sheet-header">
+                  <h3>Select Upload Source</h3>
+                </div>
+                <div className="actions-sheet-body">
+                  <button className="actions-sheet-btn" id="upload-action-camera" onClick={triggerFileSelect}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <span>Take Photo</span>
+                  </button>
+                  <button className="actions-sheet-btn" id="upload-action-gallery" onClick={triggerFileSelect}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>Photo Library</span>
+                  </button>
+                </div>
+                <button className="actions-sheet-cancel" onClick={() => setShowUploadActions(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
+
+          {/* Privacy Processing Modal */}
+          {privacyModalState && (
+            <div id="privacy-processing-modal">
+              <div className="privacy-modal-card">
+                {privacyModalState === 'scanning' && (
+                  <div id="processing-view">
+                    <div className="scanner-container">
+                      <div className="scanner-image-preview" style={{ backgroundImage: `url(${tempUploadedUrl})` }}></div>
+                      <div className="scanner-laser"></div>
+                    </div>
+                    <div className="validation-content">
+                      <h3>Securing Privacy</h3>
+                      <p id="processing-subtitle-text" style={{ color: 'var(--muted)', fontSize: '0.88rem', margin: '6px 0 0 0' }}>
+                        {scannerSubtitle}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {privacyModalState === 'validation' && (
+                  <div id="validation-view">
+                    <div className="anonymized-preview-container">
+                      <div className="anonymized-image" style={{ backgroundImage: `url(${tempUploadedUrl})` }}></div>
+                      <span className="anonymity-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style={{ width: '12px', height: '12px' }}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Anonymized
+                      </span>
+                    </div>
+                    <div className="validation-content">
+                      <h3>Ready to Post</h3>
+                      <p style={{ color: 'var(--muted)', fontSize: '0.88rem', margin: '6px 0 0 0' }}>
+                        Metadata scrubbed. Faces blurred for security.
+                      </p>
+                    </div>
+                    <div className="validation-actions">
+                      <button className="anonymize-confirm-btn" onClick={handleKeepPhoto}>Keep Photo</button>
+                      <button className="anonymize-change-btn" onClick={handleChangePhoto}>Choose Different</button>
+                      <button className="anonymize-reject-btn" onClick={handleDiscardPhoto}>Discard</button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </motion.div>
