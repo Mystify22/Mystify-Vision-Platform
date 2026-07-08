@@ -163,7 +163,7 @@ const SelectMusicScreen = ({
   const tracks = getFilteredTracks();
 
   return (
-    <div className="absolute inset-0 flex flex-col font-sans bg-[#f8f9fa] text-[#121316] overflow-hidden">
+    <div className="absolute inset-0 flex flex-col font-sans bg-[var(--paper)] text-[var(--ink)] overflow-hidden">
       <section className="screen is-active" id="sound-select">
         <div className="note-composer-scroll">
           <header className="note-header">

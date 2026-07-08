@@ -420,7 +420,7 @@ const PhoneSimulator = () => {
           </AnimatePresence>
 
           {/* Bottom Navigation Bar */}
-          {step > 0 && step !== 10 && (
+          {step > 0 && step !== 1 && step !== 2 && step !== 3 && step !== 8 && step !== 10 && (
             <div className="absolute bottom-0 inset-x-0 bg-[#0c0c10] border-t-[0.5px] border-[rgba(255,255,255,0.08)] flex items-center justify-around px-0 z-40 p-[10px_0_14px]" style={{ fontFamily: 'system-ui, sans-serif' }}>
               {/* TAB 1: FEED (Step 4) */}
               <button onClick={() => { setSelectedPost(null); setStep(4); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">

@@ -56,7 +56,7 @@ const CreatePostScreen = ({
   };
 
   return (
-    <div className="absolute inset-0 flex flex-col font-sans bg-[#f8f9fa] text-[#121316] overflow-hidden">
+    <div className="absolute inset-0 flex flex-col font-sans bg-[var(--paper)] text-[var(--ink)] overflow-hidden">
       {subStep === 'composer' && (
         <section className="screen is-active" id="create">
           <div className="note-composer">
@@ -74,9 +74,13 @@ const CreatePostScreen = ({
 
             <div className="note-body">
               <div className="avatar-col">
-                <span className="avatar avatar-current">{getUserInitials()}</span>
+                {userProfileData?.avatarValue?.startsWith('http') ? (
+                  <img src={userProfileData.avatarValue} alt="profile" className="avatar-current object-cover" />
+                ) : (
+                  <span className="avatar-current">{userProfileData?.avatarValue || getUserInitials()}</span>
+                )}
               </div>
-              <div className="input-col">
+              <div className="input-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexGrow: 1, width: '100%' }}>
                 <textarea
                   ref={textareaRef}
                   id="composer-textarea"

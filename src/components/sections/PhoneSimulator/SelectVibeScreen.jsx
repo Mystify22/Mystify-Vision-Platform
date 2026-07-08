@@ -36,7 +36,7 @@ const SelectVibeScreen = ({
   const currentVibes = vibesData[activeTab] || [];
 
   return (
-    <div className="absolute inset-0 flex flex-col font-sans bg-[#f8f9fa] text-[#121316] overflow-hidden">
+    <div className="absolute inset-0 flex flex-col font-sans bg-[var(--paper)] text-[var(--ink)] overflow-hidden">
       <section className="screen is-active" id="vibe-select">
         <div className="note-composer-scroll">
           <header className="note-header">
@@ -101,14 +101,8 @@ const SelectVibeScreen = ({
                   </div>
                 );
               })}
-            </div>
-            <div className="vibe-grid-footer">
-              <button className="upload-gallery-btn" id="trigger-upload-btn" onClick={onTriggerUpload}>
-                <svg className="icon"><use href="#i-upload"></use></svg>
-                Upload from Gallery
-              </button>
-            </div>
           </div>
+        </div>
         </div>
       </section>
     </div>
