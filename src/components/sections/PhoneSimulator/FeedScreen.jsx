@@ -122,35 +122,19 @@ const FeedScreen = ({
   initialMode = "feed", 
   initialPost = null, 
   onBackFromReels, 
-  onInboxClick, 
+  onInboxClick: _onInboxClick, 
   onNotificationsClick,
   onUserSelect,
   followedUsers = new Set(),
   onFollowToggle,
   onPostClick,
-  createdPosts = []
+  createdPosts: _createdPosts = []
 }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(() => {
-    const userReels = createdPosts.map((post, idx) => ({
-      type: (post.mood || "thought").toUpperCase() + " VIBE",
-      tags: [post.mood ? post.mood.toUpperCase() : "THOUGHT", "Explore", "Trending"],
-      question: post.text,
-      avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
-      replies: [],
-      commentsList: [],
-      likes: "0",
-      comments: "0",
-      shares: "0",
-      bgImage: post.img || post.bg || "#111",
-      audioSrc: (post.audioSrc && typeof post.audioSrc === 'string') ? post.audioSrc : "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3",
-      audioName: post.audioName || "No sound yet",
-      isCustom: true
-    }));
-
-    let baseReels = [...userReels, ...initialHeroReels];
+    let baseReels = [...initialHeroReels];
     if (initialPost) {
-      const foundIdx = baseReels.findIndex(r => r.bgImage === initialPost.img);
+      const foundIdx = baseReels.findIndex(r => r.bgImage === (initialPost.img || initialPost.bg));
       if (foundIdx === -1) {
         const newReel = {
           type: (initialPost.mood || "vibe").toUpperCase() + " VIBE",
@@ -172,10 +156,9 @@ const FeedScreen = ({
   });
   const [activeHeroReel, setActiveHeroReel] = useState(() => {
     if (initialPost) {
-      const userReelsCount = createdPosts.length;
       const foundIdx = initialHeroReels.findIndex(r => r.bgImage === (initialPost.img || initialPost.bg));
       if (foundIdx !== -1) {
-        return foundIdx + userReelsCount;
+        return foundIdx;
       }
       return 0;
     }
