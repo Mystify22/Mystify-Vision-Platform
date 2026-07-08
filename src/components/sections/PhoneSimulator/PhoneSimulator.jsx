@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
+import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash, RefreshCw } from 'lucide-react';
 import { vibeData, vibeCategories, musicData, musicCategories } from './MockData';
 
 import './PhoneSimulator.css';
@@ -92,6 +92,7 @@ const PhoneSimulator = () => {
   const [tempUploadedUrl, setTempUploadedUrl] = useState('');
   const [tempUploadedName, setTempUploadedName] = useState('');
   const [scannerSubtitle, setScannerSubtitle] = useState('Analyzing image for faces and identifiers...');
+  const [scanProgress, setScanProgress] = useState(0);
   const fileInputRef = useRef(null);
 
   const [userProfileData, setUserProfileData] = useState(() => {
@@ -132,26 +133,34 @@ const PhoneSimulator = () => {
     }
   };
 
+  const runScanningAnimation = () => {
+    setPrivacyModalState('scanning');
+    setScanProgress(0);
+    setScannerSubtitle('Analyzing image for faces and identifiers...');
+
+    setTimeout(() => {
+      setScanProgress(1);
+      setScannerSubtitle('Locating facial keypoints and geotags...');
+    }, 800);
+
+    setTimeout(() => {
+      setScanProgress(2);
+      setScannerSubtitle('Removing facial features & scrubbing EXIF metadata...');
+    }, 1600);
+
+    setTimeout(() => {
+      setScanProgress(3);
+      setPrivacyModalState('validation');
+    }, 2400);
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setTempUploadedUrl(url);
       setTempUploadedName(`Custom Upload (${file.name})`);
-      setPrivacyModalState('scanning');
-      setScannerSubtitle('Analyzing image for faces and identifiers...');
-
-      setTimeout(() => {
-        setScannerSubtitle('Locating facial keypoints and geotags...');
-      }, 800);
-
-      setTimeout(() => {
-        setScannerSubtitle('Removing facial features & scrubbing EXIF metadata...');
-      }, 1600);
-
-      setTimeout(() => {
-        setPrivacyModalState('validation');
-      }, 2400);
+      runScanningAnimation();
     }
   };
 
@@ -496,45 +505,74 @@ const PhoneSimulator = () => {
           {/* Privacy Processing Modal */}
           {privacyModalState && (
             <div id="privacy-processing-modal">
-              <div className="privacy-modal-card">
-                {privacyModalState === 'scanning' && (
-                  <div id="processing-view">
-                    <div className="scanner-container">
-                      <div className="scanner-image-preview" style={{ backgroundImage: `url(${tempUploadedUrl})` }}></div>
-                      <div className="scanner-laser"></div>
-                    </div>
-                    <div className="validation-content">
-                      <h3>Securing Privacy</h3>
-                      <p id="processing-subtitle-text" style={{ color: 'var(--muted)', fontSize: '0.88rem', margin: '6px 0 0 0' }}>
-                        {scannerSubtitle}
-                      </p>
-                    </div>
+              {privacyModalState === 'scanning' && (
+                <div id="processing-view">
+                  <div className="scanner-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0c0c10' }}>
+                    <div className="loader"></div>
                   </div>
-                )}
+                  <div className="validation-content">
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: '700', letterSpacing: '-0.02em', color: '#fff' }}>Securing Privacy</h3>
+                    
+                    {/* Neon Progress Bar */}
+                    <div className="scan-progress-bar-container">
+                      <div 
+                        className="scan-progress-bar" 
+                        style={{ width: `${(scanProgress / 3) * 100}%` }}
+                      ></div>
+                    </div>
 
-                {privacyModalState === 'validation' && (
-                  <div id="validation-view">
-                    <div className="anonymized-preview-container">
-                      <div className="anonymized-image" style={{ backgroundImage: `url(${tempUploadedUrl})` }}></div>
-                      <span className="anonymity-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style={{ width: '12px', height: '12px' }}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        Anonymized
-                      </span>
+                    {/* Step-by-step Log Checklist */}
+                    <div className="scan-steps-list">
+                      <div className={`scan-step-item ${scanProgress >= 0 ? 'active' : ''} ${scanProgress > 0 ? 'completed' : ''}`}>
+                        <span className="scan-step-icon">
+                          {scanProgress > 0 ? '✓' : '1'}
+                        </span>
+                        <span className="scan-step-text">Analyzing image meta-data</span>
+                      </div>
+                      <div className={`scan-step-item ${scanProgress >= 1 ? 'active' : ''} ${scanProgress > 1 ? 'completed' : ''}`}>
+                        <span className="scan-step-icon">
+                          {scanProgress > 1 ? '✓' : '2'}
+                        </span>
+                        <span className="scan-step-text">Locating faces & keypoints</span>
+                      </div>
+                      <div className={`scan-step-item ${scanProgress >= 2 ? 'active' : ''} ${scanProgress > 2 ? 'completed' : ''}`}>
+                        <span className="scan-step-icon">
+                          {scanProgress > 2 ? '✓' : '3'}
+                        </span>
+                        <span className="scan-step-text">Scrubbing GPS & EXIF data</span>
+                      </div>
                     </div>
-                    <div className="validation-content">
-                      <h3>Ready to Post</h3>
-                      <p style={{ color: 'var(--muted)', fontSize: '0.88rem', margin: '6px 0 0 0' }}>
-                        Metadata scrubbed. Faces blurred for security.
-                      </p>
-                    </div>
-                    <div className="validation-actions">
-                      <button className="anonymize-confirm-btn" onClick={handleKeepPhoto}>Keep Photo</button>
-                      <button className="anonymize-change-btn" onClick={handleChangePhoto}>Choose Different</button>
-                      <button className="anonymize-reject-btn" onClick={handleDiscardPhoto}>Discard</button>
-                    </div>
+
+                    <p id="processing-subtitle-text" style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.78rem', marginTop: '16px', fontStyle: 'italic', lineHeight: '1.4' }}>
+                      {scannerSubtitle}
+                    </p>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+
+              {privacyModalState === 'validation' && (
+                <div id="validation-view">
+                  {/* Floating tick button in the top right */}
+                  <button className="anonymize-confirm-btn-floating" onClick={handleKeepPhoto} title="Keep Photo" aria-label="Keep Photo">
+                    <Check size={20} />
+                  </button>
+
+                  <div className="anonymized-preview-container">
+                    <div className="anonymized-image" style={{ backgroundImage: `url(${tempUploadedUrl})` }}></div>
+                  </div>
+                  <div className="validation-actions">
+                    <button className="anonymize-reject-btn" onClick={handleDiscardPhoto} title="Discard Photo" aria-label="Discard Photo">
+                      <Trash size={20} />
+                    </button>
+                    <button className="anonymize-change-btn" onClick={handleChangePhoto} title="Choose Different Photo" aria-label="Choose Different Photo">
+                      <Edit size={20} />
+                    </button>
+                    <button className="anonymize-rescan-btn" onClick={runScanningAnimation} title="Scan Again" aria-label="Scan Again">
+                      <RefreshCw size={20} />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </motion.div>
