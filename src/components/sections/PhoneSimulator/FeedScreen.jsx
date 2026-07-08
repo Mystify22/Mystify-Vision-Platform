@@ -122,18 +122,19 @@ const FeedScreen = ({
   initialMode = "feed", 
   initialPost = null, 
   onBackFromReels, 
-  onInboxClick, 
+  onInboxClick: _onInboxClick, 
   onNotificationsClick,
   onUserSelect,
   followedUsers = new Set(),
   onFollowToggle,
-  onPostClick
+  onPostClick,
+  createdPosts: _createdPosts = []
 }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(() => {
-    let baseReels = initialHeroReels;
+    let baseReels = [...initialHeroReels];
     if (initialPost) {
-      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
+      const foundIdx = baseReels.findIndex(r => r.bgImage === (initialPost.img || initialPost.bg));
       if (foundIdx === -1) {
         const newReel = {
           type: (initialPost.mood || "vibe").toUpperCase() + " VIBE",
@@ -148,15 +149,18 @@ const FeedScreen = ({
           bgImage: initialPost.img || initialPost.bg,
           audioSrc: initialPost.audioSrc || "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
         };
-        baseReels = [newReel, ...initialHeroReels];
+        baseReels = [newReel, ...baseReels];
       }
     }
     return populateReelsComments(baseReels);
   });
   const [activeHeroReel, setActiveHeroReel] = useState(() => {
     if (initialPost) {
-      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === initialPost.img);
-      return foundIdx !== -1 ? foundIdx : 0;
+      const foundIdx = initialHeroReels.findIndex(r => r.bgImage === (initialPost.img || initialPost.bg));
+      if (foundIdx !== -1) {
+        return foundIdx;
+      }
+      return 0;
     }
     return 0;
   });
