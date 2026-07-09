@@ -132,23 +132,7 @@ const FeedScreen = ({
 }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(() => {
-    const mappedCreated = _createdPosts.map((post, idx) => ({
-      type: (post.mood || "vibe").toUpperCase() + " VIBE",
-      tags: [post.mood ? post.mood.toUpperCase() : "VIBE", "Explore", "Trending"],
-      question: post.text,
-      avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677830/mystify/avatar/toons/zrxwnpxmz51ya1ghq696.png",
-      replies: [],
-      commentsList: [],
-      likes: "0.0",
-      comments: "0",
-      shares: "0",
-      bgImage: post.img || post.bg,
-      imgFilter: post.imgFilter || null,
-      imgOverlay: post.imgOverlay || null,
-      audioSrc: post.audioSrc || "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
-    }));
-
-    let baseReels = [...mappedCreated, ...initialHeroReels];
+    let baseReels = [...initialHeroReels];
 
     if (initialPost) {
       const foundIdx = baseReels.findIndex(r => r.bgImage === (initialPost.img || initialPost.bg));
