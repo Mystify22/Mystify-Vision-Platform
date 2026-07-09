@@ -1,9 +1,65 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash, RefreshCw } from 'lucide-react';
 import { vibeData, vibeCategories, musicData, musicCategories } from './MockData';
 
 import './PhoneSimulator.css';
+
+const VARIANTS = [
+  { id: 'original', name: 'Clean Privacy (Original)', filter: 'contrast(1.05) brightness(0.95)', overlay: 'none' },
+  { id: 'cyberpunk', name: 'Neon Cyber Vibe', filter: 'hue-rotate(290deg) saturate(1.5) contrast(1.1)', overlay: 'linear-gradient(45deg, rgba(244, 63, 94, 0.25), rgba(6, 182, 212, 0.25))' },
+  { id: 'mono', name: 'Mono Noir Vibe', filter: 'grayscale(1) contrast(1.4) brightness(0.9)', overlay: 'none' },
+  { id: 'amber', name: 'Amber Glow Vibe', filter: 'sepia(0.6) saturate(1.3) contrast(0.95)', overlay: 'rgba(245, 158, 11, 0.12)' },
+  { id: 'aurora', name: 'Aurora Dusk Vibe', filter: 'hue-rotate(180deg) saturate(1.4)', overlay: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.2))' }
+];
+
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0
+  }),
+  center: {
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction) => ({
+    x: direction < 0 ? 300 : -300,
+    opacity: 0
+  })
+};
+
+const AnonymizedCard = ({ variant, tempUploadedUrl }) => {
+  return (
+    <div className="anonymized-card">
+      <div 
+        className="anonymized-image" 
+        style={{ 
+          backgroundImage: `url(${tempUploadedUrl})`,
+          filter: variant.filter,
+          width: '100%',
+          height: '100%',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'relative'
+        }}
+      >
+        {variant.overlay !== 'none' && (
+          <div 
+            className="variant-overlay" 
+            style={{ 
+              position: 'absolute', 
+              inset: 0, 
+              background: variant.overlay, 
+              mixBlendMode: 'overlay',
+              pointerEvents: 'none'
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
 import CreatePostScreen from './CreatePostScreen';
 import SelectVibeScreen from './SelectVibeScreen';
 import SelectMusicScreen from './SelectMusicScreen';
@@ -94,6 +150,13 @@ const PhoneSimulator = () => {
   const [scannerSubtitle, setScannerSubtitle] = useState('Analyzing image for faces and identifiers...');
   const [scanProgress, setScanProgress] = useState(0);
   const fileInputRef = useRef(null);
+  const [[page, direction], setPage] = useState([0, 0]);
+
+  const paginate = (newDirection) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  const activeIndex = ((page % VARIANTS.length) + VARIANTS.length) % VARIANTS.length;
 
   const [userProfileData, setUserProfileData] = useState(() => {
     const saved = localStorage.getItem('mystify_user_profile');
@@ -151,6 +214,7 @@ const PhoneSimulator = () => {
     setTimeout(() => {
       setScanProgress(3);
       setPrivacyModalState('validation');
+      setPage([0, 0]);
     }, 6000);
   };
 
@@ -165,11 +229,14 @@ const PhoneSimulator = () => {
   };
 
   const handleKeepPhoto = () => {
+    const currentVariant = VARIANTS[activeIndex];
     setSelectedVibe({
       id: 'custom_' + Date.now(),
-      name: tempUploadedName,
+      name: currentVariant.name,
       img: tempUploadedUrl,
-      isCustom: true
+      isCustom: true,
+      filter: currentVariant.filter,
+      overlay: currentVariant.overlay
     });
     setPrivacyModalState(null);
     if (fileInputRef.current) {
@@ -269,6 +336,8 @@ const PhoneSimulator = () => {
                     replies: 0,
                     bg: selectedVibe ? selectedVibe.bg || "#111" : "#111",
                     img: selectedVibe ? selectedVibe.img : null,
+                    imgFilter: selectedVibe ? selectedVibe.filter : null,
+                    imgOverlay: selectedVibe ? selectedVibe.overlay : null,
                     audioSrc: selectedMusic ? selectedMusic.audioSrc : null,
                     audioName: selectedMusic ? selectedMusic.name : null,
                     createdAt: "Just now"
@@ -551,15 +620,76 @@ const PhoneSimulator = () => {
               )}
 
               {privacyModalState === 'validation' && (
-                <div id="validation-view">
+                <div id="validation-view" style={{ position: 'relative' }}>
                   {/* Floating tick button in the top right */}
                   <button className="anonymize-confirm-btn-floating" onClick={handleKeepPhoto} title="Keep Photo" aria-label="Keep Photo">
                     <Check size={20} />
                   </button>
 
-                  <div className="anonymized-preview-container">
-                    <div className="anonymized-image" style={{ backgroundImage: `url(${tempUploadedUrl})` }}></div>
+
+
+                  <div className="variant-stack-container" style={{ position: 'relative', width: '100%', height: '270px', marginTop: '10px', marginBottom: '12px', overflow: 'hidden', borderRadius: '20px' }}>
+                    <AnimatePresence initial={false} custom={direction}>
+                      <motion.div
+                        key={page}
+                        custom={direction}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                          x: { type: "spring", stiffness: 300, damping: 30 },
+                          opacity: { duration: 0.2 }
+                        }}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.8}
+                        onDragEnd={(e, { offset }) => {
+                          const threshold = 50;
+                          if (offset.x < -threshold) {
+                            paginate(1);
+                          } else if (offset.x > threshold) {
+                            paginate(-1);
+                          }
+                        }}
+                        style={{
+                          position: 'absolute',
+                          width: '100%',
+                          height: '100%',
+                          cursor: 'grab'
+                        }}
+                        whileTap={{ cursor: 'grabbing' }}
+                      >
+                        <AnonymizedCard
+                          variant={VARIANTS[activeIndex]}
+                          tempUploadedUrl={tempUploadedUrl}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
+
+                  <div className="carousel-dots" style={{ display: 'flex', gap: '6px', justifyContent: 'center', margin: '8px 0 16px' }}>
+                    {VARIANTS.map((_, idx) => (
+                      <div 
+                        key={idx} 
+                        onClick={() => {
+                          const diff = idx - activeIndex;
+                          if (diff !== 0) {
+                            paginate(diff);
+                          }
+                        }}
+                        style={{
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          backgroundColor: idx === activeIndex ? '#FF4500' : 'rgba(255,255,255,0.25)',
+                          cursor: 'pointer',
+                          transition: 'background-color 0.2s'
+                        }}
+                      />
+                    ))}
+                  </div>
+
                   <div className="validation-actions">
                     <button className="anonymize-reject-btn" onClick={handleDiscardPhoto} title="Discard Photo" aria-label="Discard Photo">
                       <Trash size={20} />

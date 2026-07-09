@@ -98,13 +98,31 @@ const CreatePostScreen = ({
                   style={{ display: (selectedVibe || selectedMusic) ? 'flex' : 'none' }}
                 >
                   {selectedVibe && (
-                    <div className="attachment-image-card" id="attachment-image-card">
-                      <img id="attachment-img" src={selectedVibe.img} alt="Attached vibe" />
+                    <div className="attachment-image-card" id="attachment-image-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                      <img 
+                        id="attachment-img" 
+                        src={selectedVibe.img} 
+                        alt="Attached vibe" 
+                        style={{ filter: selectedVibe.filter || 'none', width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      {selectedVibe.overlay && selectedVibe.overlay !== 'none' && (
+                        <div 
+                          className="variant-overlay" 
+                          style={{ 
+                            position: 'absolute', 
+                            inset: 0, 
+                            background: selectedVibe.overlay, 
+                            mixBlendMode: 'overlay', 
+                            pointerEvents: 'none' 
+                          }} 
+                        />
+                      )}
                       <button 
                         className="remove-attachment-btn" 
                         id="remove-img-btn" 
                         onClick={() => setSelectedVibe(null)} 
                         title="Remove image"
+                        style={{ zIndex: 10 }}
                       >
                         <svg className="icon"><use href="#i-close"></use></svg>
                       </button>
@@ -154,10 +172,37 @@ const CreatePostScreen = ({
       {subStep === 'preview' && (
         <section className="screen is-active" id="post-preview">
           <div className="preview-composer-container">
-            <div className={`preview-card-body ${selectedVibe ? 'has-vibe-bg' : ''}`} id="preview-card-body" style={selectedVibe ? { backgroundImage: `url(${selectedVibe.img})` } : {}}>
-              <div className="preview-card-text">{thoughtText}</div>
+            <div className={`preview-card-body ${selectedVibe ? 'has-vibe-bg' : ''}`} id="preview-card-body">
+              {selectedVibe && (
+                <div 
+                  className="preview-card-bg-image" 
+                  style={{ 
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: `url(${selectedVibe.img})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    filter: selectedVibe.filter || 'none',
+                    zIndex: 0
+                  }}
+                />
+              )}
+              {selectedVibe && selectedVibe.overlay && selectedVibe.overlay !== 'none' && (
+                <div 
+                  className="variant-overlay" 
+                  style={{ 
+                    position: 'absolute', 
+                    inset: 0, 
+                    background: selectedVibe.overlay, 
+                    mixBlendMode: 'overlay',
+                    pointerEvents: 'none',
+                    zIndex: 0
+                  }}
+                />
+              )}
+              <div className="preview-card-text" style={{ zIndex: 2 }}>{thoughtText}</div>
               {selectedMusic && (
-                <div className="preview-sound-badge">
+                <div className="preview-sound-badge" style={{ zIndex: 2 }}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: '14px', height: '14px', marginRight: '4px', display: 'inline-block', verticalAlign: 'middle' }}>
                     <path d="M9 18V5l12-2v13" />
                     <circle cx="6" cy="18" r="3" />
