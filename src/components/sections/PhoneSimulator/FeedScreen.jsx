@@ -133,6 +133,7 @@ const FeedScreen = ({
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(() => {
     let baseReels = [...initialHeroReels];
+
     if (initialPost) {
       const foundIdx = baseReels.findIndex(r => r.bgImage === (initialPost.img || initialPost.bg));
       if (foundIdx === -1) {
@@ -147,6 +148,8 @@ const FeedScreen = ({
           comments: initialPost.replies ? String(initialPost.replies) : "1.2K",
           shares: initialPost.replies ? String(Math.floor(initialPost.replies * 0.4)) : "150",
           bgImage: initialPost.img || initialPost.bg,
+          imgFilter: initialPost.imgFilter || null,
+          imgOverlay: initialPost.imgOverlay || null,
           audioSrc: initialPost.audioSrc || "https://res.cloudinary.com/dyy8sqeh7/video/upload/v1780330318/suryanatta-whispers-in-the-broken-horizon-400833_mr0t3u.mp3"
         };
         baseReels = [newReel, ...baseReels];
@@ -487,12 +490,28 @@ const FeedScreen = ({
         >
           {reelsData.map((reel, i) => (
             <div key={i} className="w-full h-full snap-start relative flex flex-col justify-end p-4 sm:p-5 pb-6 sm:pb-8 overflow-hidden z-10">
-              <motion.div
+               <motion.div
                 animate={{ scale: [1.05, 1.15, 1.05], backgroundPosition: ['50% 50%', '60% 40%', '50% 50%'] }}
                 transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
                 className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
-                style={{ backgroundImage: `url('${reel.bgImage}')` }}
+                style={{ 
+                  backgroundImage: `url('${reel.bgImage}')`,
+                  filter: reel.imgFilter || 'none'
+                }}
               />
+              {reel.imgOverlay && reel.imgOverlay !== 'none' && (
+                <div 
+                  className="variant-overlay" 
+                  style={{ 
+                    position: 'absolute', 
+                    inset: 0, 
+                    background: reel.imgOverlay, 
+                    mixBlendMode: 'overlay',
+                    pointerEvents: 'none',
+                    zIndex: 0
+                  }}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 z-0 pointer-events-none" />
 
               <div className={`relative z-20 w-full flex flex-col pr-10 sm:pr-12 space-y-3 sm:space-y-4 transition-all duration-300 origin-bottom-left ${showComments ? 'scale-[0.80] sm:scale-[0.70] translate-y-2 sm:translate-y-4' : 'scale-100'}`}>
@@ -1194,7 +1213,26 @@ const FeedScreen = ({
                       setViewingReel(true);
                     }}
                   >
-                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.bgImage}')` }} />
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center" 
+                      style={{ 
+                        backgroundImage: `url('${reel.bgImage}')`,
+                        filter: reel.imgFilter || 'none'
+                      }} 
+                    />
+                    {reel.imgOverlay && reel.imgOverlay !== 'none' && (
+                      <div 
+                        className="variant-overlay" 
+                        style={{ 
+                          position: 'absolute', 
+                          inset: 0, 
+                          background: reel.imgOverlay, 
+                          mixBlendMode: 'overlay',
+                          pointerEvents: 'none',
+                          zIndex: 0
+                        }}
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/40" />
 
                     <div className="absolute inset-x-0 bottom-3 px-3 flex flex-col items-start z-10 w-[85%] gap-2 pointer-events-none">
