@@ -4,7 +4,7 @@ import { Flame, Trophy } from 'lucide-react';
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 px-6 py-4 transition-all glass-nav">
+    <nav className="absolute top-0 inset-x-0 z-50 px-6 py-4 transition-all bg-white border-b border-gray-100 shadow-sm">
       <div className="container mx-auto flex items-center justify-between">
         <a href="#" className="flex items-center gap-3 cursor-pointer group">
           <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center shadow-md transition-colors flex-shrink-0">

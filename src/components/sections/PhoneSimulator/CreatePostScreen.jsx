@@ -62,7 +62,9 @@ const CreatePostScreen = ({
           <div className="note-composer">
             <header className="note-header">
               <button className="icon-button close-btn" onClick={onCancel} title="Cancel" aria-label="Cancel">
-                <svg className="icon"><use href="#i-close"></use></svg>
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
               </button>
               <span className="note-title">New thought</span>
               <div className="note-actions">
@@ -124,7 +126,9 @@ const CreatePostScreen = ({
                         title="Remove image"
                         style={{ zIndex: 10 }}
                       >
-                        <svg className="icon"><use href="#i-close"></use></svg>
+                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+                          <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>
                       </button>
                     </div>
                   )}
@@ -146,7 +150,9 @@ const CreatePostScreen = ({
                         onClick={() => setSelectedMusic(null)} 
                         title="Remove sound"
                       >
-                        <svg className="icon"><use href="#i-close"></use></svg>
+                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+                          <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>
                       </button>
                     </div>
                   )}
@@ -201,16 +207,6 @@ const CreatePostScreen = ({
                 />
               )}
               <div className="preview-card-text" style={{ zIndex: 2 }}>{thoughtText}</div>
-              {selectedMusic && (
-                <div className="preview-sound-badge" style={{ zIndex: 2 }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: '14px', height: '14px', marginRight: '4px', display: 'inline-block', verticalAlign: 'middle' }}>
-                    <path d="M9 18V5l12-2v13" />
-                    <circle cx="6" cy="18" r="3" />
-                    <circle cx="18" cy="16" r="3" />
-                  </svg>
-                  <span>{selectedMusic.name}</span>
-                </div>
-              )}
             </div>
             <header className="note-header">
               <button className="icon-button back-btn" id="preview-back-btn" onClick={handleBackToEdit} title="Back to Edit">
