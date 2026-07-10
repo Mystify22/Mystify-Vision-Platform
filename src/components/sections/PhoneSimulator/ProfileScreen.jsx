@@ -499,8 +499,11 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
         <div className="flex gap-2 pb-1">
           {isOwnProfile ? (
             <>
-              <button onClick={onEditProfile} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Edit Profile">
-                <Edit size={14} className="text-white/60" />
+              <button 
+                onClick={onEditProfile} 
+                className="h-[34px] rounded-full px-4 text-[11px] font-bold bg-white/[0.04] border border-white/[0.08] text-white/80 hover:bg-white/[0.08] transition-colors shrink-0"
+              >
+                Edit Profile
               </button>
               <button onClick={onOpenSettings} className="w-[34px] h-[34px] rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center hover:bg-white/[0.08] transition-colors shrink-0" title="Settings">
                 <MoreHorizontal size={14} className="text-white/60" />
