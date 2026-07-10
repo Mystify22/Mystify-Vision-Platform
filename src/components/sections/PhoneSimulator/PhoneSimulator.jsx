@@ -6,11 +6,11 @@ import { vibeData, vibeCategories, musicData, musicCategories } from './MockData
 import './PhoneSimulator.css';
 
 const VARIANTS = [
-  { id: 'original', name: 'Clean Privacy (Original)', filter: 'contrast(1.05) brightness(0.95)', overlay: 'none' },
-  { id: 'cyberpunk', name: 'Neon Cyber Vibe', filter: 'hue-rotate(290deg) saturate(1.5) contrast(1.1)', overlay: 'linear-gradient(45deg, rgba(244, 63, 94, 0.25), rgba(6, 182, 212, 0.25))' },
-  { id: 'mono', name: 'Mono Noir Vibe', filter: 'grayscale(1) contrast(1.4) brightness(0.9)', overlay: 'none' },
-  { id: 'amber', name: 'Amber Glow Vibe', filter: 'sepia(0.6) saturate(1.3) contrast(0.95)', overlay: 'rgba(245, 158, 11, 0.12)' },
-  { id: 'aurora', name: 'Aurora Dusk Vibe', filter: 'hue-rotate(180deg) saturate(1.4)', overlay: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.2))' }
+  { id: 'copy_1', name: 'Original Photo (Copy 1)', filter: 'none', overlay: 'none' },
+  { id: 'copy_2', name: 'Original Photo (Copy 2)', filter: 'none', overlay: 'none' },
+  { id: 'copy_3', name: 'Original Photo (Copy 3)', filter: 'none', overlay: 'none' },
+  { id: 'copy_4', name: 'Original Photo (Copy 4)', filter: 'none', overlay: 'none' },
+  { id: 'copy_5', name: 'Original Photo (Copy 5)', filter: 'none', overlay: 'none' }
 ];
 
 const slideVariants = {
@@ -129,6 +129,46 @@ const AgentMessageIcon = ({ size = 24, color = "currentColor", className = "" })
   </svg>
 );
 
+const compressAndResizeImage = (file, maxWidth, maxHeight) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.7));
+        } else {
+          resolve(e.target.result);
+        }
+      };
+      img.onerror = () => resolve('');
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve('');
+    reader.readAsDataURL(file);
+  });
+};
+
 const PhoneSimulator = () => {
   const containerRef = useRef(null);
 
@@ -153,10 +193,13 @@ const PhoneSimulator = () => {
   const [[page, direction], setPage] = useState([0, 0]);
 
   const paginate = (newDirection) => {
-    setPage([page + newDirection, newDirection]);
+    const nextIndex = page + newDirection;
+    if (nextIndex >= 0 && nextIndex < VARIANTS.length) {
+      setPage([nextIndex, newDirection]);
+    }
   };
 
-  const activeIndex = ((page % VARIANTS.length) + VARIANTS.length) % VARIANTS.length;
+  const activeIndex = page;
 
   const [userProfileData, setUserProfileData] = useState(() => {
     const saved = localStorage.getItem('mystify_user_profile');
@@ -204,27 +247,56 @@ const PhoneSimulator = () => {
     setTimeout(() => {
       setScanProgress(1);
       setScannerSubtitle('Locating facial keypoints and geotags...');
-    }, 2000);
+    }, 2300);
 
     setTimeout(() => {
       setScanProgress(2);
       setScannerSubtitle('Removing facial features & scrubbing EXIF metadata...');
-    }, 4000);
+    }, 4600);
 
     setTimeout(() => {
       setScanProgress(3);
       setPrivacyModalState('validation');
       setPage([0, 0]);
-    }, 6000);
+    }, 7000);
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setTempUploadedUrl(url);
+      // Trigger scanning UI instantly to avoid freezing/unresponsive delays
+      setPrivacyModalState('scanning');
+      setScanProgress(0);
+      setScannerSubtitle('Analyzing image for faces and identifiers...');
       setTempUploadedName(`Custom Upload (${file.name})`);
-      runScanningAnimation();
+
+      // Start sequential progress updates in parallel
+      const t1 = setTimeout(() => {
+        setScanProgress(1);
+        setScannerSubtitle('Locating facial keypoints and geotags...');
+      }, 2300);
+
+      const t2 = setTimeout(() => {
+        setScanProgress(2);
+        setScannerSubtitle('Removing facial features & scrubbing EXIF metadata...');
+      }, 4600);
+
+      // Perform canvas compression in parallel
+      let compressedUrl = '';
+      try {
+        compressedUrl = await compressAndResizeImage(file, 600, 600);
+      } catch (err) {
+        console.error("Compression failed, using fallback URL:", err);
+        compressedUrl = URL.createObjectURL(file);
+      }
+
+      // Complete the scanning state at 7000ms
+      setTimeout(() => {
+        setTempUploadedUrl(compressedUrl);
+        setScanProgress(3);
+        setPrivacyModalState('validation');
+        setPage([0, 0]);
+      }, 7000);
     }
   };
 
@@ -666,6 +738,68 @@ const PhoneSimulator = () => {
                         />
                       </motion.div>
                     </AnimatePresence>
+
+                    {/* Back Arrow Button */}
+                    {page > 0 && (
+                      <button 
+                        onClick={() => paginate(-1)}
+                        style={{
+                          position: 'absolute',
+                          left: '10px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          zIndex: 10,
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: 'rgba(0, 0, 0, 0.5)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#fff',
+                          cursor: 'pointer',
+                          transition: 'background 0.2s',
+                          backdropFilter: 'blur(4px)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                        }}
+                        title="Previous Copy"
+                        aria-label="Previous Copy"
+                      >
+                        <ChevronLeft size={20} />
+                      </button>
+                    )}
+
+                    {/* Next Arrow Button */}
+                    {page < VARIANTS.length - 1 && (
+                      <button 
+                        onClick={() => paginate(1)}
+                        style={{
+                          position: 'absolute',
+                          right: '10px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          zIndex: 10,
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: 'rgba(0, 0, 0, 0.5)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#fff',
+                          cursor: 'pointer',
+                          transition: 'background 0.2s',
+                          backdropFilter: 'blur(4px)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                        }}
+                        title="Next Copy"
+                        aria-label="Next Copy"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+                    )}
                   </div>
 
                   <div className="carousel-dots" style={{ display: 'flex', gap: '6px', justifyContent: 'center', margin: '8px 0 16px' }}>
