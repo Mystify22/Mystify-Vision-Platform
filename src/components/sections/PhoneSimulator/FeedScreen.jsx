@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash, User, Clock } from 'lucide-react';
+import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash, User, Clock, Settings } from 'lucide-react';
 import { initialHeroReels, mockNotifications, RANDOM_AVATARS, moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
@@ -128,7 +128,8 @@ const FeedScreen = ({
   followedUsers = new Set(),
   onFollowToggle,
   onPostClick,
-  createdPosts: _createdPosts = []
+  createdPosts: _createdPosts = [],
+  onSettingsClick
 }) => {
   // Existing state for Reels
   const [reelsData, setReelsData] = useState(() => {
@@ -811,10 +812,15 @@ const FeedScreen = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      className="absolute inset-0 flex flex-col font-sans bg-[#0c0c10] text-white overflow-hidden pb-[64px]"
+      className="absolute inset-0 flex flex-col font-sans bg-[#0a0a0c] text-white overflow-hidden pb-[64px]"
     >
+      {/* Top Status Bar matching the mockup design */}
+      <div className="flex items-center justify-between bg-[#0a0a0c] px-4 pt-3.5 pb-1.5 shrink-0 select-none">
+        <span className="text-white text-[14px] font-bold tracking-tight pl-1">4:06</span>
+      </div>
+
       {/* Top Bar (Reddit-style Search Bar at Top - Collapsible on scroll) */}
-      <div className={`flex items-center bg-[#0c0c10] px-3 gap-3 shrink-0 transition-all duration-300 ease-in-out border-b border-white/[0.08] ${
+      <div className={`flex items-center bg-[#0a0a0c] px-3 gap-3 shrink-0 transition-all duration-300 ease-in-out border-b border-white/[0.08] ${
         isHeaderVisible ? 'h-[54px] opacity-100 pt-[12px] pb-[10px]' : 'h-0 opacity-0 overflow-hidden py-0 border-transparent'
       }`}>
         {/* Left/Center: Search input */}
@@ -1162,183 +1168,132 @@ const FeedScreen = ({
             </div>
           </div>
         ) : (
-          /* Default Posts List */
-          <div className="flex flex-col pb-6">
-            {reelsData.map((reel, idx) => (
+             /* Default Posts List - Redesigned to match the screenshot */
+             <div className="flex flex-col pb-6 bg-[#0a0a0c]">
+            {reelsData.map((reel, idx) => {
+              const dates = ["02 Jul 2026", "28 Jun 2026", "21 Jun 2026", "15 Jun 2026", "08 Jun 2026", "01 Jun 2026"];
+              const dateText = reel.createdAt && reel.createdAt.includes("now") ? "11 Aug 2026" : (dates[idx % dates.length]);
+              
+              const parsedLikes = parseFloat(reel.likes);
+              const displayLikes = isNaN(parsedLikes) 
+                ? (idx === 0 ? 3 : idx === 1 ? 412 : 12) 
+                : (parsedLikes < 100 ? Math.floor(parsedLikes * 10) : Math.floor(parsedLikes)) + (feedLikes[idx] ? 1 : 0);
+
+              const displayComments = getCommentCount(reel) || (idx === 0 ? 2 : idx === 1 ? 89 : 1);
+              const cleanQuestion = reel.question ? reel.question.replace(/^["“”']|["“”']$/g, '') : '';
+              
+              const sliceCount = idx === 0 ? 2 : 1;
+              const displayedComments = (reel.commentsList || []).slice(0, sliceCount);
+              
+              const commentDates = [
+                ["17 Jul 2026", "17 Jul 2026"],
+                ["30 Jun 2026"],
+                ["21 Jun 2026"]
+              ];
+              const getCommentDate = (cIdx) => {
+                const list = commentDates[idx % commentDates.length];
+                return list?.[cIdx] || "17 Jul 2026";
+              };
+
+              const getCommentLikes = (comment, cIdx) => {
+                if (idx === 0) return cIdx === 0 ? 2 : 1;
+                if (idx === 1) return 14;
+                if (idx === 2) return 5;
+                return comment.likes || 2;
+              };
+
+              return (
                 <div 
                   key={idx} 
                   ref={el => postRefs.current[idx] = el}
                   data-idx={idx}
-                  className="w-full bg-[#0c0c10] border-b border-white/[0.07]"
+                  className="w-full shrink-0 select-none bg-[#0a0a0c]"
                 >
-                  {/* Post Header */}
-                  <div className="flex items-center gap-[10px] px-[14px] pt-[10px] pb-[8px]">
-                    <div className="w-[36px] h-[36px] rounded-full shrink-0 flex items-center justify-center relative overflow-hidden bg-[#1a1a1a] border border-white/[0.08]">
-                       {reel.avatarImage ? (
-                         <img src={reel.avatarImage} alt={`@mystik_user_${idx+1}`} className="w-full h-full object-cover relative z-10" />
-                       ) : (
-                         <>
-                           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600" />
-                           <span className="relative text-[16px] leading-none">👤</span>
-                         </>
-                       )}
-                    </div>
-                    <div className="flex-1 flex flex-col">
-                       <span className="text-[13px] font-medium text-white">@mystik_user_{idx+1}</span>
-                       <div className="flex items-center gap-1 mt-0.5">
-                         <span className="text-[10px] text-white/30">Just now</span>
-                         <span className="text-[10px] text-white/30">·</span>
-                         <span className="text-[9px] px-[7px] py-[1px] rounded-[10px] border border-white/20 text-white/70">
-                           {reel.type}
-                         </span>
-                       </div>
-                    </div>
-                     <button 
-                       className="text-white/30 hover:text-white transition-colors p-2 -mr-2 cursor-pointer" 
-                       onClick={(e) => {
-                         e.stopPropagation();
-                         setActiveHeroReel(idx);
-                         setShowMoreMenuIdx(idx);
-                       }}
-                     >
-                       <MoreHorizontal size={18} />
-                     </button>
-                  </div>
+                  {/* Audio element for functional parity */}
+                  {reel.audioSrc && (
+                    <audio 
+                      ref={el => feedAudioRefs.current[idx] = el}
+                      src={reel.audioSrc}
+                      loop
+                    />
+                  )}
                   
-                  {/* Content Area */}
+                  {/* Redesigned Card based on mockups */}
                   <div 
-                    className="w-full relative pb-[100%] overflow-hidden bg-[#111] mt-1 cursor-pointer"
+                    className="mx-3.5 my-2.5 p-5 rounded-[14px] bg-[#151517] cursor-pointer active:scale-[0.99] transition-transform"
                     onClick={() => {
                       setActiveHeroReel(idx);
                       setViewingReel(true);
                     }}
                   >
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center" 
-                      style={{ 
-                        backgroundImage: `url('${reel.bgImage}')`,
-                        filter: reel.imgFilter || 'none'
-                      }} 
-                    />
-                    {reel.imgOverlay && reel.imgOverlay !== 'none' && (
-                      <div 
-                        className="variant-overlay" 
-                        style={{ 
-                          position: 'absolute', 
-                          inset: 0, 
-                          background: reel.imgOverlay, 
-                          mixBlendMode: 'overlay',
-                          pointerEvents: 'none',
-                          zIndex: 0
-                        }}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-black/40" />
-
-                    <div className="absolute inset-x-0 bottom-3 px-3 flex flex-col items-start z-10 w-[85%] gap-2 pointer-events-none">
-                      <div className="bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-2xl p-3 sm:p-3.5 rounded-3xl rounded-bl-sm border border-white/40 shadow-xl inline-flex flex-col items-start text-left w-full relative overflow-visible pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
-                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-                        <p className="text-white text-[14px] sm:text-[15px] leading-snug font-black tracking-tight drop-shadow-md w-full">{reel.question}</p>
-                        <div className="w-full flex justify-end mt-2 relative">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowTagsForFeedIdx(showTagsForFeedIdx === idx ? null : idx);
-                            }}
-                            className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_6px_rgba(239,68,68,0.7)] hover:scale-125 transition-all cursor-pointer pointer-events-auto shrink-0 border border-white/20"
-                          />
-
-                          <AnimatePresence>
-                            {showTagsForFeedIdx === idx && (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                                transition={{ type: "spring", damping: 15, stiffness: 200 }}
-                                className="absolute bottom-8 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                {(reel.tags || [reel.type]).map((tag, tIdx) => (
-                                  <div
-                                    key={tIdx}
-                                    className="text-white/90 hover:text-white text-[10px] font-semibold py-1 px-2.5 rounded-lg hover:bg-white/10 transition-colors"
-                                  >
-                                    {tag}
-                                  </div>
-                                ))}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-1.5 w-full pointer-events-auto cursor-auto" onClick={(e) => e.stopPropagation()}>
-                        {reel.commentsList && reel.commentsList.slice(0, 2).map((comment, cidx) => (
-                          <div key={cidx} className="flex items-start gap-1.5 origin-left">
-                            {comment.avatarImage ? (
-                              <img src={comment.avatarImage} alt="DP" className="w-5 h-5 rounded-full border border-white/50 flex-shrink-0 shadow-md object-cover mt-0" />
-                            ) : (
-                              <div className={`w-5 h-5 rounded-full border border-white/50 bg-gradient-to-tr ${comment.avatarFrom} ${comment.avatarTo} flex-shrink-0 shadow-md mt-0`} />
-                            )}
-                            <div className="bg-black/40 backdrop-blur-md p-1.5 px-2.5 rounded-2xl rounded-tl-sm border border-white/10 shadow-lg inline-block max-w-[90%]">
-                              <p className="text-white/70 font-bold text-[8px] uppercase tracking-wide mb-px">@{comment.user}</p>
-                              <p className="text-white text-[10px] leading-snug drop-shadow-sm line-clamp-1">{comment.text}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                    {/* Small muted date at top */}
+                    <div className="text-[12px] text-zinc-500 font-medium mb-2.5 text-left select-none">
+                      {dateText}
                     </div>
-
-                    {/* Mute/Unmute Button overlay */}
-                    <button 
-                      onClick={toggleMute}
-                      className="absolute bottom-3 right-3 w-8 h-8 flex items-center justify-center bg-black/50 rounded-full backdrop-blur-sm border border-white/10 z-10 hover:bg-black/70 transition-colors"
-                    >
-                      {isMuted ? <VolumeX size={16} className="text-white" /> : <Volume2 size={16} className="text-white" />}
-                    </button>
-                    {reel.audioSrc && (
-                      <audio 
-                        ref={el => feedAudioRefs.current[idx] = el}
-                        src={reel.audioSrc}
-                        loop
-                      />
-                    )}
-                  </div>
-
-                  {/* Actions Row */}
-                  <div className="flex items-center justify-between px-[14px] py-[10px] pb-1">
-                    <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-1.5 group" onClick={(e) => {
-                          e.stopPropagation();
+                    
+                    {/* Post Question/Text */}
+                    <p className="text-[16px] text-white/90 leading-relaxed font-semibold tracking-tight text-left mb-4">
+                      {cleanQuestion}
+                    </p>
+                    
+                    {/* Thread of replies */}
+                    <div className="pl-4 ml-1.5 border-l border-zinc-700/60 flex flex-col gap-4 text-left my-4">
+                      {displayedComments.map((comment, cIdx) => (
+                        <div key={comment.id} className="flex flex-col">
+                          <div className="flex justify-between items-start gap-4">
+                            <p className="text-[14px] text-zinc-300 leading-normal font-medium flex-1">
+                              {comment.text.replace(/^["“”']|["“”']$/g, '')}
+                            </p>
+                            <button 
+                              className="flex items-center gap-1.5 text-zinc-500 hover:text-rose-500 transition-colors shrink-0 mt-0.5"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleCommentLike(comment.id);
+                              }}
+                            >
+                              <Heart size={14} className={commentLikes[comment.id] ? "text-rose-500 fill-rose-500" : "text-zinc-500"} />
+                              <span className="text-[12px]">{getCommentLikes(comment, cIdx) + (commentLikes[comment.id] ? 1 : 0)}</span>
+                            </button>
+                          </div>
+                          <div className="text-[11px] text-zinc-600 mt-1 select-none">
+                            {getCommentDate(cIdx)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Actions Row */}
+                    <div className="flex items-center gap-6 mt-4 pt-1" onClick={e => e.stopPropagation()}>
+                      <button 
+                        className="flex items-center gap-1.5 text-zinc-500 hover:text-rose-500 transition-colors"
+                        onClick={() => setFeedLikes(prev => ({ ...prev, [idx]: !prev[idx] }))}
+                      >
+                        <Heart size={18} className={feedLikes[idx] ? "text-rose-500 fill-rose-500" : "text-zinc-500"} />
+                        <span className="text-[13px] font-medium">{displayLikes}</span>
+                      </button>
+                      <button 
+                        className="flex items-center gap-1.5 text-zinc-500 hover:text-white transition-colors"
+                        onClick={() => {
                           setActiveHeroReel(idx);
                           setShowComments(true);
-                        }}>
-                        <MessageCircle size={20} className="text-white/60" />
-                        <span className="text-[12px] font-medium text-white/60">{getCommentCount(reel)}</span>
+                        }}
+                      >
+                        <MessageCircle size={18} className="text-zinc-500" />
+                        <span className="text-[13px] font-medium">{displayComments}</span>
                       </button>
-                      <button className="flex items-center gap-1.5 group" onClick={(e) => {
-                          e.stopPropagation();
-                          setFeedLikes(prev => ({ ...prev, [idx]: !prev[idx] }));
-                        }}>
-                        <Heart size={20} className={feedLikes[idx] ? "text-rose-500 fill-rose-500" : "text-white/60"} />
-                        <span className="text-[12px] font-medium text-white/60">
-                          {feedLikes[idx] ? `${parseFloat(reel.likes) + 0.1}` : reel.likes}
-                        </span>
-                      </button>
-                      <button className="flex items-center gap-1.5 group" onClick={(e) => handleShare(e, reel, idx)}>
-                        <Share2 size={20} className="text-white/60" />
-                        <span className="text-[12px] font-medium text-white/60">{reel.shares}</span>
+                      <button 
+                        className="text-zinc-500 hover:text-white transition-colors flex items-center"
+                        onClick={(e) => handleShare(e, reel, idx)}
+                      >
+                        <Share2 size={18} />
                       </button>
                     </div>
-                    <button onClick={(e) => { e.stopPropagation(); setFeedSaved(prev => ({ ...prev, [idx]: !prev[idx] })); }}>
-                      <Bookmark size={20} className={feedSaved[idx] ? "text-white fill-white" : "text-white/60"} />
-                    </button>
                   </div>
-                  <div className="pb-3" />
                 </div>
-              ))}
-            </div>
-          )}
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Modal Backdrop for Feed */}
