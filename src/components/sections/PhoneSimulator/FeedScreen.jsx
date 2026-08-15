@@ -156,7 +156,20 @@ const FeedScreen = ({
         baseReels = [newReel, ...baseReels];
       }
     }
-    return populateReelsComments(baseReels);
+
+    // Randomly strip media/bgImage from specific mock indices to represent text-only posts
+    const processedReels = baseReels.map((reel, index) => {
+      if (index === 1 || index === 4 || index === 6) {
+        return {
+          ...reel,
+          bgImage: null,
+          audioSrc: null
+        };
+      }
+      return reel;
+    });
+
+    return populateReelsComments(processedReels);
   });
   const [activeHeroReel, setActiveHeroReel] = useState(() => {
     if (initialPost) {
@@ -496,7 +509,7 @@ const FeedScreen = ({
                 transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
                 className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
                 style={{ 
-                  backgroundImage: `url('${reel.bgImage}')`,
+                  backgroundImage: reel.bgImage ? `url('${reel.bgImage}')` : 'linear-gradient(135deg, #18181b 0%, #09090b 100%)',
                   filter: reel.imgFilter || 'none'
                 }}
               />
@@ -1168,8 +1181,8 @@ const FeedScreen = ({
             </div>
           </div>
         ) : (
-             /* Default Posts List - Redesigned to match the screenshot */
-             <div className="flex flex-col pb-6 bg-[#0a0a0c]">
+             /* Default Posts List - Redesigned to match X home page posts style */
+             <div className="flex flex-col pb-6 bg-black divide-y divide-zinc-800/60">
             {reelsData.map((reel, idx) => {
               const dates = ["02 Jul 2026", "28 Jun 2026", "21 Jun 2026", "15 Jun 2026", "08 Jun 2026", "01 Jun 2026"];
               const dateText = reel.createdAt && reel.createdAt.includes("now") ? "11 Aug 2026" : (dates[idx % dates.length]);
@@ -1207,7 +1220,7 @@ const FeedScreen = ({
                   key={idx} 
                   ref={el => postRefs.current[idx] = el}
                   data-idx={idx}
-                  className="w-full shrink-0 select-none bg-[#0a0a0c]"
+                  className="w-full shrink-0 select-none bg-black p-4 flex flex-col"
                 >
                   {/* Audio element for functional parity */}
                   {reel.audioSrc && (
@@ -1218,75 +1231,129 @@ const FeedScreen = ({
                     />
                   )}
                   
-                  {/* Redesigned Card based on mockups */}
-                  <div 
-                    className="mx-3.5 my-2.5 p-5 rounded-[14px] bg-[#151517] cursor-pointer active:scale-[0.99] transition-transform"
-                    onClick={() => {
-                      setActiveHeroReel(idx);
-                      setViewingReel(true);
-                    }}
-                  >
-                    {/* Small muted date at top */}
-                    <div className="text-[12px] text-zinc-500 font-medium mb-2.5 text-left select-none">
-                      {dateText}
-                    </div>
-                    
-                    {/* Post Question/Text */}
-                    <p className="text-[16px] text-white/90 leading-relaxed font-semibold tracking-tight text-left mb-4">
-                      {cleanQuestion}
-                    </p>
-                    
-                    {/* Thread of replies */}
-                    <div className="pl-4 ml-1.5 border-l border-zinc-700/60 flex flex-col gap-4 text-left my-4">
-                      {displayedComments.map((comment, cIdx) => (
-                        <div key={comment.id} className="flex flex-col">
-                          <div className="flex justify-between items-start gap-4">
-                            <p className="text-[14px] text-zinc-300 leading-normal font-medium flex-1">
-                              {comment.text.replace(/^["“”']|["“”']$/g, '')}
-                            </p>
-                            <button 
-                              className="flex items-center gap-1.5 text-zinc-500 hover:text-rose-500 transition-colors shrink-0 mt-0.5"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleCommentLike(comment.id);
-                              }}
-                            >
-                              <Heart size={14} className={commentLikes[comment.id] ? "text-rose-500 fill-rose-500" : "text-zinc-500"} />
-                              <span className="text-[12px]">{getCommentLikes(comment, cIdx) + (commentLikes[comment.id] ? 1 : 0)}</span>
-                            </button>
-                          </div>
-                          <div className="text-[11px] text-zinc-600 mt-1 select-none">
-                            {getCommentDate(cIdx)}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* Actions Row */}
-                    <div className="flex items-center gap-6 mt-4 pt-1" onClick={e => e.stopPropagation()}>
-                      <button 
-                        className="flex items-center gap-1.5 text-zinc-500 hover:text-rose-500 transition-colors"
-                        onClick={() => setFeedLikes(prev => ({ ...prev, [idx]: !prev[idx] }))}
-                      >
-                        <Heart size={18} className={feedLikes[idx] ? "text-rose-500 fill-rose-500" : "text-zinc-500"} />
-                        <span className="text-[13px] font-medium">{displayLikes}</span>
-                      </button>
-                      <button 
-                        className="flex items-center gap-1.5 text-zinc-500 hover:text-white transition-colors"
-                        onClick={() => {
-                          setActiveHeroReel(idx);
-                          setShowComments(true);
+                  {/* Parent Post Row */}
+                  <div className="flex gap-3 w-full">
+                    {/* Left Column: Avatar */}
+                    <div className="flex flex-col items-center shrink-0">
+                      <div 
+                        className="w-10 h-10 rounded-full overflow-hidden bg-zinc-800 cursor-pointer transition-opacity active:opacity-80 border border-zinc-800"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (onUserSelect) {
+                            const cleanName = reel.type ? reel.type.toLowerCase().replace(/\s+/g, '_') : 'user';
+                            onUserSelect(cleanName);
+                          }
                         }}
                       >
-                        <MessageCircle size={18} className="text-zinc-500" />
-                        <span className="text-[13px] font-medium">{displayComments}</span>
-                      </button>
-                      <button 
-                        className="text-zinc-500 hover:text-white transition-colors flex items-center"
-                        onClick={(e) => handleShare(e, reel, idx)}
-                      >
-                        <Share2 size={18} />
-                      </button>
+                        <img 
+                          src={reel.avatarImage || userAvatar} 
+                          alt="Avatar" 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                    </div>
+
+                    {/* Right Column: Post Body */}
+                    <div 
+                      className="flex-1 min-w-0 flex flex-col"
+                      onClick={() => {
+                        setActiveHeroReel(idx);
+                        setViewingReel(true);
+                      }}
+                    >
+                      {/* Header line */}
+                      <div className="flex items-center gap-1.5 select-none">
+                        <span 
+                          className="font-bold text-[14px] text-white hover:underline cursor-pointer truncate max-w-[120px]"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onUserSelect) {
+                              const cleanName = reel.type ? reel.type.toLowerCase().replace(/\s+/g, '_') : 'user';
+                              onUserSelect(cleanName);
+                            }
+                          }}
+                        >
+                          {reel.type || "Anonymous"}
+                        </span>
+                        <span 
+                          className="text-[13px] text-zinc-500 truncate cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onUserSelect) {
+                              const cleanName = reel.type ? reel.type.toLowerCase().replace(/\s+/g, '_') : 'user';
+                              onUserSelect(cleanName);
+                            }
+                          }}
+                        >
+                          @{reel.type ? reel.type.toLowerCase().replace(/\s+/g, '_') : 'anonymous'}
+                        </span>
+                        <span className="text-[13px] text-zinc-500">·</span>
+                        <span className="text-[13px] text-zinc-500 shrink-0">{dateText}</span>
+                        
+                        <button 
+                          className="text-zinc-500 hover:text-zinc-300 ml-auto shrink-0 p-1 active:scale-95 transition-transform"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowMoreMenuIdx(idx);
+                          }}
+                        >
+                          <MoreHorizontal size={16} />
+                        </button>
+                      </div>
+
+                      {/* Post text */}
+                      <p className="text-[14px] text-zinc-150 leading-normal text-left pr-2 whitespace-pre-wrap mt-0.5 select-text font-normal">
+                        {cleanQuestion}
+                      </p>
+
+                      {/* Optional media preview */}
+                      {reel.bgImage && (
+                        <div className="mt-2.5 rounded-2xl overflow-hidden border border-zinc-800/80 aspect-[16/10] bg-zinc-950 max-h-[160px] relative group select-none cursor-pointer">
+                          <img 
+                            src={reel.bgImage} 
+                            alt="Post media" 
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                          />
+                        </div>
+                      )}
+
+                      {/* Actions Row */}
+                      <div className="flex items-center justify-between mt-3 text-zinc-500 max-w-[260px] w-full" onClick={e => e.stopPropagation()}>
+                        {/* Reply */}
+                        <button 
+                          className="flex items-center gap-1.5 hover:text-sky-500 transition-colors group p-1"
+                          onClick={() => {
+                            setActiveHeroReel(idx);
+                            setShowComments(true);
+                          }}
+                        >
+                          <div className="p-1.5 rounded-full group-hover:bg-sky-500/10 group-active:scale-90 transition-all">
+                            <MessageCircle size={15} />
+                          </div>
+                          <span className="text-[12px] font-medium leading-none">{displayComments}</span>
+                        </button>
+
+                        {/* Like */}
+                        <button 
+                          className="flex items-center gap-1.5 hover:text-rose-500 transition-colors group p-1"
+                          onClick={() => setFeedLikes(prev => ({ ...prev, [idx]: !prev[idx] }))}
+                        >
+                          <div className="p-1.5 rounded-full group-hover:bg-rose-500/10 group-active:scale-90 transition-all">
+                            <Heart size={15} className={feedLikes[idx] ? "text-rose-500 fill-rose-500" : ""} />
+                          </div>
+                          <span className={`text-[12px] font-medium leading-none ${feedLikes[idx] ? "text-rose-500" : ""}`}>{displayLikes}</span>
+                        </button>
+
+                        {/* Share */}
+                        <button 
+                          className="flex items-center gap-1.5 hover:text-emerald-500 transition-colors group p-1"
+                          onClick={(e) => handleShare(e, reel, idx)}
+                        >
+                          <div className="p-1.5 rounded-full group-hover:bg-emerald-500/10 group-active:scale-90 transition-all">
+                            <Share2 size={15} />
+                          </div>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
