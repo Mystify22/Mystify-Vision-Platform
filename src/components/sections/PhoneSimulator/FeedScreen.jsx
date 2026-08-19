@@ -198,8 +198,7 @@ const FeedScreen = ({
   const [feedSaved, setFeedSaved] = useState({});
   const [showMoreMenuIdx, setShowMoreMenuIdx] = useState(null);
   const [toastMessage] = useState("");
-  const [showTagsForReelIdx, setShowTagsForReelIdx] = useState(null);
-  const [showTagsForFeedIdx, setShowTagsForFeedIdx] = useState(null);
+
   const feedAudioRefs = useRef({});
   const postRefs = useRef({});
   const reelScrollRef = useRef(null);
@@ -300,7 +299,6 @@ const FeedScreen = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveFeedIdx(Number(entry.target.dataset.idx));
-            setShowTagsForFeedIdx(null);
           }
         });
       },
@@ -441,7 +439,6 @@ const FeedScreen = ({
     if (idx !== activeHeroReel) {
       setActiveHeroReel(idx);
       setIsReelLiked(false);
-      setShowTagsForReelIdx(null);
     }
   };
 
@@ -460,8 +457,6 @@ const FeedScreen = ({
         {!isStandaloneReel && (
           <button 
             onClick={() => {
-              setShowTagsForReelIdx(null);
-              setShowTagsForFeedIdx(null);
               if (onBackFromReels) onBackFromReels();
               else setViewingReel(false);
             }}
@@ -492,10 +487,9 @@ const FeedScreen = ({
           className="w-full h-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-y snap-mandatory cursor-pointer relative z-10"
           onScroll={handleHeroScroll}
           onClick={(e) => {
-            if (showComments || showSharePopup || showTagsForReelIdx !== null) {
+            if (showComments || showSharePopup) {
               setShowComments(false);
               setShowSharePopup(false);
-              setShowTagsForReelIdx(null);
               setReplyTo(null);
             } else {
               toggleMute(e);
@@ -550,37 +544,7 @@ const FeedScreen = ({
 
                   <p className="text-white text-[15px] sm:text-base leading-snug font-black tracking-tight drop-shadow-md w-full">{reel.question}</p>
 
-                  <div className="w-full flex justify-end mt-2 relative">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowTagsForReelIdx(showTagsForReelIdx === i ? null : i);
-                      }}
-                      className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_6px_rgba(239,68,68,0.7)] hover:scale-125 transition-all cursor-pointer pointer-events-auto shrink-0 border border-white/20"
-                    />
 
-                    <AnimatePresence>
-                      {showTagsForReelIdx === i && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                          transition={{ type: "spring", damping: 15, stiffness: 200 }}
-                          className="absolute bottom-8 right-0 z-[100] backdrop-blur-xl bg-[#1c1c1e]/95 border border-white/20 shadow-2xl p-1.5 rounded-xl flex flex-col gap-0.5 min-w-[110px] max-w-[160px] pointer-events-auto text-left"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {(reel.tags || [reel.type]).map((tag, tIdx) => (
-                            <div
-                              key={tIdx}
-                              className="text-white/90 hover:text-white text-[10px] font-semibold py-1 px-2.5 rounded-lg hover:bg-white/10 transition-colors"
-                            >
-                              {tag}
-                            </div>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
                 </motion.div>
 
                 <div className="space-y-3 sm:space-y-4 w-full">
@@ -885,7 +849,6 @@ const FeedScreen = ({
       <div 
         ref={feedScrollRef}
         onScroll={handleScroll}
-        onClick={() => setShowTagsForFeedIdx(null)}
         className="flex-1 overflow-y-auto relative [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
       >
         {isSearchFocused ? (
@@ -1376,8 +1339,6 @@ const FeedScreen = ({
               setShowComments(false);
               setShowSharePopup(false);
               setShowMoreMenuIdx(null);
-              setShowTagsForFeedIdx(null);
-              setShowTagsForReelIdx(null);
               setReplyTo(null);
             }}
           />

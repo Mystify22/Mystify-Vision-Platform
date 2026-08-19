@@ -48,17 +48,7 @@ const MessageScreen = ({ targetUsername, onBack }) => {
     setChatDraft('');
   };
   
-  const renderMoodTag = (tag) => {
-    if (!tag) return null;
-    const isTopic = tag.startsWith('re:');
-    const style = isTopic ? { border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.45)' } 
-                          : { border: moodStyles[tag]?.border || '1px solid rgba(255,255,255,0.12)', color: moodStyles[tag]?.text || 'rgba(255,255,255,0.9)' };
-    return (
-      <div style={style} className="text-[8px] px-[6px] py-[2px] rounded-[8px] bg-transparent whitespace-nowrap font-medium">
-        {tag}
-      </div>
-    );
-  };
+
   
   if (selectedChat) {
     return (
@@ -115,7 +105,6 @@ const MessageScreen = ({ targetUsername, onBack }) => {
                 <div className="absolute bottom-0 left-0 p-[6px_8px] text-[9px] font-medium text-white">{selectedChat.post.text}</div>
               </div>
               <div className="p-[6px_8px] flex items-center gap-[5px]">
-                {renderMoodTag(selectedChat.post.mood)}
                 <span className="text-[8px] text-[rgba(255,255,255,0.35)]">Your post · {selectedChat.post.answers} answers</span>
               </div>
             </div>
@@ -319,12 +308,7 @@ const MessageScreen = ({ targetUsername, onBack }) => {
                   <div className={`text-[11px] truncate whitespace-nowrap mt-[1px] ${conv.unread ? 'text-[rgba(255,255,255,0.7)] font-normal' : 'text-[rgba(255,255,255,0.4)]'}`}>
                     {conv.preview}
                   </div>
-                  {(conv.moodTag || conv.contextTag) && (
-                    <div className="flex gap-[4px] mt-[4px] items-center">
-                      {renderMoodTag(conv.moodTag)}
-                      {renderMoodTag(conv.contextTag)}
-                    </div>
-                  )}
+
                 </div>
 
                 <div className="flex flex-col items-end justify-center shrink-0 w-[18px]">
