@@ -87,7 +87,7 @@ const suggestionPool = [
 ];
 
 const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile, createdPosts: _createdPosts = [] }) => {
-  const [activeTab, setActiveTab] = useState("Posts");
+  const [activeTab, setActiveTab] = useState("Vibes");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -297,15 +297,117 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   );
 
   const samplePosts = [
-    { mood: "avenger", text: "Part of the journey is the end. I love you 3000.", replies: 300, bg: "#8b0000", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png", createdAt: "2h ago" },
-    { mood: "thought", text: "What if your inner voice isn't even yours?", replies: 61, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png", createdAt: "1d ago" },
-    { mood: "raw", text: "The mask you wear becomes your face.", replies: 112, bg: "#0f0f0f", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png", createdAt: "3d ago" },
-    { mood: "quiet", text: "Silence is just noise nobody taught you to hear.", replies: 39, bg: "#101010", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png", createdAt: "5d ago" },
-    { mood: "anon", text: "Would you say it if your name was on it?", replies: 77, bg: "#111", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png", createdAt: "1w ago" },
-    { mood: "late night", text: "3am thoughts hit different.", replies: 53, bg: "#0d0d0d", img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png", createdAt: "2w ago" },
+    { 
+      mood: "avenger", 
+      text: "Part of the journey is the end. I love you 3000.", 
+      replies: 300, 
+      bg: "#8b0000", 
+      img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325888/flux1-schnell_a-tall-male-knight-with-long-matte_cpc6ur.png", 
+      createdAt: "2h ago",
+      repliesList: [
+        { 
+          id: "r1", 
+          username: "iron_fan", 
+          name: "Tony Stan", 
+          text: "Best line in cinematic history. I'm crying again. 😭", 
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672785/mystify/avatar/monx/rxzv4r5r4cprctygn2jo.png", 
+          createdAt: "1h ago" 
+        },
+        { 
+          id: "r2", 
+          username: "cap_shield", 
+          name: "Steve", 
+          text: "Whatever it takes. 🛡️", 
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778675534/mystify/avatar/mimo/pklpqmdo6lfhk3xu4cfs.png", 
+          createdAt: "30m ago" 
+        }
+      ]
+    },
+    { 
+      mood: "thought", 
+      text: "What if your inner voice isn't even yours?", 
+      replies: 61, 
+      bg: "#0d0d0d", 
+      img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325917/flux1-schnell_a-closed-bedroom-door-at-the-end-of_ilwyjk.png", 
+      createdAt: "1d ago",
+      repliesList: [
+        { 
+          id: "r3", 
+          username: "mind_bender", 
+          name: "Leo", 
+          text: "Whoa, that's some matrix-level questioning right there. 🤯", 
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677792/mystify/avatar/toons/nmtd07q2smonyjbzikpy.png", 
+          createdAt: "18h ago" 
+        }
+      ]
+    },
+    { 
+      mood: "raw", 
+      text: "The mask you wear becomes your face.", 
+      replies: 112, 
+      bg: "#0f0f0f", 
+      img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325920/flux1-schnell_a-pale-gaunt-man-with-long-greasy_j4uo3x.png", 
+      createdAt: "3d ago",
+      repliesList: [
+        { 
+          id: "r4", 
+          username: "sarah_vibes", 
+          name: "Sarah Vibes", 
+          text: "Be careful who you pretend to be. We are what we pretend to be.", 
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678519/mystify/avatar/emoji/lgcuzinacrehpwqwwuf0.png", 
+          createdAt: "2d ago" 
+        },
+        { 
+          id: "r5", 
+          username: "mask_off", 
+          name: "Joker", 
+          text: "Why so serious? It's just a mask.", 
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png", 
+          createdAt: "1d ago" 
+        }
+      ]
+    },
+    { 
+      mood: "quiet", 
+      text: "Silence is just noise nobody taught you to hear.", 
+      replies: 39, 
+      bg: "#101010", 
+      img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325918/flux1-schnell_a-single-beam-of-golden-sunlight_cjbvub.png", 
+      createdAt: "5d ago",
+      repliesList: []
+    },
+    { 
+      mood: "anon", 
+      text: "Would you say it if your name was on it?", 
+      replies: 77, 
+      bg: "#111", 
+      img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325922/flux1-schnell_an-elderly-wizard-with-long-silver_kzilin.png", 
+      createdAt: "1w ago",
+      repliesList: [
+        { 
+          id: "r6", 
+          username: "anonymous", 
+          name: "Anon", 
+          text: "Absolutely not. That's why I'm here.", 
+          avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677775/mystify/avatar/toons/k1rmm5xzxswqbquhfvru.png", 
+          createdAt: "5d ago" 
+        }
+      ]
+    },
+    { 
+      mood: "late night", 
+      text: "3am thoughts hit different.", 
+      replies: 53, 
+      bg: "#0d0d0d", 
+      img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png", 
+      createdAt: "2w ago",
+      repliesList: []
+    },
   ];
 
-  const allPosts = samplePosts;
+  const allPosts = isOwnProfile 
+    ? [..._createdPosts, ...samplePosts] 
+    : samplePosts;
 
   const handleCopyPostLink = (post, idx, e) => {
     if (e) e.stopPropagation();
@@ -404,10 +506,161 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
     </div>
   );
 
-  const renderChatTab = () => {
+  const renderVibesTab = () => {
+    const vibePosts = allPosts.filter(post => post.repliesList && post.repliesList.length > 0);
+
+    if (vibePosts.length === 0) {
+      return (
+        <div className="flex flex-col items-center justify-center py-16 text-center text-white/40 text-[12px] px-6">
+          <MessageCircle size={28} className="text-white/20 mb-3" />
+          <p className="font-semibold text-white/60 mb-1">No vibes yet</p>
+          <p className="text-white/30 text-[10.5px]">Your posts that get replies from other users will show up here as conversational threads.</p>
+        </div>
+      );
+    }
+
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center text-white/20 text-[12px]">
-        No vibes yet
+      <div className="flex flex-col p-4 gap-6">
+        {vibePosts.map((post, postIdx) => {
+          const postDate = getFormattedDate(post.createdAt);
+          const cleanUser = username.replace('@', '');
+          
+          return (
+            <div key={postIdx} className="flex flex-col bg-[#0c0c0f] border border-white/[0.05] rounded-[24px] overflow-hidden p-4 shadow-xl transition-all duration-300">
+              
+              {/* Parent Post Thread Header */}
+              <div className="flex gap-3 relative">
+                {/* Left Side: Avatar and Vertical Thread Line */}
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-[38px] h-[38px] rounded-full overflow-hidden border border-white/10 bg-[#1c1c1c] flex items-center justify-center">
+                    {isOwnProfile ? (
+                      userProfileData.avatarValue?.startsWith('http') ? (
+                        <img src={userProfileData.avatarValue} alt="DP" className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-[18px] text-white">{userProfileData.avatarValue}</span>
+                      )
+                    ) : (
+                      <img src={displayAvatar} alt="DP" className="w-full h-full object-cover" />
+                    )}
+                  </div>
+                  {/* Vertical Line connecting to first reply */}
+                  <div className="w-[2px] grow bg-gradient-to-b from-white/15 to-white/5 my-2 min-h-[40px]"></div>
+                </div>
+
+                {/* Right Side: Post Info & Content */}
+                <div className="flex-1 flex flex-col min-w-0">
+                  <div className="flex justify-between items-baseline mb-1">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-[13px] font-bold text-white truncate max-w-[120px]">
+                        {isOwnProfile ? (userProfileData?.username || "You") : (userProfile?.name || cleanUsername)}
+                      </span>
+                      <span className="text-[11px] text-white/40 truncate">
+                        @{cleanUsername}
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-white/30 shrink-0">{postDate}</span>
+                  </div>
+
+                  {/* Mood Tag */}
+                  <div className="self-start mt-0.5 mb-2">
+                    <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.03] text-white/60">
+                      {post.mood}
+                    </span>
+                  </div>
+
+                  {/* Content Text */}
+                  <p className="text-[13px] text-white/95 leading-[1.5] mb-2 font-dmsans whitespace-pre-wrap break-words">
+                    {post.text}
+                  </p>
+
+                  {/* Optional Image */}
+                  {post.img && (
+                    <div className="rounded-[16px] overflow-hidden border border-white/10 mb-3 max-h-[140px] relative">
+                      <img src={post.img} alt="Post media" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+
+                  {/* Action Bar (Showcase only) */}
+                  <div className="flex items-center gap-6 mt-1 text-white/35 text-[11px]">
+                    <button className="flex items-center gap-1.5 hover:text-white/60 transition-colors">
+                      <i className="ti ti-message-circle text-[13px]"></i>
+                      {post.repliesList.length}
+                    </button>
+                    <button className="flex items-center gap-1.5 hover:text-red-400 transition-colors">
+                      <i className="ti ti-heart text-[13px]"></i>
+                      {post.replies * 2}
+                    </button>
+                    <button className="flex items-center gap-1.5 hover:text-white/60 transition-colors">
+                      <i className="ti ti-share text-[13px]"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Replies Container */}
+              <div className="flex flex-col gap-4 mt-2">
+                {post.repliesList.map((reply, replyIdx) => {
+                  const isLastReply = replyIdx === post.repliesList.length - 1;
+                  return (
+                    <div key={reply.id} className="flex gap-3 relative">
+                      {/* Left Side: Avatar and Line continuation if not last */}
+                      <div className="flex flex-col items-center shrink-0">
+                        <div className="w-[30px] h-[30px] rounded-full overflow-hidden border border-white/10 bg-[#1c1c1c] flex items-center justify-center">
+                          {reply.avatarImage ? (
+                            <img src={reply.avatarImage} alt={reply.username} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="text-[12px] text-white">👤</span>
+                          )}
+                        </div>
+                        {!isLastReply && (
+                          <div className="w-[2px] grow bg-gradient-to-b from-white/15 to-white/5 my-2 min-h-[30px]"></div>
+                        )}
+                      </div>
+
+                      {/* Right Side: Reply Content */}
+                      <div className="flex-1 flex flex-col min-w-0 bg-white/[0.02] border border-white/[0.03] hover:bg-white/[0.04] transition-colors rounded-[16px] p-3">
+                        <div className="flex justify-between items-baseline mb-1">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-[12px] font-bold text-white truncate">
+                              {reply.name}
+                            </span>
+                            <span className="text-[10px] text-white/40 truncate">
+                              @{reply.username}
+                            </span>
+                          </div>
+                          <span className="text-[9px] text-white/30 shrink-0">{reply.createdAt}</span>
+                        </div>
+
+                        {/* Replying to tag */}
+                        <div className="text-[10px] text-white/30 mb-1.5">
+                          replying to <span className="text-[#FF4500]">@{cleanUsername}</span>
+                        </div>
+
+                        {/* Reply content text */}
+                        <p className="text-[12px] text-white/80 leading-[1.4] mb-1 font-dmsans whitespace-pre-wrap break-words">
+                          {reply.text}
+                        </p>
+
+                        {/* Action Bar (Showcase only) */}
+                        <div className="flex items-center gap-4 mt-2 text-white/30 text-[10px]">
+                          <button className="flex items-center gap-1 hover:text-red-400 transition-colors">
+                            <i className="ti ti-heart text-[11px]"></i>
+                            <span>12</span>
+                          </button>
+                          <button className="flex items-center gap-1 hover:text-white/50 transition-colors">
+                            <i className="ti ti-message-circle text-[11px]"></i>
+                            <span>Reply</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -696,14 +949,67 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
         {activeTab === "Posts" && renderPostCards(allPosts)}
 
         {activeTab === "Replies" && (
-          <div className="flex flex-col items-center justify-center py-16 text-center text-white/20 text-[12px]">
-            No replies yet
+          <div className="flex flex-col p-4 gap-4">
+            {sampleReplies.map((reply, idx) => (
+              <div key={idx} className="flex gap-3 bg-[#0c0c0f] border border-white/[0.05] rounded-[20px] p-4 shadow-xl">
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-[32px] h-[32px] rounded-full overflow-hidden border border-white/10 bg-[#1c1c1c] flex items-center justify-center">
+                    {isOwnProfile ? (
+                      userProfileData.avatarValue?.startsWith('http') ? (
+                        <img src={userProfileData.avatarValue} alt="DP" className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-[16px] text-white">{userProfileData.avatarValue}</span>
+                      )
+                    ) : (
+                      <img src={displayAvatar} alt="DP" className="w-full h-full object-cover" />
+                    )}
+                  </div>
+                </div>
+                
+                <div className="flex-1 flex flex-col min-w-0">
+                  <div className="flex justify-between items-baseline mb-1">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-[12px] font-bold text-white truncate">
+                        {isOwnProfile ? (userProfileData?.username || "You") : (userProfile?.name || cleanUsername)}
+                      </span>
+                      <span className="text-[10px] text-white/40 truncate">
+                        @{cleanUsername}
+                      </span>
+                    </div>
+                    <span className="text-[9px] text-white/30 shrink-0">{reply.time}</span>
+                  </div>
+
+                  <div className="text-[10px] text-white/30 mb-1.5">
+                    replying to <span className="text-[#FF4500]">@{reply.to}</span>
+                  </div>
+
+                  <p className="text-[12px] text-white/90 leading-[1.4] mb-2 font-dmsans whitespace-pre-wrap break-words">
+                    {reply.text}
+                  </p>
+
+                  <div className="flex items-center gap-4 text-white/30 text-[10px]">
+                    <button className="flex items-center gap-1 hover:text-red-400 transition-colors">
+                      <i className="ti ti-heart text-[11px]"></i>
+                      <span>{reply.likes}</span>
+                    </button>
+                    <button className="flex items-center gap-1 hover:text-white/50 transition-colors">
+                      <i className="ti ti-repeat text-[11px]"></i>
+                      <span>{reply.retweets}</span>
+                    </button>
+                    <button className="flex items-center gap-1 hover:text-white/50 transition-colors">
+                      <i className="ti ti-message-circle text-[11px]"></i>
+                      <span>{reply.comments}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
         {activeTab === "Saved" && renderGrid(sampleSaved)}
         
-        {activeTab === "Vibes" && renderChatTab()}
+        {activeTab === "Vibes" && renderVibesTab()}
       </div>
 
       {/* Invisible overlay for dropdown */}

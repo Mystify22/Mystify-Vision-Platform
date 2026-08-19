@@ -405,14 +405,32 @@ const PhoneSimulator = () => {
                   const newPost = {
                     mood: selectedVibe ? selectedVibe.name : "Thought",
                     text: text,
-                    replies: 0,
+                    replies: 2,
                     bg: selectedVibe ? selectedVibe.bg || "#111" : "#111",
                     img: selectedVibe ? selectedVibe.img : null,
                     imgFilter: selectedVibe ? selectedVibe.filter : null,
                     imgOverlay: selectedVibe ? selectedVibe.overlay : null,
                     audioSrc: selectedMusic ? selectedMusic.audioSrc : null,
                     audioName: selectedMusic ? selectedMusic.name : null,
-                    createdAt: "Just now"
+                    createdAt: "Just now",
+                    repliesList: [
+                      { 
+                        id: `ur-${Date.now()}-1`, 
+                        username: "lofi_girl", 
+                        name: "Lofi Girl", 
+                        text: "This fits the vibe perfectly! 🎧✨", 
+                        avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png", 
+                        createdAt: "Just now" 
+                      },
+                      { 
+                        id: `ur-${Date.now()}-2`, 
+                        username: "code_ninja", 
+                        name: "Code Ninja", 
+                        text: "Hard agree. The aesthetics are top tier. 🔥", 
+                        avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png", 
+                        createdAt: "Just now" 
+                      }
+                    ]
                   };
                   setCreatedPosts(prev => [newPost, ...prev]);
                   
