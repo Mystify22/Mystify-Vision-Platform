@@ -561,12 +561,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
                     <span className="text-[10px] text-white/30 shrink-0">{postDate}</span>
                   </div>
 
-                  {/* Mood Tag */}
-                  <div className="self-start mt-0.5 mb-2">
-                    <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.03] text-white/60">
-                      {post.mood}
-                    </span>
-                  </div>
+
 
                   {/* Content Text */}
                   <p className="text-[13px] text-white/95 leading-[1.5] mb-2 font-dmsans whitespace-pre-wrap break-words">
@@ -688,7 +683,6 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none"></div>
           <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
-            <span className="self-start text-[9.5px] uppercase bg-black/60 backdrop-blur-sm text-[#ddd] px-[4px] py-[2px] rounded-[3px] font-bold tracking-wider">{post.mood}</span>
             <p className="text-[11px] text-white/90 font-dmsans font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{post.text}</p>
           </div>
           <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/70 bg-black/50 backdrop-blur-sm px-[5px] py-[1px] rounded-[5px] flex items-center gap-1 z-20">
