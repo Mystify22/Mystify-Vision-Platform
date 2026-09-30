@@ -338,9 +338,6 @@ const PhoneSimulator = () => {
 
       {/* Right Side Content */}
       <div className="flex-1 text-center lg:text-left space-y-8 max-w-xl z-10">
-        <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-4 py-2 rounded-full text-sm font-bold border border-gray-200">
-          <Sparkles size={16} /> Interactive Demo
-        </div>
         <h2 className="text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.1]">
           Experience <br /><span className="text-gradient">Mystify</span>
         </h2>
