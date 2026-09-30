@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, Phone, Bell, Ghost,
   Palette, HelpCircle, Flag, Pause, Trash, LogOut,
-  Moon, Sun, Smartphone, Check, ChevronDown, PlusCircle, MessageSquare, Info, Shield
+  Moon, Sun, Smartphone, Check, ChevronDown, PlusCircle, MessageSquare, Info, Shield,
+  Archive
 } from 'lucide-react';
+import ArchiveScreen from './ArchiveScreen';
 
 const BottomSheet = ({ visible, onClose, title, subtitle, children }) => {
   return (
@@ -80,6 +82,7 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
   const [selectedTheme, setSelectedTheme] = useState('dark');
   const [ghostedAccounts, setGhostedAccounts] = useState(['@void_wanderer', '@dark_troll_99', '@anon_shadow']);
   const [activeModal, setActiveModal] = useState(null);
+  const [showArchive, setShowArchive] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [reportText, setReportText] = useState('');
   const [expandedFaq, setExpandedFaq] = useState(null);
@@ -139,6 +142,24 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
                 icon={Phone} iconBg="rgba(77,144,215,0.12)" iconColor="rgba(77,144,215,0.9)"
                 title="Phone number" subtitle="+91 98765 •••••"
                 onPress={() => setActiveModal('phone')}
+                isLast={true}
+              />
+            </div>
+          </div>
+
+          {/* SECTION: Archive */}
+          <div>
+            <div className="text-[9px] font-medium uppercase tracking-[0.1em] text-white/25 px-[14px] pt-[10px] pb-[5px]">Content & Activity</div>
+            <div className="bg-[#141418] border border-white/[0.07] rounded-[14px] overflow-hidden">
+              <SettingsRow
+                icon={Archive} iconBg="rgba(255,90,26,0.12)" iconColor="#ff5a1a"
+                title="Archived" subtitle="Reels and posts hidden from profile"
+                rightElement={
+                  <span className="bg-[rgba(255,90,26,0.15)] text-[#ff5a1a] text-[10px] font-medium px-[7px] py-[2px] rounded-[10px]">
+                    9
+                  </span>
+                }
+                onPress={() => setShowArchive(true)}
                 isLast={true}
               />
             </div>
@@ -593,6 +614,16 @@ const SettingsScreen = ({ userProfileData, onBack, onEditProfile, onLogout, onLo
           Close
         </button>
       </BottomSheet>
+
+      {/* ARCHIVE VIEW */}
+      <AnimatePresence>
+        {showArchive && (
+          <ArchiveScreen
+            userProfileData={userProfileData}
+            onBack={() => setShowArchive(false)}
+          />
+        )}
+      </AnimatePresence>
 
     </motion.div>
   );
