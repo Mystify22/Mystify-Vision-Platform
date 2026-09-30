@@ -122,7 +122,7 @@ const LoginScreen = ({ onNext }) => {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                       className="w-full bg-transparent border-none outline-none text-white text-[15px] px-5 py-4 placeholder:text-[rgba(255,255,255,0.5)] font-medium tracking-wide"
-                      autoFocus
+                
                     />
                   </div>
                 </div>
