@@ -31,9 +31,9 @@ const slideVariants = {
 const AnonymizedCard = ({ variant, tempUploadedUrl }) => {
   return (
     <div className="anonymized-card">
-      <div 
-        className="anonymized-image" 
-        style={{ 
+      <div
+        className="anonymized-image"
+        style={{
           backgroundImage: `url(${tempUploadedUrl})`,
           filter: variant.filter,
           width: '100%',
@@ -44,12 +44,12 @@ const AnonymizedCard = ({ variant, tempUploadedUrl }) => {
         }}
       >
         {variant.overlay !== 'none' && (
-          <div 
-            className="variant-overlay" 
-            style={{ 
-              position: 'absolute', 
-              inset: 0, 
-              background: variant.overlay, 
+          <div
+            className="variant-overlay"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: variant.overlay,
               mixBlendMode: 'overlay',
               pointerEvents: 'none'
             }}
@@ -414,26 +414,26 @@ const PhoneSimulator = () => {
                     audioName: selectedMusic ? selectedMusic.name : null,
                     createdAt: "Just now",
                     repliesList: [
-                      { 
-                        id: `ur-${Date.now()}-1`, 
-                        username: "lofi_girl", 
-                        name: "Lofi Girl", 
-                        text: "This fits the vibe perfectly! 🎧✨", 
-                        avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png", 
-                        createdAt: "Just now" 
+                      {
+                        id: `ur-${Date.now()}-1`,
+                        username: "lofi_girl",
+                        name: "Lofi Girl",
+                        text: "This fits the vibe perfectly! 🎧✨",
+                        avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778678501/mystify/avatar/emoji/lb7ixainlbv9jvfcr1me.png",
+                        createdAt: "Just now"
                       },
-                      { 
-                        id: `ur-${Date.now()}-2`, 
-                        username: "code_ninja", 
-                        name: "Code Ninja", 
-                        text: "Hard agree. The aesthetics are top tier. 🔥", 
-                        avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png", 
-                        createdAt: "Just now" 
+                      {
+                        id: `ur-${Date.now()}-2`,
+                        username: "code_ninja",
+                        name: "Code Ninja",
+                        text: "Hard agree. The aesthetics are top tier. 🔥",
+                        avatarImage: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778672646/mystify/avatar/monx/wyczrngu7tdr17eeazdr.png",
+                        createdAt: "Just now"
                       }
                     ]
                   };
                   setCreatedPosts(prev => [newPost, ...prev]);
-                  
+
                   // Reset states
                   setThoughtText("");
                   setSelectedVibe(null);
@@ -598,12 +598,30 @@ const PhoneSimulator = () => {
               </button>
 
               {/* TAB 2: CHAT (Step 7) */}
-              <button onClick={() => { setSelectedPost(null); setChatTargetUsername(null); setStep(7); }} className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer">
+              <button
+                onClick={() => {
+                  setSelectedPost(null);
+                  setStep(6);
+                }}
+                className="flex flex-col items-center justify-center min-w-[50px] cursor-pointer"
+              >
                 <div className="w-6 h-6 flex items-center justify-center">
-                  <AgentMessageIcon size={24} color={step === 7 ? '#ffffff' : 'rgba(255,255,255,0.4)'} />
+                  <Search
+                    size={24}
+                    color={step === 6 ? '#ffffff' : 'rgba(255,255,255,0.4)'}
+                  />
                 </div>
+
                 <div className="h-[4px]" />
-                <span className={`text-[8px] font-medium leading-none ${step === 7 ? 'text-white' : 'text-[rgba(255,255,255,0.35)]'}`}>Chat</span>
+
+                <span
+                  className={`text-[8px] font-medium leading-none ${step === 6
+                      ? 'text-white'
+                      : 'text-[rgba(255,255,255,0.35)]'
+                    }`}
+                >
+                  Explore
+                </span>
               </button>
 
               {/* TAB 3: CREATE (Step 1) */}
@@ -648,11 +666,11 @@ const PhoneSimulator = () => {
                 </div>
                 <div className="actions-sheet-body">
                   <button className="actions-sheet-btn" id="upload-action-camera" onClick={triggerFileSelect}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                     <span>Take Photo</span>
                   </button>
                   <button className="actions-sheet-btn" id="upload-action-gallery" onClick={triggerFileSelect}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
                     <span>Photo Library</span>
                   </button>
                 </div>
@@ -671,11 +689,11 @@ const PhoneSimulator = () => {
                   </div>
                   <div className="validation-content">
                     <h3 style={{ fontSize: '1.1rem', fontWeight: '700', letterSpacing: '-0.02em', color: '#fff' }}>Securing Privacy</h3>
-                    
+
                     {/* Neon Progress Bar */}
                     <div className="scan-progress-bar-container">
-                      <div 
-                        className="scan-progress-bar" 
+                      <div
+                        className="scan-progress-bar"
                         style={{ width: `${(scanProgress / 3) * 100}%` }}
                       ></div>
                     </div>
@@ -759,7 +777,7 @@ const PhoneSimulator = () => {
 
                     {/* Back Arrow Button */}
                     {page > 0 && (
-                      <button 
+                      <button
                         onClick={() => paginate(-1)}
                         style={{
                           position: 'absolute',
@@ -790,7 +808,7 @@ const PhoneSimulator = () => {
 
                     {/* Next Arrow Button */}
                     {page < VARIANTS.length - 1 && (
-                      <button 
+                      <button
                         onClick={() => paginate(1)}
                         style={{
                           position: 'absolute',
@@ -822,8 +840,8 @@ const PhoneSimulator = () => {
 
                   <div className="carousel-dots" style={{ display: 'flex', gap: '6px', justifyContent: 'center', margin: '8px 0 16px' }}>
                     {VARIANTS.map((_, idx) => (
-                      <div 
-                        key={idx} 
+                      <div
+                        key={idx}
                         onClick={() => {
                           const diff = idx - activeIndex;
                           if (diff !== 0) {

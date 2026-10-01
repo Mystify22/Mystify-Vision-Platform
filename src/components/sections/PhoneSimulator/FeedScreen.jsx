@@ -796,54 +796,36 @@ const FeedScreen = ({
         <span className="text-white text-[14px] font-bold tracking-tight pl-1">4:06</span>
       </div>
 
-      {/* Top Bar (Reddit-style Search Bar at Top - Collapsible on scroll) */}
-      <div className={`flex items-center bg-[#0a0a0c] px-3 gap-3 shrink-0 transition-all duration-300 ease-in-out border-b border-white/[0.08] ${
-        isHeaderVisible ? 'h-[54px] opacity-100 pt-[12px] pb-[10px]' : 'h-0 opacity-0 overflow-hidden py-0 border-transparent'
-      }`}>
-        {/* Left/Center: Search input */}
-        <div className="flex-1 bg-white/[0.05] border border-white/[0.08] focus-within:border-[#FF4500]/50 focus-within:bg-white/[0.08] rounded-xl p-[7px_12px] flex items-center gap-2 transition-all duration-200">
-          <Search size={14} className="text-white/30 shrink-0" />
-          <input
-            type="text"
-            ref={searchInputRef}
-            className="flex-1 bg-transparent text-white text-[12.5px] outline-none placeholder:text-white/25"
-            placeholder="Search questions, people, moods..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            onFocus={() => setIsSearchFocused(true)}
-          />
-          {searchQuery.length > 0 && (
-            <button onClick={() => setSearchQuery('')} className="shrink-0">
-              <X size={12} className="text-white/30 hover:text-white/60 transition-colors" />
-            </button>
-          )}
-        </div>
+    {/* Top Bar - Notification on Left, Chat on Right */}
+<div
+  className={`flex items-center justify-between bg-[#0a0a0c] px-3 shrink-0 transition-all duration-300 ease-in-out border-b border-white/[0.08] ${
+    isHeaderVisible
+      ? 'h-[54px] opacity-100 pt-[12px] pb-[10px]'
+      : 'h-0 opacity-0 overflow-hidden py-0 border-transparent'
+  }`}
+>
+  {/* Left: Notifications */}
+  <button
+    onClick={() => onNotificationsClick && onNotificationsClick()}
+    className="w-8 h-8 rounded-full bg-white/[0.07] hover:bg-white/[0.12] active:scale-95 transition-all flex items-center justify-center relative shrink-0"
+    aria-label="Notifications"
+  >
+    <Bell size={16} className="text-white" />
 
-        {/* Right: Notifications Bell (only when search is NOT active/focused) */}
-        {!isSearchFocused ? (
-          <button 
-            onClick={() => onNotificationsClick && onNotificationsClick()}
-            className="w-8 h-8 rounded-full bg-white/[0.07] hover:bg-white/[0.12] active:scale-95 transition-all flex items-center justify-center relative shrink-0"
-          >
-            <Bell size={16} className="text-white" />
-            {mockNotifications.filter(n => n.unread).length > 0 && (
-              <div className="w-1.5 h-1.5 rounded-full bg-[#ff5a1a] border-[1.5px] border-[#0c0c10] absolute top-1 right-1" />
-            )}
-          </button>
-        ) : (
-          /* Right: Cancel button (only when search is active/focused) */
-          <button 
-            onClick={() => {
-              setSearchQuery('');
-              setIsSearchFocused(false);
-              if (searchInputRef.current) searchInputRef.current.blur();
-            }} 
-            className="text-[12px] text-white/50 hover:text-white/80 bg-transparent border-none shrink-0 transition-colors cursor-pointer"
-          >
-            Cancel
-          </button>
-        )}
-      </div>
+    {mockNotifications.filter(n => n.unread).length > 0 && (
+      <div className="w-1.5 h-1.5 rounded-full bg-[#ff5a1a] border-[1.5px] border-[#0c0c10] absolute top-1 right-1" />
+    )}
+  </button>
+
+  {/* Right: Chat */} 
+<button 
+  onClick={() => _onInboxClick && _onInboxClick()} 
+  className="w-8 h-8 rounded-full bg-white/[0.07] hover:bg-white/[0.12] active:scale-95 transition-all flex items-center justify-center relative shrink-0" 
+  aria-label="Message" 
+> 
+  <AgentMessageIcon size={20} className="text-white" /> 
+</button>
+</div>
 
       {/* Main Scroll Content */}
       <div 
