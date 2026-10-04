@@ -266,12 +266,6 @@ const ArchiveScreen = ({ userProfileData, onBack }) => {
               {/* Header */}
               <div className="flex items-center justify-between mb-3 shrink-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-[13px] font-bold text-white">
-                    Archived Reel Preview
-                  </span>
-                  <span className="text-[9.5px] text-white/40 bg-white/[0.06] px-2 py-0.5 rounded-full border border-white/5">
-                    {selectedReel.archivedAt}
-                  </span>
                 </div>
                 <button
                   onClick={() => setSelectedReel(null)}
@@ -314,11 +308,7 @@ const ArchiveScreen = ({ userProfileData, onBack }) => {
                 </div>
               </div>
 
-              {/* Sound info */}
-              <div className="flex items-center gap-2 p-2.5 rounded-[12px] bg-white/[0.03] border border-white/5 mb-3 shrink-0 text-white/70 text-[11px]">
-                <Music size={12} className="text-[#ff5a1a] shrink-0" />
-                <span className="truncate">{selectedReel.music}</span>
-              </div>
+          
 
               {/* Primary Action: Unarchive to Profile */}
               <button

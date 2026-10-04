@@ -817,14 +817,14 @@ const FeedScreen = ({
     )}
   </button>
 
-  {/* Right: Chat */} 
-<button 
-  onClick={() => _onInboxClick && _onInboxClick()} 
-  className="w-8 h-8 rounded-full bg-white/[0.07] hover:bg-white/[0.12] active:scale-95 transition-all flex items-center justify-center relative shrink-0" 
-  aria-label="Message" 
-> 
-  <AgentMessageIcon size={20} className="text-white" /> 
-</button>
+  {/* Right: Chat */}
+  <button
+    onClick={() => _onInboxClick && _onInboxClick()}
+    className="w-8 h-8 rounded-full bg-white/[0.07] hover:bg-white/[0.12] active:scale-95 transition-all flex items-center justify-center relative shrink-0"
+    aria-label="Message"
+  >
+    <MessageCircle size={16} className="text-white" />
+  </button>
 </div>
 
       {/* Main Scroll Content */}
@@ -1084,7 +1084,7 @@ const FeedScreen = ({
                 <div className="flex flex-col animate-fade-in pt-7">
                   <div className="flex flex-col items-center px-5 text-center mb-6">
                     <div className="w-[44px] h-[44px] rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] flex items-center justify-center mb-4">
-                      <Search size={20} className="text-white/25" />
+                      <SearchSCheck size={20} className="text-white/25" />
                     </div>
                     <h4 className="text-[13px] font-medium text-white mb-1">No results found</h4>
                     <p className="text-[11px] text-white/35 leading-[1.5]">Nothing matched "{searchQuery}". Try a different word, or browse moods below.</p>
