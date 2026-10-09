@@ -7,18 +7,7 @@ import {
 } from 'lucide-react';
 
 const INITIAL_ARCHIVED_REELS = [
-  {
-    id: "reel-1",
-    title: "When words run out, let the flame speak for you.",
-    mood: "Demon Slayer",
-    views: "48.2K",
-    likes: "3.4K",
-    replies: 245,
-    music: "Water Breathing · 18.2K vibes",
-    img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325827/flux1-schnell_a-young-female-samurai-with-short_s4sxjw.png",
-    archivedAt: "Archived 2d ago",
-    originalDate: "20 Aug 2026"
-  },
+  
   {
     id: "reel-2",
     title: "Why do we feel more connected when it's dark outside?",
@@ -28,6 +17,8 @@ const INITIAL_ARCHIVED_REELS = [
     replies: 48,
     music: "Lofi Rain Beats · 34.1K vibes",
     img: "https://res.cloudinary.com/dyy8sqeh7/image/upload/v1780325912/flux1-schnell_a-narrow-window-in-an-old-attic_u0t8uv.png",
+
+  videoUrl: "https://res.cloudinary.com/YOUR_CLOUD_NAME/video/upload/YOUR_VIDEO.mp4",
     archivedAt: "Archived 3d ago",
     originalDate: "14 Aug 2026"
   },

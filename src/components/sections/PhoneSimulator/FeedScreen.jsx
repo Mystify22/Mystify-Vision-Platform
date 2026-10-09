@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, Music, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash, User, Clock, Settings } from 'lucide-react';
-import { initialHeroReels, mockNotifications, RANDOM_AVATARS, moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
+import { Sparkles, ChevronLeft, Music, Menu,Archive, Volume2, Search, MessageCircle, Heart, Share2, VolumeX, X, Send, Bell, Plus, MoreHorizontal, Link, TrendingUp, Bookmark, Inbox, Check, EyeOff, AlertTriangle, Tag, Hash, User, Clock, Settings } from 'lucide-react';import { initialHeroReels, mockNotifications, RANDOM_AVATARS, moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
 import userAvatar from '../../../assets/avatar.png';
 const AgentMessageIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" fill="currentColor" className={className}>
@@ -197,6 +196,7 @@ const FeedScreen = ({
   const [feedLikes, setFeedLikes] = useState({});
   const [feedSaved, setFeedSaved] = useState({});
   const [showMoreMenuIdx, setShowMoreMenuIdx] = useState(null);
+  const [showReelOptions, setShowReelOptions] = useState(false);
   const [toastMessage] = useState("");
 
   const feedAudioRefs = useRef({});
@@ -601,19 +601,140 @@ const FeedScreen = ({
                   </div>
                   <span className="text-white font-bold text-[9px] sm:text-[10px]">{reel.shares}</span>
                 </button>
-                <div className="relative flex justify-center items-center w-10 h-10 pointer-events-none mt-2 sm:mt-4">
-                  <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 4, ease: "linear" }} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-[2px] border-white/20 bg-[#1a1a1a] flex items-center justify-center shadow-lg overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                    <Music size={10} className="text-white z-10" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
-                  </motion.div>
-                  <motion.div animate={{ y: [-5, -20], opacity: [0, 1, 0], scale: [0.8, 1.2], x: [0, -8] }} transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }} className="absolute bottom-5 left-0 text-white/80">
-                    <Music size={8} />
-                  </motion.div>
-                </div>
+<div className="relative flex flex-col items-center w-10 gap-4 pointer-events-auto mt-2 sm:mt-4">
+  {/* Music Icon */}
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-[2px] border-white/20 bg-[#1a1a1a] flex items-center justify-center shadow-lg overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+  >
+    <Music size={10} className="text-white z-10" />
+    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
+  </motion.div>
+
+  
+  
+{/* Three-Dash Option Icon */}
+<button
+  className="w-8 h-8 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-lg"
+  aria-label="Reel options"
+  onClick={(e) => {
+    e.stopPropagation();
+    setShowReelOptions(true);
+  }}
+>
+  <Menu size={18} className="text-white" />
+</button>
+
+
+  {/* Floating Music Animation */}
+  <motion.div
+    animate={{
+      y: [-5, -20],
+      opacity: [0, 1, 0],
+      scale: [0.8, 1.2],
+      x: [0, -8]
+    }}
+    transition={{
+      repeat: Infinity,
+      duration: 2,
+      ease: "easeOut"
+    }}
+    className="absolute bottom-12 left-0 text-white/80"
+  >
+    <Music size={8} />
+  </motion.div>
+
+</div>
               </div>
             </div>
           ))}
         </motion.div>
+
+{/* Reel Options Menu */}
+<AnimatePresence>
+  {showReelOptions && (
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 z-[280] bg-black/60"
+        onClick={() => setShowReelOptions(false)}
+      />
+
+      <motion.div
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
+        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+        className="absolute inset-x-0 bottom-0 z-[290] rounded-t-3xl bg-[#1c1c1e] p-5 pb-24"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
+
+        <h3 className="mb-4 text-center text-sm font-bold text-white">
+          Reel Options
+        </h3>
+
+        <button
+          onClick={() => {
+            const reelToArchive = reelsData[activeHeroReel];
+
+            if (reelToArchive) {
+              try {
+                const saved = JSON.parse(
+                  localStorage.getItem("mystify_archived_reels") || "[]"
+                );
+
+                const archived = Array.isArray(saved) ? saved : [];
+
+                const updated = [
+                  ...archived.filter(
+                    (item) =>
+                      item.question !== reelToArchive.question
+                  ),
+                  {
+                    ...reelToArchive,
+                    archivedAt: new Date().toISOString(),
+                  },
+                ];
+
+                localStorage.setItem(
+                  "mystify_archived_reels",
+                  JSON.stringify(updated)
+                );
+
+                setShowReelOptions(false);
+              } catch (error) {
+                console.error("Unable to archive reel:", error);
+              }
+            }
+          }}
+          className="flex w-full items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.04] p-4 text-left transition-colors hover:bg-white/[0.08]"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/10 text-indigo-400">
+            <Archive size={20} />
+          </div>
+
+          <div>
+            <p className="text-sm font-bold text-white">Archive</p>
+            <p className="mt-1 text-xs text-white/40">
+              Save this reel to your archived reels
+            </p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setShowReelOptions(false)}
+          className="mt-3 w-full rounded-xl bg-white/5 p-3 text-sm text-white/70"
+        >
+          Cancel
+        </button>
+      </motion.div>
+    </>
+  )}
+</AnimatePresence>
 
         <AnimatePresence>
           {showComments && (
