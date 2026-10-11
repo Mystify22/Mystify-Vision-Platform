@@ -877,5 +877,4 @@ const PhoneSimulator = () => {
     </section>
   );
 };
-
 export default PhoneSimulator;

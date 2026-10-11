@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, ChevronRight, X, Check, Search } from 'lucide-react';
+import { Camera, ChevronRight, X, Check, Search, SearchSlash } from 'lucide-react';
 
 const avatarData = {
   Monx: [
@@ -411,7 +411,7 @@ const EditProfileScreen = ({ initialData, onSave, onCancel }) => {
                     </div>
                     <div className="p-[16px_20px_20px] flex gap-[8px] items-center shrink-0 border-t border-[rgba(255,255,255,0.04)] mt-2">
                       <div className="relative flex-1 flex items-center">
-                        <Search size={14} className="absolute left-[12px] text-[rgba(255,255,255,0.3)] pointer-events-none" />
+                        <SearchSlash size={14} className="absolute left-[12px] text-[rgba(255,255,255,0.3)] pointer-events-none" />
                         <input
                           type="text"
                           value={customUsername}

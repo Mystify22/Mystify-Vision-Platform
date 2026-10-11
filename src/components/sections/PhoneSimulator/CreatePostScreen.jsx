@@ -132,7 +132,7 @@ const CreatePostScreen = ({
                       </button>
                     </div>
                   )}
-
+        
                   {selectedMusic && (
                     <div className="attachment-sound-card" id="attachment-sound-card">
                       <div className="sound-card-icon">
