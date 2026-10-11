@@ -109,8 +109,8 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   const cleanUsername = username.replace('@', '');
   const isOwnProfile = userProfileData && cleanUsername === userProfileData.username;
   const profileTabs = isOwnProfile 
-    ? ["Vibes", "Replies", "Posts", "Saved"] 
-    : ["Vibes", "Replies", "Posts"];
+    ? ["Vibes", "Posts"] 
+    : ["Vibes", "Posts"];
 
   const userProfile = mockResultsRiya.find(u => u.handle.replace('@', '') === cleanUsername) ||
     suggestionPool.find(u => u.handle.replace('@', '') === cleanUsername);
@@ -942,65 +942,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
       <div className="flex-1 bg-[#000000] pt-1">
         {activeTab === "Posts" && renderPostCards(allPosts)}
 
-        {activeTab === "Replies" && (
-          <div className="flex flex-col p-4 gap-4">
-            {sampleReplies.map((reply, idx) => (
-              <div key={idx} className="flex gap-3 bg-[#0c0c0f] border border-white/[0.05] rounded-[20px] p-4 shadow-xl">
-                <div className="flex flex-col items-center shrink-0">
-                  <div className="w-[32px] h-[32px] rounded-full overflow-hidden border border-white/10 bg-[#1c1c1c] flex items-center justify-center">
-                    {isOwnProfile ? (
-                      userProfileData.avatarValue?.startsWith('http') ? (
-                        <img src={userProfileData.avatarValue} alt="DP" className="w-full h-full object-cover" />
-                      ) : (
-                        <span className="text-[16px] text-white">{userProfileData.avatarValue}</span>
-                      )
-                    ) : (
-                      <img src={displayAvatar} alt="DP" className="w-full h-full object-cover" />
-                    )}
-                  </div>
-                </div>
-                
-                <div className="flex-1 flex flex-col min-w-0">
-                  <div className="flex justify-between items-baseline mb-1">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="text-[12px] font-bold text-white truncate">
-                        {isOwnProfile ? (userProfileData?.username || "You") : (userProfile?.name || cleanUsername)}
-                      </span>
-                      <span className="text-[10px] text-white/40 truncate">
-                        @{cleanUsername}
-                      </span>
-                    </div>
-                    <span className="text-[9px] text-white/30 shrink-0">{reply.time}</span>
-                  </div>
-
-                  <div className="text-[10px] text-white/30 mb-1.5">
-                    replying to <span className="text-[#FF4500]">@{reply.to}</span>
-                  </div>
-
-                  <p className="text-[12px] text-white/90 leading-[1.4] mb-2 font-dmsans whitespace-pre-wrap break-words">
-                    {reply.text}
-                  </p>
-
-                  <div className="flex items-center gap-4 text-white/30 text-[10px]">
-                    <button className="flex items-center gap-1 hover:text-red-400 transition-colors">
-                      <i className="ti ti-heart text-[11px]"></i>
-                      <span>{reply.likes}</span>
-                    </button>
-                    <button className="flex items-center gap-1 hover:text-white/50 transition-colors">
-                      <i className="ti ti-repeat text-[11px]"></i>
-                      <span>{reply.retweets}</span>
-                    </button>
-                    <button className="flex items-center gap-1 hover:text-white/50 transition-colors">
-                      <i className="ti ti-message-circle text-[11px]"></i>
-                      <span>{reply.comments}</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
+  
         {activeTab === "Saved" && renderGrid(sampleSaved)}
         
         {activeTab === "Vibes" && renderVibesTab()}

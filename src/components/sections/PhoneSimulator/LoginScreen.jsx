@@ -125,9 +125,10 @@ const LoginScreen = ({ onNext }) => {
                 
                     />
                   </div>
-                </div>
+                </div>     
                 {error && <span className="text-[#ff4d4d] text-[12px] px-2 mt-1 font-medium">{error}</span>}
               </div>
+
 
               <button
                 type="submit"

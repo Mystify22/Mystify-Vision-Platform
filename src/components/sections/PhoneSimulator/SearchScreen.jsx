@@ -112,7 +112,7 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle, onPostClick
       <div className="flex-1 overflow-y-auto [scrollbar-width:none]">
 
         {screenState === 'default' && (
-          <div className="grid grid-cols-3 gap-[3px] auto-rows-[123px] grid-flow-dense pb-[10px] px-[6px] animate-fade-in pt-1">
+          <div className="grid grid-cols-3 gap-[3px] auto-rows-[190px] grid-flow-dense pb-[3px] px-0 animate-fade-in pt-1">
             {exploreGridItems.map((item, index) => (
               <div
                 key={item.id}
@@ -128,14 +128,6 @@ const SearchScreen = ({ onUserSelect, followedUsers, onFollowToggle, onPostClick
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none transition-colors duration-300" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/10 z-20 pointer-events-none" />
 
-                <div className="absolute bottom-0 left-0 p-2 w-full flex flex-col gap-[5px] z-20">
-                  <p className="text-[11px] text-white/90 font-medium leading-[1.38] line-clamp-3 drop-shadow-md">{item.text}</p>
-                </div>
-
-                <div className="absolute top-1.5 right-1.5 text-[9.5px] text-white/70 bg-black/50 backdrop-blur-sm px-[5px] py-[1px] rounded-[5px] flex items-center gap-1 z-20">
-                  <MessageCircle size={10} />
-                  {item.replies}
-                </div>
               </div>
             ))}
           </div>
