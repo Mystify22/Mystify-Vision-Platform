@@ -65,6 +65,7 @@ import SelectVibeScreen from './SelectVibeScreen';
 import SelectMusicScreen from './SelectMusicScreen';
 import FeedScreen from './FeedScreen';
 import ProfileScreen from './ProfileScreen';
+import ArchiveScreen from './ArchiveScreen';
 import SearchScreen from './SearchScreen';
 import MessageScreen from './MessageScreen';
 import LoginScreen from './LoginScreen';
@@ -182,6 +183,7 @@ const PhoneSimulator = () => {
   const [chatTargetUsername, setChatTargetUsername] = useState(null);
   const [followedUsers, setFollowedUsers] = useState(new Set(['r2', 's1_s', 's4_s']));
   const [selectedPost, setSelectedPost] = useState(null);
+  const [reelReturnStep, setReelReturnStep] = useState(4);
   const [createdPosts, setCreatedPosts] = useState([]);
   const [showUploadActions, setShowUploadActions] = useState(false);
   const [privacyModalState, setPrivacyModalState] = useState(null);
@@ -479,18 +481,20 @@ const PhoneSimulator = () => {
                 createdPosts={createdPosts}
               />
             )}
-            {step === 11 && (
-              <FeedScreen
-                key="step-reels"
-                initialMode="reels"
-                initialPost={selectedPost}
-                onBackFromReels={() => {
-                  setSelectedPost(null);
-                  setStep(4);
-                }}
-                createdPosts={createdPosts}
-              />
-            )}
+            
+{step === 11 && (
+  <FeedScreen
+    key={`step-reels-${selectedPost?.id || 'default'}`}
+    initialMode="reels"
+    initialPost={selectedPost}
+    onBackFromReels={() => {
+      setSelectedPost(null);
+      setStep(reelReturnStep);
+    }}
+    createdPosts={createdPosts}
+  />
+)}
+
             {step === 12 && (
               <NotificationsScreen
                 key="step-notifications"
@@ -502,26 +506,50 @@ const PhoneSimulator = () => {
                 }}
               />
             )}
-            {step === 5 && (
-              <ProfileScreen
-                key="step-profile"
-                username={selectedProfileUsername}
-                userProfileData={userProfileData}
-                createdPosts={createdPosts}
-                onEditProfile={() => setStep(8)}
-                onMessageUser={() => {
-                  setChatTargetUsername(selectedProfileUsername);
-                  setStep(7);
-                }}
-                followedUsers={followedUsers}
-                onFollowToggle={handleFollowToggle}
-                onOpenSettings={() => setStep(9)}
-                onOpenStreak={() => setStep(10)}
-                onNavigateToProfile={(username) => {
-                  setSelectedProfileUsername(username);
-                }}
-              />
-            )}
+           
+{step === 5 && (
+  <ProfileScreen
+    key="step-profile"
+    username={selectedProfileUsername}
+    userProfileData={userProfileData}
+    createdPosts={createdPosts}
+    onPostClick={(post) => {
+      setSelectedPost(post);
+      setStep(11);
+    }}
+    onEditProfile={() => setStep(8)}
+    onMessageUser={() => {
+      setChatTargetUsername(selectedProfileUsername);
+      setStep(7);
+    }}
+    followedUsers={followedUsers}
+    onFollowToggle={handleFollowToggle}
+    onOpenSettings={() => setStep(9)}
+    onOpenStreak={() => setStep(10)}
+    onOpenArchive={() => setStep(13)}
+    onNavigateToProfile={(username) => {
+      setSelectedProfileUsername(username);
+    }}
+  />
+)}
+
+
+{step === 13 && (
+  <ArchiveScreen
+    onBack={() => setStep(5)}
+    onPostClick={(reel) => {
+      console.log("Opening archived reel:", reel);
+
+      setSelectedPost(reel);
+      setReelReturnStep(13);
+      setStep(11);
+    }}
+  />
+)}
+
+
+
+
             {step === 6 && (
               <SearchScreen
                 key="step-explore"

@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronLeft, Check, ChevronDown, ChevronUp, Music, Play, Volume1, Volume2, Circle, CircleDot, Activity, Search, Bold, Italic, Link, AtSign, Hash, Home, PlusSquare, MessageCircle, User, Heart, Share2, VolumeX, X, Send, Clock, Bell, Plus, Ghost, Lock, Inbox, Wifi, Battery, Edit, ChevronRight, MoreHorizontal, ArrowRight, BellOff, Trash } from 'lucide-react';
-import { mockResultsRiya, RANDOM_AVATARS, mockConversationsData } from './MockData';
-
+import { moodStyles, exploreRecentItems, exploreTrendingData, mockResultsCity, mockResultsRiya, exploreGridItems } from './MockData';
+const RANDOM_AVATARS = [
+  "https://i.pravatar.cc/150?img=1",
+  "https://i.pravatar.cc/150?img=2",
+  "https://i.pravatar.cc/150?img=3",
+  "https://i.pravatar.cc/150?img=4",
+  "https://i.pravatar.cc/150?img=5",
+  "https://i.pravatar.cc/150?img=6",
+  "https://i.pravatar.cc/150?img=7",
+  "https://i.pravatar.cc/150?img=8",
+  "https://i.pravatar.cc/150?img=9",
+  "https://i.pravatar.cc/150?img=10"
+];
 const ChatIcon = ({ size = 18, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -86,7 +97,19 @@ const suggestionPool = [
   { id: 's6_s', name: 'Otaku Warrior', handle: 'otaku_warrior', followers: '11.8K', avatarImage: 'https://res.cloudinary.com/dyy8sqeh7/image/upload/v1778677363/mystify/avatar/peeps/t223xorxsp8xudqmgmvz.png' }
 ];
 
-const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, onFollowToggle, userProfileData, onEditProfile, onOpenSettings, onOpenStreak, onNavigateToProfile, createdPosts: _createdPosts = [] }) => {
+const ProfileScreen = ({
+  username = "ghost_mind",
+  onMessageUser,
+  followedUsers,
+  onFollowToggle,
+  userProfileData,
+  onEditProfile,
+  onOpenSettings,
+  onOpenStreak,
+  onNavigateToProfile,
+  onPostClick,
+  createdPosts: _createdPosts = []
+}) => {
   const [activeTab, setActiveTab] = useState("Vibes");
   const [showOtherUserActions, setShowOtherUserActions] = useState(false);
   const [viewingMedia, setViewingMedia] = useState(null);
@@ -506,159 +529,80 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
     </div>
   );
 
-  const renderVibesTab = () => {
-    const vibePosts = allPosts.filter(post => post.repliesList && post.repliesList.length > 0);
+  
 
-    if (vibePosts.length === 0) {
-      return (
-        <div className="flex flex-col items-center justify-center py-16 text-center text-white/40 text-[12px] px-6">
-          <MessageCircle size={28} className="text-white/20 mb-3" />
-          <p className="font-semibold text-white/60 mb-1">No vibes yet</p>
-          <p className="text-white/30 text-[10.5px]">Your posts that get replies from other users will show up here as conversational threads.</p>
-        </div>
-      );
-    }
-
+const renderVibesGrid = () => {
+  if (!exploreGridItems || exploreGridItems.length === 0) {
     return (
-      <div className="flex flex-col p-4 gap-6">
-        {vibePosts.map((post, postIdx) => {
-          const postDate = getFormattedDate(post.createdAt);
-          const cleanUser = username.replace('@', '');
-          
-          return (
-            <div key={postIdx} className="flex flex-col bg-[#0c0c0f] border border-white/[0.05] rounded-[24px] overflow-hidden p-4 shadow-xl transition-all duration-300">
-              
-              {/* Parent Post Thread Header */}
-              <div className="flex gap-3 relative">
-                {/* Left Side: Avatar and Vertical Thread Line */}
-                <div className="flex flex-col items-center shrink-0">
-                  <div className="w-[38px] h-[38px] rounded-full overflow-hidden border border-white/10 bg-[#1c1c1c] flex items-center justify-center">
-                    {isOwnProfile ? (
-                      userProfileData.avatarValue?.startsWith('http') ? (
-                        <img src={userProfileData.avatarValue} alt="DP" className="w-full h-full object-cover" />
-                      ) : (
-                        <span className="text-[18px] text-white">{userProfileData.avatarValue}</span>
-                      )
-                    ) : (
-                      <img src={displayAvatar} alt="DP" className="w-full h-full object-cover" />
-                    )}
-                  </div>
-                  {/* Vertical Line connecting to first reply */}
-                  <div className="w-[2px] grow bg-gradient-to-b from-white/15 to-white/5 my-2 min-h-[40px]"></div>
-                </div>
-
-                {/* Right Side: Post Info & Content */}
-                <div className="flex-1 flex flex-col min-w-0">
-                  <div className="flex justify-between items-baseline mb-1">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="text-[13px] font-bold text-white truncate max-w-[120px]">
-                        {isOwnProfile ? (userProfileData?.username || "You") : (userProfile?.name || cleanUsername)}
-                      </span>
-                      <span className="text-[11px] text-white/40 truncate">
-                        @{cleanUsername}
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-white/30 shrink-0">{postDate}</span>
-                  </div>
-
-
-
-                  {/* Content Text */}
-                  <p className="text-[13px] text-white/95 leading-[1.5] mb-2 font-dmsans whitespace-pre-wrap break-words">
-                    {post.text}
-                  </p>
-
-                  {/* Optional Image */}
-                  {post.img && (
-                    <div className="rounded-[16px] overflow-hidden border border-white/10 mb-3 max-h-[140px] relative">
-                      <img src={post.img} alt="Post media" className="w-full h-full object-cover" />
-                    </div>
-                  )}
-
-                  {/* Action Bar (Showcase only) */}
-                  <div className="flex items-center gap-6 mt-1 text-white/35 text-[11px]">
-                    <button className="flex items-center gap-1.5 hover:text-white/60 transition-colors">
-                      <i className="ti ti-message-circle text-[13px]"></i>
-                      {post.repliesList.length}
-                    </button>
-                    <button className="flex items-center gap-1.5 hover:text-red-400 transition-colors">
-                      <i className="ti ti-heart text-[13px]"></i>
-                      {post.replies * 2}
-                    </button>
-                    <button className="flex items-center gap-1.5 hover:text-white/60 transition-colors">
-                      <i className="ti ti-share text-[13px]"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Replies Container */}
-              <div className="flex flex-col gap-4 mt-2">
-                {post.repliesList.map((reply, replyIdx) => {
-                  const isLastReply = replyIdx === post.repliesList.length - 1;
-                  return (
-                    <div key={reply.id} className="flex gap-3 relative">
-                      {/* Left Side: Avatar and Line continuation if not last */}
-                      <div className="flex flex-col items-center shrink-0">
-                        <div className="w-[30px] h-[30px] rounded-full overflow-hidden border border-white/10 bg-[#1c1c1c] flex items-center justify-center">
-                          {reply.avatarImage ? (
-                            <img src={reply.avatarImage} alt={reply.username} className="w-full h-full object-cover" />
-                          ) : (
-                            <span className="text-[12px] text-white">👤</span>
-                          )}
-                        </div>
-                        {!isLastReply && (
-                          <div className="w-[2px] grow bg-gradient-to-b from-white/15 to-white/5 my-2 min-h-[30px]"></div>
-                        )}
-                      </div>
-
-                      {/* Right Side: Reply Content */}
-                      <div className="flex-1 flex flex-col min-w-0 bg-white/[0.02] border border-white/[0.03] hover:bg-white/[0.04] transition-colors rounded-[16px] p-3">
-                        <div className="flex justify-between items-baseline mb-1">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <span className="text-[12px] font-bold text-white truncate">
-                              {reply.name}
-                            </span>
-                            <span className="text-[10px] text-white/40 truncate">
-                              @{reply.username}
-                            </span>
-                          </div>
-                          <span className="text-[9px] text-white/30 shrink-0">{reply.createdAt}</span>
-                        </div>
-
-                        {/* Replying to tag */}
-                        <div className="text-[10px] text-white/30 mb-1.5">
-                          replying to <span className="text-[#FF4500]">@{cleanUsername}</span>
-                        </div>
-
-                        {/* Reply content text */}
-                        <p className="text-[12px] text-white/80 leading-[1.4] mb-1 font-dmsans whitespace-pre-wrap break-words">
-                          {reply.text}
-                        </p>
-
-                        {/* Action Bar (Showcase only) */}
-                        <div className="flex items-center gap-4 mt-2 text-white/30 text-[10px]">
-                          <button className="flex items-center gap-1 hover:text-red-400 transition-colors">
-                            <i className="ti ti-heart text-[11px]"></i>
-                            <span>12</span>
-                          </button>
-                          <button className="flex items-center gap-1 hover:text-white/50 transition-colors">
-                            <i className="ti ti-message-circle text-[11px]"></i>
-                            <span>Reply</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-            </div>
-          );
-        })}
+      <div className="flex flex-col items-center justify-center py-16 text-center text-white/40">
+        <MessageCircle size={28} className="text-white/20 mb-3" />
+        <p className="text-sm">No vibes available yet</p>
       </div>
     );
-  };
+  }
+
+  return (
+    <div className="flex-1 overflow-y-auto [scrollbar-width:none]">
+      <div className="grid grid-cols-3 gap-[3px] auto-rows-[190px] grid-flow-dense pb-[3px] px-0 animate-fade-in pt-1">
+        {exploreGridItems.map((item, index) => (
+          <div
+            key={item.id || index}
+            onClick={() => {
+              console.log("Vibes reel clicked:", item);
+
+              if (typeof onPostClick === "function") {
+                onPostClick(item);
+              } else {
+                console.error(
+                  "onPostClick was not passed to ProfileScreen"
+                );
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Open reel ${item.title || item.id || index + 1}`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+
+                if (typeof onPostClick === "function") {
+                  onPostClick(item);
+                }
+              }
+            }}
+            className="relative cursor-pointer active:scale-[0.98] transition-all duration-300 overflow-hidden shadow-lg"
+          >
+            <motion.div
+              animate={{
+                scale: [1.05, 1.15, 1.05],
+                backgroundPosition: [
+                  "50% 50%",
+                  "60% 40%",
+                  "50% 50%"
+                ]
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 25,
+                ease: "linear",
+                delay: (index * 0.4) % 4
+              }}
+              className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none"
+              style={{
+                backgroundImage: `url(${item.img})`
+              }}
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 z-10 pointer-events-none transition-colors duration-300" />
+
+            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 z-20 pointer-events-none" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
   const sampleReplies = [
     { username: "ghost_mind", time: "2h", to: "void_speaks", text: "Anonymity isn't cowardice. Sometimes it's the only way truth survives.", likes: "412", retweets: "88", comments: "34" },
@@ -945,7 +889,7 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   
         {activeTab === "Saved" && renderGrid(sampleSaved)}
         
-        {activeTab === "Vibes" && renderVibesTab()}
+        {activeTab === "Vibes" && renderVibesGrid()}
       </div>
 
       {/* Invisible overlay for dropdown */}
@@ -1181,3 +1125,4 @@ const ProfileScreen = ({ username = "ghost_mind", onMessageUser, followedUsers, 
   );
 };
 export default ProfileScreen;
+
